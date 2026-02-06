@@ -110,6 +110,8 @@ If user confirms, create a new lesson file following these specifications:
 
 **Location**: `docs/lessons/YYYY-MM-DD-topic-slug.md` (in the project root)
 
+- If `docs/lessons/` does not exist, create it first.
+
 **Naming convention**:
 - Use current date: `YYYY-MM-DD`
 - Use lowercase kebab-case for topic slug
@@ -125,16 +127,20 @@ If user confirms, create a new lesson file following these specifications:
 
 ### Step 5: Update AGENTS.md
 
-**Immediately after creating the lesson file**, update the project's `AGENTS.md`.
+**Immediately after creating or updating a lesson file**, update the project's `AGENTS.md`.
 
-**Location in AGENTS.md**: Find or create a `## Lessons Learned` section.
+**Location in AGENTS.md**:
+- If `AGENTS.md` does not exist, create it first.
+- Find or create a `## Lessons Learned` section.
 
-**Format** (add one line per lesson):
+**Format** (one line per lesson):
 ```markdown
 ## Lessons Learned
 
 - [One-line summary of the lesson](docs/lessons/YYYY-MM-DD-topic-slug.md)
 ```
+
+- If an entry for the same lesson path already exists, update that line instead of adding a duplicate.
 
 **Example**:
 ```markdown
@@ -194,7 +200,7 @@ Relevant lessons to review:
 ```
 project/
 ├── AGENTS.md                          # Project knowledge base
-└── docs/lessons/                           # Lessons directory
+└── docs/lessons/                      # Lessons directory
     ├── 2026-02-06-async-await-loops.md
     ├── 2026-02-08-type-guard-usage.md
     └── ...
