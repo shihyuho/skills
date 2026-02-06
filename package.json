@@ -1,0 +1,22 @@
+{
+  "name": "@shihyuho/skills",
+  "version": "1.0.0",
+  "description": "Personal collection of AI agent skills for vibe coding",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shihyuho/skills"
+  },
+  "keywords": [
+    "ai-agent",
+    "agent-skills",
+    "coding-assistant",
+    "lessons-learned",
+    "knowledge-base"
+  ],
+  "author": "shihyuho",
+  "license": "MIT",
+  "homepage": "https://github.com/shihyuho/skills#readme",
+  "bugs": {
+    "url": "https://github.com/shihyuho/skills/issues"
+  }
+}
