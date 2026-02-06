@@ -4,7 +4,7 @@ Shihyu's curated collection of agent skills.
 
 ## Available Skills
 
-- **[lessons-learned](skills/lessons-learned/)** - Helps AI agents learn from mistakes by capturing lessons in a structured format and syncing them to AGENTS.md
+- **[lessons-learned](skills/lessons-learned/)** - Stop your AI agent from making the same mistake twice.
 
 ## Installation
 
