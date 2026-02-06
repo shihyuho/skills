@@ -4,7 +4,7 @@ description: Helps AI agents learn from mistakes by capturing lessons in a struc
 license: MIT
 metadata:
   author: shihyuho
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 
 # Lessons Learned
