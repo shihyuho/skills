@@ -70,7 +70,7 @@ When a trigger is detected, **ask the user for confirmation** before proceeding:
 
 **Template**:
 ```
-I noticed [specific situation that triggered this]. 
+I noticed [specific situation that triggered this].
 This could be valuable to document as a lesson-learned entry.
 
 Would you like me to create a lesson file and update AGENTS.md?
@@ -133,18 +133,26 @@ If user confirms, create a new lesson file following these specifications:
 - If `AGENTS.md` does not exist, create it first.
 - Find or create a `## Lessons Learned` section.
 
-**Format** (one line per lesson):
+**Format** (required order):
 ```markdown
 ## Lessons Learned
+
+Quick reference to past mistakes and how to avoid them. For any similar task, the AI MUST read the relevant linked lesson file(s) before proceeding.
 
 - [One-line summary of the lesson](docs/lessons/YYYY-MM-DD-topic-slug.md)
 ```
 
+**Mandatory formatting rule**:
+- The policy sentence above is required and must appear directly under `## Lessons Learned`.
+- If the section already exists with only list items, insert this policy sentence before the first list item.
 - If an entry for the same lesson path already exists, update that line instead of adding a duplicate.
+- Do not treat the sentence as optional prose.
 
 **Example**:
 ```markdown
 ## Lessons Learned
+
+Quick reference to past mistakes and how to avoid them. For any similar task, the AI MUST read the relevant linked lesson file(s) before proceeding.
 
 - [Avoid await in loops - use Promise.all for parallel async operations](docs/lessons/2026-02-06-async-await-loops.md)
 - [Use type guards instead of type assertions for runtime safety](docs/lessons/2026-02-08-type-guard-usage.md)
@@ -152,7 +160,7 @@ If user confirms, create a new lesson file following these specifications:
 ```
 
 **Summary guidelines**:
-- One sentence, maximum 15 words
+- One sentence, up to 30 words.
 - Include both the mistake and the solution
 - Use imperative mood (command form)
 - Focus on actionable guidance
@@ -290,7 +298,7 @@ The `AGENTS.md` file serves as the central knowledge base for the project. The `
 
 ## Lessons Learned
 
-Quick reference to past mistakes and how to avoid them. Review relevant lessons before starting similar tasks.
+Quick reference to past mistakes and how to avoid them. For any similar task, the AI MUST read the relevant linked lesson file(s) before proceeding.
 
 - [Lesson summary with actionable guidance](docs/lessons/file-name.md)
 - [Another lesson summary](docs/lessons/another-file.md)
