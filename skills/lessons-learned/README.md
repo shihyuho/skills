@@ -8,8 +8,10 @@ Inspired by an insight shared by Claude's development team: [Boris Cherny on X](
 
 Important fixes are often forgotten after a session ends. This skill turns those moments into durable project memory.
 
+This pattern also works well for multi-developer teams: shared lessons help everyone's AI learn from mistakes together.
+
 - Capture high-value debugging lessons in a lightweight format
-- Keep lessons visible by indexing them in `AGENTS.md`
+- Keep lessons visible by indexing them in `AGENTS.md` or `CLAUDE.md`
 - Make future agents check relevant lessons before similar work
 - Reduce repeated trial-and-error across sessions
 
@@ -18,7 +20,7 @@ Important fixes are often forgotten after a session ends. This skill turns those
 1. Detects high-value moments (errors, repeated retries, complex fixes)
 2. Suggests creating a lesson and asks for user confirmation
 3. Writes a lesson to `docs/lessons/YYYY-MM-DD-topic-slug.md`
-4. Updates `AGENTS.md` with a one-line summary and link
+4. Updates the selected lessons index file (`AGENTS.md` or `CLAUDE.md`) with a one-line summary and link
 5. Reuses relevant lessons in later tasks
 
 ## Best use cases
@@ -29,6 +31,7 @@ Use this skill when:
 - A bug requires multiple attempts to resolve
 - You discover a pattern future agents should follow
 - You want project memory to survive across sessions
+- You want team-wide AI behavior to improve through shared lessons
 
 ## Example interaction
 
@@ -36,12 +39,12 @@ Use this skill when:
 AI: I noticed we hit the same async issue twice.
 This is worth capturing as a lesson.
 
-Would you like me to create a lesson file and update AGENTS.md?
+Would you like me to create a lesson file and update the lessons index file?
 
 You: Yes
 
 AI: ✓ Created lesson: docs/lessons/2026-02-06-async-await-loops.md
-✓ Updated AGENTS.md with lesson reference
+✓ Updated AGENTS.md or CLAUDE.md with lesson reference
 ```
 
 ## Output format
@@ -52,7 +55,13 @@ Lesson file path:
 docs/lessons/YYYY-MM-DD-topic-slug.md
 ```
 
-AGENTS.md index entry:
+Lessons index entry (AGENTS.md or CLAUDE.md):
+
+Selection rules:
+
+1. If `AGENTS.md` exists, use `AGENTS.md`.
+2. Else if `CLAUDE.md` exists, use `CLAUDE.md`.
+3. Else ask the user to choose `AGENTS.md` or `CLAUDE.md`.
 
 ```markdown
 ## Lessons Learned

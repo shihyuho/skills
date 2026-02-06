@@ -1,6 +1,6 @@
 ---
 name: lessons-learned
-description: Helps AI agents learn from mistakes by capturing lessons in a structured format and syncing them to AGENTS.md. Use when errors occur, tasks fail repeatedly, or complex tasks complete. AI suggests creating lessons; user confirms before writing.
+description: Helps AI agents learn from mistakes by capturing lessons in a structured format and syncing them to AGENTS.md or CLAUDE.md. Use when errors occur, tasks fail repeatedly, or complex tasks complete. AI suggests creating lessons; user confirms before writing.
 license: MIT
 metadata:
   author: shihyuho
@@ -73,7 +73,7 @@ When a trigger is detected, **ask the user for confirmation** before proceeding:
 I noticed [specific situation that triggered this].
 This could be valuable to document as a lesson-learned entry.
 
-Would you like me to create a lesson file and update AGENTS.md?
+Would you like me to create a lesson file and update the lessons index file?
 ```
 
 **Examples**:
@@ -81,14 +81,14 @@ Would you like me to create a lesson file and update AGENTS.md?
 I noticed we hit the same async/await issue twice in this session.
 This could be valuable to document as a lesson-learned entry.
 
-Would you like me to create a lesson file and update AGENTS.md?
+Would you like me to create a lesson file and update the lessons index file?
 ```
 
 ```
 I noticed this type safety issue required multiple attempts to resolve.
 This could be valuable to document as a lesson-learned entry.
 
-Would you like me to create a lesson file and update AGENTS.md?
+Would you like me to create a lesson file and update the lessons index file?
 ```
 
 ### Step 3: Wait for User Confirmation
@@ -125,12 +125,17 @@ If user confirms, create a new lesson file following these specifications:
 
 **Word limit**: Keep total content between 200-300 words. Be concise and actionable.
 
-### Step 5: Update AGENTS.md
+### Step 5: Update Lessons Index File
 
-**Immediately after creating or updating a lesson file**, update the project's `AGENTS.md`.
+**Immediately after creating or updating a lesson file**, update the project's lessons index file.
 
-**Location in AGENTS.md**:
-- If `AGENTS.md` does not exist, create it first.
+**Index file selection rules** (required order):
+1. If `AGENTS.md` exists, use `AGENTS.md`.
+2. Else if `CLAUDE.md` exists, use `CLAUDE.md`.
+3. Else ask the user which file to use (`AGENTS.md` or `CLAUDE.md`) and wait for an explicit choice.
+
+**Location in the selected index file**:
+- If the selected file does not exist yet, create it.
 - Find or create a `## Lessons Learned` section.
 
 **Format** (required order):
@@ -146,6 +151,7 @@ Quick reference to past mistakes and how to avoid them. For any similar task, th
 - The policy sentence above is required and must appear directly under `## Lessons Learned`.
 - If the section already exists with only list items, insert this policy sentence before the first list item.
 - If an entry for the same lesson path already exists, update that line instead of adding a duplicate.
+- Do not update both files unless the user explicitly requests it.
 - Do not treat the sentence as optional prose.
 
 **Example**:
@@ -159,6 +165,8 @@ Quick reference to past mistakes and how to avoid them. For any similar task, th
 - [Never mutate state directly - always create new objects](docs/lessons/2026-02-10-state-mutation.md)
 ```
 
+The same structure applies if the selected file is `CLAUDE.md`.
+
 **Summary guidelines**:
 - One sentence, up to 30 words.
 - Include both the mistake and the solution
@@ -171,7 +179,7 @@ After creating both files, inform the user:
 
 ```
 ✓ Created lesson: docs/lessons/YYYY-MM-DD-topic-slug.md
-✓ Updated AGENTS.md with lesson reference
+✓ Updated <AGENTS.md|CLAUDE.md> with lesson reference
 
 The lesson is now part of the project knowledge base.
 ```
@@ -180,11 +188,12 @@ The lesson is now part of the project knowledge base.
 
 Before starting any task, AI **must**:
 
-1. Check if `AGENTS.md` exists and contains a `## Lessons Learned` section
-2. If yes, scan the lesson summaries
-3. Identify lessons relevant to the current task domain
-4. Read the full content of relevant lessons
-5. Apply the guidance from those lessons
+1. Determine the lessons index file using the same selection rules as Step 5
+2. Check whether the selected file contains a `## Lessons Learned` section
+3. If yes, scan the lesson summaries
+4. Identify lessons relevant to the current task domain
+5. Read the full content of relevant lessons
+6. Apply the guidance from those lessons
 
 **Relevance criteria**:
 - Same technology/framework mentioned
@@ -207,7 +216,7 @@ Relevant lessons to review:
 
 ```
 project/
-├── AGENTS.md                          # Project knowledge base
+├── AGENTS.md or CLAUDE.md             # Lessons index file (selected by rules)
 └── docs/lessons/                      # Lessons directory
     ├── 2026-02-06-async-await-loops.md
     ├── 2026-02-08-type-guard-usage.md
@@ -247,7 +256,7 @@ See `references/LESSON_TEMPLATE.md` for the complete template.
 ### For Users
 
 1. **Be selective** - Not every mistake needs a lesson, focus on recurring issues
-2. **Review periodically** - Scan `AGENTS.md` lessons section occasionally
+2. **Review periodically** - Scan the selected index file's `## Lessons Learned` section occasionally
 3. **Update when needed** - If a lesson becomes outdated, update or remove it
 4. **Share with team** - Commit lessons to version control for team benefit
 
@@ -267,7 +276,7 @@ Would you like me to create a lesson-learned entry?
 
 **Created Files**:
 - `docs/lessons/2026-02-06-async-await-loops.md`
-- Updated `AGENTS.md` with: `[Avoid await in loops - use Promise.all for parallel async operations](docs/lessons/2026-02-06-async-await-loops.md)`
+- Updated `<AGENTS.md|CLAUDE.md>` with: `[Avoid await in loops - use Promise.all for parallel async operations](docs/lessons/2026-02-06-async-await-loops.md)`
 
 ### Example 2: Type Safety Issue
 
@@ -283,13 +292,13 @@ Would you like me to create a lesson-learned entry?
 
 **Created Files**:
 - `docs/lessons/2026-02-08-type-guard-usage.md`
-- Updated `AGENTS.md` with: `[Use type guards instead of type assertions for runtime safety](docs/lessons/2026-02-08-type-guard-usage.md)`
+- Updated `<AGENTS.md|CLAUDE.md>` with: `[Use type guards instead of type assertions for runtime safety](docs/lessons/2026-02-08-type-guard-usage.md)`
 
-## Integration with AGENTS.md
+## Integration with AGENTS.md / CLAUDE.md
 
-The `AGENTS.md` file serves as the central knowledge base for the project. The `## Lessons Learned` section acts as an index and quick reference.
+The selected index file (`AGENTS.md` or `CLAUDE.md`) serves as the central knowledge base for lessons. The `## Lessons Learned` section acts as an index and quick reference.
 
-**Structure within AGENTS.md**:
+**Structure within the selected index file**:
 
 ```markdown
 # Project Name
@@ -303,11 +312,11 @@ Quick reference to past mistakes and how to avoid them. For any similar task, th
 - [Lesson summary with actionable guidance](docs/lessons/file-name.md)
 - [Another lesson summary](docs/lessons/another-file.md)
 
-[Rest of AGENTS.md content]
+[Rest of selected index file content]
 ```
 
 **Maintenance**:
-- Keep this section near the top or bottom of AGENTS.md for easy access
+- Keep this section near the top or bottom of the selected index file for easy access
 - Lessons are listed in chronological order (newest first recommended)
 - Remove outdated lessons or consolidate related ones over time
 
