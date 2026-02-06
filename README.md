@@ -1,6 +1,6 @@
 # Skills Collection
 
-Personal collection of AI agent skills for vibe coding.
+Shihyu's curated collection of agent skills.
 
 ## Available Skills
 
@@ -9,8 +9,16 @@ Personal collection of AI agent skills for vibe coding.
 ## Installation
 
 ```bash
-npx skills add shihyuho/skills
+npx skills add shihyuho/skills --skill='*'
 ```
+
+or to install all of them globally:
+
+```bash
+npx skills add shihyuho/skills --skill='*' -g
+```
+
+Learn more about the CLI usage at [skills](https://github.com/vercel-labs/skills).
 
 ## Usage
 
