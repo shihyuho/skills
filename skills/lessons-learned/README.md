@@ -89,6 +89,21 @@ Install all skills from this repository:
 npx skills add shihyuho/skills --skill='*'
 ```
 
+## OpenCode Plugin
+
+This skill comes with an optional OpenCode plugin that makes the AI **proactive**.
+
+### How it works
+The plugin injects a system prompt reminder at the start of every session. It instructs the AI to monitor for:
+1. Task failures or errors
+2. Multiple retries on the same issue
+3. Unexpected complexity
+
+When these triggers occur, the AI will automatically suggest creating a lesson-learned entry.
+
+### Installation
+Follow the [OpenCode Plugin Installation Guide](../../.opencode/INSTALL.md).
+
 ## Related files
 
 - [SKILL.md](SKILL.md) - Agent-facing rules and behavior
