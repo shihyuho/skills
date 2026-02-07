@@ -4,7 +4,7 @@ This repository contains plugins for [OpenCode.ai](https://opencode.ai) that pro
 
 > **🤖 AI AGENTS:** If you are reading this to perform an installation:
 > 1.  **List available plugins** found in `.opencode/plugins/`.
-> 2.  **Ask the user** which plugins they want to install.
+> 2.  **Ask the user** which plugins they want to install (allow multiple selection).
 > 3.  **Perform installation** for the selected plugins only.
 
 ## Prerequisites
