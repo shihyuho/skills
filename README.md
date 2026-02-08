@@ -5,6 +5,7 @@ Shihyu's curated collection of agent skills.
 ## Available Skills
 
 - **[lessons-learned](skills/lessons-learned/)** - Stop your AI agent from making the same mistake twice.
+- **[agent-install-guide](skills/agent-install-guide/)** - Write installation guides that AI agents can reliably execute.
 
 ## Installation
 
