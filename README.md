@@ -5,6 +5,7 @@ Shihyu's curated collection of agent skills.
 ## Available Skills
 
 - **[lessons-learned](skills/lessons-learned/)** - Stop your AI agent from making the same mistake twice.
+- **[time-to-skill](skills/time-to-skill/)** - Turn repetitive workflows into reusable skills automatically.
 - **[agent-install-guide](skills/agent-install-guide/)** - Write installation guides that AI agents can reliably execute.
 
 ## Installation
@@ -23,6 +24,7 @@ For [OpenCode](https://opencode.ai) users, you can **optionally** install plugin
 
 **Available Plugins:**
 - **lessons-learned**: Automatically suggests documenting lessons after errors, repeated retries, or complex tasks.
+- **time-to-skill**: Monitors repeated task patterns and suggests converting them into reusable skills.
 
 👉 **[Plugin Installation Guide](.opencode/INSTALL.md)**
 

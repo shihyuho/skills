@@ -20,25 +20,21 @@ export const LessonsLearnedPlugin = async ({ client }) => {
   // skills/lessons-learned/SKILL.md
   const skillPath = path.resolve(__dirname, '../../skills/lessons-learned/SKILL.md');
 
-  // Helper to generate context injection
   const getContext = () => {
-    // Check if skill exists
     if (!fs.existsSync(skillPath)) {
-      // If the skill file is missing (repo structure broken), we fail gracefully
       return null;
     }
 
-    // We inject a condensed reminder to trigger the skill usage
     return `
 <skill_reminder>
 **Available Skill: lessons-learned**
-This skill helps you capture and learn from mistakes to prevent repeated errors.
+Captures and documents problem-solving processes - failed attempts that eventually succeeded, unexpected tool interactions, configuration conflicts, or any debugging process worth documenting for future encounters.
 
 **WHEN TO USE (Triggers):**
-1. **After Task Failure/Error**: Type errors, runtime exceptions, config mistakes.
-2. **After Multiple Retries**: Same issue requires 2+ attempts to resolve.
-3. **Unexpected Complexity**: Simple tasks turn hard.
-4. **User Request**: "Let's document this", "Create a lesson".
+1. **After Solving Through Iteration**: Failed attempts that eventually succeeded after 2+ retries.
+2. **Unexpected Tool/Config Behavior**: Tool interactions or configuration conflicts that weren't obvious.
+3. **Complex Debugging Process**: Any debugging process that revealed valuable insights worth documenting.
+4. **User Request**: "Let's document this", "Create a lesson", "We should remember this".
 
 **INSTRUCTION:**
 If any of these triggers occur during this session, you MUST:
