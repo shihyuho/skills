@@ -143,28 +143,7 @@ If user confirms, document the pattern details for skill creation:
 5. **Commands used** (bash, git, npm commands)
 6. **Templates/snippets** (code structures that repeat)
 
-**Template**:
-```
-Pattern Name: [descriptive-name]
-
-Trigger Conditions:
-- [When to use this pattern]
-
-Workflow Steps:
-1. [Step 1 with details]
-2. [Step 2 with details]
-3. [Step 3 with details]
-
-Commands/Tools Used:
-- [Command/tool 1]
-- [Command/tool 2]
-
-File Patterns:
-- [File/directory structure]
-
-Code Templates:
-- [Repeated code structures]
-```
+**Template**: [PATTERN_TEMPLATE.md](references/PATTERN_TEMPLATE.md)
 
 ### Step 5: Delegate to Skill Creation
 
