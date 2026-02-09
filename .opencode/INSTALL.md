@@ -46,31 +46,7 @@ mkdir -p ~/.config/opencode/plugins
 ln -sf ~/.config/opencode/shihyuho-skills/.opencode/plugins/time-to-skill.js ~/.config/opencode/plugins/time-to-skill.js
 ```
 
-### 3. Register Skills
-
-Plugins often rely on specific skills. Ensure the corresponding skills are also installed.
-
-> **Example 1**: Installing `lessons-learned` skill
-
-```bash
-# Create skills directory if it doesn't exist
-mkdir -p ~/.config/opencode/skills
-
-# Link the skill directory
-ln -sf ~/.config/opencode/shihyuho-skills/skills/lessons-learned ~/.config/opencode/skills/lessons-learned
-```
-
-> **Example 2**: Installing `time-to-skill` skill
-
-```bash
-# Create skills directory if it doesn't exist
-mkdir -p ~/.config/opencode/skills
-
-# Link the skill directory
-ln -sf ~/.config/opencode/shihyuho-skills/skills/time-to-skill ~/.config/opencode/skills/time-to-skill
-```
-
-### 4. Restart OpenCode
+### 3. Restart OpenCode
 
 Restart your OpenCode application. The installed plugins will automatically active in new sessions.
 
