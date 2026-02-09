@@ -126,7 +126,7 @@ Follow the [OpenCode Plugin Installation Guide](../../.opencode/INSTALL.md).
 
 ## Works with skill-creator
 
-**time-to-skill** detects patterns → **skill-creator** generates skill files
+**time-to-skill** detects patterns → [**skill-creator**](https://github.com/anthropics/skills/tree/main/skills/skill-creator) generates skill files
 
 | This skill | skill-creator |
 |-----------|---------------|
