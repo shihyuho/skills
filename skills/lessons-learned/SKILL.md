@@ -1,8 +1,6 @@
 ---
 name: lessons-learned
-description: Use after solving problems through iteration - failed attempts that 
-eventually succeeded, unexpected tool interactions, configuration conflicts, or 
-any debugging process worth documenting for future encounters.
+description: "Use after solving problems through iteration - failed attempts that eventually succeeded, unexpected tool interactions, configuration conflicts, or any debugging process worth documenting for future encounters."
 license: MIT
 metadata:
   author: shihyuho
