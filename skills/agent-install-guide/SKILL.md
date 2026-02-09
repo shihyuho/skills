@@ -1,6 +1,6 @@
 ---
 name: agent-install-guide
-description: Use when creating INSTALL.md, setup guides, or configuration instructions intended to be executed by AI agents.
+description: "Use when creating INSTALL.md, setup guides, or configuration instructions intended to be executed by AI agents."
 license: MIT
 metadata:
   author: shihyuho
