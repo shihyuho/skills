@@ -134,15 +134,6 @@ Follow the [OpenCode Plugin Installation Guide](../../.opencode/INSTALL.md).
 | ✅ Documents patterns | ✅ Generates proper structure |
 | ✅ Suggests automation | ✅ Implements workflows |
 
-**Different from lessons-learned**:
-
-| Aspect | time-to-skill | lessons-learned |
-|--------|---------------|-----------------|
-| **Focus** | Success patterns | Mistakes & errors |
-| **Goal** | Boost efficiency | Prevent errors |
-| **Trigger** | 3+ similar tasks | Failures/debugging |
-| **Output** | Skill automation | Error guide |
-
 ## Related files
 
 - [SKILL.md](SKILL.md) - Agent-facing rules and behavior

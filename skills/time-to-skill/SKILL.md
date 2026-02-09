@@ -367,4 +367,4 @@ Which would you prefer?
 ## See Also
 
 - **skill-creator** - Use this skill to actually generate skill files from detected patterns
-- **lessons-learned** - For capturing mistakes and errors (complementary to time-to-skill)
+
