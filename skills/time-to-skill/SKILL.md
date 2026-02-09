@@ -143,8 +143,6 @@ If user confirms, document the pattern details for skill creation:
 5. **Commands used** (bash, git, npm commands)
 6. **Templates/snippets** (code structures that repeat)
 
-**Template**: [PATTERN_TEMPLATE.md](references/PATTERN_TEMPLATE.md)
-
 ### Step 5: Delegate to Skill Creation
 
 After recording pattern information, suggest next steps:
@@ -171,47 +169,7 @@ The pattern documentation is ready for skill creation.
 
 ## Pattern Documentation Format
 
-When recording a detected pattern, use this format:
-
-```markdown
-# Pattern: [Pattern Name]
-
-**Detected**: [Date] ([N] occurrences)
-**Suggested Skill Name**: [suggested-skill-name]
-
-## Trigger Conditions
-
-When user:
-- [Condition 1]
-- [Condition 2]
-
-## Workflow
-
-1. **[Step Name]** - [Description]
-   - Command: `[command if applicable]`
-   - Files: `[files created/modified]`
-
-2. **[Step Name]** - [Description]
-   - Command: `[command if applicable]`
-   - Files: `[files created/modified]`
-
-## Examples
-
-### Occurrence 1
-[Brief description of first occurrence]
-
-### Occurrence 2
-[Brief description of second occurrence]
-
-### Occurrence 3
-[Brief description of third occurrence]
-
-## Estimated Time Savings
-
-- Manual: ~[X] minutes per occurrence
-- With skill: ~[Y] minutes per occurrence
-- Potential savings: ~[X-Y] minutes per use
-```
+When recording a detected pattern, use this format: [PATTERN_TEMPLATE.md](references/PATTERN_TEMPLATE.md)
 
 ## Best Practices
 
