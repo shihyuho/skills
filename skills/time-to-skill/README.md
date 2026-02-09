@@ -70,29 +70,6 @@ I'll detect the pattern and suggest using this skill.
 
 ## Output format
 
-Pattern documentation:
-
-```markdown
-# Pattern: React Component Creation
-
-**Detected**: 2026-02-09 (3 occurrences)
-**Suggested Skill Name**: create-react-component
-
-## Trigger Conditions
-- User requests creating a new React component
-- Needs component + test + story files
-
-## Workflow
-1. Create TypeScript component with props interface
-2. Create Jest test file with basic setup
-3. Create Storybook story file
-
-## Estimated Time Savings
-- Manual: ~10 minutes per component
-- With skill: ~2 minutes per component  
-- Potential savings: ~8 minutes per use
-```
-
 Pattern template: [PATTERN_TEMPLATE.md](references/PATTERN_TEMPLATE.md)
 
 ## Install
