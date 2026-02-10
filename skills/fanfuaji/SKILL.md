@@ -20,6 +20,30 @@ Use this skill when:
 - Converting to Pinyin or Bopomofo (Zhuyin)
 - Need custom replacement rules or term protection
 
+## Important: Converter Selection
+
+**If user does NOT explicitly specify the conversion target (Taiwan/Hong Kong/China/Simplified/Traditional), you MUST ask first.**
+
+Use the `question` tool to present single-choice options:
+
+```
+Which converter would you like to use?
+```
+
+**Common options:**
+- 台灣化 (Taiwan) - Traditional Chinese with Taiwan terminology
+- 繁體化 (Traditional) - Traditional Chinese only
+- 简体化 (Simplified) - Simplified Chinese only
+- 中国化 (China) - Simplified Chinese with China terminology
+- 香港化 (Hongkong) - Traditional Chinese with Hong Kong terminology
+
+**Examples of ambiguous requests:**
+- ❌ "轉換成繁體" → Ask: Traditional or Taiwan? Hong Kong?
+- ❌ "使用繁體中文" → Ask: Which region?
+- ❌ "確保都是繁體" → Ask: Traditional only or Taiwan/Hong Kong variant?
+- ✅ "使用台灣用語" → Clear: Use Taiwan converter
+- ✅ "轉成香港繁體" → Clear: Use Hongkong converter
+
 ## Quick Reference: Available Converters
 
 | Converter | API Name | Description |
