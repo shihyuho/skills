@@ -1,140 +1,147 @@
-# Fanfuaji Skill
+# Fanfuaji - 中文用語智能轉換
 
-Chinese terminology conversion API reference for simplified/traditional conversion and regional variants.
+讓 AI 自動處理簡繁轉換、地區用語調整，零手動操作。
 
-## Overview
+## 為什麼需要這個技能？
 
-This skill provides comprehensive guidance for using the Fanhuaji (繁化姬) API to convert Chinese terminology between different character systems, regional variants, and phonetic transcriptions.
+你是否曾經：
+- 📝 拿到簡體中文文件，需要轉成台灣繁體？
+- 🌏 想統一專案的用語風格（台灣、香港、中國）？
+- 📄 需要批量處理多個檔案的編碼和用語？
+- 🔧 想保護特定術語（如 API、品牌名）不被轉換？
 
-**Key capabilities:**
-- Simplified ↔ Traditional Chinese conversion
-- Regional terminology (China, Taiwan, Hong Kong)
-- Phonetic transcription (Pinyin, Bopomofo/Zhuyin)
-- Custom replacement rules
-- Term protection from conversion
+**有了這個技能，你只需要告訴 AI 你的需求，剩下的它全包了。**
 
-## When to Use
+## AI 能為你做什麼
 
-Use this skill when:
-- Building applications that need Chinese text conversion
-- Implementing localization for different Chinese-speaking regions
-- Converting Chinese to romanized forms (Pinyin)
-- Need fine-grained control over conversion behavior
+### 🎯 智能判斷轉換目標
 
-## Features
+你說：「幫我把這個檔案改成台灣用語」
 
-- **10 converter types** for different use cases
-- **Module system** to enable/disable specific conversions
-- **Custom replacements** before and after conversion
-- **Protected terms** that won't be converted
-- **Complete API reference** with Python and TypeScript examples
+AI 會：
+1. ✅ 自動選擇正確的轉換器（Taiwan）
+2. ✅ 處理檔案編碼問題（Big5、GBK、UTF-8）
+3. ✅ 檢查輸出檔案是否存在，避免覆蓋
+4. ✅ 轉換完成後顯示結果
 
-## How It Works
+### 🛡️ 自動處理常見問題
 
-The Fanhuaji API accepts POST requests with:
-1. **Converter type** (Taiwan, Simplified, Pinyin, etc.)
-2. **Text to convert**
-3. **Optional parameters** for fine-grained control
-
-Returns JSON response with:
-- Converted text
-- Modules used
-- Execution time
-- Optional diff
-
-## Examples
-
-### Using the Python Script (Recommended)
-
-```bash
-# Basic conversion
-python scripts/fanfuaji.py "软件开发" --converter Taiwan
-# Output: 軟體開發
-
-# With protected terms
-python scripts/fanfuaji.py "软件" --converter Taiwan --protect "软件"
-
-# With detailed output
-python scripts/fanfuaji.py "软件" --converter Taiwan --verbose
+**遇到二進位檔案？**
+```
+AI: 檢測到 Excel 檔案，這是二進位格式。
+    請先匯出為純文字檔案，我再幫你轉換。
 ```
 
-### As Python Library
-
-```python
-import sys
-sys.path.insert(0, 'scripts')
-from fanfuaji import convert_text, Converter
-
-# Simple conversion
-result = convert_text("软件开发", Converter.TAIWAN)
-print(result)  # Output: 軟體開發
+**檔案編碼錯誤？**
+```
+AI: 解碼失敗。這看起來像 Big5 編碼。
+    我用 --encoding big5 重試看看...
+    ✓ 轉換成功！
 ```
 
-### Basic Conversion
-
-```python
-import requests
-
-response = requests.post(
-    url="https://api.zhconvert.org/convert",
-    data={
-        "converter": "Taiwan",
-        "text": "软件开发"
-    }
-)
-
-result = response.json()
-print(result["data"]["text"])  # Output: 軟體開發
+**不確定要用哪種轉換？**
+```
+AI: 「繁體中文」有多種：
+    - 台灣化（繁體 + 台灣用語）
+    - 香港化（繁體 + 香港用語）
+    - 繁體化（僅轉換字體，不改用語）
+    
+    請問你想要哪一種？
 ```
 
-### Advanced with Custom Rules
+## 使用場景
 
-```python
-import json
-
-response = requests.post(
-    url="https://api.zhconvert.org/convert",
-    data={
-        "converter": "Taiwan",
-        "text": "内存和硬盘",
-        "modules": json.dumps({"GanToZuo": 0}),
-        "userPostReplace": "哦=喔",
-        "userProtectReplace": "內存"
-    }
-)
-```
-
-## File Structure
+### 場景 1：快速轉換文字
 
 ```
-fanfuaji/
-├── SKILL.md              # Complete API reference for AI agents
-├── README.md             # Human-readable overview (this file)
-└── scripts/
-    └── fanfuaji.py       # Python API wrapper and CLI tool
+你：「軟件開發」改成台灣說法
+AI：軟體開發
 ```
 
-## Best Practices
+### 場景 2：批量處理檔案
 
-**Do:**
-- Always check `code` field in response (0 = success)
-- Use JSON string for `modules` parameter
-- Use newline-separated strings for replacement rules
-- Include timeout in production requests
-- Implement retry logic with exponential backoff
+```
+你：把 docs/ 目錄下所有 .txt 檔案轉成台灣繁體
+AI：發現 15 個檔案
+    - 5 個已是 UTF-8
+    - 10 個是 Big5 編碼
+    
+    開始處理...
+    ✓ 15/15 完成，輸出至 docs_converted/
+```
 
-**Don't:**
-- Send `modules` as Python dict (must be JSON string)
-- Use escaped newlines in replacement strings
-- Send protected terms as array (must be newline-separated)
-- Skip error handling
+### 場景 3：保護專有名詞
 
-## Limitations
+```
+你：把這段文字轉成簡體，但保留「GitHub」和「API」
+AI：已轉換，保護詞彙未變更：
+    GitHub Actions API 调用示例...
+```
 
-- Free tier has rate limits (check official docs)
-- Commercial use requires API key
-- Network latency affects conversion speed
-- Not suitable for real-time user input conversion
+### 場景 4：處理舊系統檔案
+
+```
+你：這個 Big5 檔案打開是亂碼，幫我轉成 UTF-8
+AI：檢測到 Big5 編碼
+    轉換中...
+    ✓ 已轉為 UTF-8 並輸出至 output.txt
+```
+
+## 支援的轉換類型
+
+| 轉換器 | 說明 | 範例 |
+|--------|------|------|
+| **台灣化** | 繁體 + 台灣用語 | 軟件 → 軟體、內存 → 記憶體 |
+| **香港化** | 繁體 + 香港用語 | 信息 → 資訊、出租車 → 的士 |
+| **中國化** | 簡體 + 中國用語 | 軟體 → 软件、程式 → 程序 |
+| **繁體化** | 僅簡轉繁 | 软件 → 軟件（不改用語）|
+| **简体化** | 僅繁轉簡 | 軟體 → 软体（不改用語）|
+| **注音化** | 轉注音符號 | 軟體 → ㄖㄨㄢˇ ㄊㄧˇ |
+| **拼音化** | 轉拼音 | 軟體 → ruǎn tǐ |
+
+## 進階功能
+
+### 支援多種讀取編碼
+- UTF-8（預設）
+- Big5（台灣、香港舊系統）
+- GBK / GB2312（中國）
+- 等 Python 支援的編碼
+
+輸出編碼固定為：UTF-8
+
+### 客製化規則
+- **詞彙保護**：特定詞彙不轉換
+- **前置替換**：轉換前先替換
+- **後置替換**：轉換後再替換
+- **模組控制**：啟用/停用特定轉換規則
+
+## 如何開始
+
+1. **安裝技能**
+   ```bash
+   npx skills add shihyuho/skills --skill=fanfuaji
+   ```
+
+2. **直接使用**
+   ```
+   告訴 AI：「把這段文字改成台灣用語」
+   或：「幫我轉換這個 Big5 檔案」
+   ```
+
+3. **AI 會自動處理**
+   - 選擇正確的轉換器
+   - 處理編碼問題
+   - 避免覆蓋檔案
+   - 顯示轉換結果
+
+## 技術細節
+
+這個技能包含：
+- 🤖 **SKILL.md** - AI agent 的完整指引
+- 🐍 **Python 腳本** - 零依賴的 API 包裝器
+- 📚 完整的錯誤處理和編碼支援
+
+AI 會在背景使用 [Fanhuaji API](https://zhconvert.org/) 進行轉換。
 
 ## Related Files
 

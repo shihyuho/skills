@@ -110,59 +110,27 @@ Use **bold** for step names, code blocks for examples.
 
 ### README.md (Skill-Level)
 
-Each skill should have a README.md for human readers:
+Each skill should have a README.md for human readers. The goal is to **attract users** by showing value first, technical details later.
 
-```markdown
-# Skill Name
+**README vs SKILL.md**
 
-One-sentence description.
+| Aspect | README.md (Human) | SKILL.md (AI) |
+|--------|-------------------|---------------|
+| **Audience** | Potential users browsing GitHub | AI agents executing tasks |
+| **Goal** | Attract and convince | Instruct and guide |
+| **Tone** | Marketing, conversational | Technical, imperative |
+| **Examples** | Dialogue scenarios | Code snippets and workflows |
+| **Length** | Concise (100-200 lines) | Detailed (300-500 lines) |
+| **Focus** | Value proposition | Implementation details |
 
-## Overview
+**Core Principles for README:**
 
-What this skill does (3-5 bullets).
+1. **Problem-First**: Lead with user pain points, not technical features
+2. **Show AI Intelligence**: Demonstrate what AI does automatically, not what users need to configure
+3. **Use Scenarios**: Show real conversations and workflows, not just API documentation
+4. **Progressive Disclosure**: Hook → Value → Scenarios → Features → How to Start
 
-## When to Use
-
-Use cases and trigger scenarios.
-
-## Features
-
-Key capabilities.
-
-## How It Works
-
-Workflow with examples.
-
-## Examples
-
-Concrete use cases with before/after or interaction flow.
-
-## File Structure
-
-Directory layout explanation.
-
-## Best Practices
-
-Dos and don'ts.
-
-## Limitations
-
-What this skill doesn't do.
-
-## Related Files
-
-Links to SKILL.md, templates, etc.
-
-## License
-
-MIT
-```
-
-**README guidelines**:
-- More verbose than SKILL.md (SKILL.md is for AI, README is for humans)
-- Include "How It Works" with example interactions
-- Show concrete examples (not just abstract descriptions)
-- Explain integration points (e.g., AGENTS.md sync)
+**Example**: See [`skills/fanfuaji/README.md`](skills/fanfuaji/README.md) for a complete implementation.
 
 ### References and Templates
 

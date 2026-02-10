@@ -5,229 +5,114 @@ description: Use when user requests Chinese terminology conversion, checking, or
 
 # Fanfuaji - Chinese Terminology Converter
 
-## Overview
+Convert Chinese text between simplified/traditional, regional variants (China/Taiwan/Hong Kong), and phonetic forms (Pinyin/Bopomofo).
 
-Convert Chinese terminology between simplified/traditional, regional variants (China/Taiwan/Hong Kong), and phonetic forms (Pinyin/Bopomofo) using the Fanhuaji API.
-
-**This skill includes `scripts/fanfuaji.py` - a ready-to-use Python wrapper that handles all API complexity.**
+**Includes `scripts/fanfuaji.py` - zero-dependency Python wrapper with multi-encoding support.**
 
 ## When to Use
 
-Use this skill when:
-- User requests output in Traditional Chinese, Taiwan terminology, etc.
-- Converting between simplified ↔ traditional Chinese
-- Applying regional terminology (China, Taiwan, Hong Kong)
-- Converting to Pinyin or Bopomofo (Zhuyin)
-- Need custom replacement rules or term protection
+- User requests Traditional Chinese, Taiwan/Hong Kong/China terminology
+- Simplified ↔ Traditional conversion
+- Pinyin or Bopomofo transcription
+- Custom replacement rules or term protection needed
 
-## Important: Converter Selection
+## Converter Selection (REQUIRED)
 
-**If user does NOT explicitly specify the conversion target (Taiwan/Hong Kong/China/Traditional/Simplified), you MUST ask first.**
+**If user does NOT specify conversion target, MUST ask using `question` tool.**
 
-Use the `question` tool to present single-choice options:
+**Available converters (priority order):**
 
-```
-Which converter would you like to use?
-```
+| Name | API Value | Description |
+|------|-----------|-------------|
+| 台灣化 | `Taiwan` | Traditional + Taiwan terminology |
+| 繁體化 | `Traditional` | Traditional characters only |
+| 注音化 | `Bopomofo` | Bopomofo (Zhuyin) phonetic |
+| 中国化 | `China` | Simplified + China terminology |
+| 香港化 | `Hongkong` | Traditional + Hong Kong terminology |
+| 简体化 | `Simplified` | Simplified characters only |
+| 拼音化 | `Pinyin` | Pinyin romanization |
+| 火星化 | `Mars` | Internet slang variant |
+| 維基繁體化 | `WikiTraditional` | Wikipedia Traditional |
+| 维基简体化 | `WikiSimplified` | Wikipedia Simplified |
 
-**Common options:**
+**Ambiguity examples:**
+- ❌ "轉換成繁體" → Ask: Traditional, Taiwan, or Hongkong?
+- ✅ "使用台灣用語" → Clear: use `Taiwan`
 
-Select appropriate converters based on context. See "Quick Reference: Available Converters" below for the complete list and order.
+## File Operations (REQUIRED)
 
-**Most frequently used:**
-- 台灣化 (Taiwan) - Traditional Chinese with Taiwan terminology
-- 繁體化 (Traditional) - Traditional Chinese only
-- 简体化 (Simplified) - Simplified Chinese only
-- 中国化 (China) - Simplified Chinese with China terminology
-- 香港化 (Hongkong) - Traditional Chinese with Hong Kong terminology
-
-**Additional options** (if relevant to context):
-- 注音化 (Bopomofo) - Convert to Bopomofo (Zhuyin)
-- 拼音化 (Pinyin) - Convert to Pinyin romanization
-- See complete list in "Quick Reference" section below
-
-**Examples of ambiguous requests:**
-- ❌ "轉換成繁體" → Ask: Traditional or Taiwan? Hong Kong?
-- ❌ "使用繁體中文" → Ask: Which region?
-- ❌ "確保都是繁體" → Ask: Traditional only or Taiwan/Hong Kong variant?
-- ✅ "使用台灣用語" → Clear: Use Taiwan converter
-- ✅ "轉成香港繁體" → Clear: Use Hongkong converter
-
-## Important: File Operations
-
-**If output file already exists, you MUST ask user before overwriting.**
-
-Use the `question` tool to present options:
+**When user specifies output file (`--output`) AND file already exists, MUST ask using `question` tool:**
 
 ```
 Output file already exists. What would you like to do?
-```
-
-**Options to provide:**
 - Overwrite existing file
-- Save to new file (suggest filename with timestamp or _new suffix)
+- Save to new file (output_YYYY-MM-DD.txt)
 - Cancel operation
-
-**Example suggested filenames:**
-- `output_2024-02-10.txt` (with date)
-- `output_converted.txt` (with suffix)
-- `output_new.txt` (simple suffix)
-
-**Implementation:**
-Before executing conversion with `--output`, check if file exists. If exists, ask first.
-
-## Quick Reference: Available Converters
-
-**Ordered by priority (Taiwan-related first, then others):**
-
-| Converter | API Name | Description |
-|-----------|----------|-------------|
-| 台灣化 | `Taiwan` | Traditional + Taiwan terminology |
-| 繁體化 | `Traditional` | Convert to traditional Chinese |
-| 注音化 | `Bopomofo` | Convert to Bopomofo (Zhuyin) - Taiwan phonetic |
-| 中国化 | `China` | Simplified + China terminology |
-| 香港化 | `Hongkong` | Traditional + Hong Kong terminology |
-| 简体化 | `Simplified` | Convert to simplified Chinese |
-| 拼音化 | `Pinyin` | Convert to Pinyin romanization |
-| 火星化 | `Mars` | Convert to Mars text (internet slang) |
-| 維基繁體化 | `WikiTraditional` | Traditional (Wikipedia dict only) |
-| 维基简体化 | `WikiSimplified` | Simplified (Wikipedia dict only) |
-
-## Using the Script
-
-### Basic Usage
-
-```bash
-# Convert text
-python scripts/fanfuaji.py "软件开发" --converter Taiwan
-# Output: 軟體開發
-
-# Convert file
-python scripts/fanfuaji.py --file input.txt --converter Taiwan
-
-# File to file (supports file:// URI)
-python scripts/fanfuaji.py -f input.txt -o output.txt -c Taiwan
-python scripts/fanfuaji.py -f file:///in.txt -o file:///out.txt -c Taiwan
 ```
 
-### Advanced Options
+**Note:** If outputting to stdout (no `--output` flag), no check needed.
+
+## Basic Usage
 
 ```bash
-# Protect specific terms from conversion
+# Text conversion
+python scripts/fanfuaji.py "软件开发" --converter Taiwan
+# → 軟體開發
+
+# File conversion
+python scripts/fanfuaji.py --file input.txt --converter Taiwan --output output.txt
+
+# Different encodings (Big5, GBK, GB2312, Shift_JIS)
+python scripts/fanfuaji.py --file big5_file.txt --encoding big5 --converter Taiwan
+
+# Term protection
 python scripts/fanfuaji.py "软件" --converter Taiwan --protect "软件"
 
 # Post-conversion replacement
 python scripts/fanfuaji.py "哦" --converter Taiwan --post-replace "哦=喔,啰=囉"
-
-# Disable specific modules
-python scripts/fanfuaji.py "内存" --converter Taiwan --modules '{"GanToZuo": 0}'
-
-# Different file encodings
-python scripts/fanfuaji.py --file big5_file.txt --encoding big5 --converter Taiwan
-python scripts/fanfuaji.py --file gbk_file.txt --encoding gbk --converter Traditional
-
-# Verbose output
-python scripts/fanfuaji.py "软件" --converter Taiwan --verbose
 ```
 
-### As Python Library
+## Python Library Usage
 
 ```python
 import sys
 sys.path.insert(0, 'scripts')
-from fanfuaji import convert_text, FanfuajiAPI, Converter
+from fanfuaji import convert_text, Converter
 
-# Simple conversion
 result = convert_text("软件开发", Converter.TAIWAN)
-print(result)  # Output: 軟體開發
-
-# Advanced usage
-with FanfuajiAPI() as api:
-    result = api.convert(
-        text="内存和硬盘",
-        converter=Converter.TAIWAN,
-        modules={"GanToZuo": 0},
-        user_post_replace={"哦": "喔"},
-        user_protect_replace=["內存"]
-    )
-    print(result.text)
-    print(f"Used modules: {result.used_modules}")
+print(result)  # 軟體開發
 ```
 
-## Common Use Cases
+## Encoding Support
 
-### Working with Different File Encodings
+**Default:** UTF-8
 
-The script supports various character encodings for input files. Use the `--encoding` flag to specify the encoding:
+**Supported:** big5, gbk, gb2312, and all Python codecs
 
-```bash
-# Big5 encoded files (common in Taiwan legacy systems)
-python scripts/fanfuaji.py --file legacy_big5.txt --encoding big5 --converter Taiwan
-
-# GBK encoded files (common in China)
-python scripts/fanfuaji.py --file chinese_gbk.txt --encoding gbk --converter Traditional
-
-# GB2312 encoded files (older China standard)
-python scripts/fanfuaji.py --file old_gb2312.txt --encoding gb2312 --converter Taiwan
-
-# UTF-8 (default, no need to specify)
-python scripts/fanfuaji.py --file utf8_file.txt --converter Taiwan
-```
-
-**Common encodings:**
-- `utf-8` (default) - Universal encoding
-- `big5` - Traditional Chinese (Taiwan, Hong Kong)
-- `gbk` - Simplified Chinese (China)
-- `gb2312` - Simplified Chinese (older standard)
-
-**Note:** Output is always in UTF-8 encoding, regardless of input encoding.
-
-### User Asks for Taiwan Terminology
+**Output:** Always UTF-8
 
 ```bash
-# User: "使用台灣用語輸出"
-python scripts/fanfuaji.py "软件和内存" --converter Taiwan
-# Output: 軟體和記憶體
-```
-
-### Convert File Content
-
-```bash
-# Read simplified Chinese file, output traditional
-python scripts/fanfuaji.py --file document.txt --converter Taiwan --output output.txt
-```
-
-### Batch Processing with Custom Rules
-
-```bash
-# Convert with term protection and replacement
-python scripts/fanfuaji.py \
-  --file input.txt \
-  --converter Taiwan \
-  --protect "API,GitHub" \
-  --post-replace "哦=喔,啰=囉" \
-  --output converted.txt
+# Auto-detect and handle legacy encodings
+python scripts/fanfuaji.py --file legacy.txt --encoding big5 --converter Taiwan
 ```
 
 ## Script Features
 
-- ✅ **Zero dependencies** (uses stdlib `urllib`)
-- ✅ **File I/O support** (text, file paths, file:// URIs)
-- ✅ **Multiple encodings** (UTF-8, Big5, GBK, GB2312, Shift_JIS, etc.)
-- ✅ **Error handling** (network, API errors, file errors)
-- ✅ **Flexible output** (stdout or file)
-- ✅ **Full API access** (modules, replacements, protection)
-
-## Related Resources
-
-- [Fanhuaji Official Site](https://zhconvert.org)
-- [API Documentation](https://docs.zhconvert.org)
-- [Script Source](scripts/fanfuaji.py) - Read for implementation details
-- [GitHub Discussions](https://github.com/Fanhuaji/discussion/issues)
+- ✅ Zero dependencies (stdlib only)
+- ✅ Multi-encoding support (UTF-8, Big5, GBK, etc.)
+- ✅ File and text input
+- ✅ Error handling (encoding, network, API)
+- ✅ Term protection & custom replacements
 
 ## Notes
 
-- **Free tier** available without API key
-- **Commercial use** requires paid API key ([details](https://docs.zhconvert.org/commercial))
-- **Rate limits** apply - check official docs
-- Script handles all API parameter formatting automatically
+- Free tier available (no API key needed)
+- Commercial use requires API key
+- File overwrite check REQUIRED when user specifies `--output` and file exists
+- Converter selection confirmation REQUIRED if ambiguous
+
+## Resources
+
+- [Fanhuaji API](https://zhconvert.org)
+- [API Docs](https://docs.zhconvert.org)
+- [Script](scripts/fanfuaji.py)
