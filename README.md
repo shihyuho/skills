@@ -7,7 +7,7 @@ Shihyu's curated collection of agent skills.
 - **[lessons-learned](skills/lessons-learned/)** - Stop your AI agent from making the same mistake twice.
 - **[time-to-skill](skills/time-to-skill/)** - Turn repetitive workflows into reusable skills automatically.
 - **[agent-install-guide](skills/agent-install-guide/)** - Write installation guides that AI agents can reliably execute.
-- **[fanfuaji](skills/fanfuaji/)** - Chinese terminology conversion (Traditional ↔ Simplified) using [zhconvert.org](https://zhconvert.org/) API.
+- **[fanfuaji](skills/fanfuaji/)** - Chinese terminology conversion (Traditional ↔ Simplified) using [Fanhuaji](https://zhconvert.org/) API.
 
 ## Installation
 
