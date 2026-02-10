@@ -48,16 +48,16 @@ Which converter would you like to use?
 
 | Converter | API Name | Description |
 |-----------|----------|-------------|
-| 简体化 | `Simplified` | Convert to simplified Chinese |
 | 繁體化 | `Traditional` | Convert to traditional Chinese |
-| 中国化 | `China` | Simplified + China terminology |
-| 香港化 | `Hongkong` | Traditional + Hong Kong terminology |
 | 台灣化 | `Taiwan` | Traditional + Taiwan terminology |
-| 拼音化 | `Pinyin` | Convert to Pinyin romanization |
+| 香港化 | `Hongkong` | Traditional + Hong Kong terminology |
 | 注音化 | `Bopomofo` | Convert to Bopomofo (Zhuyin) |
-| 火星化 | `Mars` | Convert to Mars text (internet slang) |
-| 维基简体化 | `WikiSimplified` | Simplified (Wikipedia dict only) |
 | 維基繁體化 | `WikiTraditional` | Traditional (Wikipedia dict only) |
+| 简体化 | `Simplified` | Convert to simplified Chinese |
+| 中国化 | `China` | Simplified + China terminology |
+| 拼音化 | `Pinyin` | Convert to Pinyin romanization |
+| 维基简体化 | `WikiSimplified` | Simplified (Wikipedia dict only) |
+| 火星化 | `Mars` | Convert to Mars text (internet slang) |
 
 ## Using the Script
 
