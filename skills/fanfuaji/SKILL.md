@@ -122,6 +122,10 @@ python scripts/fanfuaji.py "哦" --converter Taiwan --post-replace "哦=喔,啰=
 # Disable specific modules
 python scripts/fanfuaji.py "内存" --converter Taiwan --modules '{"GanToZuo": 0}'
 
+# Different file encodings
+python scripts/fanfuaji.py --file big5_file.txt --encoding big5 --converter Taiwan
+python scripts/fanfuaji.py --file gbk_file.txt --encoding gbk --converter Traditional
+
 # Verbose output
 python scripts/fanfuaji.py "软件" --converter Taiwan --verbose
 ```
@@ -151,6 +155,36 @@ with FanfuajiAPI() as api:
 ```
 
 ## Common Use Cases
+
+### Working with Different File Encodings
+
+The script supports various character encodings for input files. Use the `--encoding` flag to specify the encoding:
+
+```bash
+# Big5 encoded files (common in Taiwan legacy systems)
+python scripts/fanfuaji.py --file legacy_big5.txt --encoding big5 --converter Taiwan
+
+# GBK encoded files (common in China)
+python scripts/fanfuaji.py --file chinese_gbk.txt --encoding gbk --converter Traditional
+
+# GB2312 encoded files (older China standard)
+python scripts/fanfuaji.py --file old_gb2312.txt --encoding gb2312 --converter Taiwan
+
+# Shift_JIS encoded files (Japanese)
+python scripts/fanfuaji.py --file japanese.txt --encoding shift_jis --converter Traditional
+
+# UTF-8 (default, no need to specify)
+python scripts/fanfuaji.py --file utf8_file.txt --converter Taiwan
+```
+
+**Common encodings:**
+- `utf-8` (default) - Universal encoding
+- `big5` - Traditional Chinese (Taiwan, Hong Kong)
+- `gbk` - Simplified Chinese (China)
+- `gb2312` - Simplified Chinese (older standard)
+- `shift_jis` - Japanese
+
+**Note:** Output is always in UTF-8 encoding, regardless of input encoding.
 
 ### User Asks for Taiwan Terminology
 
@@ -183,6 +217,7 @@ python scripts/fanfuaji.py \
 
 - ✅ **Zero dependencies** (uses stdlib `urllib`)
 - ✅ **File I/O support** (text, file paths, file:// URIs)
+- ✅ **Multiple encodings** (UTF-8, Big5, GBK, GB2312, Shift_JIS, etc.)
 - ✅ **Error handling** (network, API errors, file errors)
 - ✅ **Flexible output** (stdout or file)
 - ✅ **Full API access** (modules, replacements, protection)

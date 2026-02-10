@@ -29,6 +29,7 @@ import urllib.request
 import urllib.parse
 import urllib.error
 import ssl
+import mimetypes
 from enum import Enum
 from typing import Optional, Dict, List
 from dataclasses import dataclass
@@ -209,32 +210,56 @@ def convert_text(
         return result.text
 
 
-def read_file_content(file_path: str) -> str:
+def read_file_content(file_path: str, encoding: str = 'utf-8') -> str:
     """
     Read file content from path or file:// URI.
     
     Args:
         file_path: File path or file:// URI
+        encoding: Character encoding (default: utf-8)
         
     Returns:
         File content as string
         
     Raises:
-        RuntimeError: If file cannot be read
+        RuntimeError: If file cannot be read or is not a text file
     """
     if file_path.startswith("file://"):
         file_path = urllib.parse.unquote(file_path[7:])
     
+    path = Path(file_path)
+    
     try:
-        path = Path(file_path)
         if not path.exists():
             raise RuntimeError(f"File not found: {file_path}")
         if not path.is_file():
             raise RuntimeError(f"Not a file: {file_path}")
         
-        return path.read_text(encoding='utf-8')
+        mime_type, _ = mimetypes.guess_type(str(path))
+        if mime_type and not mime_type.startswith('text/'):
+            raise RuntimeError(
+                f"Binary file detected: {path.name}\n"
+                f"File type: {mime_type}\n"
+                f"Only text files are supported.\n"
+                f"For binary files (e.g., xlsx, docx, pdf, images), please extract or convert to plain text first."
+            )
+        
+        return path.read_text(encoding=encoding)
     except UnicodeDecodeError as e:
-        raise RuntimeError(f"Failed to decode file as UTF-8: {e}")
+        raise RuntimeError(
+            f"Failed to decode file with encoding '{encoding}': {path.name}\n"
+            f"Error details: {e}\n"
+            f"Try specifying a different encoding with --encoding flag.\n"
+            f"Common encodings: utf-8, big5, gbk, gb2312, shift_jis"
+        )
+    except LookupError as e:
+        raise RuntimeError(
+            f"Unknown encoding '{encoding}'\n"
+            f"Error details: {e}\n"
+            f"Common encodings: utf-8, big5, gbk, gb2312, shift_jis"
+        )
+    except RuntimeError:
+        raise
     except Exception as e:
         raise RuntimeError(f"Failed to read file: {e}")
 
@@ -282,6 +307,10 @@ Examples:
   %(prog)s --file file:///path/to/input.txt --output output.txt
   %(prog)s -f input.txt -o file:///path/to/output.txt -c Taiwan
   %(prog)s -f input.txt -o output.txt -c Taiwan --verbose
+  
+  # Different encodings
+  %(prog)s -f big5_file.txt --encoding big5 -c Taiwan
+  %(prog)s -f gbk_file.txt --encoding gbk -c Traditional
   
 Available converters:
   Simplified, Traditional, China, Hongkong, Taiwan,
@@ -363,6 +392,13 @@ Available converters:
         help="Disable SSL certificate verification"
     )
     
+    parser.add_argument(
+        "--encoding",
+        type=str,
+        default="utf-8",
+        help="Input file character encoding (default: utf-8). Common: big5, gbk, gb2312, shift_jis"
+    )
+    
     args = parser.parse_args()
     
     # Validate input
@@ -375,7 +411,7 @@ Available converters:
     # Read input
     if args.file:
         try:
-            input_text = read_file_content(args.file)
+            input_text = read_file_content(args.file, encoding=args.encoding)
         except RuntimeError as e:
             print(f"Error: {e}", file=sys.stderr)
             sys.exit(1)
