@@ -39,18 +39,47 @@ Convert Chinese text between simplified/traditional, regional variants (China/Ta
 - ❌ "轉換成繁體" → Ask: Traditional, Taiwan, or Hongkong?
 - ✅ "使用台灣用語" → Clear: use `Taiwan`
 
-## File Operations (REQUIRED)
+## Output Handling (REQUIRED)
 
-**When user specifies output file (`--output`) AND file already exists, MUST ask using `question` tool:**
+### 1. Output Destination (if unclear, MUST ask)
 
+**If user does NOT specify output destination, ask using `question` tool:**
+
+**When input is from file (`--file input.txt`):**
 ```
-Output file already exists. What would you like to do?
+How would you like to receive the result?
+- Display in chat (stdout)
+- Overwrite original file (input.txt)
+- Save to new file (specify filename)
+```
+
+**When input is text (no `--file`):**
+```
+How would you like to receive the result?
+- Display in chat (stdout)
+- Save to file (specify filename)
+```
+
+### 2. File Overwrite Check
+
+**Rule**: When output will write to a file AND file exists, MUST ask using `question` tool.
+
+**File will be written when:**
+
+| Command Pattern | Target File | Check Needed? |
+|----------------|-------------|---------------|
+| `"text" --output file.txt` | file.txt | ✅ If exists |
+| `--file input.txt` (no --output) | input.txt (overwrite) | ✅ Always |
+| `--file input.txt --output out.txt` | out.txt | ✅ If exists |
+| `"text"` (stdout) | - | ❌ No |
+
+**Question template:**
+```
+File "filename" already exists. What would you like to do?
 - Overwrite existing file
-- Save to new file (output_YYYY-MM-DD.txt)
+- Save to new file (filename_YYYY-MM-DD.txt)
 - Cancel operation
 ```
-
-**Note:** If outputting to stdout (no `--output` flag), no check needed.
 
 ## Basic Usage
 
@@ -108,7 +137,7 @@ python scripts/fanfuaji.py --file legacy.txt --encoding big5 --converter Taiwan
 
 - Free tier available (no API key needed)
 - Commercial use requires API key
-- File overwrite check REQUIRED when user specifies `--output` and file exists
+- Output destination and file overwrite checks REQUIRED (see Output Handling)
 - Converter selection confirmation REQUIRED if ambiguous
 
 ## Resources
