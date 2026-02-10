@@ -327,13 +327,13 @@ Available converters:
     parser.add_argument(
         "-f", "--file",
         type=str,
-        help="Input file path or file:// URI to convert"
+        help="Input file path or file:// URI to convert (absolute path recommended)"
     )
     
     parser.add_argument(
         "-o", "--output",
         type=str,
-        help="Output file path or file:// URI (default: print to stdout)"
+        help="Output file path or file:// URI (default: print to stdout) (absolute path recommended)"
     )
     
     parser.add_argument(

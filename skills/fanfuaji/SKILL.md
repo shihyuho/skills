@@ -41,6 +41,8 @@ Convert Chinese text between simplified/traditional, regional variants (China/Ta
 
 ## Output Handling (REQUIRED)
 
+**Recommendation**: Use absolute paths for input/output files to avoid directory context issues.
+
 ### 1. Output Destination (if unclear, MUST ask)
 
 **If user does NOT specify output destination, ask using `question` tool:**
