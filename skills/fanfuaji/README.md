@@ -155,7 +155,6 @@ pip install requests
 - [SKILL.md](SKILL.md) - Complete API reference with all converters, parameters, and examples
 - [Fanhuaji Official Site](https://zhconvert.org)
 - [API Documentation](https://docs.zhconvert.org)
-- [Sublime Text Plugin Example](https://github.com/Fanhuaji/Sublime-Fanhuaji)
 
 ## License
 
