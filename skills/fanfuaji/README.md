@@ -1,10 +1,10 @@
-# Fanfuaji API Skill
+# Fanfuaji Skill
 
-Chinese text conversion API reference for simplified/traditional conversion and regional variants.
+Chinese terminology conversion API reference for simplified/traditional conversion and regional variants.
 
 ## Overview
 
-This skill provides comprehensive guidance for using the Fanhuaji (繁化姬) API to convert Chinese text between different character systems, regional variants, and phonetic transcriptions.
+This skill provides comprehensive guidance for using the Fanhuaji (繁化姬) API to convert Chinese terminology between different character systems, regional variants, and phonetic transcriptions.
 
 **Key capabilities:**
 - Simplified ↔ Traditional Chinese conversion

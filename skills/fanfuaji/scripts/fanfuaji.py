@@ -2,7 +2,7 @@
 """
 Fanfuaji (繁化姬) API Client (Lightweight Version)
 
-A Python wrapper for the Fanhuaji Chinese text conversion API.
+A Python wrapper for the Fanhuaji Chinese terminology conversion API.
 Supports conversion between simplified/traditional Chinese, regional variants,
 and phonetic transcriptions.
 
@@ -268,7 +268,7 @@ def write_file_content(file_path: str, content: str) -> str:
 def main():
     """CLI interface."""
     parser = argparse.ArgumentParser(
-        description="Fanfuaji Chinese text converter",
+        description="Fanfuaji Chinese terminology converter",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:

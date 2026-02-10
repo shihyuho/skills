@@ -1,13 +1,13 @@
 ---
 name: fanfuaji
-description: Use when user requests Chinese text conversion, checking, or ensuring terminology - "使用繁體中文", "使用台灣用語", "轉換成台灣用語", "確保都是台灣用語", "統一台灣用語", "改成台灣用語", "用台灣的說法", "簡體轉繁體", "繁體轉簡體", "全部改成繁體", "轉成台灣繁體", check/ensure Taiwan/Hong Kong/China terminology, simplified/traditional conversion, or phonetic transcription (Pinyin/Bopomofo)
+description: Use when user requests Chinese terminology conversion, checking, or ensuring terminology - "使用繁體中文", "使用台灣用語", "轉換成台灣用語", "確保都是台灣用語", "統一台灣用語", "改成台灣用語", "用台灣的說法", "簡體轉繁體", "繁體轉簡體", "全部改成繁體", "轉成台灣繁體", check/ensure Taiwan/Hong Kong/China terminology, simplified/traditional conversion, or phonetic transcription (Pinyin/Bopomofo)
 ---
 
-# Fanfuaji - Chinese Text Converter
+# Fanfuaji - Chinese Terminology Converter
 
 ## Overview
 
-Convert Chinese text between simplified/traditional, regional variants (China/Taiwan/Hong Kong), and phonetic forms (Pinyin/Bopomofo) using the Fanhuaji API.
+Convert Chinese terminology between simplified/traditional, regional variants (China/Taiwan/Hong Kong), and phonetic forms (Pinyin/Bopomofo) using the Fanhuaji API.
 
 **This skill includes `scripts/fanfuaji.py` - a ready-to-use Python wrapper that handles all API complexity.**
 
