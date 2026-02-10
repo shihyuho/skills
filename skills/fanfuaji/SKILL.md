@@ -170,9 +170,6 @@ python scripts/fanfuaji.py --file chinese_gbk.txt --encoding gbk --converter Tra
 # GB2312 encoded files (older China standard)
 python scripts/fanfuaji.py --file old_gb2312.txt --encoding gb2312 --converter Taiwan
 
-# Shift_JIS encoded files (Japanese)
-python scripts/fanfuaji.py --file japanese.txt --encoding shift_jis --converter Traditional
-
 # UTF-8 (default, no need to specify)
 python scripts/fanfuaji.py --file utf8_file.txt --converter Taiwan
 ```
@@ -182,7 +179,6 @@ python scripts/fanfuaji.py --file utf8_file.txt --converter Taiwan
 - `big5` - Traditional Chinese (Taiwan, Hong Kong)
 - `gbk` - Simplified Chinese (China)
 - `gb2312` - Simplified Chinese (older standard)
-- `shift_jis` - Japanese
 
 **Note:** Output is always in UTF-8 encoding, regardless of input encoding.
 
