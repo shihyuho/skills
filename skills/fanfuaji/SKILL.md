@@ -22,7 +22,7 @@ Use this skill when:
 
 ## Important: Converter Selection
 
-**If user does NOT explicitly specify the conversion target (Taiwan/Hong Kong/China/Simplified/Traditional), you MUST ask first.**
+**If user does NOT explicitly specify the conversion target (Taiwan/Hong Kong/China/Traditional/Simplified), you MUST ask first.**
 
 Use the `question` tool to present single-choice options:
 
@@ -31,11 +31,20 @@ Which converter would you like to use?
 ```
 
 **Common options:**
+
+Select appropriate converters based on context. See "Quick Reference: Available Converters" below for the complete list and order.
+
+**Most frequently used:**
 - 台灣化 (Taiwan) - Traditional Chinese with Taiwan terminology
 - 繁體化 (Traditional) - Traditional Chinese only
 - 简体化 (Simplified) - Simplified Chinese only
 - 中国化 (China) - Simplified Chinese with China terminology
 - 香港化 (Hongkong) - Traditional Chinese with Hong Kong terminology
+
+**Additional options** (if relevant to context):
+- 注音化 (Bopomofo) - Convert to Bopomofo (Zhuyin)
+- 拼音化 (Pinyin) - Convert to Pinyin romanization
+- See complete list in "Quick Reference" section below
 
 **Examples of ambiguous requests:**
 - ❌ "轉換成繁體" → Ask: Traditional or Taiwan? Hong Kong?
@@ -44,20 +53,45 @@ Which converter would you like to use?
 - ✅ "使用台灣用語" → Clear: Use Taiwan converter
 - ✅ "轉成香港繁體" → Clear: Use Hongkong converter
 
+## Important: File Operations
+
+**If output file already exists, you MUST ask user before overwriting.**
+
+Use the `question` tool to present options:
+
+```
+Output file already exists. What would you like to do?
+```
+
+**Options to provide:**
+- Overwrite existing file
+- Save to new file (suggest filename with timestamp or _new suffix)
+- Cancel operation
+
+**Example suggested filenames:**
+- `output_2024-02-10.txt` (with date)
+- `output_converted.txt` (with suffix)
+- `output_new.txt` (simple suffix)
+
+**Implementation:**
+Before executing conversion with `--output`, check if file exists. If exists, ask first.
+
 ## Quick Reference: Available Converters
+
+**Ordered by priority (Taiwan-related first, then others):**
 
 | Converter | API Name | Description |
 |-----------|----------|-------------|
-| 繁體化 | `Traditional` | Convert to traditional Chinese |
 | 台灣化 | `Taiwan` | Traditional + Taiwan terminology |
-| 香港化 | `Hongkong` | Traditional + Hong Kong terminology |
-| 注音化 | `Bopomofo` | Convert to Bopomofo (Zhuyin) |
-| 維基繁體化 | `WikiTraditional` | Traditional (Wikipedia dict only) |
-| 简体化 | `Simplified` | Convert to simplified Chinese |
+| 繁體化 | `Traditional` | Convert to traditional Chinese |
+| 注音化 | `Bopomofo` | Convert to Bopomofo (Zhuyin) - Taiwan phonetic |
 | 中国化 | `China` | Simplified + China terminology |
+| 香港化 | `Hongkong` | Traditional + Hong Kong terminology |
+| 简体化 | `Simplified` | Convert to simplified Chinese |
 | 拼音化 | `Pinyin` | Convert to Pinyin romanization |
-| 维基简体化 | `WikiSimplified` | Simplified (Wikipedia dict only) |
 | 火星化 | `Mars` | Convert to Mars text (internet slang) |
+| 維基繁體化 | `WikiTraditional` | Traditional (Wikipedia dict only) |
+| 维基简体化 | `WikiSimplified` | Simplified (Wikipedia dict only) |
 
 ## Using the Script
 
