@@ -76,11 +76,6 @@ Don't use when:
 
 **This skill includes `scripts/fanfuaji.py` - a ready-to-use Python wrapper for the API.**
 
-**Installation:**
-```bash
-pip install -r scripts/requirements.txt
-```
-
 **As CLI:**
 ```bash
 # Basic conversion

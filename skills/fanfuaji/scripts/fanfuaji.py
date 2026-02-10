@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """
-Fanfuaji (繁化姬) API Client
+Fanfuaji (繁化姬) API Client (Lightweight Version)
 
 A Python wrapper for the Fanhuaji Chinese text conversion API.
 Supports conversion between simplified/traditional Chinese, regional variants,
 and phonetic transcriptions.
+
+This version uses standard library `urllib` instead of `requests` for zero dependencies.
 
 Usage as library:
     from fanfuaji import convert_text, Converter
@@ -21,15 +23,13 @@ Usage as CLI:
 import argparse
 import json
 import sys
+import urllib.request
+import urllib.parse
+import urllib.error
+import ssl
 from enum import Enum
 from typing import Optional, Dict, List
 from dataclasses import dataclass
-
-try:
-    import requests
-except ImportError:
-    print("Error: requests library not found. Install with: pip install requests")
-    sys.exit(1)
 
 
 class Converter(str, Enum):
@@ -73,10 +73,9 @@ class FanfuajiAPI:
         """
         self.api_key = api_key
         self.verify_ssl = verify_ssl
-        self.session = requests.Session()
-        self.session.headers.update({
-            "User-Agent": "FanfuajiPython/1.0"
-        })
+        self._headers = {
+            "User-Agent": "FanfuajiPython/1.0 (Lightweight)"
+        }
     
     def convert(
         self,
@@ -115,72 +114,73 @@ class FanfuajiAPI:
             "converter": converter,
             "text": text,
             "apiKey": self.api_key,
-            "diffEnable": diff_enable,
-            "prettify": prettify
+            "diffEnable": str(diff_enable).lower(),
+            "prettify": str(prettify).lower()
         }
         
-        # Format modules as JSON string
         if modules:
             data["modules"] = json.dumps(modules)
         
-        # Format pre-replace as newline-separated
         if user_pre_replace:
             data["userPreReplace"] = "\n".join(
                 f"{old}={new}" for old, new in user_pre_replace.items()
             )
         
-        # Format post-replace as newline-separated
         if user_post_replace:
             data["userPostReplace"] = "\n".join(
                 f"{old}={new}" for old, new in user_post_replace.items()
             )
         
-        # Format protect terms as newline-separated
         if user_protect_replace:
             data["userProtectReplace"] = "\n".join(user_protect_replace)
         
-        try:
-            response = self.session.post(
-                url=f"{self.BASE_URL}/convert",
-                data=data,
-                verify=self.verify_ssl,
-                timeout=timeout
-            )
-            response.raise_for_status()
-            
-        except requests.exceptions.Timeout:
-            raise RuntimeError(f"Request timeout after {timeout} seconds")
-        except requests.exceptions.ConnectionError as e:
-            raise RuntimeError(f"Connection failed: {e}")
-        except requests.exceptions.RequestException as e:
-            raise RuntimeError(f"Request failed: {e}")
-        
-        try:
-            result = response.json()
-        except json.JSONDecodeError as e:
-            raise RuntimeError(f"Invalid JSON response: {e}")
-        
-        # Check API response code
-        if result.get("code") != 0:
-            raise ValueError(f"API error: {result.get('msg', 'Unknown error')}")
-        
-        data_obj = result.get("data", {})
-        
-        return ConversionResult(
-            text=data_obj.get("text", ""),
-            converter=data_obj.get("converter", converter),
-            used_modules=data_obj.get("usedModules", []),
-            exec_time=result.get("execTime", 0.0)
+        encoded_data = urllib.parse.urlencode(data).encode('utf-8')
+        req = urllib.request.Request(
+            f"{self.BASE_URL}/convert",
+            data=encoded_data,
+            headers=self._headers,
+            method="POST"
         )
+
+        ctx = ssl.create_default_context()
+        if not self.verify_ssl:
+            ctx.check_hostname = False
+            ctx.verify_mode = ssl.CERT_NONE
+        
+        try:
+            with urllib.request.urlopen(req, context=ctx, timeout=timeout) as response:
+                response_body = response.read().decode('utf-8')
+                try:
+                    result = json.loads(response_body)
+                except json.JSONDecodeError as e:
+                    raise RuntimeError(f"Invalid JSON response: {e}")
+                
+                if result.get("code") != 0:
+                    raise ValueError(f"API error: {result.get('msg', 'Unknown error')}")
+                
+                data_obj = result.get("data", {})
+                
+                return ConversionResult(
+                    text=data_obj.get("text", ""),
+                    converter=data_obj.get("converter", converter),
+                    used_modules=data_obj.get("usedModules", []),
+                    exec_time=result.get("execTime", 0.0)
+                )
+
+        except urllib.error.HTTPError as e:
+            raise RuntimeError(f"HTTP request failed: {e.code} {e.reason}")
+        except urllib.error.URLError as e:
+            raise RuntimeError(f"Connection failed: {e.reason}")
+        except Exception as e:
+            raise RuntimeError(f"Request failed: {e}")
     
     def __enter__(self):
         return self
     
     def __exit__(self, exc_type, exc_val, exc_tb):
-        self.session.close()
+        pass
 
 
-# Convenience function for simple conversions
 def convert_text(
     text: str,
     converter: str = Converter.TAIWAN,
@@ -287,7 +287,6 @@ Available converters:
     
     args = parser.parse_args()
     
-    # Parse optional parameters
     kwargs = {}
     
     if args.modules:
@@ -312,7 +311,6 @@ Available converters:
             term.strip() for term in args.protect.split(",")
         ]
     
-    # Perform conversion
     try:
         with FanfuajiAPI(
             api_key=args.api_key,

@@ -47,9 +47,6 @@ Returns JSON response with:
 ### Using the Python Script (Recommended)
 
 ```bash
-# Install dependencies first
-pip install -r scripts/requirements.txt
-
 # Basic conversion
 python scripts/fanfuaji.py "软件开发" --converter Taiwan
 # Output: 軟體開發
@@ -114,18 +111,7 @@ fanfuaji/
 ├── SKILL.md              # Complete API reference for AI agents
 ├── README.md             # Human-readable overview (this file)
 └── scripts/
-    ├── fanfuaji.py       # Python API wrapper and CLI tool
-    └── requirements.txt  # Python dependencies
-```
-
-## Installation
-
-```bash
-# Install dependencies
-pip install -r scripts/requirements.txt
-
-# Or install requests directly
-pip install requests
+    └── fanfuaji.py       # Python API wrapper and CLI tool
 ```
 
 ## Best Practices
