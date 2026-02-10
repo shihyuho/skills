@@ -18,6 +18,8 @@ Usage as CLI:
     python fanfuaji.py "软件开发" --converter Taiwan
     python fanfuaji.py "软件" --converter Taiwan --protect "软件"
     python fanfuaji.py "哦" --converter Taiwan --post-replace "哦=喔"
+    python fanfuaji.py --file input.txt --converter Taiwan
+    python fanfuaji.py --file file:///path/to/input.txt --output output.txt
 """
 
 import argparse
@@ -30,6 +32,7 @@ import ssl
 from enum import Enum
 from typing import Optional, Dict, List
 from dataclasses import dataclass
+from pathlib import Path
 
 
 class Converter(str, Enum):
@@ -206,6 +209,62 @@ def convert_text(
         return result.text
 
 
+def read_file_content(file_path: str) -> str:
+    """
+    Read file content from path or file:// URI.
+    
+    Args:
+        file_path: File path or file:// URI
+        
+    Returns:
+        File content as string
+        
+    Raises:
+        RuntimeError: If file cannot be read
+    """
+    if file_path.startswith("file://"):
+        file_path = urllib.parse.unquote(file_path[7:])
+    
+    try:
+        path = Path(file_path)
+        if not path.exists():
+            raise RuntimeError(f"File not found: {file_path}")
+        if not path.is_file():
+            raise RuntimeError(f"Not a file: {file_path}")
+        
+        return path.read_text(encoding='utf-8')
+    except UnicodeDecodeError as e:
+        raise RuntimeError(f"Failed to decode file as UTF-8: {e}")
+    except Exception as e:
+        raise RuntimeError(f"Failed to read file: {e}")
+
+
+def write_file_content(file_path: str, content: str) -> str:
+    """
+    Write content to file.
+    
+    Args:
+        file_path: Output file path or file:// URI
+        content: Content to write
+        
+    Returns:
+        Actual file path written to
+        
+    Raises:
+        RuntimeError: If file cannot be written
+    """
+    if file_path.startswith("file://"):
+        file_path = urllib.parse.unquote(file_path[7:])
+    
+    try:
+        path = Path(file_path)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(content, encoding='utf-8')
+        return str(path.absolute())
+    except Exception as e:
+        raise RuntimeError(f"Failed to write file: {e}")
+
+
 def main():
     """CLI interface."""
     parser = argparse.ArgumentParser(
@@ -218,6 +277,12 @@ Examples:
   %(prog)s "哦" --converter Taiwan --post-replace "哦=喔"
   %(prog)s "内存" --converter Taiwan --modules '{"GanToZuo": 0}'
   
+  # File input/output
+  %(prog)s --file input.txt --converter Taiwan
+  %(prog)s --file file:///path/to/input.txt --output output.txt
+  %(prog)s -f input.txt -o file:///path/to/output.txt -c Taiwan
+  %(prog)s -f input.txt -o output.txt -c Taiwan --verbose
+  
 Available converters:
   Simplified, Traditional, China, Hongkong, Taiwan,
   Pinyin, Bopomofo, Mars, WikiSimplified, WikiTraditional
@@ -226,7 +291,20 @@ Available converters:
     
     parser.add_argument(
         "text",
-        help="Text to convert"
+        nargs='?',
+        help="Text to convert (required if --file not specified)"
+    )
+    
+    parser.add_argument(
+        "-f", "--file",
+        type=str,
+        help="Input file path or file:// URI to convert"
+    )
+    
+    parser.add_argument(
+        "-o", "--output",
+        type=str,
+        help="Output file path or file:// URI (default: print to stdout)"
     )
     
     parser.add_argument(
@@ -287,6 +365,23 @@ Available converters:
     
     args = parser.parse_args()
     
+    # Validate input
+    if not args.text and not args.file:
+        parser.error("Either text argument or --file option is required")
+    
+    if args.text and args.file:
+        parser.error("Cannot specify both text argument and --file option")
+    
+    # Read input
+    if args.file:
+        try:
+            input_text = read_file_content(args.file)
+        except RuntimeError as e:
+            print(f"Error: {e}", file=sys.stderr)
+            sys.exit(1)
+    else:
+        input_text = args.text
+    
     kwargs = {}
     
     if args.modules:
@@ -317,19 +412,32 @@ Available converters:
             verify_ssl=not args.no_verify_ssl
         ) as api:
             result = api.convert(
-                text=args.text,
+                text=input_text,
                 converter=args.converter,
                 timeout=args.timeout,
                 **kwargs
             )
             
-            if args.verbose:
-                print(f"Converter: {result.converter}")
-                print(f"Used modules: {', '.join(result.used_modules)}")
-                print(f"Execution time: {result.exec_time:.3f}s")
-                print(f"Result: {result.text}")
+            # Output result
+            if args.output:
+                try:
+                    output_path = write_file_content(args.output, result.text)
+                    if args.verbose:
+                        print(f"Converter: {result.converter}")
+                        print(f"Used modules: {', '.join(result.used_modules)}")
+                        print(f"Execution time: {result.exec_time:.3f}s")
+                        print(f"Output written to: {output_path}")
+                except RuntimeError as e:
+                    print(f"Error: {e}", file=sys.stderr)
+                    sys.exit(1)
             else:
-                print(result.text)
+                if args.verbose:
+                    print(f"Converter: {result.converter}")
+                    print(f"Used modules: {', '.join(result.used_modules)}")
+                    print(f"Execution time: {result.exec_time:.3f}s")
+                    print(f"Result: {result.text}")
+                else:
+                    print(result.text)
                 
     except (ValueError, RuntimeError) as e:
         print(f"Error: {e}", file=sys.stderr)
