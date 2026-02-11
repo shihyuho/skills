@@ -235,14 +235,16 @@ Changes: [list what was added/updated/moved]
 
 **Section limits**:
 
-| Section | Format | Max |
-|---------|--------|-----|
-| Summary | 2-3 sentences | Overview only |
-| What We Worked On | Bullets | 5-7 items |
-| Decisions | Heading + 1-2 lines | 5-7 items |
-| Still Unsolved | Heading + 1-2 lines | 3-5 items |
-| Lessons Learned | Heading + structured content | 3-5 items |
-| Notes | Code snippets (≤15 lines each) | 3-5 items |
+| Section | Inclusion Rule | Format | Max |
+|---------|----------------|--------|-----|
+| Summary | **Mandatory** | 2-3 sentences | Overview only |
+| What We Worked On | **Mandatory** | Bullets | 5-7 items |
+| Decisions | **Optional** (Omit if none) | Heading + 1-2 lines | 5-7 items |
+| Still Unsolved | **Optional** (Omit if none) | Heading + 1-2 lines | 3-5 items |
+| Lessons Learned | **Optional** (Omit if none) | Heading + structured content | 3-5 items |
+| Notes | **Optional** (Omit if none) | Code snippets (≤15 lines each) | 3-5 items |
+
+**Important**: If a section has no content meeting the quality principles, **omit the section entirely**. Do not write "None" or empty headers.
 
 **Lessons Learned — Special Requirements**:
 

@@ -24,7 +24,9 @@ project: project-name
 
 ---
 
-## Decisions Made
+## Decisions Made (Optional)
+
+[Omit this section if no significant decisions were made]
 
 ### [Decision Title] {#decision-slug}
 
@@ -38,7 +40,9 @@ project: project-name
 
 ---
 
-## Still Unsolved
+## Still Unsolved (Optional)
+
+[Omit this section if no open questions remain]
 
 ### [Question Title] {#question-slug}
 
@@ -48,7 +52,9 @@ project: project-name
 
 ---
 
-## Lessons Learned
+## Lessons Learned (Optional)
+
+[Omit this section if no significant lessons were learned]
 
 ### [Lesson Title] {#lesson-slug}
 
@@ -66,9 +72,9 @@ project: project-name
 
 ---
 
-## Notes
+## Notes (Optional)
 
-[Code snippets, links, or observations that don't fit above. Optional section — omit if empty.]
+[Code snippets, links, or observations that don't fit above. Omit if empty.]
 
 ```language
 [Code example if applicable, ≤15 lines]
