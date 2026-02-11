@@ -28,6 +28,11 @@ FORMAT:
   - Anchors: `### Title {#slug}`
   - Lessons: What Happened, Root Cause, Solution, Apply When
   - Keep concise (1-2 lines), skip obvious details
+
+TERMINOLOGY MAPPING (canonical -> alias in index/moc files):
+  - Decisions Made -> Key Decisions
+  - Still Unsolved -> Open Questions
+  - Lessons Learned -> Recent Lessons / Lessons
 -->
 
 # [One-Line Summary]

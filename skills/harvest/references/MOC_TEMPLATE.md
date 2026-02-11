@@ -17,15 +17,15 @@
 
 ---
 
-## Key Decisions
+## Key Decisions (Decisions Made)
 
 - [[contexts/YYYY-MM-DD-HHMM-context#decision|Decision Title]] - [Brief rationale]
 
-## Open Questions
+## Open Questions (Still Unsolved)
 
 - [[contexts/YYYY-MM-DD-HHMM-context#question|Question Title]]
 
-## Lessons
+## Lessons (Lessons Learned)
 
 - [[contexts/YYYY-MM-DD-HHMM-context#lesson|Lesson Title]]
 
