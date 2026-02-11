@@ -10,15 +10,53 @@ project: project-name
 ---
 
 <!-- 
-AI INSTRUCTIONS:
-1. **Mandatory vs Optional**: Only "Summary" and "What We Worked On" are MANDATORY. All other sections are OPTIONAL. 
-2. **Omit Empty Sections**: If a section (Decisions, Unsolved, Lessons, Notes) has no content meeting the quality principles, OMIT IT ENTIRELY. Do not write "None" or empty headers.
-3. **Quality Principles**: Follow strict quality rules in SKILL.md. Keep it condensed, fresh, and relevant (>3 months).
-4. **Formatting**:
-   - Use `{#anchor-slug}` for items that MOCs/INDEX will deep-link to.
-   - Keep items concise (1-2 lines).
-   - Link to MOCs/contexts using `[[wikilinks]]`.
-5. **Lessons**: Error-related lessons will be indexed in `mocs/lessons-learned.md`. Make them actionable.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+AI INSTRUCTIONS - READ BEFORE WRITING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚠️ CRITICAL: This template is MANDATORY. Do NOT create custom formats.
+
+✅ REQUIRED STRUCTURE:
+  1. YAML frontmatter (lines 1-10) - MUST be present EXACTLY as shown
+  2. One-line title (line 24)
+  3. Summary section (line 26-28) - MANDATORY
+  4. What We Worked On section (line 32-35) - MANDATORY
+  5. Optional sections (Decisions/Unsolved/Lessons/Notes) - ONLY if content exists
+
+❌ FORBIDDEN:
+  - Custom frontmatter format (e.g., **Date**: 2026-02-10)
+  - Starting file with plain markdown headers instead of YAML
+  - Writing "None" or empty headers for optional sections
+  - Omitting `context_id` field (breaks smart merge)
+
+📋 PRE-WRITE CHECKLIST (verify before file creation):
+  [ ] File starts with `---` (YAML frontmatter)
+  [ ] `context_id` field is populated
+  [ ] Summary section exists (2-3 sentences)
+  [ ] "What We Worked On" section exists (bullets)
+  [ ] Optional sections OMITTED if no quality content
+  [ ] Lessons use `{#anchor-slug}` format
+  [ ] All links use `[[wikilinks]]` format
+
+📐 FORMATTING RULES:
+  - Anchors: `### Decision Title {#decision-slug}`
+  - Wikilinks: `[[mocs/topic]]` or `[[contexts/file#anchor]]`
+  - Lessons structure: What Happened, Root Cause, Solution, Apply When
+  - Keep items 1-2 lines max
+  - Code snippets ≤15 lines
+
+📊 QUALITY PRINCIPLES:
+  - Include ONLY what matters in 3 months
+  - 5 high-signal bullets > 20 noisy items
+  - Every bullet provides NEW information
+  - Skip: debugging transcripts, obvious practices, dead-ends
+
+🔗 INTEGRATION:
+  - Error-related lessons → indexed in `mocs/lessons-learned.md`
+  - MOC links in frontmatter and content
+  - Deep links to INDEX sections via anchors
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 -->
 
 # [One-Line Summary]
