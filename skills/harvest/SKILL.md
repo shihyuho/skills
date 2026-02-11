@@ -1,15 +1,15 @@
 ---
 name: harvest
-description: "Harvest knowledge from conversations into a searchable second brain. Capture decisions, problems, lessons across conversations and agents. Triggers: 'harvest', 'harvest this', '/harvest', 'save this to knowledge base'."
+description: "Use when users ask to capture conversation decisions, problems, and lessons into persistent notes (e.g. 'harvest', '/harvest', 'save this to knowledge base', 'document this work')."
 license: MIT
 metadata:
   author: shihyuho
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 
 # Harvest
 
-Harvest knowledge from conversations into a context-based second brain that persists across conversations, agents, and time.
+Capture high-signal conversation knowledge into `docs/notes/` so future sessions can reuse decisions, lessons, and open questions.
 
 ## When to Trigger
 
@@ -32,309 +32,182 @@ Would you like me to update the knowledge base?
 
 Wait for user confirmation. Never auto-execute.
 
----
+## Non-Negotiables
 
-## Mandatory Lesson Review
+- Never auto-execute. Always wait for explicit user confirmation.
+- Use template files as the single source of structure.
+- Keep `context_id` in frontmatter for smart merge.
+- Keep MOCs as index files: link to context anchors, do not duplicate full lesson content.
+- Omit optional empty sections. Do not write empty headers or "None" placeholders.
 
-**Before executing any task**, AI MUST check for documented lessons:
+## Quick Start
 
-1. **Check if knowledge base exists**: Look for `docs/notes/00-INDEX.md`
-2. **If exists**:
-   - Read the INDEX file
-   - Look for lessons-learned MOC reference
-   - If `docs/notes/mocs/lessons-learned.md` exists, read it
-   - Scan for lessons matching current task:
-     - Same technology/framework
-     - Similar operation (async, state management, API calls, etc.)
-     - Same error pattern
-   - Read full context for matching lessons
-   - Apply guidance before proceeding
-3. **If knowledge base doesn't exist**: Proceed normally
-
-**Why**: Past mistakes are documented to prevent repetition across sessions and agents.
-
----
+1. Ensure `docs/notes/` exists (initialize if missing).
+2. Run lesson review for this harvest run.
+3. Detect `context_id` and check whether matching context file exists.
+4. Create new context or smart-merge existing context.
+5. Update `docs/notes/00-INDEX.md` and related MOCs.
+6. Confirm created/updated files to user.
 
 ## Workflow
 
-### Step 1: Init Knowledge Base
+### Phase 1: Initialize + Lesson Review
 
-Check if `docs/notes/` exists. If NOT:
+#### 1.1 Initialize Knowledge Base (if missing)
 
-1. Create directories: `docs/notes/contexts/` and `docs/notes/mocs/`
-2. Use [references/INDEX_TEMPLATE.md](references/INDEX_TEMPLATE.md) as reference to create `docs/notes/00-INDEX.md`
-   - **CRITICAL**: Include ALL sections from template (Stats, Recent Updates, Topics, Key Decisions, Open Questions, Recent Lessons)
-   - Replace `[Project Name]` with actual project name
-   - Initialize Stats with zeros
-   - Leave other sections with placeholder content
-3. **Check for obsidian-bases skill**: If `obsidian-bases` skill is installed, use [references/CONTEXTS_BASE_TEMPLATE.base](references/CONTEXTS_BASE_TEMPLATE.base) as reference to create `docs/notes/contexts.base`
-   - This creates a dynamic table view of all contexts
-   - Extracts date/time from filename for easy sorting
-   - Assumes Obsidian vault root is `docs/notes/`, so paths are relative to vault root
-4. **Agent Config**: Add Lessons Learned section to AGENTS.md or CLAUDE.md:
-   - Check which file exists (priority: AGENTS.md > CLAUDE.md)
-   - If found, check if `## Lessons Learned` section already exists
-   - If section doesn't exist, ask user:
-     ```
-     Add "Lessons Learned" section to AGENTS.md?
-     This enables automatic lesson review before future tasks.
-     
-     [Yes / No / Show me first]
-     ```
-   - If user confirms, append section using [references/AGENTS_LESSONS_SECTION.md](references/AGENTS_LESSONS_SECTION.md) as reference
-   - If neither file exists, skip (no file to modify)
+If `docs/notes/` does not exist:
 
----
+1. Create `docs/notes/contexts/` and `docs/notes/mocs/`.
+2. Create `docs/notes/00-INDEX.md` from [references/INDEX_TEMPLATE.md](references/INDEX_TEMPLATE.md).
+3. If `obsidian-bases` skill is available, create `docs/notes/contexts.base` from [references/CONTEXTS_BASE_TEMPLATE.base](references/CONTEXTS_BASE_TEMPLATE.base).
+4. Check `AGENTS.md` then `CLAUDE.md`:
+   - If found and no `## Lessons Learned` section, ask user whether to append section from [references/AGENTS_LESSONS_SECTION.md](references/AGENTS_LESSONS_SECTION.md).
 
-### Step 2: Detect Context
+#### 1.2 Mandatory Lesson Review (for this harvest run)
 
-**Generate context_id using this logic**:
+Before creating or merging context data:
 
-1. Search environment variables for any containing "SESSION", "CONVERSATION", or "THREAD" + "ID" (case-insensitive)
-   - Match patterns like: `*SESSION*ID*`, `*CONVERSATION*ID*`, `*THREAD*ID*`
-   - Take the first match found
-2. If no match found, use current timestamp in format `YYYYMMDDHHmmss`
-   - Example: `20260211151030` for 2026-02-11 15:10:30
-   - Minute precision allows natural merging within same minute
+1. If `docs/notes/00-INDEX.md` exists, read it.
+2. If `docs/notes/mocs/lessons-learned.md` exists, scan for lessons related to this conversation:
+   - Same technology/framework
+   - Same operation type (async, state, API, integration)
+   - Same error pattern
+3. Apply relevant guidance while generating the context summary.
 
-**Search for existing context** with same context_id:
-```bash
-# Check if file exists matching pattern
-docs/notes/contexts/<context_id>-*.md
-```
+### Phase 2: Detect Context
 
-- **Found** → Step 4 (Smart Merge)
-- **Not found** → Step 3 (New Context)
+Generate `context_id` using this priority:
 
----
+1. First env var matching case-insensitive pattern:
+   - `*SESSION*ID*`
+   - `*CONVERSATION*ID*`
+   - `*THREAD*ID*`
+2. Fallback: timestamp `YYYYMMDDHHmmss`.
 
-### Step 3: Create New Context
+Then check for an existing file:
 
-#### 3.1 Analyze Conversation
+`docs/notes/contexts/<context_id>-*.md`
 
-Extract:
-- **What we worked on**: Main activities, tasks completed
-- **Decisions made**: Architecture choices, trade-offs (include WHY)
-- **Still unsolved**: Open questions, pending decisions
-- **Lessons learned**: Mistakes avoided, patterns discovered
+### Decision Matrix
 
-#### 3.2 Generate Filename
+| Condition | Action |
+|---|---|
+| Matching context file exists | Go to **Phase 4: Smart Merge** |
+| No matching context file | Go to **Phase 3: Create New Context** |
+| User rejects suggested filename | Ask for new slug and regenerate filename |
+| User cancels confirmation | Stop without writing files |
 
-Format: `<context_id>-<topic-slug>.md` where:
-- `context_id`: From Step 2 (session ID or timestamp)
-- `topic-slug`: 2-4 word kebab-case summary
+### Phase 3: Create New Context
 
-**Examples**:
-- Session ID: `claude_session_abc123-payment-gateway.md`
-- Timestamp: `20260211151030-ghostty-fix.md`
+#### 3.1 Analyze Conversation Once
 
-Confirm with user:
+Extract only high-signal items:
+
+- What we worked on
+- Decisions with rationale
+- Still unsolved questions
+- Lessons learned
+
+#### 3.2 Generate Filename + Confirm
+
+Format: `<context_id>-<topic-slug>.md` (`topic-slug` is 2-4 words, kebab-case).
+
+Prompt template:
+
 ```
 Found: [N] decisions, [N] unsolved, [N] lessons
-Suggested: contexts/20260211151030-ghostty-fix.md
+Suggested: contexts/<context_id>-<topic-slug>.md
 1. Use this  2. Change slug  3. Cancel
 ```
 
 #### 3.3 Write Context File
 
-**Check for `obsidian-markdown` skill**: If available, use it for enhanced Obsidian compatibility (wikilinks, frontmatter, heading anchors). If not installed, AI can write files directly but should suggest installing the skill for better Obsidian integration.
+Create `docs/notes/contexts/<filename>.md` using [references/CONTEXT_TEMPLATE.md](references/CONTEXT_TEMPLATE.md).
 
-**CRITICAL**: Use [references/CONTEXT_TEMPLATE.md](references/CONTEXT_TEMPLATE.md) as reference to create `docs/notes/contexts/<filename>.md`.
+If `obsidian-markdown` skill is available, use it for wikilinks/frontmatter/anchors.
 
-**DO NOT deviate from template structure**. Use the template as-is and fill in placeholders.
+Do not restate template rules here; template is authoritative.
 
-**MANDATORY Pre-Write Checklist**:
+#### 3.4 Update Index
 
-Before writing the file, verify:
-- [ ] YAML frontmatter is present with ALL required fields
-- [ ] `context_id` field is populated (enables smart merge)
-- [ ] File starts with YAML frontmatter (---), NOT plain markdown headers
-- [ ] Summary section exists (MANDATORY)
-- [ ] "What We Worked On" section exists (MANDATORY)
-- [ ] Optional sections (Decisions, Unsolved, Lessons, Notes) are OMITTED if empty
-- [ ] Lessons Learned uses `{#anchor-slug}` format if present
-- [ ] All wikilinks use `[[page]]` or `[[page#anchor]]` format
+Update `docs/notes/00-INDEX.md` from template rules:
 
-**Frontmatter (REQUIRED - Copy from template)**:
-```yaml
----
-type: context
-date: YYYY-MM-DD
-time: "HH:MM"
-context_id: "<current_context_id>"   # CRITICAL: enables smart merge
-created: YYYY-MM-DDTHH:MM:SS
-updated: YYYY-MM-DDTHH:MM:SS
-tags: [tag1, tag2]                   # Optional
-project: project-name                # Optional: from git repo
----
-```
+- Recent Updates (keep top 5)
+- Topics (MOCs)
+- Key Decisions (if any)
+- Open Questions (if any)
+- Recent Lessons (if any)
+- Stats counters
 
-**Content sections** (see template):
-- **Summary** (MANDATORY) - 1-2 sentences
-- **What We Worked On** (MANDATORY) - Bullet list
-- **Decisions Made** (Optional - omit if none) - Use `{#anchor-slug}`
-- **Still Unsolved** (Optional - omit if none) - Use `{#anchor-slug}`
-- **Lessons Learned** (Optional - omit if none) - Use structured format with `{#anchor-slug}`
-- **Notes** (Optional - omit if none) - Code snippets ≤15 lines
+#### 3.5 Update Lessons-Learned MOC (Error-Related Lessons Only)
 
-Follow **Content Quality Principles** below.
+If lessons include failures/retries/gotchas (>15 min impact):
 
-#### 3.4 Update Indexes
+1. Ensure `docs/notes/mocs/lessons-learned.md` exists (create via [references/LESSONS_LEARNED_MOC_TEMPLATE.md](references/LESSONS_LEARNED_MOC_TEMPLATE.md) if missing).
+2. Add links only:
+   - `- [[contexts/<filename>#lesson-slug|Lesson Title]]`
 
-**`docs/notes/00-INDEX.md`**: **MUST update ALL sections**:
-- Add to "Recent Updates" (keep top 5 most recent)
-- Add to "Key Decisions" if context has decisions
-- Add to "Open Questions" if context has unsolved items
-- Add to "Recent Lessons" if context has lessons
-- Update Stats (increment counts)
-- Keep "Topics (MOCs)" section (update when MOCs are created)
+#### 3.6 Topic MOC Discovery
 
-**MANDATORY Pre-Update Checklist for 00-INDEX.md**:
-- [ ] "Recent Updates" section exists and is updated
-- [ ] "Topics (MOCs)" section exists
-- [ ] "Key Decisions" section exists (add if context has decisions)
-- [ ] "Open Questions" section exists (add if context has unsolved)
-- [ ] "Recent Lessons" section exists (add if context has lessons)
-- [ ] "Stats" section shows correct counts
+If topic appears in 3+ contexts and no MOC exists, ask user whether to create one.
 
-#### 3.5 Create/Update Lessons-Learned MOC (If Error-Related Lessons Exist)
-
-**If this context contains error-related lessons** (failures, retries, gotchas >15 min):
-
-1. **Check if `docs/notes/mocs/lessons-learned.md` exists**:
-   - If NO: Create it using [references/LESSONS_LEARNED_MOC_TEMPLATE.md](references/LESSONS_LEARNED_MOC_TEMPLATE.md) as reference
-   - Add to `00-INDEX.md` under "Topics (MOCs)"
-
-2. **Update the lessons-learned MOC**:
-   - Add new lesson entry as a **LINK ONLY** (do NOT copy content)
-   - Use format: `- [[contexts/<filename>#lesson-slug|Lesson Title]]`
-   - Group by technology/domain
-
-**Example**:
-```markdown
-# mocs/lessons-learned.md
-
-## By Technology
-
-**React**:
-- [[contexts/2026-02-06-1430-async-loops.md#await-loops|Avoid await in loops - use Promise.all]]
-```
-
-#### 3.6 Topic-Based MOC Discovery
-
-After creating context, check if topic appears in **3+ contexts** with no existing MOC.
-
-```
-This is the 3rd context about "[topic]":
-- [context-1], [context-2], [context-3 (today)]
-Create MOC: mocs/topic-name.md?
-```
-
-If confirmed: use [references/MOC_TEMPLATE.md](references/MOC_TEMPLATE.md) as reference to create the MOC, then add it to `00-INDEX.md`.
+If confirmed, create from [references/MOC_TEMPLATE.md](references/MOC_TEMPLATE.md) and add to `00-INDEX.md`.
 
 #### 3.7 Confirm
 
 ```
-✓ Created: contexts/YYYY-MM-DD-HHMM-topic.md
+✓ Created: contexts/<filename>.md
 ✓ Updated: 00-INDEX.md
-✓ Created: mocs/topic.md (if applicable)
-✓ Created: contexts.base (if obsidian-bases installed)
+✓ Updated: mocs/lessons-learned.md (if applicable)
+✓ Created: mocs/<topic>.md (if applicable)
 ```
 
----
+### Phase 4: Smart Merge
 
-### Step 4: Smart Merge
+When `context_id` matches existing file:
 
-When `context_id` matches an existing file.
+1. Read existing context file.
+2. Merge new information from current conversation.
 
-#### 4.1 Read + Analyze
+| Section | Existing Topic | New Item |
+|---|---|---|
+| Decisions Made | Update existing entry, note update time | Append |
+| Still Unsolved | Move resolved items to Decisions | Append |
+| Lessons Learned | Merge if same lesson, preserve anchor | Append |
+| What We Worked On | Keep existing | Append |
 
-Read existing file. Extract new info from current conversation:
-- New/updated decisions
-- Resolved questions (unsolved → decided)
-- New unsolved questions
-- New lessons, new work items
+3. Update frontmatter:
+   - Keep `created`
+   - Update `updated`
+   - Add new tags if needed
+4. Update `00-INDEX.md` stats/recent updates.
+5. If new error-related lessons were added, update `mocs/lessons-learned.md` with links only.
 
-#### 4.2 Merge Logic
-
-| Section | Same Topic | New Item |
-|---------|-----------|----------|
-| Decisions Made | UPDATE existing, note "Updated at HH:MM" | APPEND |
-| Still Unsolved | MOVE to Decisions if resolved | APPEND |
-| Lessons Learned | MERGE into existing | APPEND |
-| What We Worked On | — | APPEND |
-
-**Frontmatter**: Update `updated` timestamp. Keep `created`. Add new tags.
-
-#### 4.3 Write + Update
-
-1. **Update Context File**: Overwrite with merged content.
-2. **Update Indexes**: Update 00-INDEX.md (Stats, Recent Updates).
-3. **Update Lessons MOC**: If new lessons added:
-   - Add **LINK ONLY** to `mocs/lessons-learned.md`
-   - `- [[contexts/<filename>#anchor|Title]]`
-   - DO NOT copy lesson content to MOC
-
-#### 4.4 Confirm
+Confirm:
 
 ```
-✓ Updated: contexts/YYYY-MM-DD-HHMM-topic.md
-Changes: [list what was added/updated/moved]
+✓ Updated: contexts/<filename>.md
+Changes: [added/updated/moved items]
 ```
 
----
+## Content Quality Rules
 
-## Content Quality Principles
+- Quality over quantity: concise, reusable, high-signal notes.
+- One idea per bullet; include rationale for decisions.
+- Keep content relevant for future reuse (3+ months horizon).
+- Skip raw transcripts, dead ends without insight, and obvious process noise.
+- For lessons, use anchored headings and include: what happened, root cause, solution, apply-when.
 
-**Core rules**:
-- **Quality over quantity**: 5 high-signal bullets > 20 noisy items
-- **Keep it fresh**: Write while context is hot (< 2 min)
-- **Condensed**: Bullet points, not paragraphs
-- **Relevant**: "Will this matter in 3 months?"
+Recommended section limits:
 
-**Section limits**:
-
-| Section | Inclusion Rule | Format | Max |
-|---------|----------------|--------|-----|
-| Summary | **Mandatory** | 2-3 sentences | Overview only |
-| What We Worked On | **Mandatory** | Bullets | 5-7 items |
-| Decisions | **Optional** (Omit if none) | Heading + 1-2 lines | 5-7 items |
-| Still Unsolved | **Optional** (Omit if none) | Heading + 1-2 lines | 3-5 items |
-| Lessons Learned | **Optional** (Omit if none) | Heading + structured content | 3-5 items |
-| Notes | **Optional** (Omit if none) | Code snippets (≤15 lines each) | 3-5 items |
-
-**Important**: If a section has no content meeting the quality principles, **omit the section entirely**. Do not write "None" or empty headers.
-
-**Lessons Learned — Special Requirements**:
-
-For error-related lessons (failures, retries, gotchas >15 min):
-- **Use heading with anchor**: `### Lesson Title {#descriptive-slug}` for deep-linking
-- **Include**: What happened, root cause, solution, apply-when conditions
-- **Format**:
-  ```
-  ### [Lesson Title] {#lesson-slug}
-  
-  **What Happened**: [Issue description]
-  **Root Cause**: [Why it happened]
-  **Solution**: [How to solve or prevent]
-  **Apply When**: [Specific situations/tech/patterns]
-  
-  **Related**: [[mocs/topic]]
-  ```
-- **Use imperative mood** in MOC summary: "Avoid X", "Use Y instead of Z"
-
-**Writing rules**:
-- One idea per bullet. Include "why" for decisions.
-- Code snippets: essential patterns only, not full implementations
-- Skip: debugging transcripts, chat logs, obvious practices, process details, dead-ends without insights
-
-**Include**: Non-obvious decisions with rationale, gotchas (>15 min wasted), reusable patterns, blocking questions, continuation context.
-
-**Quality check before writing**:
-- Every bullet provides NEW information (no redundancy)
-- Future reader can make same decision with this info
-- Helps avoid repeating mistakes
-- Still relevant in 3 months
+| Section | Requirement | Typical Size |
+|---|---|---|
+| Summary | Required | 1-2 sentences |
+| What We Worked On | Required | 5-7 bullets |
+| Decisions | Optional | up to 5-7 items |
+| Still Unsolved | Optional | up to 3-5 items |
+| Lessons Learned | Optional | up to 3-5 items |
+| Notes | Optional | short snippets only |
 
 ---
 
@@ -349,7 +222,7 @@ npx skills add <obsidian-markdown-repo>
 
 ## See Also
 
-Use these files as references.
+Use these files as references (single source for structure and formats).
 
 - [CONTEXT_TEMPLATE.md](references/CONTEXT_TEMPLATE.md)
 - [MOC_TEMPLATE.md](references/MOC_TEMPLATE.md)

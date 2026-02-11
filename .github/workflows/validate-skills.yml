@@ -1,0 +1,37 @@
+name: Validate Skills
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  validate-skills:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Validate each skill
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+
+          skill_dirs=(skills/*)
+          if [ ${#skill_dirs[@]} -eq 0 ]; then
+            echo "No skill directories found in skills/"
+            exit 1
+          fi
+
+          for skill_dir in "${skill_dirs[@]}"; do
+            if [ -d "$skill_dir" ]; then
+              echo "Validating $skill_dir"
+              npx --yes skills-ref validate "$skill_dir"
+            fi
+          done
