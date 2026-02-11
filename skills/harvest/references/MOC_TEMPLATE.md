@@ -2,6 +2,8 @@
 
 [One-line description of what this topic covers]
 
+<!-- Structure template only. Use `skills/harvest/SKILL.md` for workflow/update rules. -->
+
 ---
 
 ## Contexts

@@ -1,33 +1,23 @@
 ---
 type: context
-date: YYYY-MM-DD
-time: "HH:MM:SS"
+date: YYYY-MM-DD          # Compatibility field (derived from `created`)
+time: "HH:MM:SS"         # Compatibility field (derived from `created`)
 context_id: "<context_id>"  # Session ID (e.g., claude_session_abc) or timestamp (YYYYMMDDHHmmss)
-created: YYYY-MM-DDTHH:MM:SS
-updated: YYYY-MM-DDTHH:MM:SS
+created: YYYY-MM-DDTHH:MM:SS  # Canonical creation timestamp
+updated: YYYY-MM-DDTHH:MM:SS  # Canonical update timestamp
 tags: [tag1, tag2]
 project: project-name
 ---
 
 <!-- 
-⚠️ MANDATORY: Follow this template EXACTLY. Do NOT create custom formats.
+⚠️ Structure template only.
+Behavioral workflow and merge rules live in `skills/harvest/SKILL.md`.
 
-REQUIRED:
-  [ ] YAML frontmatter (lines 1-10) with `context_id`
-  [ ] Summary (2-3 sentences)
-  [ ] What We Worked On (bullets)
-  [ ] Lessons use `{#anchor-slug}` for deep-linking
-  [ ] Omit empty optional sections
-
-FORBIDDEN:
-  - Custom frontmatter (e.g., **Date**: 2026-02-10)
-  - Starting with markdown headers instead of YAML
-  - Empty optional sections (write "None")
-
-FORMAT:
-  - Anchors: `### Title {#slug}`
-  - Lessons: What Happened, Root Cause, Solution, Apply When
-  - Keep concise (1-2 lines), skip obvious details
+Required:
+  - YAML frontmatter with `context_id`
+  - Summary + What We Worked On
+  - Optional sections omitted when empty
+  - Lesson headings use `{#anchor-slug}`
 
 TERMINOLOGY MAPPING (canonical -> alias in index/moc files):
   - Decisions Made -> Key Decisions

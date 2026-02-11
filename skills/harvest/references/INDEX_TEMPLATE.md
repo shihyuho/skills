@@ -1,10 +1,13 @@
 ---
-type: moc
-updated: YYYY-MM-DD
+type: moc            # 00-INDEX is treated as a specialized MOC index
+updated: YYYY-MM-DD  # Canonical index update date
 ---
 
 <!--
-⚠️ ALL sections below are REQUIRED. Do NOT omit.
+⚠️ Structure template only.
+Behavioral workflow and update logic live in `skills/harvest/SKILL.md`.
+
+All sections below are required.
 
 MANDATORY SECTIONS:
   1. Stats
