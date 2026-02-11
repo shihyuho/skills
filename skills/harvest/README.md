@@ -1,90 +1,84 @@
 # Harvest
 
-Your AI conversations contain valuable decisions and insights. Don't let them disappear when the chat ends.
+Capture important conversation outcomes before they disappear.
 
-## The Problem
+## Why It Exists
 
-You discuss architecture, make decisions, solve problems, learn lessons—then the conversation closes and it's gone. Next week, you can't remember why you chose A over B. Next month, a teammate asks "why did we do it this way?" and you have to dig through old chats.
+Technical chats produce high-value output: decisions, trade-offs, lessons, and open questions. Without a capture step, that context is hard to find later and easy to repeat incorrectly.
 
-## The Solution
+Harvest turns those moments into reusable project memory.
 
-One command captures everything worth remembering:
+## What It Creates
 
-```
-You: /harvest
+Harvest writes structured notes in `docs/notes/`:
 
-AI: ✓ Recorded: contexts/2026-02-10-1430-payment-gateway.md
-    - Decision: Stripe over PayPal (better DX despite higher fees)
-    - Lesson: Rate limit headers improve client UX
-    - Open: Webhook retry strategy (pending)
-```
-
-## What You Get
-
-A structured, searchable knowledge base in `docs/notes/`:
-
-```
+```text
 docs/notes/
-├── 00-INDEX.md              # Navigate everything
-├── contexts/                # Chronological context records
-└── mocs/                    # Topics (AI auto-discovers)
-    ├── lessons-learned.md   # Error prevention index (auto-created)
-    └── [topic].md           # Topic evolution tracking (3+ contexts)
+├── 00-INDEX.md
+├── contexts/
+└── mocs/
+    ├── lessons-learned.md      # created/updated when relevant
+    └── <topic>.md              # suggested after 3+ related contexts
 ```
 
-**Every context captures**:
-- **Decisions** — What + why + alternatives
-- **Unsolved** — Open questions with options
-- **Lessons** — What went wrong → how to avoid
-- **Work done** — Activities, progress
+Each context file is named:
 
-**MOCs (Maps of Content)** organize knowledge:
-- **lessons-learned.md** — Automatic index of error-related lessons, grouped by technology/operation/error pattern. AI reviews this before tasks to prevent repeated mistakes.
-- **Topic MOCs** — Created when 3+ contexts discuss the same topic (e.g., `payment-gateway.md`). Tracks how your thinking evolved over time.
+`<context_id>-<topic-slug>.md`
 
-## How It Works
+## Quick Flow
 
-**Smart merging**: Harvest multiple times in one conversation? AI updates the same file intelligently via `context_id`.
-
-**Auto-organization**: After 3+ contexts on a topic, AI suggests creating a MOC to track evolution.
-
-**Quality over quantity**: Condensed bullets, not verbose transcripts. Only what matters in 3 months.
-
-**Active lesson review**: Error-related lessons are indexed in `mocs/lessons-learned.md` and AGENTS.md. AI automatically checks them before similar work, preventing repeated mistakes across sessions.
+1. You trigger Harvest (`/harvest` or natural language like "harvest this").
+2. AI summarizes decisions, unsolved items, and lessons.
+3. AI proposes a filename and asks for confirmation:
+   - `1. Use this`
+   - `2. Change slug`
+   - `3. Cancel`
+4. AI creates or smart-merges context notes.
+5. AI updates `00-INDEX.md` and related MOCs when needed.
 
 ## Example
 
-```
-You: We chose Stripe. Better DX than PayPal despite higher fees.
-
+```text
 You: /harvest
 
-AI: Found 1 decision. Create contexts/2026-02-10-1430-payment.md? [Yes]
+AI: Found 2 decisions, 1 unsolved, 1 lesson
+    Suggested: contexts/<context_id>-payment-gateway.md
+    1. Use this  2. Change slug  3. Cancel
 
-You: Yes
+You: 1
 
-AI: ✓ Created
-    This is the 3rd "payment" context. Create a MOC? [Yes/No]
-
-You: Yes
-
-AI: ✓ Created mocs/payment-gateway.md
+AI: ✓ Created: contexts/<context_id>-payment-gateway.md
+    ✓ Updated: 00-INDEX.md
 ```
 
-**Three months later**:
-- Open `00-INDEX.md` → See all topics
-- Click `payment-gateway` MOC → See evolution across 5 contexts
-- Click specific context → Read full details
+## Behavior Guarantees
 
-## Features
+- **Never auto-executes**: write operations happen only after explicit confirmation.
+- **Smart merge by context**: repeated harvest in one context updates the same file via `context_id`.
+- **Stable fallback**: when no session/thread ID exists, `context_id` falls back to `YYYYMMDDHHmmss`.
+- **Index discipline**: updates recent changes, decisions, questions, lessons, and stats.
+- **Link-only lessons MOC**: `mocs/lessons-learned.md` stores links to anchors, not duplicated lesson bodies.
+- **High-signal output**: concise notes intended to stay useful months later.
 
-**Obsidian-compatible**: Wikilinks, frontmatter, tags, graph view—works with vanilla [Obsidian](https://obsidian.md/) or any Markdown editor.
+## Lesson Review Scope
 
-**Cross-project**: `project` field in frontmatter lets you track decisions across multiple codebases.
+- During Harvest runs, AI reviews existing lessons (when available) before writing/merging context notes.
+- If you opt into the AGENTS/CLAUDE lessons hook, this review can also run before future tasks.
 
-**Context tracking**: Multiple harvests in one conversation? AI merges them into one cohesive file.
+## When to Use
 
-**Mistake prevention**: Lessons from errors are automatically indexed for review before future tasks.
+- after a key decision
+- after resolving a complex problem
+- before ending a productive session
+- when you think "we should remember this"
+
+AI may also suggest Harvest at natural breakpoints. You stay in control.
+
+## When Not to Use
+
+- trivial chat with no reusable decisions or lessons
+- purely mechanical edits with no meaningful context
+- conversations you intentionally do not want persisted
 
 ## Install
 
@@ -92,20 +86,15 @@ AI: ✓ Created mocs/payment-gateway.md
 npx skills add shihyuho/skills --skill harvest
 ```
 
-## When to Use
+## Related Files
 
-- After making a key decision
-- When you solve a complex problem
-- Before ending a productive conversation
-- Whenever you think "we should remember this"
-
-AI may also suggest harvesting at natural breakpoints—you stay in control.
-
-## Files
-
-- [SKILL.md](SKILL.md) - AI instructions
-- [CONTEXT_TEMPLATE.md](references/CONTEXT_TEMPLATE.md) - Context format
-- [MOC_TEMPLATE.md](references/MOC_TEMPLATE.md) - MOC format
+- [SKILL.md](SKILL.md) - AI execution workflow
+- [references/CONTEXT_TEMPLATE.md](references/CONTEXT_TEMPLATE.md) - context schema
+- [references/INDEX_TEMPLATE.md](references/INDEX_TEMPLATE.md) - index schema
+- [references/MOC_TEMPLATE.md](references/MOC_TEMPLATE.md) - topic MOC schema
+- [references/LESSONS_LEARNED_MOC_TEMPLATE.md](references/LESSONS_LEARNED_MOC_TEMPLATE.md) - lessons MOC schema
+- [references/CONTEXTS_BASE_TEMPLATE.base](references/CONTEXTS_BASE_TEMPLATE.base) - Obsidian Bases view template
+- [references/AGENTS_LESSONS_SECTION.md](references/AGENTS_LESSONS_SECTION.md) - optional pre-task lessons hook
 
 ## License
 
