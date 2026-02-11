@@ -1,6 +1,6 @@
 # Lessons Learned Section for AGENTS.md / CLAUDE.md
 
-This file contains the exact text to be added to AGENTS.md or CLAUDE.md during knowledge base initialization.
+This file contains the exact text to be added to AGENTS.md or CLAUDE.md during second brain initialization.
 
 ---
 

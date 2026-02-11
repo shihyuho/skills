@@ -1,6 +1,6 @@
 ---
 name: harvest
-description: "Use when users ask to capture conversation decisions, problems, and lessons into persistent notes (e.g. 'harvest', '/harvest', 'save this to knowledge base', 'document this work')."
+description: "Use when users ask to capture conversation decisions, problems, and lessons into persistent notes (e.g. 'harvest', '/harvest', 'save this to second brain', 'document this work')."
 license: MIT
 metadata:
   author: shihyuho
@@ -16,7 +16,7 @@ Capture high-signal conversation knowledge into `docs/notes/` for reuse across s
 **Explicit request**:
 - "harvest", "/harvest"
 - "harvest this", "harvest this conversation"
-- "save this to knowledge base"
+- "save this to second brain"
 - "document this work", "capture this knowledge"
 
 **Natural breakpoints** — AI may **suggest** (never auto-execute):
@@ -27,7 +27,7 @@ Capture high-signal conversation knowledge into `docs/notes/` for reuse across s
 
 ```
 We just [made a decision/solved X/learned Y].
-Would you like me to update the knowledge base?
+Would you like me to update the second brain?
 ```
 
 Wait for user confirmation. Never auto-execute.
@@ -53,7 +53,7 @@ Wait for user confirmation. Never auto-execute.
 
 ### Phase 1: Prepare
 
-1. Initialize knowledge base when `docs/notes/` is missing:
+1. Initialize second brain storage when `docs/notes/` is missing:
    - Create `docs/notes/contexts/` and `docs/notes/mocs/`.
    - Create `docs/notes/00-INDEX.md` from [references/INDEX_TEMPLATE.md](references/INDEX_TEMPLATE.md).
    - Create `docs/notes/contexts.base` from [references/CONTEXTS_BASE_TEMPLATE.base](references/CONTEXTS_BASE_TEMPLATE.base) when `obsidian-bases` is available.
