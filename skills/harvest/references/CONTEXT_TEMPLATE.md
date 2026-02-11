@@ -9,6 +9,18 @@ tags: [tag1, tag2]
 project: project-name
 ---
 
+<!-- 
+AI INSTRUCTIONS:
+1. **Mandatory vs Optional**: Only "Summary" and "What We Worked On" are MANDATORY. All other sections are OPTIONAL. 
+2. **Omit Empty Sections**: If a section (Decisions, Unsolved, Lessons, Notes) has no content meeting the quality principles, OMIT IT ENTIRELY. Do not write "None" or empty headers.
+3. **Quality Principles**: Follow strict quality rules in SKILL.md. Keep it condensed, fresh, and relevant (>3 months).
+4. **Formatting**:
+   - Use `{#anchor-slug}` for items that MOCs/INDEX will deep-link to.
+   - Keep items concise (1-2 lines).
+   - Link to MOCs/contexts using `[[wikilinks]]`.
+5. **Lessons**: Error-related lessons will be indexed in `mocs/lessons-learned.md`. Make them actionable.
+-->
+
 # [One-Line Summary]
 
 **Summary**: [1-2 sentence overview of what was accomplished]
@@ -26,8 +38,6 @@ project: project-name
 
 ## Decisions Made (Optional)
 
-[Omit this section if no significant decisions were made]
-
 ### [Decision Title] {#decision-slug}
 
 [What was decided] — _Why_: [rationale]. Alternatives: [what was rejected and why]
@@ -42,8 +52,6 @@ project: project-name
 
 ## Still Unsolved (Optional)
 
-[Omit this section if no open questions remain]
-
 ### [Question Title] {#question-slug}
 
 [Description]. Options: [A vs B]. Next: [action needed]. Deadline: [YYYY-MM-DD]
@@ -53,8 +61,6 @@ project: project-name
 ---
 
 ## Lessons Learned (Optional)
-
-[Omit this section if no significant lessons were learned]
 
 ### [Lesson Title] {#lesson-slug}
 
@@ -74,17 +80,8 @@ project: project-name
 
 ## Notes (Optional)
 
-[Code snippets, links, or observations that don't fit above. Omit if empty.]
+[Code snippets, links, or observations that don't fit above]
 
 ```language
 [Code example if applicable, ≤15 lines]
 ```
-
----
-
-**Guidelines**:
-- Follow Content Quality Principles in SKILL.md
-- Use `{#anchor-slug}` for items that MOCs/INDEX will deep-link to
-- Keep each item concise (1-2 lines of content + optional Related links)
-- Link to MOCs and contexts using `[[wikilinks]]`
-- **Lessons Learned**: Error-related lessons will be indexed in `mocs/lessons-learned.md` for active review
