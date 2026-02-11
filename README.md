@@ -22,6 +22,10 @@ npx skills add shihyuho/skills --skill='*'
 
 Skills are automatically available once installed. AI will use them when relevant tasks are detected. If you installed the OpenCode plugins, the AI will also proactively remind you to use them.
 
+## Included Commands
+
+This repository includes reusable command templates in [`commands/`](commands/).
+
 ## License
 
 MIT

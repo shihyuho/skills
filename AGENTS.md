@@ -148,6 +148,7 @@ Files in `references/` directory:
 - **Skill directories**: `kebab-case` (e.g., `lessons-learned`)
 - **SKILL.md**: Always uppercase `SKILL.md`
 - **README.md**: Always uppercase `README.md`
+- **Command files**: `{skill-name}-{command-name}.md` (e.g., `harvest-init.md`)
 - **Templates**: `UPPERCASE_WITH_UNDERSCORES.md`
 - **Other references**: `kebab-case.md`
 
