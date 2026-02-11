@@ -6,8 +6,41 @@ on:
   workflow_dispatch:
 
 jobs:
-  validate-skills:
+  discover-skills:
     runs-on: ubuntu-latest
+    outputs:
+      skills: ${{ steps.collect.outputs.skills }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Collect skill directories
+        id: collect
+        shell: bash
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          from pathlib import Path
+
+          root = Path("skills")
+          skills = []
+
+          if root.exists():
+              for directory in sorted(root.iterdir()):
+                  if directory.is_dir() and (directory / "SKILL.md").exists():
+                      skills.append({"path": str(directory)})
+
+          print(f"skills={json.dumps(skills)}")
+          PY
+
+  validate-skills:
+    needs: discover-skills
+    if: ${{ needs.discover-skills.outputs.skills != '[]' }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        skill: ${{ fromJSON(needs.discover-skills.outputs.skills) }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -17,21 +50,15 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Validate each skill
-        shell: bash
+      - name: Validate skill
         run: |
-          set -euo pipefail
-          shopt -s nullglob
+          echo "Validating ${{ matrix.skill.path }}"
+          npx --yes skills-ref validate "${{ matrix.skill.path }}"
 
-          skill_dirs=(skills/*)
-          if [ ${#skill_dirs[@]} -eq 0 ]; then
-            echo "No skill directories found in skills/"
-            exit 1
-          fi
-
-          for skill_dir in "${skill_dirs[@]}"; do
-            if [ -d "$skill_dir" ]; then
-              echo "Validating $skill_dir"
-              npx --yes skills-ref validate "$skill_dir"
-            fi
-          done
+  no-skills:
+    needs: discover-skills
+    if: ${{ needs.discover-skills.outputs.skills == '[]' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Report empty skills directory
+        run: echo "No skill directories with SKILL.md found under skills/."
