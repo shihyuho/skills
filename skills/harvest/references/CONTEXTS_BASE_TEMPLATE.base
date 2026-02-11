@@ -3,7 +3,14 @@
 # This Base file displays all context files in a table view.
 # Created by the harvest skill when obsidian-bases is installed.
 #
-# Assumes Obsidian vault root is at docs/notes/
+# Why `.base` extension:
+# - This file is consumed by the Obsidian Bases plugin.
+# - Keep the `.base` filename so the plugin can detect and render it.
+#
+# Usage assumptions:
+# - Obsidian vault root is `docs/notes/`
+# - Context files are under `docs/notes/contexts/`
+# - Context frontmatter includes `created` and `tags`
 
 filters:
   and:
@@ -17,4 +24,3 @@ views:
       - created       # Sort by creation time (from frontmatter)
       - file.name     # Then by filename
       - tags          # Show tags
-
