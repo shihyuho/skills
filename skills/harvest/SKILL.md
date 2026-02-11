@@ -71,7 +71,7 @@ Check if `docs/notes/` exists. If NOT:
    - This creates a dynamic table view of all contexts
    - Extracts date/time from filename for easy sorting
    - Assumes Obsidian vault root is `docs/notes/`, so paths are relative to vault root
-4. **Add Lessons Learned section to AGENTS.md or CLAUDE.md**:
+4. **Agent Config**: Add Lessons Learned section to AGENTS.md or CLAUDE.md:
    - Check which file exists (priority: AGENTS.md > CLAUDE.md)
    - If found, check if `## Lessons Learned` section already exists
    - If section doesn't exist, ask user:
@@ -206,9 +206,9 @@ Follow **Content Quality Principles** below.
    - Add to `00-INDEX.md` under "Topics (MOCs)"
 
 2. **Update the lessons-learned MOC**:
-   - Add new lesson entry with wikilink to context
+   - Add new lesson entry as a **LINK ONLY** (do NOT copy content)
+   - Use format: `- [[contexts/<filename>#lesson-slug|Lesson Title]]`
    - Group by technology/domain
-   - Use format: `- [[contexts/YYYY-MM-DD-HHMM-file#lesson-slug|Lesson Title]]`
 
 **Example**:
 ```markdown
@@ -217,7 +217,7 @@ Follow **Content Quality Principles** below.
 ## By Technology
 
 **React**:
-- [[contexts/2026-02-06-1430-async#await-loops|Avoid await in loops - use Promise.all]]
+- [[contexts/2026-02-06-1430-async-loops.md#await-loops|Avoid await in loops - use Promise.all]]
 ```
 
 #### 3.6 Topic-Based MOC Discovery
@@ -268,7 +268,12 @@ Read existing file. Extract new info from current conversation:
 
 #### 4.3 Write + Update
 
-**Use `obsidian-markdown` skill if available** for proper Obsidian formatting. Overwrite file with merged content. Update related MOCs and indexes.
+1. **Update Context File**: Overwrite with merged content.
+2. **Update Indexes**: Update 00-INDEX.md (Stats, Recent Updates).
+3. **Update Lessons MOC**: If new lessons added:
+   - Add **LINK ONLY** to `mocs/lessons-learned.md`
+   - `- [[contexts/<filename>#anchor|Title]]`
+   - DO NOT copy lesson content to MOC
 
 #### 4.4 Confirm
 
