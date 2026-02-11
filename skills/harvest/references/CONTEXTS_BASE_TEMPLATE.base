@@ -1,0 +1,20 @@
+# Contexts Base Template
+# 
+# This Base file displays all context files in a table view.
+# Created by the harvest skill when obsidian-bases is installed.
+#
+# Assumes Obsidian vault root is at docs/notes/
+
+filters:
+  and:
+    - file.inFolder("contexts")
+    - 'file.ext == "md"'
+
+views:
+  - type: table
+    name: "All Contexts"
+    order:
+      - created       # Sort by creation time (from frontmatter)
+      - file.name     # Then by filename
+      - tags          # Show tags
+
