@@ -62,12 +62,12 @@ Wait for user confirmation. Never auto-execute.
 Check if `docs/notes/` exists. If NOT:
 
 1. Create directories: `docs/notes/contexts/` and `docs/notes/mocs/`
-2. Create `docs/notes/00-INDEX.md` by **EXACTLY COPYING** `references/INDEX_TEMPLATE.md`
+2. Use [references/INDEX_TEMPLATE.md](references/INDEX_TEMPLATE.md) as reference to create `docs/notes/00-INDEX.md`
    - **CRITICAL**: Include ALL sections from template (Stats, Recent Updates, Topics, Key Decisions, Open Questions, Recent Lessons)
    - Replace `[Project Name]` with actual project name
    - Initialize Stats with zeros
    - Leave other sections with placeholder content
-3. **Check for obsidian-bases skill**: If `obsidian-bases` skill is installed, create `docs/notes/contexts.base` from `references/CONTEXTS_BASE_TEMPLATE.base`
+3. **Check for obsidian-bases skill**: If `obsidian-bases` skill is installed, use [references/CONTEXTS_BASE_TEMPLATE.base](references/CONTEXTS_BASE_TEMPLATE.base) as reference to create `docs/notes/contexts.base`
    - This creates a dynamic table view of all contexts
    - Extracts date/time from filename for easy sorting
    - Assumes Obsidian vault root is `docs/notes/`, so paths are relative to vault root
@@ -81,7 +81,7 @@ Check if `docs/notes/` exists. If NOT:
      
      [Yes / No / Show me first]
      ```
-   - If user confirms, append section from `references/AGENTS_LESSONS_SECTION.md`
+   - If user confirms, append section using [references/AGENTS_LESSONS_SECTION.md](references/AGENTS_LESSONS_SECTION.md) as reference
    - If neither file exists, skip (no file to modify)
 
 ---
@@ -139,7 +139,7 @@ Suggested: contexts/20260211151030-ghostty-fix.md
 
 **Check for `obsidian-markdown` skill**: If available, use it for enhanced Obsidian compatibility (wikilinks, frontmatter, heading anchors). If not installed, AI can write files directly but should suggest installing the skill for better Obsidian integration.
 
-**CRITICAL**: Create at `docs/notes/contexts/<filename>.md` by **EXACTLY FOLLOWING** `references/CONTEXT_TEMPLATE.md`.
+**CRITICAL**: Use [references/CONTEXT_TEMPLATE.md](references/CONTEXT_TEMPLATE.md) as reference to create `docs/notes/contexts/<filename>.md`.
 
 **DO NOT deviate from template structure**. Use the template as-is and fill in placeholders.
 
@@ -202,7 +202,7 @@ Follow **Content Quality Principles** below.
 **If this context contains error-related lessons** (failures, retries, gotchas >15 min):
 
 1. **Check if `docs/notes/mocs/lessons-learned.md` exists**:
-   - If NO: Create it from `references/LESSONS_LEARNED_MOC_TEMPLATE.md`
+   - If NO: Create it using [references/LESSONS_LEARNED_MOC_TEMPLATE.md](references/LESSONS_LEARNED_MOC_TEMPLATE.md) as reference
    - Add to `00-INDEX.md` under "Topics (MOCs)"
 
 2. **Update the lessons-learned MOC**:
@@ -230,7 +230,7 @@ This is the 3rd context about "[topic]":
 Create MOC: mocs/topic-name.md?
 ```
 
-If confirmed: create MOC from `references/MOC_TEMPLATE.md`, add to `00-INDEX.md`.
+If confirmed: use [references/MOC_TEMPLATE.md](references/MOC_TEMPLATE.md) as reference to create the MOC, then add it to `00-INDEX.md`.
 
 #### 3.7 Confirm
 
@@ -348,6 +348,8 @@ npx skills add <obsidian-markdown-repo>
 ```
 
 ## See Also
+
+Use these files as references.
 
 - [CONTEXT_TEMPLATE.md](references/CONTEXT_TEMPLATE.md)
 - [MOC_TEMPLATE.md](references/MOC_TEMPLATE.md)
