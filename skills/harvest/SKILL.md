@@ -4,12 +4,12 @@ description: "Use when users ask to capture conversation decisions, problems, an
 license: MIT
 metadata:
   author: shihyuho
-  version: "1.1.0"
+  version: "1.2.0"
 ---
 
 # Harvest
 
-Capture high-signal conversation knowledge into `docs/notes/` so future sessions can reuse decisions, lessons, and open questions.
+Capture high-signal conversation knowledge into `docs/notes/` for reuse across sessions.
 
 ## When to Trigger
 
@@ -42,7 +42,7 @@ Wait for user confirmation. Never auto-execute.
 
 ## Quick Start
 
-1. Ensure `docs/notes/` exists (initialize if missing).
+1. Ensure `docs/notes/` exists (initialize when missing).
 2. Run lesson review for this harvest run.
 3. Detect `context_id` and check whether matching context file exists.
 4. Create new context or smart-merge existing context.
@@ -51,68 +51,36 @@ Wait for user confirmation. Never auto-execute.
 
 ## Workflow
 
-### Phase 1: Initialize + Lesson Review
+### Phase 1: Prepare
 
-#### 1.1 Initialize Knowledge Base (if missing)
+1. Initialize knowledge base when `docs/notes/` is missing:
+   - Create `docs/notes/contexts/` and `docs/notes/mocs/`.
+   - Create `docs/notes/00-INDEX.md` from [references/INDEX_TEMPLATE.md](references/INDEX_TEMPLATE.md).
+   - Create `docs/notes/contexts.base` from [references/CONTEXTS_BASE_TEMPLATE.base](references/CONTEXTS_BASE_TEMPLATE.base) when `obsidian-bases` is available.
+   - Check `AGENTS.md` then `CLAUDE.md`; ask user before appending section from [references/AGENTS_LESSONS_SECTION.md](references/AGENTS_LESSONS_SECTION.md).
+2. Mandatory lesson review for this harvest run:
+   - Read `docs/notes/00-INDEX.md` when available.
+   - Scan `docs/notes/mocs/lessons-learned.md` when available.
+   - Apply matched lessons (tech, operation type, error pattern).
 
-If `docs/notes/` does not exist:
+### Phase 2: Detect + Route
 
-1. Create `docs/notes/contexts/` and `docs/notes/mocs/`.
-2. Create `docs/notes/00-INDEX.md` from [references/INDEX_TEMPLATE.md](references/INDEX_TEMPLATE.md).
-3. If `obsidian-bases` skill is available, create `docs/notes/contexts.base` from [references/CONTEXTS_BASE_TEMPLATE.base](references/CONTEXTS_BASE_TEMPLATE.base).
-4. Check `AGENTS.md` then `CLAUDE.md`:
-   - If found and no `## Lessons Learned` section, ask user whether to append section from [references/AGENTS_LESSONS_SECTION.md](references/AGENTS_LESSONS_SECTION.md).
-
-#### 1.2 Mandatory Lesson Review (for this harvest run)
-
-Before creating or merging context data:
-
-1. If `docs/notes/00-INDEX.md` exists, read it.
-2. If `docs/notes/mocs/lessons-learned.md` exists, scan for lessons related to this conversation:
-   - Same technology/framework
-   - Same operation type (async, state, API, integration)
-   - Same error pattern
-3. Apply relevant guidance while generating the context summary.
-
-### Phase 2: Detect Context
-
-Generate `context_id` using this priority:
-
-1. First env var matching case-insensitive pattern:
-   - `*SESSION*ID*`
-   - `*CONVERSATION*ID*`
-   - `*THREAD*ID*`
-2. Fallback: timestamp `YYYYMMDDHHmmss`.
-
-Then check for an existing file:
-
-`docs/notes/contexts/<context_id>-*.md`
-
-### Decision Matrix
+1. Build `context_id`:
+   - First env var that matches `*SESSION*ID*`, `*CONVERSATION*ID*`, or `*THREAD*ID*` (case-insensitive).
+   - Fallback timestamp `YYYYMMDDHHmmss`.
+2. Look for `docs/notes/contexts/<context_id>-*.md`.
 
 | Condition | Action |
 |---|---|
-| Matching context file exists | Go to **Phase 4: Smart Merge** |
-| No matching context file | Go to **Phase 3: Create New Context** |
+| Matching context file exists | Run **Phase 4 (Smart Merge)** |
+| No matching context file | Run **Phase 3 (New Context)** |
 | User rejects suggested filename | Ask for new slug and regenerate filename |
 | User cancels confirmation | Stop without writing files |
 
-### Phase 3: Create New Context
+### Phase 3: New Context
 
-#### 3.1 Analyze Conversation Once
-
-Extract only high-signal items:
-
-- What we worked on
-- Decisions with rationale
-- Still unsolved questions
-- Lessons learned
-
-#### 3.2 Generate Filename + Confirm
-
-Format: `<context_id>-<topic-slug>.md` (`topic-slug` is 2-4 words, kebab-case).
-
-Prompt template:
+1. Extract high-signal items: work, decisions (with rationale), unsolved, lessons.
+2. Generate filename `<context_id>-<topic-slug>.md` and confirm:
 
 ```
 Found: [N] decisions, [N] unsolved, [N] lessons
@@ -120,70 +88,38 @@ Suggested: contexts/<context_id>-<topic-slug>.md
 1. Use this  2. Change slug  3. Cancel
 ```
 
-#### 3.3 Write Context File
-
-Create `docs/notes/contexts/<filename>.md` using [references/CONTEXT_TEMPLATE.md](references/CONTEXT_TEMPLATE.md).
-
-If `obsidian-markdown` skill is available, use it for wikilinks/frontmatter/anchors.
-
-Do not restate template rules here; template is authoritative.
-
-#### 3.4 Update Index
-
-Update `docs/notes/00-INDEX.md` from template rules:
-
-- Recent Updates (keep top 5)
-- Topics (MOCs)
-- Key Decisions (if any)
-- Open Questions (if any)
-- Recent Lessons (if any)
-- Stats counters
-
-#### 3.5 Update Lessons-Learned MOC (Error-Related Lessons Only)
-
-If lessons include failures/retries/gotchas (>15 min impact):
-
-1. Ensure `docs/notes/mocs/lessons-learned.md` exists (create via [references/LESSONS_LEARNED_MOC_TEMPLATE.md](references/LESSONS_LEARNED_MOC_TEMPLATE.md) if missing).
-2. Add links only:
-   - `- [[contexts/<filename>#lesson-slug|Lesson Title]]`
-
-#### 3.6 Topic MOC Discovery
-
-If topic appears in 3+ contexts and no MOC exists, ask user whether to create one.
-
-If confirmed, create from [references/MOC_TEMPLATE.md](references/MOC_TEMPLATE.md) and add to `00-INDEX.md`.
-
-#### 3.7 Confirm
+3. Create `docs/notes/contexts/<filename>.md` from [references/CONTEXT_TEMPLATE.md](references/CONTEXT_TEMPLATE.md).
+4. Use `obsidian-markdown` when available for wikilinks/frontmatter/anchors.
+5. Update `docs/notes/00-INDEX.md` according to [references/INDEX_TEMPLATE.md](references/INDEX_TEMPLATE.md):
+   - Recent Updates (top 5), Topics, Key Decisions, Open Questions, Recent Lessons, Stats.
+6. Manage MOCs:
+   - Lessons MOC: for error-related lessons (>15 min impact), ensure `docs/notes/mocs/lessons-learned.md` exists via [references/LESSONS_LEARNED_MOC_TEMPLATE.md](references/LESSONS_LEARNED_MOC_TEMPLATE.md), then append links only.
+   - Topic MOC: when a topic appears in 3+ contexts without MOC, ask user first; create from [references/MOC_TEMPLATE.md](references/MOC_TEMPLATE.md) after confirmation.
+7. Confirm:
 
 ```
 ✓ Created: contexts/<filename>.md
 ✓ Updated: 00-INDEX.md
-✓ Updated: mocs/lessons-learned.md (if applicable)
-✓ Created: mocs/<topic>.md (if applicable)
+✓ Updated: mocs/lessons-learned.md (when relevant)
+✓ Created: mocs/<topic>.md (when relevant)
 ```
 
 ### Phase 4: Smart Merge
 
-When `context_id` matches existing file:
-
-1. Read existing context file.
-2. Merge new information from current conversation.
+1. Read the existing context file.
+2. Merge new items from current conversation.
 
 | Section | Existing Topic | New Item |
 |---|---|---|
 | Decisions Made | Update existing entry, note update time | Append |
 | Still Unsolved | Move resolved items to Decisions | Append |
-| Lessons Learned | Merge if same lesson, preserve anchor | Append |
+| Lessons Learned | Merge same lesson and preserve anchor | Append |
 | What We Worked On | Keep existing | Append |
 
-3. Update frontmatter:
-   - Keep `created`
-   - Update `updated`
-   - Add new tags if needed
-4. Update `00-INDEX.md` stats/recent updates.
-5. If new error-related lessons were added, update `mocs/lessons-learned.md` with links only.
-
-Confirm:
+3. Update frontmatter (`updated`, tags), keep `created` unchanged.
+4. Update `00-INDEX.md` stats and recent updates.
+5. Update `mocs/lessons-learned.md` with links only when new error-related lessons were added.
+6. Confirm:
 
 ```
 ✓ Updated: contexts/<filename>.md
@@ -213,7 +149,7 @@ Recommended section limits:
 
 ## Integration
 
-**Recommended**: `obsidian-markdown` skill — If installed, use it for enhanced Obsidian compatibility (proper wikilinks, frontmatter, heading anchors). If not available, AI can write files directly, but suggest installing for better integration:
+**Recommended**: `obsidian-markdown` skill for enhanced Obsidian compatibility. Without it, AI may write files directly and suggest installation:
 
 ```
 For optimal Obsidian compatibility, consider installing obsidian-markdown skill:
