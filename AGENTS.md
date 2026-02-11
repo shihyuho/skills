@@ -293,12 +293,6 @@ When adding new skills:
 5. **Update root `README.md` skills list**
 6. Validate with `skills-ref validate ./skills/new-skill-name`
 
-When adding new OpenCode plugins:
-
-1. Create plugin file: `.opencode/plugins/your-plugin.js`
-2. Update `.opencode/INSTALL.md` with installation steps
-3. **Update root `README.md` OpenCode Plugins list**
-
 ## License
 
 MIT
