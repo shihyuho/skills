@@ -62,7 +62,11 @@ Wait for user confirmation. Never auto-execute.
 Check if `docs/notes/` exists. If NOT:
 
 1. Create directories: `docs/notes/contexts/` and `docs/notes/mocs/`
-2. Create `docs/notes/00-INDEX.md` from `references/INDEX_TEMPLATE.md`
+2. Create `docs/notes/00-INDEX.md` by **EXACTLY COPYING** `references/INDEX_TEMPLATE.md`
+   - **CRITICAL**: Include ALL sections from template (Stats, Recent Updates, Topics, Key Decisions, Open Questions, Recent Lessons)
+   - Replace `[Project Name]` with actual project name
+   - Initialize Stats with zeros
+   - Leave other sections with placeholder content
 3. Create `docs/notes/contexts/INDEX.md` from `references/CONTEXTS_INDEX_TEMPLATE.md`
 4. **Add Lessons Learned section to AGENTS.md or CLAUDE.md**:
    - Check which file exists (priority: AGENTS.md > CLAUDE.md)
@@ -118,9 +122,23 @@ Suggested: contexts/2026-02-10-1430-payment-gateway.md
 
 **Check for `obsidian-markdown` skill**: If available, use it for enhanced Obsidian compatibility (wikilinks, frontmatter, heading anchors). If not installed, AI can write files directly but should suggest installing the skill for better Obsidian integration.
 
-Create at `docs/notes/contexts/<filename>.md` using `references/CONTEXT_TEMPLATE.md`.
+**CRITICAL**: Create at `docs/notes/contexts/<filename>.md` by **EXACTLY FOLLOWING** `references/CONTEXT_TEMPLATE.md`.
 
-**Frontmatter**:
+**DO NOT deviate from template structure**. Use the template as-is and fill in placeholders.
+
+**MANDATORY Pre-Write Checklist**:
+
+Before writing the file, verify:
+- [ ] YAML frontmatter is present with ALL required fields
+- [ ] `context_id` field is populated (enables smart merge)
+- [ ] File starts with YAML frontmatter (---), NOT plain markdown headers
+- [ ] Summary section exists (MANDATORY)
+- [ ] "What We Worked On" section exists (MANDATORY)
+- [ ] Optional sections (Decisions, Unsolved, Lessons, Notes) are OMITTED if empty
+- [ ] Lessons Learned uses `{#anchor-slug}` format if present
+- [ ] All wikilinks use `[[page]]` or `[[page#anchor]]` format
+
+**Frontmatter (REQUIRED - Copy from template)**:
 ```yaml
 ---
 type: context
@@ -134,13 +152,33 @@ project: project-name                # Optional: from git repo
 ---
 ```
 
-**Content sections** (see template): Summary, What We Worked On, Decisions Made, Still Unsolved, Lessons Learned, Notes (optional).
+**Content sections** (see template):
+- **Summary** (MANDATORY) - 1-2 sentences
+- **What We Worked On** (MANDATORY) - Bullet list
+- **Decisions Made** (Optional - omit if none) - Use `{#anchor-slug}`
+- **Still Unsolved** (Optional - omit if none) - Use `{#anchor-slug}`
+- **Lessons Learned** (Optional - omit if none) - Use structured format with `{#anchor-slug}`
+- **Notes** (Optional - omit if none) - Code snippets ≤15 lines
 
 Follow **Content Quality Principles** below.
 
 #### 3.4 Update Indexes
 
-**`docs/notes/00-INDEX.md`**: Add to "Recent Updates" (top 5), update key decisions, open questions, lessons, stats.
+**`docs/notes/00-INDEX.md`**: **MUST update ALL sections**:
+- Add to "Recent Updates" (keep top 5 most recent)
+- Add to "Key Decisions" if context has decisions
+- Add to "Open Questions" if context has unsolved items
+- Add to "Recent Lessons" if context has lessons
+- Update Stats (increment counts)
+- Keep "Topics (MOCs)" section (update when MOCs are created)
+
+**MANDATORY Pre-Update Checklist for 00-INDEX.md**:
+- [ ] "Recent Updates" section exists and is updated
+- [ ] "Topics (MOCs)" section exists
+- [ ] "Key Decisions" section exists (add if context has decisions)
+- [ ] "Open Questions" section exists (add if context has unsolved)
+- [ ] "Recent Lessons" section exists (add if context has lessons)
+- [ ] "Stats" section shows correct counts
 
 **`docs/notes/contexts/INDEX.md`**: Add to chronological list and "By Topic" grouping.
 
