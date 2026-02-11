@@ -67,7 +67,10 @@ Check if `docs/notes/` exists. If NOT:
    - Replace `[Project Name]` with actual project name
    - Initialize Stats with zeros
    - Leave other sections with placeholder content
-3. Create `docs/notes/contexts/INDEX.md` from `references/CONTEXTS_INDEX_TEMPLATE.md`
+3. **Check for obsidian-bases skill**: If `obsidian-bases` skill is installed, create `docs/notes/contexts.base` from `references/CONTEXTS_BASE_TEMPLATE.base`
+   - This creates a dynamic table view of all contexts
+   - Extracts date/time from filename for easy sorting
+   - Assumes Obsidian vault root is `docs/notes/`, so paths are relative to vault root
 4. **Add Lessons Learned section to AGENTS.md or CLAUDE.md**:
    - Check which file exists (priority: AGENTS.md > CLAUDE.md)
    - If found, check if `## Lessons Learned` section already exists
@@ -85,11 +88,19 @@ Check if `docs/notes/` exists. If NOT:
 
 ### Step 2: Detect Context
 
-Get current context ID from AI platform (conversation ID, thread ID, or generate via `timestamp + hash`).
+**Generate context_id using this logic**:
 
-Search existing files:
+1. Search environment variables for any containing "SESSION", "CONVERSATION", or "THREAD" + "ID" (case-insensitive)
+   - Match patterns like: `*SESSION*ID*`, `*CONVERSATION*ID*`, `*THREAD*ID*`
+   - Take the first match found
+2. If no match found, use current timestamp in format `YYYYMMDDHHmmss`
+   - Example: `20260211151030` for 2026-02-11 15:10:30
+   - Minute precision allows natural merging within same minute
+
+**Search for existing context** with same context_id:
 ```bash
-grep -r "context_id: \"<current_context_id>\"" docs/notes/contexts/
+# Check if file exists matching pattern
+docs/notes/contexts/<context_id>-*.md
 ```
 
 - **Found** → Step 4 (Smart Merge)
@@ -109,12 +120,18 @@ Extract:
 
 #### 3.2 Generate Filename
 
-Format: `YYYY-MM-DD-HHMM-topic-slug.md` (2-4 word kebab-case slug).
+Format: `<context_id>-<topic-slug>.md` where:
+- `context_id`: From Step 2 (session ID or timestamp)
+- `topic-slug`: 2-4 word kebab-case summary
+
+**Examples**:
+- Session ID: `claude_session_abc123-payment-gateway.md`
+- Timestamp: `20260211151030-ghostty-fix.md`
 
 Confirm with user:
 ```
 Found: [N] decisions, [N] unsolved, [N] lessons
-Suggested: contexts/2026-02-10-1430-payment-gateway.md
+Suggested: contexts/20260211151030-ghostty-fix.md
 1. Use this  2. Change slug  3. Cancel
 ```
 
@@ -180,8 +197,6 @@ Follow **Content Quality Principles** below.
 - [ ] "Recent Lessons" section exists (add if context has lessons)
 - [ ] "Stats" section shows correct counts
 
-**`docs/notes/contexts/INDEX.md`**: Add to chronological list and "By Topic" grouping.
-
 #### 3.5 Create/Update Lessons-Learned MOC (If Error-Related Lessons Exist)
 
 **If this context contains error-related lessons** (failures, retries, gotchas >15 min):
@@ -221,8 +236,9 @@ If confirmed: create MOC from `references/MOC_TEMPLATE.md`, add to `00-INDEX.md`
 
 ```
 ✓ Created: contexts/YYYY-MM-DD-HHMM-topic.md
-✓ Updated: 00-INDEX.md, contexts/INDEX.md
+✓ Updated: 00-INDEX.md
 ✓ Created: mocs/topic.md (if applicable)
+✓ Created: contexts.base (if obsidian-bases installed)
 ```
 
 ---
@@ -331,6 +347,6 @@ npx skills add <obsidian-markdown-repo>
 - [CONTEXT_TEMPLATE.md](references/CONTEXT_TEMPLATE.md)
 - [MOC_TEMPLATE.md](references/MOC_TEMPLATE.md)
 - [INDEX_TEMPLATE.md](references/INDEX_TEMPLATE.md)
-- [CONTEXTS_INDEX_TEMPLATE.md](references/CONTEXTS_INDEX_TEMPLATE.md)
 - [LESSONS_LEARNED_MOC_TEMPLATE.md](references/LESSONS_LEARNED_MOC_TEMPLATE.md)
+- [CONTEXTS_BASE_TEMPLATE.base](references/CONTEXTS_BASE_TEMPLATE.base)
 - [AGENTS_LESSONS_SECTION.md](references/AGENTS_LESSONS_SECTION.md)
