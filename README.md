@@ -4,7 +4,7 @@ Shihyu's curated collection of agent skills.
 
 ## Available Skills
 
-- **[harvest](skills/harvest/)** - Maintain context-based second brain. Capture decisions, problems, lessons across conversations. Includes automatic lesson review to prevent repeated mistakes.
+- **[harvest](skills/harvest/)** - Capture high-signal decisions, unsolved questions, and lessons into a searchable second brain in `docs/notes/` with smart context merge.
 - **[agent-install-guide](skills/agent-install-guide/)** - Write installation guides that AI agents can reliably execute.
 - **[fanfuaji](skills/fanfuaji/)** - Chinese terminology conversion (Traditional ↔ Simplified) using [Fanhuaji](https://zhconvert.org/) API.
 
