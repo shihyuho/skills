@@ -78,7 +78,7 @@ AI: ✓ Created mocs/payment-gateway.md
 
 ## Features
 
-**Obsidian-compatible**: Wikilinks, frontmatter, tags, graph view—works with vanilla Obsidian or any Markdown editor.
+**Obsidian-compatible**: Wikilinks, frontmatter, tags, graph view—works with vanilla [Obsidian](https://obsidian.md/) or any Markdown editor.
 
 **Cross-project**: `project` field in frontmatter lets you track decisions across multiple codebases.
 
