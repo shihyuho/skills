@@ -1,0 +1,24 @@
+# MOCs Base Template
+#
+# This Base file displays all MOC files in a table view.
+# Created by the harvest skill when obsidian-bases is installed.
+#
+# Why `.base` extension:
+# - This file is consumed by the Obsidian Bases plugin.
+# - Keep the `.base` filename so the plugin can detect and render it.
+#
+# Usage assumptions:
+# - Obsidian vault root is `notes/`
+# - MOC files are under `notes/mocs/`
+# - MOC files use `.md` extension
+
+filters:
+  and:
+    - file.inFolder("notes/mocs")
+    - 'file.ext == "md"'
+
+views:
+  - type: table
+    name: "All MOCs"
+    order:
+      - file.name

@@ -8,13 +8,13 @@
 # - Keep the `.base` filename so the plugin can detect and render it.
 #
 # Usage assumptions:
-# - Obsidian vault root is `docs/notes/`
-# - Context files are under `docs/notes/contexts/`
+# - Obsidian vault root is `notes/`
+# - Context files are under `notes/contexts/`
 # - Context frontmatter includes `created` and `tags`
 
 filters:
   and:
-    - file.inFolder("contexts")
+    - file.inFolder("notes/contexts")
     - 'file.ext == "md"'
 
 views:
