@@ -18,6 +18,11 @@ Required:
   - Stable item identifiers for Decisions/Questions/Lessons (`D-*`, `Q-*`, `LL-*`)
   - Item headings use `{#anchor-slug}`
 
+Formatting policy:
+  - Default to lists for narrative content (better readability when text is long)
+  - Use tables only for short, comparable fields (for example `ID | Question | Next`)
+  - Keep section-level MOC links once; avoid repeating the same `Related` link per item
+
 TERMINOLOGY MAPPING (canonical -> alias in index/moc files):
   - Decisions Made -> Key Decisions
   - Still Unsolved -> Open Questions
@@ -43,21 +48,15 @@ TERMINOLOGY MAPPING (canonical -> alias in index/moc files):
 
 ### D-001: [Decision Title] {#d-001-decision-slug}
 
-**Decision**: [What was decided]
-
-**Rationale**: [Why this decision was made]
-
-**Alternatives**: [What was rejected and why]
-
-**Impact**: [Expected impact or follow-up]
-
-**Related**: [[mocs/topic]], [[contexts/YYYY-MM-DD-HHMM-context]]
+- **Decision**: [What was decided]
+- **Why**: [Why this decision was made]
+- **Impact**: [Expected impact or follow-up]
+- **Alternatives**: [Rejected option and reason] (optional, only when trade-off is important)
 
 ### D-002: [Another Decision] {#d-002-another-decision-slug}
 
-**Decision**: [What was decided]
-
-**Rationale**: [Why this decision was made]
+- **Decision**: [What was decided]
+- **Why**: [Why this decision was made]
 
 ---
 
@@ -65,37 +64,30 @@ TERMINOLOGY MAPPING (canonical -> alias in index/moc files):
 
 ### Q-001: [Question Title] {#q-001-question-slug}
 
-**Description**: [What remains unresolved]
+- **Question**: [What remains unresolved]
+- **Options**: [A vs B] (optional)
+- **Next**: [Action needed]
+- **Owner/Target**: [Owner and date/target] (optional; include only when meaningful)
 
-**Options**: [A vs B]
+**Optional compact table (use only when cells stay short):**
 
-**Next**: [Action needed]
-
-**Deadline**: [YYYY-MM-DD or TBD]
-
-**Carry-Over**: [yes/no]  # Use yes when inherited from previous sessions
-
-**Related**: [[mocs/topic]]
+| ID | Question | Next |
+|---|---|---|
+| Q-001 | [Short question] | [Short next action] |
 
 ---
 
 ## Lessons Learned (Optional)
 
+**Related MOC**: [[mocs/lessons-learned]]
+
 ### LL-001: [Lesson Title] {#ll-001-lesson-slug}
 
-**What Happened**: [Description of the issue or discovery]
-
-**Root Cause**: [Why it happened] (if applicable)
-
-**Solution**: [How it was solved or what pattern to follow]
-
-**Guardrail**: [Check/process/test to prevent recurrence]
-
-**Apply When**: [Situations where this lesson is relevant]
-- [Situation 1: specific technology or operation]
-- [Situation 2: specific error pattern]
-
-**Related**: [[mocs/lessons-learned]], [[mocs/topic]]
+- **Issue**: [Description of the issue or discovery]
+- **Root Cause**: [Why it happened]
+- **Fix**: [How it was solved or what pattern to follow]
+- **Guardrail**: [Check/process/test to prevent recurrence] (optional)
+- **Apply When**: [Situations where this lesson is relevant] (optional)
 
 ---
 
@@ -115,7 +107,7 @@ TERMINOLOGY MAPPING (canonical -> alias in index/moc files):
 
 ## Notes (Optional)
 
-[Code snippets, links, or observations that don't fit above]
+[Code snippets, links, or observations that don't fit above. Do not include harvest command menus, confirmation prompts, or created/updated/skipped bookkeeping text.]
 
 ```language
 [Code example if applicable, ≤15 lines]

@@ -4,7 +4,7 @@ description: "Use when users ask to capture conversation decisions, problems, an
 license: MIT
 metadata:
   author: shihyuho
-  version: "1.3.0"
+  version: "1.4.0"
 ---
 
 # Harvest
@@ -40,6 +40,7 @@ Wait for user confirmation. Never auto-execute.
 - Keep MOCs as index files: link to context anchors, do not duplicate full lesson content.
 - Omit optional empty sections. Do not write empty headers or "None" placeholders.
 - Keep behavior logic in this file; keep structure/manifest data in `references/`.
+- Use list-first formatting for context content. Use tables only for short, fixed-width, easy-to-scan fields.
 
 ## Quick Start
 
@@ -66,8 +67,10 @@ Wait for user confirmation. Never auto-execute.
 ### Phase 2: Detect + Route
 
 1. Build `context_id`:
-   - First env var that matches `*SESSION*ID*`, `*CONVERSATION*ID*`, or `*THREAD*ID*` (case-insensitive).
-   - Fallback timestamp `YYYYMMDDHHmmss`.
+   - Prefer helper script `scripts/context_id.py` (Python stdlib only, no third-party packages).
+   - Usage example: `python3 scripts/context_id.py --format json` (or `python` when `python3` is unavailable).
+   - Stateless policy (no state file): env keys (`OPENCODE_*_ID`/`*_ID`) -> optional `--infer-latest-session` -> generated `ctx-YYYYMMDDHHMMSS-<hex6>`.
+   - If script is unavailable or fails, use inline fallback: first env var matching `*SESSION*ID*`/`*CONVERSATION*ID*`/`*THREAD*ID*`; otherwise generate `ctx-YYYYMMDDHHMMSS-<hex6>`.
 2. Look for `docs/notes/contexts/<context_id>-*.md`.
 
 | Condition | Action |
@@ -81,8 +84,10 @@ Wait for user confirmation. Never auto-execute.
 
 1. Extract high-signal items: work, decisions (with rationale), unsolved, lessons, optional source notes.
    - Use stable item IDs for merge safety: `D-*`, `Q-*`, `LL-*`.
+   - Keep technical signal high: merge routine process/SOP chatter into one short note instead of many standalone decisions.
    - If planning files (`task_plan.md`, `findings.md`, `progress.md`) are present, capture medium-density snapshots (`conclusion + evidence + source note`) into context content.
    - Do not copy full planning files. Do not create Obsidian wikilinks to files outside `docs/notes/`.
+   - Exclude harvest-process artifacts from captured knowledge (command menus, filename suggestion prompts, merge/update status lines, and other capture bookkeeping).
 2. Generate filename `<context_id>-<topic-slug>.md` and confirm:
 
 ```
@@ -136,8 +141,13 @@ Changes: [added/updated/moved items]
 - One idea per bullet; include rationale for decisions.
 - Keep content relevant for future reuse (3+ months horizon).
 - Skip raw transcripts, dead ends without insight, and obvious process noise.
+- Exclude harvest operational chatter: confirmation menus, `created/updated/skipped` summaries, and "how harvest processed this" narration unless it records a reusable lesson.
 - Use stable IDs (`D-*`, `Q-*`, `LL-*`) with anchored headings for merge-safe entries.
-- For lessons, include: what happened, root cause, solution, guardrail, apply-when.
+- Prefer list-first sections for long text. Use tables only when each cell stays short (for example `ID | Question | Next`).
+- Avoid duplicate restatement: decision headings should carry title intent; item body should add why/impact.
+- For lessons, default to compact triad (`Issue`, `Root Cause`, `Fix`); add `Guardrail`/`Apply When` only when they provide non-obvious value.
+- Avoid repeating `Related` links on every item; prefer one section-level related MOC link.
+- Omit low-signal metadata (`Deadline`, `Carry-Over`) unless it materially changes follow-up decisions.
 - For carry-over items from prior sessions, label clearly and avoid presenting them as new outcomes.
 - For planning-derived content, store medium-density snapshots (`conclusion + evidence + source note`) in context files; avoid external-file wikilinks outside `docs/notes/`.
 
@@ -147,9 +157,9 @@ Recommended section limits:
 |---|---|---|
 | Summary | Required | 1-2 sentences |
 | What We Worked On | Required | 5-7 bullets |
-| Decisions | Optional | up to 5-7 items |
+| Decisions | Optional | up to 5 items |
 | Still Unsolved | Optional | up to 3-5 items |
-| Lessons Learned | Optional | up to 3-5 items |
+| Lessons Learned | Optional | up to 3 items |
 | Source Notes | Optional | up to 3-5 items |
 | Notes | Optional | short snippets only |
 
@@ -182,3 +192,4 @@ Use these files as references (single source for structure and formats).
 - [mocs-base-template.base](references/mocs-base-template.base)
 - [agents-lessons-section.md](references/agents-lessons-section.md)
 - [initialization-manifest.md](references/initialization-manifest.md)
+- [context_id.py](scripts/context_id.py)
