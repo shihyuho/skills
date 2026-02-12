@@ -51,12 +51,15 @@ AI: ✓ Created: contexts/<context_id>-payment-gateway.md
     ✓ Updated: 00-INDEX.md
 ```
 
-## Behavior Guarantees
+## Second Brain
 
-- **Smart merge by context**: repeated harvest in one context updates the same file via `context_id`.
-- **Index discipline**: updates recent changes, decisions, questions, lessons, and stats.
-- **Link-only lessons MOC**: `mocs/lessons-learned.md` stores links to anchors, not duplicated lesson bodies.
-- **High-signal output**: concise notes intended to stay useful months later.
+Harvest turns important conversation outcomes into reusable project memory in `docs/notes/`.
+It keeps decisions, open questions, and lessons connected so future sessions can resume with less repeated work.
+
+## Lessons Learned
+
+Harvest keeps lessons easy to revisit through `mocs/lessons-learned.md`.
+It links back to the original context entries, so teams can apply past fixes and avoid repeating the same mistakes.
 
 ## Recommended Companion Workflow (Optional)
 

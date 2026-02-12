@@ -7,6 +7,7 @@ Shihyu's curated collection of agent skills.
 - **[harvest](skills/harvest/)** - Capture high-signal decisions, unsolved questions, and lessons into a searchable second brain in `docs/notes/` with smart context merge.
 - **[agent-install-guide](skills/agent-install-guide/)** - Write installation guides that AI agents can reliably execute.
 - **[fanfuaji](skills/fanfuaji/)** - Chinese terminology conversion (Traditional ↔ Simplified) using [Fanhuaji](https://zhconvert.org/) API.
+- **[skill-design](skills/skill-design/)** - Design or refactor agent skills with strict, portable and high-signal documentation structure.
 
 ## Installation
 
