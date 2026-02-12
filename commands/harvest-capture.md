@@ -5,7 +5,7 @@ description: "Capture the current conversation into Harvest second brain with sm
 Invoke the `harvest` skill and follow it exactly.
 
 Run the full capture flow for the current conversation:
-- detect `context_id` (prefer `skills/harvest/scripts/context_id.py`; stateless order: env -> optional `--infer-latest-session` -> generated `ctx-*`; no third-party package dependency)
+- detect `context_id` (prefer `skills/harvest/scripts/context_id.py`; default is env -> generated `ctx-*`; add `--infer-latest-session` only when user explicitly requests latest-session inference; no third-party package dependency)
 - create or smart-merge context note
 - update `docs/notes/00-INDEX.md`
 - update lesson/topic MOCs when relevant

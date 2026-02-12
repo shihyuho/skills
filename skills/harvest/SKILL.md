@@ -68,8 +68,9 @@ Wait for user confirmation. Never auto-execute.
 
 1. Build `context_id`:
    - Prefer helper script `scripts/context_id.py` (Python stdlib only, no third-party packages).
-   - Usage example: `python3 scripts/context_id.py --format json` (or `python` when `python3` is unavailable).
+   - Default call: `python3 scripts/context_id.py --format json` (or `python` when `python3` is unavailable).
    - Stateless policy (no state file): env keys (`OPENCODE_*_ID`/`*_ID`) -> optional `--infer-latest-session` -> generated `ctx-YYYYMMDDHHMMSS-<hex6>`.
+   - Do not pass `--infer-latest-session` by default. Use it only when the user explicitly requests latest-session inference.
    - If script is unavailable or fails, use inline fallback: first env var matching `*SESSION*ID*`/`*CONVERSATION*ID*`/`*THREAD*ID*`; otherwise generate `ctx-YYYYMMDDHHMMSS-<hex6>`.
 2. Look for `docs/notes/contexts/<context_id>-*.md`.
 
