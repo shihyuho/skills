@@ -4,7 +4,7 @@ description: "Use when users ask to capture conversation decisions, problems, an
 license: MIT
 metadata:
   author: shihyuho
-  version: "1.4.0"
+  version: "1.5.0"
 ---
 
 # Harvest
@@ -59,6 +59,7 @@ Wait for user confirmation. Never auto-execute.
    - Use [references/initialization-manifest.md](references/initialization-manifest.md) as the single source for initialization inventory.
    - Follow idempotent behavior: create missing files/directories, preserve existing files unless explicit update is requested.
    - Check `AGENTS.md` then `CLAUDE.md`; if both exist or neither exists, ask user which file to append, then append section from [references/agents-lessons-section.md](references/agents-lessons-section.md).
+   - Do not own or maintain `.base` template syntax in this skill. If `obsidian-bases` is available, delegate default base-file creation to `obsidian-bases` using [references/bases-generation-spec.md](references/bases-generation-spec.md).
 2. Mandatory lesson review for this harvest run:
    - Read `docs/notes/00-INDEX.md` when available.
    - Scan `docs/notes/mocs/lessons-learned.md` when available.
@@ -175,6 +176,13 @@ For optimal Obsidian compatibility, consider installing obsidian-markdown skill:
 npx skills add <obsidian-markdown-repo>
 ```
 
+**Optional companion**: `obsidian-bases` for `.base` file generation.
+
+- Harvest does not own `.base` syntax templates.
+- When `obsidian-bases` is available, delegate generation of default base files to that skill.
+- Keep desired base content in [references/bases-generation-spec.md](references/bases-generation-spec.md), not `.base` syntax templates.
+- If `obsidian-bases` is unavailable, skip `.base` creation and continue markdown-only harvest flow.
+
 **Optional companion**: `planning-with-files` for stronger in-progress capture.
 
 - Harvest remains fully functional without it.
@@ -189,8 +197,7 @@ Use these files as references (single source for structure and formats).
 - [moc-template.md](references/moc-template.md)
 - [index-template.md](references/index-template.md)
 - [lessons-learned-moc-template.md](references/lessons-learned-moc-template.md)
-- [contexts-base-template.base](references/contexts-base-template.base)
-- [mocs-base-template.base](references/mocs-base-template.base)
+- [bases-generation-spec.md](references/bases-generation-spec.md)
 - [agents-lessons-section.md](references/agents-lessons-section.md)
 - [initialization-manifest.md](references/initialization-manifest.md)
 - [context_id.py](scripts/context_id.py)

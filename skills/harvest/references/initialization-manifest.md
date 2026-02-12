@@ -23,10 +23,10 @@ Use this file as the single source for initialization file/path inventory.
 
 Create only when matching capability is available.
 
-| Condition | Target | Source Template |
+| Condition | Target | Provisioning Method |
 |---|---|---|
-| `obsidian-bases` available | `docs/notes/contexts/contexts.base` | [contexts-base-template.base](contexts-base-template.base) |
-| `obsidian-bases` available | `docs/notes/mocs/mocs.base` | [mocs-base-template.base](mocs-base-template.base) |
+| `obsidian-bases` available | `docs/notes/contexts/contexts.base` | Delegate creation to `obsidian-bases` skill using [bases-generation-spec.md](bases-generation-spec.md) |
+| `obsidian-bases` available | `docs/notes/mocs/mocs.base` | Delegate creation to `obsidian-bases` skill using [bases-generation-spec.md](bases-generation-spec.md) |
 
 ## Optional Content Injection
 
@@ -38,6 +38,6 @@ Create only when matching capability is available.
 
 - Required directories exist under `docs/notes/`.
 - `docs/notes/00-INDEX.md` exists and follows index template structure.
-- Optional `.base` files exist only when `obsidian-bases` is available.
+- Optional `.base` files are created automatically via `obsidian-bases` delegation when available.
 - Lessons section injection target is explicitly chosen when ambiguous.
 - Initialization is idempotent: existing files are preserved unless explicit update is requested.

@@ -62,6 +62,7 @@ AI: ✓ Created: contexts/<context_id>-payment-gateway.md
 - **Snapshot persistence**: when planning files are used as sources, Harvest stores concise snapshots in context notes (not full copies).
 - **High-signal output**: concise notes intended to stay useful months later.
 - **List-first readability**: context content defaults to lists; tables are used only for short, comparable fields.
+- **No `.base` syntax ownership**: when `obsidian-bases` is available, base-file generation is delegated automatically.
 
 ## Lesson Review Scope
 
@@ -105,8 +106,7 @@ npx skills add shihyuho/skills --skill harvest
 - [references/index-template.md](references/index-template.md) - index schema
 - [references/moc-template.md](references/moc-template.md) - topic MOC schema
 - [references/lessons-learned-moc-template.md](references/lessons-learned-moc-template.md) - lessons MOC schema
-- [references/contexts-base-template.base](references/contexts-base-template.base) - Obsidian Bases view template
-- [references/mocs-base-template.base](references/mocs-base-template.base) - Obsidian Bases MOCs view template
+- [references/bases-generation-spec.md](references/bases-generation-spec.md) - semantic contract for default Bases output
 - [references/agents-lessons-section.md](references/agents-lessons-section.md) - optional pre-task lessons hook
 - [references/initialization-manifest.md](references/initialization-manifest.md) - initialization inventory (paths/files/checklist)
 - [scripts/context_id.py](scripts/context_id.py) - context ID resolver (Python stdlib only)
