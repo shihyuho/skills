@@ -140,5 +140,5 @@ esac
 
 ## Reference
 
-See `references/INSTALL_TEMPLATE.md` for structural concepts.
-See `references/README_INTEGRATION_TEMPLATE.md` for adding install links to README.
+See `references/install-template.md` for structural concepts.
+See `references/readme-integration-template.md` for adding install links to README.

@@ -9,7 +9,10 @@ Run the full capture flow for the current conversation:
 - create or smart-merge context note
 - update `docs/notes/00-INDEX.md`
 - update lesson/topic MOCs when relevant
+- enforce merge-stable entries (`D-*`, `Q-*`, `LL-*`) with preserved anchors
+- when planning files are used as sources, store medium-density snapshots (`conclusion + evidence + source note`) instead of full copies
+- avoid wikilinks to files outside `docs/notes/` vault scope
 
 Follow confirmation rules from the skill before writing files.
 
-Finish with a compact result summary listing created or updated files.
+Finish with a compact result summary listing created, updated, and skipped files.

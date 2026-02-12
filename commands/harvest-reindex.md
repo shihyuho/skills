@@ -7,7 +7,7 @@ Recompute and repair Harvest index metadata from existing notes.
 ## Steps
 
 1. Read `docs/notes/00-INDEX.md`, `docs/notes/contexts/`, and `docs/notes/mocs/`.
-2. Recalculate index sections using `references/INDEX_TEMPLATE.md` structure:
+2. Recalculate index sections using `references/index-template.md` structure:
    - Stats
    - Recent Updates (top 5)
    - Topics (MOCs)

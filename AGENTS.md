@@ -136,7 +136,7 @@ Each skill should have a README.md for human readers. The goal is to **attract u
 
 Files in `references/` directory:
 
-- Use descriptive ALL_CAPS names for templates (e.g., `LESSON_TEMPLATE.md`)
+- Use descriptive `lowercase-dash` names (e.g., `lesson-template.md`)
 - Include usage guidelines within the template itself
 - Keep templates concise with placeholder text in `[brackets]`
 - Add guidelines section at bottom of template
@@ -149,8 +149,7 @@ Files in `references/` directory:
 - **SKILL.md**: Always uppercase `SKILL.md`
 - **README.md**: Always uppercase `README.md`
 - **Command files**: `{skill-name}-{command-name}.md` (e.g., `harvest-init.md`)
-- **Templates**: `UPPERCASE_WITH_UNDERSCORES.md`
-- **Other references**: `kebab-case.md`
+- **References and templates**: `lowercase-dash.md` (or `lowercase-dash.base` when required by plugin format)
 
 ### Generated Files (in User Projects)
 

@@ -55,15 +55,26 @@ AI: ✓ Created: contexts/<context_id>-payment-gateway.md
 
 - **Never auto-executes**: write operations happen only after explicit confirmation.
 - **Smart merge by context**: repeated harvest in one context updates the same file via `context_id`.
+- **Merge-stable entries**: Decisions/Questions/Lessons use stable IDs for safer repeated updates.
 - **Stable fallback**: when no session/thread ID exists, `context_id` falls back to `YYYYMMDDHHmmss`.
 - **Index discipline**: updates recent changes, decisions, questions, lessons, and stats.
 - **Link-only lessons MOC**: `mocs/lessons-learned.md` stores links to anchors, not duplicated lesson bodies.
+- **Snapshot persistence**: when planning files are used as sources, Harvest stores concise snapshots in context notes (not full copies).
 - **High-signal output**: concise notes intended to stay useful months later.
 
 ## Lesson Review Scope
 
 - During Harvest runs, AI reviews existing lessons (when available) before writing/merging context notes.
 - If you opt into the AGENTS/CLAUDE lessons hook, this review can also run before future tasks.
+
+## Recommended Companion Workflow (Optional)
+
+**Recommended**: pair Harvest with `planning-with-files` for complex, multi-step work.
+
+- `planning-with-files` captures in-progress research and execution details.
+- Harvest captures durable outcomes (decisions, unsolved items, lessons) into `docs/notes/`.
+- Harvest still works fully without `planning-with-files`.
+- If planning files are outside your Obsidian vault (for example, vault rooted at `docs/notes`), Harvest should store provenance as plain text notes instead of external wikilinks.
 
 ## When to Use
 
@@ -89,13 +100,14 @@ npx skills add shihyuho/skills --skill harvest
 ## Related Files
 
 - [SKILL.md](SKILL.md) - AI execution workflow
-- [references/CONTEXT_TEMPLATE.md](references/CONTEXT_TEMPLATE.md) - context schema
-- [references/INDEX_TEMPLATE.md](references/INDEX_TEMPLATE.md) - index schema
-- [references/MOC_TEMPLATE.md](references/MOC_TEMPLATE.md) - topic MOC schema
-- [references/LESSONS_LEARNED_MOC_TEMPLATE.md](references/LESSONS_LEARNED_MOC_TEMPLATE.md) - lessons MOC schema
-- [references/CONTEXTS_BASE_TEMPLATE.base](references/CONTEXTS_BASE_TEMPLATE.base) - Obsidian Bases view template
-- [references/MOCS_BASE_TEMPLATE.base](references/MOCS_BASE_TEMPLATE.base) - Obsidian Bases MOCs view template
-- [references/AGENTS_LESSONS_SECTION.md](references/AGENTS_LESSONS_SECTION.md) - optional pre-task lessons hook
+- [references/context-template.md](references/context-template.md) - context schema
+- [references/index-template.md](references/index-template.md) - index schema
+- [references/moc-template.md](references/moc-template.md) - topic MOC schema
+- [references/lessons-learned-moc-template.md](references/lessons-learned-moc-template.md) - lessons MOC schema
+- [references/contexts-base-template.base](references/contexts-base-template.base) - Obsidian Bases view template
+- [references/mocs-base-template.base](references/mocs-base-template.base) - Obsidian Bases MOCs view template
+- [references/agents-lessons-section.md](references/agents-lessons-section.md) - optional pre-task lessons hook
+- [references/initialization-manifest.md](references/initialization-manifest.md) - initialization inventory (paths/files/checklist)
 
 ## License
 

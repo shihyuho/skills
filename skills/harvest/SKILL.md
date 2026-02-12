@@ -4,7 +4,7 @@ description: "Use when users ask to capture conversation decisions, problems, an
 license: MIT
 metadata:
   author: shihyuho
-  version: "1.2.0"
+  version: "1.3.0"
 ---
 
 # Harvest
@@ -39,6 +39,7 @@ Wait for user confirmation. Never auto-execute.
 - Keep `context_id` in frontmatter for smart merge.
 - Keep MOCs as index files: link to context anchors, do not duplicate full lesson content.
 - Omit optional empty sections. Do not write empty headers or "None" placeholders.
+- Keep behavior logic in this file; keep structure/manifest data in `references/`.
 
 ## Quick Start
 
@@ -54,10 +55,9 @@ Wait for user confirmation. Never auto-execute.
 ### Phase 1: Prepare
 
 1. Initialize second brain storage when `docs/notes/` is missing:
-   - Create `docs/notes/contexts/` and `docs/notes/mocs/`.
-   - Create `docs/notes/00-INDEX.md` from [references/INDEX_TEMPLATE.md](references/INDEX_TEMPLATE.md).
-   - Create `docs/notes/contexts/contexts.base` and `docs/notes/mocs/mocs.base` from [references/CONTEXTS_BASE_TEMPLATE.base](references/CONTEXTS_BASE_TEMPLATE.base) and [references/MOCS_BASE_TEMPLATE.base](references/MOCS_BASE_TEMPLATE.base) when `obsidian-bases` is available.
-   - Check `AGENTS.md` then `CLAUDE.md`; if both exist or neither exists, ask user which file to append, then append section from [references/AGENTS_LESSONS_SECTION.md](references/AGENTS_LESSONS_SECTION.md).
+   - Use [references/initialization-manifest.md](references/initialization-manifest.md) as the single source for initialization inventory.
+   - Follow idempotent behavior: create missing files/directories, preserve existing files unless explicit update is requested.
+   - Check `AGENTS.md` then `CLAUDE.md`; if both exist or neither exists, ask user which file to append, then append section from [references/agents-lessons-section.md](references/agents-lessons-section.md).
 2. Mandatory lesson review for this harvest run:
    - Read `docs/notes/00-INDEX.md` when available.
    - Scan `docs/notes/mocs/lessons-learned.md` when available.
@@ -79,7 +79,10 @@ Wait for user confirmation. Never auto-execute.
 
 ### Phase 3: New Context
 
-1. Extract high-signal items: work, decisions (with rationale), unsolved, lessons.
+1. Extract high-signal items: work, decisions (with rationale), unsolved, lessons, optional source notes.
+   - Use stable item IDs for merge safety: `D-*`, `Q-*`, `LL-*`.
+   - If planning files (`task_plan.md`, `findings.md`, `progress.md`) are present, capture medium-density snapshots (`conclusion + evidence + source note`) into context content.
+   - Do not copy full planning files. Do not create Obsidian wikilinks to files outside `docs/notes/`.
 2. Generate filename `<context_id>-<topic-slug>.md` and confirm:
 
 ```
@@ -88,13 +91,13 @@ Suggested: contexts/<context_id>-<topic-slug>.md
 1. Use this  2. Change slug  3. Cancel
 ```
 
-3. Create `docs/notes/contexts/<filename>.md` from [references/CONTEXT_TEMPLATE.md](references/CONTEXT_TEMPLATE.md).
+3. Create `docs/notes/contexts/<filename>.md` from [references/context-template.md](references/context-template.md).
 4. Use `obsidian-markdown` when available for wikilinks/frontmatter/anchors.
-5. Update `docs/notes/00-INDEX.md` according to [references/INDEX_TEMPLATE.md](references/INDEX_TEMPLATE.md):
+5. Update `docs/notes/00-INDEX.md` according to [references/index-template.md](references/index-template.md):
    - Recent Updates (top 5), Topics, Key Decisions, Open Questions, Recent Lessons, Stats.
 6. Manage MOCs:
-   - Lessons MOC: for error-related lessons (>15 min impact), ensure `docs/notes/mocs/lessons-learned.md` exists via [references/LESSONS_LEARNED_MOC_TEMPLATE.md](references/LESSONS_LEARNED_MOC_TEMPLATE.md), then append links only.
-   - Topic MOC: when a topic appears in 3+ contexts without MOC, ask user first; create from [references/MOC_TEMPLATE.md](references/MOC_TEMPLATE.md) after confirmation.
+   - Lessons MOC: for error-related lessons (>15 min impact), ensure `docs/notes/mocs/lessons-learned.md` exists via [references/lessons-learned-moc-template.md](references/lessons-learned-moc-template.md), then append links only.
+   - Topic MOC: when a topic appears in 3+ contexts without MOC, ask user first; create from [references/moc-template.md](references/moc-template.md) after confirmation.
 7. Confirm:
 
 ```
@@ -111,10 +114,11 @@ Suggested: contexts/<context_id>-<topic-slug>.md
 
 | Section | Existing Topic | New Item |
 |---|---|---|
-| Decisions Made | Update existing entry, note update time | Append |
-| Still Unsolved | Move resolved items to Decisions | Append |
-| Lessons Learned | Merge same lesson and preserve anchor | Append |
+| Decisions Made | Match by `D-*` first, update entry and preserve anchor | Append |
+| Still Unsolved | Match by `Q-*`; move resolved items to Decisions with trace | Append |
+| Lessons Learned | Match by `LL-*` first; merge same lesson and preserve anchor | Append |
 | What We Worked On | Keep existing | Append |
+| Source Notes | Merge by source note signature if duplicated | Append |
 
 3. Update frontmatter (`updated`, tags), keep `created` unchanged.
 4. Update `00-INDEX.md` stats and recent updates.
@@ -132,7 +136,10 @@ Changes: [added/updated/moved items]
 - One idea per bullet; include rationale for decisions.
 - Keep content relevant for future reuse (3+ months horizon).
 - Skip raw transcripts, dead ends without insight, and obvious process noise.
-- For lessons, use anchored headings and include: what happened, root cause, solution, apply-when.
+- Use stable IDs (`D-*`, `Q-*`, `LL-*`) with anchored headings for merge-safe entries.
+- For lessons, include: what happened, root cause, solution, guardrail, apply-when.
+- For carry-over items from prior sessions, label clearly and avoid presenting them as new outcomes.
+- For planning-derived content, store medium-density snapshots (`conclusion + evidence + source note`) in context files; avoid external-file wikilinks outside `docs/notes/`.
 
 Recommended section limits:
 
@@ -143,6 +150,7 @@ Recommended section limits:
 | Decisions | Optional | up to 5-7 items |
 | Still Unsolved | Optional | up to 3-5 items |
 | Lessons Learned | Optional | up to 3-5 items |
+| Source Notes | Optional | up to 3-5 items |
 | Notes | Optional | short snippets only |
 
 ---
@@ -156,14 +164,21 @@ For optimal Obsidian compatibility, consider installing obsidian-markdown skill:
 npx skills add <obsidian-markdown-repo>
 ```
 
+**Optional companion**: `planning-with-files` for stronger in-progress capture.
+
+- Harvest remains fully functional without it.
+- When available, Harvest may consume planning outputs (`task_plan.md`, `findings.md`, `progress.md`) as snapshot sources, then persist reusable knowledge into `docs/notes/contexts/`.
+- Prefer provenance text over external links when planning files are outside Obsidian vault scope.
+
 ## See Also
 
 Use these files as references (single source for structure and formats).
 
-- [CONTEXT_TEMPLATE.md](references/CONTEXT_TEMPLATE.md)
-- [MOC_TEMPLATE.md](references/MOC_TEMPLATE.md)
-- [INDEX_TEMPLATE.md](references/INDEX_TEMPLATE.md)
-- [LESSONS_LEARNED_MOC_TEMPLATE.md](references/LESSONS_LEARNED_MOC_TEMPLATE.md)
-- [CONTEXTS_BASE_TEMPLATE.base](references/CONTEXTS_BASE_TEMPLATE.base)
-- [MOCS_BASE_TEMPLATE.base](references/MOCS_BASE_TEMPLATE.base)
-- [AGENTS_LESSONS_SECTION.md](references/AGENTS_LESSONS_SECTION.md)
+- [context-template.md](references/context-template.md)
+- [moc-template.md](references/moc-template.md)
+- [index-template.md](references/index-template.md)
+- [lessons-learned-moc-template.md](references/lessons-learned-moc-template.md)
+- [contexts-base-template.base](references/contexts-base-template.base)
+- [mocs-base-template.base](references/mocs-base-template.base)
+- [agents-lessons-section.md](references/agents-lessons-section.md)
+- [initialization-manifest.md](references/initialization-manifest.md)

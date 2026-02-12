@@ -1,4 +1,4 @@
-# INSTALL_TEMPLATE.md
+# install-template.md
 
 This is a **conceptual guide**, not a fill-in-the-blank template. Adapt the structure based on what the tool actually needs.
 

@@ -65,8 +65,8 @@ This skill teaches AI agents to internalize these concepts:
 ## Related Files
 
 - [SKILL.md](./SKILL.md) - Instructions for AI agents
-- [references/INSTALL_TEMPLATE.md](./references/INSTALL_TEMPLATE.md) - Structural concepts
-- [references/README_INTEGRATION_TEMPLATE.md](./references/README_INTEGRATION_TEMPLATE.md) - Adding AI-friendly notices to README
+- [references/install-template.md](./references/install-template.md) - Structural concepts
+- [references/readme-integration-template.md](./references/readme-integration-template.md) - Adding AI-friendly notices to README
 
 ## License
 
