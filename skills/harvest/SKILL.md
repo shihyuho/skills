@@ -11,6 +11,8 @@ metadata:
 
 Capture high-signal conversation knowledge into `docs/notes/` for reuse across sessions.
 
+> **Terminology**: `harvest` is the skill name (the action of capturing knowledge). The second brain it builds belongs to the project — name it `[Project Name] Second Brain`, not "Harvest".
+
 ## When to Trigger
 
 **Explicit request**:
@@ -178,15 +180,15 @@ npx skills add <obsidian-markdown-repo>
 
 **Optional companion**: `obsidian-bases` for `.base` file generation.
 
-- Harvest does not own `.base` syntax templates.
+- This skill does not own `.base` syntax templates.
 - When `obsidian-bases` is available, delegate generation of default base files to that skill.
 - Keep desired base content in [references/bases-generation-spec.md](references/bases-generation-spec.md), not `.base` syntax templates.
 - If `obsidian-bases` is unavailable, skip `.base` creation and continue markdown-only harvest flow.
 
 **Optional companion**: `planning-with-files` for stronger in-progress capture.
 
-- Harvest remains fully functional without it.
-- When available, Harvest may consume planning outputs (`task_plan.md`, `findings.md`, `progress.md`) as snapshot sources, then persist reusable knowledge into `docs/notes/contexts/`.
+- This skill remains fully functional without it.
+- When available, this skill may consume planning outputs (`task_plan.md`, `findings.md`, `progress.md`) as snapshot sources, then persist reusable knowledge into `docs/notes/contexts/`.
 - Prefer provenance text over external links when planning files are outside Obsidian vault scope.
 
 ## See Also

@@ -1,4 +1,4 @@
-# Harvest Initialization Manifest
+# Initialization Manifest
 
 <!--
 ⚠️ Manifest only.
@@ -25,8 +25,8 @@ Create only when matching capability is available.
 
 | Condition | Target | Provisioning Method |
 |---|---|---|
-| `obsidian-bases` available | `docs/notes/contexts/contexts.base` | Delegate creation to `obsidian-bases` skill using [bases-generation-spec.md](bases-generation-spec.md) |
-| `obsidian-bases` available | `docs/notes/mocs/mocs.base` | Delegate creation to `obsidian-bases` skill using [bases-generation-spec.md](bases-generation-spec.md) |
+| `obsidian-bases` available | `docs/notes/bases/contexts.base` | Delegate creation to `obsidian-bases` skill using [bases-generation-spec.md](bases-generation-spec.md) |
+| `obsidian-bases` available | `docs/notes/bases/mocs.base` | Delegate creation to `obsidian-bases` skill using [bases-generation-spec.md](bases-generation-spec.md) |
 
 ## Optional Content Injection
 
