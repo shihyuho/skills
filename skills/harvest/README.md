@@ -94,6 +94,7 @@ npx skills add shihyuho/skills --skill harvest
 - [references/MOC_TEMPLATE.md](references/MOC_TEMPLATE.md) - topic MOC schema
 - [references/LESSONS_LEARNED_MOC_TEMPLATE.md](references/LESSONS_LEARNED_MOC_TEMPLATE.md) - lessons MOC schema
 - [references/CONTEXTS_BASE_TEMPLATE.base](references/CONTEXTS_BASE_TEMPLATE.base) - Obsidian Bases view template
+- [references/MOCS_BASE_TEMPLATE.base](references/MOCS_BASE_TEMPLATE.base) - Obsidian Bases MOCs view template
 - [references/AGENTS_LESSONS_SECTION.md](references/AGENTS_LESSONS_SECTION.md) - optional pre-task lessons hook
 
 ## License

@@ -56,8 +56,8 @@ Wait for user confirmation. Never auto-execute.
 1. Initialize second brain storage when `docs/notes/` is missing:
    - Create `docs/notes/contexts/` and `docs/notes/mocs/`.
    - Create `docs/notes/00-INDEX.md` from [references/INDEX_TEMPLATE.md](references/INDEX_TEMPLATE.md).
-   - Create `docs/notes/contexts.base` from [references/CONTEXTS_BASE_TEMPLATE.base](references/CONTEXTS_BASE_TEMPLATE.base) when `obsidian-bases` is available.
-   - Check `AGENTS.md` then `CLAUDE.md`; ask user before appending section from [references/AGENTS_LESSONS_SECTION.md](references/AGENTS_LESSONS_SECTION.md).
+   - Create `docs/notes/contexts/contexts.base` and `docs/notes/mocs/mocs.base` from [references/CONTEXTS_BASE_TEMPLATE.base](references/CONTEXTS_BASE_TEMPLATE.base) and [references/MOCS_BASE_TEMPLATE.base](references/MOCS_BASE_TEMPLATE.base) when `obsidian-bases` is available.
+   - Check `AGENTS.md` then `CLAUDE.md`; if both exist or neither exists, ask user which file to append, then append section from [references/AGENTS_LESSONS_SECTION.md](references/AGENTS_LESSONS_SECTION.md).
 2. Mandatory lesson review for this harvest run:
    - Read `docs/notes/00-INDEX.md` when available.
    - Scan `docs/notes/mocs/lessons-learned.md` when available.
@@ -165,4 +165,5 @@ Use these files as references (single source for structure and formats).
 - [INDEX_TEMPLATE.md](references/INDEX_TEMPLATE.md)
 - [LESSONS_LEARNED_MOC_TEMPLATE.md](references/LESSONS_LEARNED_MOC_TEMPLATE.md)
 - [CONTEXTS_BASE_TEMPLATE.base](references/CONTEXTS_BASE_TEMPLATE.base)
+- [MOCS_BASE_TEMPLATE.base](references/MOCS_BASE_TEMPLATE.base)
 - [AGENTS_LESSONS_SECTION.md](references/AGENTS_LESSONS_SECTION.md)
