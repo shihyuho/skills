@@ -1,22 +1,15 @@
 ---
 name: skill-design
-description: Use when creating, refactoring, or reviewing an Agent Skill and you need strict, portable design rules.
+description: Design and refactor Agent Skills with concise, high-signal instructions and explicit trigger metadata. Use when creating a new skill, revising SKILL.md/README.md structure, or improving skill discoverability and portability.
 license: MIT
 metadata:
   author: shihyuho
-  version: "1.3.0"
+  version: "1.4.0"
 ---
 
 # Skill Design
 
-These are instructions for designing skills as reusable behavior systems.
-
-## Core Rule
-
-- MUST design for reliable agent behavior, not document aesthetics.
-- MUST make trigger conditions explicit and searchable.
-- MUST keep instructions executable and verifiable.
-- NEVER rely on implicit project context.
+Design skills as reusable behavior systems that are easy to discover and execute.
 
 ## Trigger Contract
 
@@ -36,21 +29,29 @@ Typical trigger phrases:
 - "make this skill reusable"
 - "align README and SKILL behavior"
 
-## CRITICAL: Writing Mode
+## Core Principles
 
-- MUST write in imperative voice.
-- MUST use `MUST`/`NEVER` for non-negotiables.
-- MUST keep sections short and high-signal.
-- MUST prefer concrete constraints over abstract advice.
-- NEVER use weak modal language for hard rules (`should`, `could`, `may`, `consider`, `usually`).
-- NEVER pad with narrative text that does not change execution.
+- Optimize for reliable agent behavior, not document aesthetics.
+- Make trigger conditions explicit and searchable.
+- Keep instructions executable and verifiable.
+- Avoid implicit project context unless explicitly required.
 
-## Information Architecture
+## Writing Style Rules
 
-- MUST keep `SKILL.md` as execution logic and decision constraints.
-- MUST keep `references/` as the single source of heavy schemas/templates.
-- MAY add `scripts/` only for repeatable deterministic operations.
-- MUST keep file structure minimal and purpose-driven.
+- Use imperative voice.
+- Keep sections short and high-signal.
+- Prefer concrete constraints over abstract advice.
+- Use `MUST`/`NEVER` for true invariants (safety, correctness, irreversible failure).
+- For normal guidance, use direct action verbs and clear defaults.
+- Avoid weak modal wording for hard rules (`should`, `could`, `may`, `consider`, `usually`).
+- Remove narrative text that does not change execution.
+
+## Metadata and Discovery
+
+- Write frontmatter `description` in third person.
+- Include both what the skill does and when to use it.
+- Keep trigger terms concrete (`file type`, `task type`, `user phrasing`).
+- Do not put workflow details in `description`; keep those in the body.
 
 ## Workflow
 
@@ -63,21 +64,23 @@ Typical trigger phrases:
 ### Phase 2 - Structure Content
 
 1. Write trigger and constraints first.
-2. Move bulky detail to `references/`.
-3. Keep one source of truth for each schema.
+2. Keep `SKILL.md` as execution logic and decision constraints.
+3. Move bulky detail to `references/` and keep one source of truth per schema.
+4. Add `scripts/` only for repeatable deterministic operations.
 
 ### Phase 3 - Author/Refactor SKILL
 
 1. Tighten description and trigger wording.
-2. Convert soft guidance to executable rules.
-3. Add explicit anti-generic constraints.
+2. Convert soft guidance into explicit, executable instructions.
+3. Provide one default path first; add alternatives only when necessary.
 4. Remove duplicate or contradictory instructions.
 
 ### Phase 4 - Align README (Human-Facing)
 
 1. Keep README value-first: problem -> value -> example -> activation.
-2. Keep implementation internals out of README.
-3. Keep claims behavior-accurate.
+2. Treat `README.md` as style charter for future AI output quality.
+3. Keep implementation internals out of README.
+4. Keep claims behavior-accurate.
 
 ### Phase 5 - Validate
 
@@ -85,12 +88,19 @@ Typical trigger phrases:
 2. If no validator exists, run manual consistency checks.
 3. Confirm no repository-specific assumptions remain unless explicitly intended.
 
+## Progressive Disclosure Rules
+
+- Keep `SKILL.md` body compact (target under 500 lines).
+- Put advanced or domain-specific detail in `references/`.
+- Link reference files directly from `SKILL.md` (avoid deep nested references).
+- For long reference files (100+ lines), add a short table of contents.
+
 ## README Rules
 
 - In this skill, `README.md` means the skill-level README (for example `skills/<skill-name>/README.md`), not the repository root README.
 - `README.md` is not required by Agent Skills Specification.
 - `README.md` is recommended for faster human understanding and adoption.
-- MUST keep README focused on outcomes, not internal mechanics.
+- Keep README focused on outcomes, style expectations, and activation cues.
 
 ## Anti-Patterns
 
@@ -99,16 +109,20 @@ Typical trigger phrases:
 - Workflow summary inside frontmatter `description`.
 - Duplicated schema definitions across files.
 - Long narrative prose with no executable instruction.
+- Repeating `MUST`/`NEVER` for non-critical guidance.
+- Offering too many equivalent options without a default recommendation.
 
 ## Done Checklist
 
-- `SKILL.md` has explicit trigger contract and hard constraints.
-- `README.md` is concise and value-focused.
+- `SKILL.md` has explicit trigger contract and executable workflow.
+- Frontmatter `description` clearly states what + when.
+- `README.md` defines style expectations for future contributions.
 - `references/` contains heavy details only when needed.
-- No stale terms or contradictory rules.
+- No stale terms, duplicated schema ownership, or contradictory rules.
 - Validation evidence is recorded (tool-based or manual).
-- Example validation command: `npx --yes skills-ref validate <skill-name>`.
+- Example validation command: `npx --yes skills-ref validate ./skills/<skill-name>`.
 
 ## See Also
 
 - [Agent Skills Specification](https://agentskills.io/specification)
+- [Claude Skill Authoring Best Practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices)

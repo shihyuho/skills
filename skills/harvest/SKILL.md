@@ -13,17 +13,17 @@ Create and maintain a project second brain without replacing source-of-truth pla
 
 ## Core Contract
 
-- MUST soft-integrate external skills by invocation, never by copying their instruction bodies.
-- MUST treat `task_plan.md`, `findings.md`, and `progress.md` as the only source of truth.
-- MUST write second-brain outputs into `docs/notes` using Obsidian-compatible Markdown.
-- NEVER let `docs/notes` overwrite or redefine source-of-truth files.
+- Soft-integrate external skills by invocation; do not copy their instruction bodies.
+- Treat `task_plan.md`, `findings.md`, and `progress.md` as the only source of truth.
+- Write second-brain outputs into `docs/notes` using Obsidian-compatible Markdown.
+- Do not let `docs/notes` overwrite or redefine source-of-truth files.
 
 ## Required Skill Composition
 
 1. Invoke `planning-with-files` first for primary planning workflow.
 2. Invoke `obsidian-markdown` when writing or updating second-brain Markdown.
 
-## Trigger Contract
+## When to Use
 
 Use this skill when users ask to:
 
@@ -60,10 +60,10 @@ Required minimal files:
 
 Bootstrap rules:
 
-- MUST create missing directories first.
-- MUST create missing files from `references/bootstrap` templates.
-- MUST NOT overwrite existing user files during bootstrap.
-- MUST continue normal publish behavior after bootstrap.
+- Create missing directories first.
+- Create missing files from `references/bootstrap` templates.
+- Do not overwrite existing user files during bootstrap.
+- Continue normal publish behavior after bootstrap.
 
 ## Publishing Strategy
 
@@ -85,6 +85,13 @@ When source-of-truth files change significantly, append a timeline event with:
 - `source_ref`
 
 If a same-day timeline file exists, append a new block instead of creating a new file.
+
+## Execution Contract (Required)
+
+- Treat trigger methods as entrypoints only (`harvest`, `/harvest`, `/harvest-capture`, plugin-driven calls).
+- MUST route all entrypoints through the same capture contract.
+- Produce equivalent output for equivalent source input regardless of trigger method.
+- Do not implement separate dedupe behavior per trigger entrypoint.
 
 ## Source Extraction Boundaries (Required)
 
@@ -112,19 +119,19 @@ Support explicit exclusion markers inside source-of-truth files:
 - `<!-- harvest:exclude:start -->`
 - `<!-- harvest:exclude:end -->`
 
-Content inside this block MUST be ignored by harvest publishing.
+Ignore content inside this block during harvest publishing.
 
 ## Anti-Recursion Guard
 
-- NEVER summarize notes under `docs/notes` back into new notes.
-- MUST use source-of-truth files as input only (`task_plan.md`, `findings.md`, `progress.md`).
-- MUST skip entries that only describe harvest's own publishing activity.
+- Do not summarize notes under `docs/notes` back into new notes.
+- Use source-of-truth files as input only (`task_plan.md`, `findings.md`, `progress.md`).
+- Skip entries that only describe harvest's own publishing activity.
 
 ## Note Rules
 
-- MUST keep notes concise and reusable.
-- MUST include traceability metadata in formal notes.
-- MUST summarize; do not paste large verbatim source-of-truth sections.
+- Keep notes concise and reusable.
+- Include traceability metadata in formal notes.
+- Summarize; do not paste large verbatim source-of-truth sections.
 
 Read templates before writing:
 

@@ -88,7 +88,38 @@ This repository also provides command wrappers:
 - `commands/harvest-capture.md`
 - `commands/harvest-audit.md`
 
-Use these for quick operational entrypoints.
+Use these for quick operational entrypoints and manual control.
+
+## Plugins
+
+`harvest` also supports an optional OpenCode plugin for automatic capture.
+
+Recommended setup:
+
+1. Run one manual `harvest` (or `/harvest-start`) first to initialize `docs/notes`.
+2. Enable plugin auto-capture for daily usage.
+
+- Plugin file: `.opencode/plugins/harvest.js`
+- Install guide: `../../.opencode/INSTALL.md`
+- Trigger source: SOT changes in `task_plan.md`, `findings.md`, `progress.md`
+- Convergence: run again on `session.idle` when pending
+
+Simple flow:
+
+```mermaid
+flowchart TD
+  A[Manual run once] --> B[Bootstrap docs/notes]
+  B --> C[SOT file changed]
+  C --> D[OpenCode plugin event]
+  D --> E[Prompt: invoke harvest:harvest]
+  E --> F[Append capture snapshot]
+  F --> G[Done]
+```
+
+Notes:
+
+- Plugin is optional. You can run `harvest` manually without it.
+- With plugin enabled, repeated SOT updates are captured automatically for better day-to-day flow.
 
 ## Example Workflow
 
@@ -108,6 +139,7 @@ Use these for quick operational entrypoints.
 ## Related Files
 
 - [SKILL.md](SKILL.md) - agent execution contract
+- [../../.opencode/INSTALL.md](../../.opencode/INSTALL.md) - OpenCode auto-capture plugin install guide
 - [references/bootstrap/index.md](references/bootstrap/index.md) - default second-brain index template
 - [references/bootstrap/projects/_template/timeline-template.md](references/bootstrap/projects/_template/timeline-template.md)
 - [references/bootstrap/decisions/decision-template.md](references/bootstrap/decisions/decision-template.md)
