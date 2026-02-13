@@ -148,7 +148,7 @@ Files in `references/` directory:
 - **Skill directories**: `kebab-case` (e.g., `lessons-learned`)
 - **SKILL.md**: Always uppercase `SKILL.md`
 - **README.md**: Always uppercase `README.md`
-- **Command files**: `{skill-name}-{command-name}.md` (e.g., `harvest-init.md`)
+- **Command files**: `{skill-name}-{command-name}.md`
 - **References and templates**: `lowercase-dash.md` (or `lowercase-dash.base` when required by plugin format)
 
 ### Generated Files (in User Projects)

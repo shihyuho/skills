@@ -1,103 +1,117 @@
-# Harvest
+# Harvest - Project Memory for AI + Humans
 
-Capture important conversation outcomes before they disappear.
+Turn ongoing work into a durable project second brain.
 
-## Why It Exists
+`harvest` helps AI agents keep planning files as source-of-truth while continuously publishing reusable knowledge into `docs/notes`.
 
-Technical chats produce high-value output: decisions, trade-offs, lessons, and open questions. Without a capture step, that context is hard to find later and easy to repeat incorrectly.
+## Why This Skill Exists
 
-This skill turns those moments into reusable project memory.
+Most project context is lost after long sessions:
 
-## What It Creates
+- Decisions are buried in chat history
+- Useful fixes are mixed with execution noise
+- Future contributors cannot reconstruct why changes happened
 
-This skill writes structured notes in `docs/notes/`:
+`harvest` solves this by capturing only reusable, traceable knowledge.
 
-```text
-docs/notes/
-├── 00-INDEX.md
-├── contexts/
-└── mocs/
-    ├── lessons-learned.md      # created/updated when relevant
-    └── <topic>.md              # suggested after 3+ related contexts
-```
+## What AI Does for You
 
-Each context file is named:
+When this skill triggers, the agent will:
 
-`<context_id>-<topic-slug>.md`
+1. Keep `task_plan.md`, `findings.md`, and `progress.md` as source-of-truth
+2. Auto-bootstrap a minimal `docs/notes` structure if missing
+3. Publish milestone and snapshot notes in Obsidian-compatible Markdown
+4. Enforce traceability (`source_files`, `source_date`, `source_ref`)
+5. Avoid recursive or noisy summaries
 
-## Quick Flow
+## Trigger Phrases
 
-1. You trigger harvest (`/harvest` or natural language like "harvest this").
-2. AI summarizes decisions, unsolved items, and lessons.
-3. AI proposes a filename and asks for confirmation:
-   - `1. Use this`
-   - `2. Change slug`
-   - `3. Cancel`
-4. AI creates or smart-merges context notes.
-5. AI updates `00-INDEX.md` and related MOCs when needed.
+Use phrases like:
 
-## Example
+- `harvest`
+- `/harvest`
+- `harvest this`
+- `harvest this conversation`
+- `save this to second brain`
+- `save what we just did`
+- `document this work`
+- `capture this knowledge`
 
-```text
-You: /harvest
+## Output Model
 
-AI: Found 2 decisions, 1 unsolved, 1 lesson
-    Suggested: contexts/<context_id>-payment-gateway.md
-    1. Use this  2. Change slug  3. Cancel
+Source-of-truth input:
 
-You: 1
+- `task_plan.md`
+- `findings.md`
+- `progress.md`
 
-AI: ✓ Created: contexts/<context_id>-payment-gateway.md
-    ✓ Updated: 00-INDEX.md
-```
+Second-brain output:
 
-## Second Brain
+- `docs/notes/index.md`
+- `docs/notes/projects.md`
+- `docs/notes/decisions.md`
+- `docs/notes/knowledge.md`
+- timeline, decision, and knowledge notes under `docs/notes/...`
 
-Harvest turns important conversation outcomes into reusable project memory in `docs/notes/`.
-It keeps decisions, open questions, and lessons connected so future sessions can resume with less repeated work.
+## First-Run Behavior
 
-## Lessons Learned
+On first run (or when files are missing), the skill creates a minimal structure from its internal bootstrap templates:
 
-Harvest keeps lessons easy to revisit through `mocs/lessons-learned.md`.
-It links back to the original context entries, so teams can apply past fixes and avoid repeating the same mistakes.
+- hub notes (`index`, `projects`, `decisions`, `knowledge`)
+- timeline template
+- decision template
+- knowledge template
 
-## Recommended Companion Workflow (Optional)
+Existing user files are never overwritten during bootstrap.
 
-**Recommended**: pair harvest with `planning-with-files` for complex, multi-step work.
+## Safety Rules
 
-- `planning-with-files` captures in-progress execution details in `task_plan.md`, `findings.md`, and `progress.md`.
-- Harvest extracts higher-signal snapshots (`conclusion + evidence + source note`) instead of copying raw planning logs.
-- Together, they improve extraction precision for decisions, open questions, and lessons.
-- Harvest still works well without `planning-with-files`.
+`harvest` intentionally excludes:
 
-## When to Use
+- tool chatter and operation traces
+- scaffolding placeholders
+- unresolved draft fragments without conclusions
+- recursive summaries of `docs/notes` itself
 
-- after a key decision
-- after resolving a complex problem
-- before ending a productive session
-- when you think "we should remember this"
+It also supports explicit exclusion markers inside source-of-truth files:
 
-AI may also suggest harvest at natural breakpoints. You stay in control.
+- `<!-- harvest:exclude:start -->`
+- `<!-- harvest:exclude:end -->`
 
-## When Not to Use
+## Commands
 
-- trivial chat with no reusable decisions or lessons
-- purely mechanical edits with no meaningful context
-- conversations you intentionally do not want persisted
+This repository also provides command wrappers:
 
-## Install
+- `commands/harvest.md`
+- `commands/harvest-start.md`
+- `commands/harvest-status.md`
+- `commands/harvest-capture.md`
+- `commands/harvest-audit.md`
 
-```bash
-npx skills add shihyuho/skills --skill harvest
-```
+Use these for quick operational entrypoints.
+
+## Example Workflow
+
+1. Work normally with planning files
+2. Run `harvest this` at a meaningful checkpoint
+3. Agent appends a timeline snapshot with `when/change/why/source_ref`
+4. At milestones, agent promotes stable insights into decisions/knowledge notes
+
+## How to Start
+
+1. Install this skill from this repository
+2. In any project, ask your agent:
+   - `harvest`
+   - or `save this to second brain`
+3. Review generated notes under `docs/notes`
 
 ## Related Files
 
-- [SKILL.md](SKILL.md) - AI execution workflow
-- [references/context-template.md](references/context-template.md) - context schema
-- [references/index-template.md](references/index-template.md) - index schema
-- [references/moc-template.md](references/moc-template.md) - topic MOC schema
-- [references/lessons-learned-moc-template.md](references/lessons-learned-moc-template.md) - lessons MOC schema
+- [SKILL.md](SKILL.md) - agent execution contract
+- [references/bootstrap/index.md](references/bootstrap/index.md) - default second-brain index template
+- [references/bootstrap/projects/_template/timeline-template.md](references/bootstrap/projects/_template/timeline-template.md)
+- [references/bootstrap/decisions/decision-template.md](references/bootstrap/decisions/decision-template.md)
+- [references/bootstrap/knowledge/knowledge-template.md](references/bootstrap/knowledge/knowledge-template.md)
 
 ## License
 

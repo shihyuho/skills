@@ -1,35 +1,22 @@
 ---
-description: "Show Harvest second brain status at a glance (index, contexts, MOCs, and recent activity)."
+description: "Show current harvest status for source-of-truth and second-brain structure."
 ---
 
-Read and summarize Harvest state from the current project.
+Show a compact status report for:
 
-## What to Check
+1. Source-of-truth files in project root:
+   - `task_plan.md`
+   - `findings.md`
+   - `progress.md`
+2. Required second-brain files:
+   - `docs/notes/index.md`
+   - `docs/notes/projects.md`
+   - `docs/notes/decisions.md`
+   - `docs/notes/knowledge.md`
+3. Optional content counts:
+   - timeline notes under `docs/notes/projects/*/timeline/*.md`
+   - decision notes under `docs/notes/decisions/*.md` (excluding template)
+   - knowledge notes under `docs/notes/knowledge/*.md` (excluding template)
+4. Number of `unresolved_source_ref` occurrences under `docs/notes`.
 
-1. `docs/notes/00-INDEX.md` exists or not
-2. `docs/notes/contexts/` exists and rough context count
-3. `docs/notes/mocs/` exists and whether `lessons-learned.md` exists
-4. Most recent 3 updates from index (if available)
-5. Open questions count (if index section available)
-
-## Output Format
-
-```text
-Harvest Status
-
-Index: {present|missing}
-Contexts: {count or unknown}
-MOCs: {count or unknown}
-Lessons MOC: {present|missing}
-Recent updates: {up to 3 bullets}
-Open questions: {count or unknown}
-```
-
-## If Not Initialized
-
-```text
-Harvest is not initialized in this project.
-Run /harvest-init first.
-```
-
-Keep output brief and actionable.
+If required second-brain files are missing, recommend running `/harvest-start`.

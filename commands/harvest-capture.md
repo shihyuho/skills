@@ -1,14 +1,11 @@
 ---
-description: "Capture the current conversation into Harvest second brain with smart merge and index updates."
+description: "Capture current work into second-brain timeline immediately."
 ---
 
-Invoke the `harvest` skill and follow it exactly.
+Invoke the `harvest:harvest` skill and follow it exactly as presented.
 
-Execution scope for this command:
-- Run `Workflow` Phase 2 through Phase 4 from `skills/harvest/SKILL.md`.
-- Apply all `Content Quality Rules` from `skills/harvest/SKILL.md`.
-- Use templates and references exactly as defined by the skill.
+Force a key-update snapshot for current work now:
 
-Follow confirmation rules from the skill before writing files.
-
-Finish with a compact result summary listing created, updated, and skipped files.
+- append a timeline event with `when`, `change`, `why`, `source_ref`
+- use same-day append behavior when timeline file already exists
+- avoid formal decision/knowledge publication unless milestone conditions are met
