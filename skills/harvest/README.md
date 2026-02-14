@@ -108,20 +108,14 @@ Simple flow:
 
 ```mermaid
 flowchart TD
-  A[Manual run once] --> B[Initialize docs/notes]
-  B --> C[SOT changed\ntask_plan/findings/progress]
-  C --> D[Plugin auto trigger\ndebounce and idle]
-  D --> E[Prompt: invoke harvest:harvest]
-  E --> F[Skill executes capture]
-  F --> G{docs/notes ready?}
-  G -->|No| H[Bootstrap minimal notes]
-  G -->|Yes| I[Check sot_fingerprint dedupe]
-  H --> I
-  I --> J{Already captured?}
-  J -->|Yes| K[No-op]
-  J -->|No| L[Append same-day snapshot]
-  K --> M[Done]
-  L --> M
+  A[One-time setup\ndocs/notes ready] --> B[SOT changed]
+  B --> C[Plugin auto invokes\nharvest skill]
+  C --> D[Skill executes capture]
+  D --> E{Already captured?}
+  E -->|Yes| F[No-op]
+  E -->|No| G[Append same-day snapshot]
+  F --> H[Done]
+  G --> H
 ```
 
 Notes:
