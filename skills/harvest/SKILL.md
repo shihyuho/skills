@@ -46,7 +46,7 @@ Create missing folders/files when absent.
 
 ## First-Run Bootstrap (Required)
 
-If `docs/notes` is missing, or if any required minimal file is missing, bootstrap from `references/bootstrap/`.
+If `docs/notes` is missing, or if any required minimal file is missing, bootstrap from `references/`.
 
 Required minimal files:
 
@@ -54,14 +54,14 @@ Required minimal files:
 - `docs/notes/projects.md`
 - `docs/notes/decisions.md`
 - `docs/notes/knowledge.md`
-- `docs/notes/projects/_template/timeline-template.md`
+- `docs/notes/projects/timeline-template.md`
 - `docs/notes/decisions/decision-template.md`
 - `docs/notes/knowledge/knowledge-template.md`
 
 Bootstrap rules:
 
 - Create missing directories first.
-- Create missing files from `references/bootstrap` templates.
+- Create missing files from `references` templates.
 - Do not overwrite existing user files during bootstrap.
 - Continue normal publish behavior after bootstrap.
 
@@ -135,9 +135,9 @@ Ignore content inside this block during harvest publishing.
 
 Read templates before writing:
 
-- [references/bootstrap/projects/_template/timeline-template.md](references/bootstrap/projects/_template/timeline-template.md)
-- [references/bootstrap/decisions/decision-template.md](references/bootstrap/decisions/decision-template.md)
-- [references/bootstrap/knowledge/knowledge-template.md](references/bootstrap/knowledge/knowledge-template.md)
+- [references/projects/timeline-template.md](references/projects/timeline-template.md)
+- [references/decisions/decision-template.md](references/decisions/decision-template.md)
+- [references/knowledge/knowledge-template.md](references/knowledge/knowledge-template.md)
 
 ## Verification Checklist
 

@@ -142,10 +142,10 @@ Notes:
 
 - [SKILL.md](SKILL.md) - agent execution contract
 - [../../.opencode/INSTALL.md](../../.opencode/INSTALL.md) - OpenCode auto-capture plugin install guide
-- [references/bootstrap/index.md](references/bootstrap/index.md) - default second-brain index template
-- [references/bootstrap/projects/_template/timeline-template.md](references/bootstrap/projects/_template/timeline-template.md)
-- [references/bootstrap/decisions/decision-template.md](references/bootstrap/decisions/decision-template.md)
-- [references/bootstrap/knowledge/knowledge-template.md](references/bootstrap/knowledge/knowledge-template.md)
+- [references/index.md](references/index.md) - default second-brain index template
+- [references/projects/timeline-template.md](references/projects/timeline-template.md)
+- [references/decisions/decision-template.md](references/decisions/decision-template.md)
+- [references/knowledge/knowledge-template.md](references/knowledge/knowledge-template.md)
 
 ## License
 
