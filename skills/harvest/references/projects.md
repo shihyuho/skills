@@ -15,7 +15,7 @@ Track project-level timeline notes and evolving context.
 
 ## Structure
 
-- Timeline template: [[_templates/timeline-template|timeline-template]]
+- Timeline template: [[projects/.templates/timeline-template|timeline-template]]
 - Project timeline path: `projects/<project>/timeline/YYYY-MM-DD.md`
 
 ## Active Projects

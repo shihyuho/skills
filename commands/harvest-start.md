@@ -10,8 +10,8 @@ Before normal publishing, run first-run bootstrap behavior and confirm these fil
 - `docs/notes/projects.md`
 - `docs/notes/decisions.md`
 - `docs/notes/knowledge.md`
-- `docs/notes/_templates/timeline-template.md`
-- `docs/notes/_templates/decision-template.md`
-- `docs/notes/_templates/knowledge-template.md`
+- `docs/notes/projects/.templates/timeline-template.md`
+- `docs/notes/decisions/.templates/decision-template.md`
+- `docs/notes/knowledge/.templates/knowledge-template.md`
 
 After bootstrap, continue normal harvest behavior.

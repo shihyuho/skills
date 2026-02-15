@@ -15,7 +15,7 @@ Capture stable decisions and their rationale in reusable form.
 
 ## Structure
 
-- Decision template: [[_templates/decision-template|decision-template]]
+- Decision template: [[decisions/.templates/decision-template|decision-template]]
 - Decision note path: `decisions/<decision-slug>.md`
 
 ## Latest Decisions
