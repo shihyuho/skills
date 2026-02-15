@@ -4,14 +4,11 @@ description: "Initialize second-brain structure and start harvest workflow."
 
 Invoke the `harvest:harvest` skill and follow it exactly as presented.
 
-Before normal publishing, run first-run bootstrap behavior and confirm these files exist:
+Treat this command as a start entrypoint.
 
-- `docs/notes/index.md`
-- `docs/notes/projects.md`
-- `docs/notes/decisions.md`
-- `docs/notes/knowledge.md`
-- `docs/notes/projects/.templates/timeline-template.md`
-- `docs/notes/decisions/.templates/decision-template.md`
-- `docs/notes/knowledge/.templates/knowledge-template.md`
+Use `skills/harvest/SKILL.md` as the single source of truth, specifically:
 
-After bootstrap, continue normal harvest behavior.
+- `## First-Run Bootstrap (Required)`
+- `## Execution Contract (Required)`
+
+Do not redefine bootstrap file lists or rules in this command.

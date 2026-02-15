@@ -20,6 +20,14 @@ skills/
 
 This is a documentation-only repository. No build/test/lint commands are needed.
 
+### Command Design Guidelines
+
+- Treat command files as trigger entrypoints.
+- Keep behavior definitions in the owning `skills/<skill-name>/SKILL.md`.
+- Reference the SKILL section(s) for workflow details instead of duplicating rules in `commands/*.md`.
+- Do not redefine bootstrap file lists, validation checklists, or extraction criteria in command files.
+- If command-specific context is needed, keep it brief and non-authoritative.
+
 ### Validation
 
 Use the [skills-ref](https://github.com/agentskills/agentskills/tree/main/skills-ref) tool to validate skills:

@@ -2,21 +2,17 @@
 description: "Show current harvest status for source-of-truth and second-brain structure."
 ---
 
-Show a compact status report for:
+Invoke the `harvest:harvest` skill and follow it exactly as presented.
 
-1. Source-of-truth files in project root:
-   - `task_plan.md`
-   - `findings.md`
-   - `progress.md`
-2. Required second-brain files:
-   - `docs/notes/index.md`
-   - `docs/notes/projects.md`
-   - `docs/notes/decisions.md`
-   - `docs/notes/knowledge.md`
-3. Optional content counts:
-   - timeline notes under `docs/notes/projects/*/timeline/*.md`
-   - decision notes under `docs/notes/decisions/*.md` (excluding template)
-   - knowledge notes under `docs/notes/knowledge/*.md` (excluding template)
-4. Number of `unresolved_source_ref` occurrences under `docs/notes`.
+Treat this command as a status entrypoint.
 
-If required second-brain files are missing, recommend running `/harvest-start`.
+Use `skills/harvest/SKILL.md` as the single source of truth, specifically:
+
+- `## Core Contract`
+- `## Output Locations`
+- `## Verification Checklist`
+- `## Failure Handling`
+
+Return a compact status report based on those definitions.
+
+Do not redefine required file lists or status criteria in this command.
