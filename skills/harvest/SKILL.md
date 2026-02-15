@@ -54,9 +54,9 @@ Required minimal files:
 - `docs/notes/projects.md`
 - `docs/notes/decisions.md`
 - `docs/notes/knowledge.md`
-- `docs/notes/projects/timeline-template.md`
-- `docs/notes/decisions/decision-template.md`
-- `docs/notes/knowledge/knowledge-template.md`
+- `docs/notes/_templates/timeline-template.md`
+- `docs/notes/_templates/decision-template.md`
+- `docs/notes/_templates/knowledge-template.md`
 
 Bootstrap rules:
 
@@ -135,9 +135,9 @@ Ignore content inside this block during harvest publishing.
 
 Read templates before writing:
 
-- [references/projects/timeline-template.md](references/projects/timeline-template.md)
-- [references/decisions/decision-template.md](references/decisions/decision-template.md)
-- [references/knowledge/knowledge-template.md](references/knowledge/knowledge-template.md)
+- [references/_templates/timeline-template.md](references/_templates/timeline-template.md)
+- [references/_templates/decision-template.md](references/_templates/decision-template.md)
+- [references/_templates/knowledge-template.md](references/_templates/knowledge-template.md)
 
 ## Verification Checklist
 

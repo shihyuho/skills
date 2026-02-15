@@ -15,7 +15,7 @@ Store reusable insights, implementation patterns, and caveats.
 
 ## Structure
 
-- Knowledge template: [[knowledge/knowledge-template|knowledge-template]]
+- Knowledge template: [[_templates/knowledge-template|knowledge-template]]
 - Knowledge note path: `knowledge/<topic-slug>.md`
 
 ## Latest Knowledge Notes
