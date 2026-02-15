@@ -27,6 +27,10 @@ Skills are automatically available once installed. AI will use them when relevan
 
 This repository includes reusable command templates in [`commands/`](commands/).
 
+## Naming Rule
+
+- Under `skills/`, do not use `_`-prefixed subdirectories. Prefer `.`-prefixed names (for example, `.templates`).
+
 ## License
 
 MIT

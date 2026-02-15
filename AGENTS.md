@@ -146,6 +146,7 @@ Files in `references/` directory:
 ### Files and Directories
 
 - **Skill directories**: `kebab-case` (e.g., `lessons-learned`)
+- **Skill subdirectories**: Do not use `_`-prefixed directory names under `skills/`; prefer `.`-prefixed names (e.g., `.templates`).
 - **SKILL.md**: Always uppercase `SKILL.md`
 - **README.md**: Always uppercase `README.md`
 - **Command files**: `{skill-name}-{command-name}.md`
