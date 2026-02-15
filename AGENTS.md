@@ -25,7 +25,7 @@ This is a documentation-only repository. No build/test/lint commands are needed.
 Use the [skills-ref](https://github.com/agentskills/agentskills/tree/main/skills-ref) tool to validate skills:
 
 ```bash
-skills-ref validate ./skills/skill-name
+npx --yes skills-ref validate ./skills/skill-name
 ```
 
 ## Writing Style Guidelines
@@ -291,7 +291,7 @@ When adding new skills:
 3. Add `README.md` for human readers
 4. Add templates to `references/` if needed
 5. **Update root `README.md` skills list**
-6. Validate with `skills-ref validate ./skills/new-skill-name`
+6. Validate with `npx --yes skills-ref validate ./skills/new-skill-name`
 
 ## License
 
