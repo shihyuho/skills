@@ -1,148 +1,139 @@
-# Harvest - Project Memory for AI + Humans
+# Harvest - Durable Project Memory
 
-Turn ongoing work into a durable project second brain.
+Keep planning files as source-of-truth and publish reusable project knowledge into `docs/notes`.
 
-`harvest` helps AI agents keep planning files as source-of-truth while continuously publishing reusable knowledge into `docs/notes`.
+`harvest` is for teams who want AI-generated memory that stays auditable, concise, and Obsidian-friendly.
 
-## Why This Skill Exists
+## Problem It Solves
 
-Most project context is lost after long sessions:
+Long sessions lose critical context:
 
-- Decisions are buried in chat history
-- Useful fixes are mixed with execution noise
-- Future contributors cannot reconstruct why changes happened
+- final decisions are buried in chat logs
+- validated fixes are mixed with execution noise
+- future contributors cannot recover the "why"
 
-`harvest` solves this by capturing only reusable, traceable knowledge.
+`harvest` captures only reusable, traceable outcomes.
 
-## What AI Does for You
+## What You Get
 
-When this skill triggers, the agent will:
+When the skill triggers, the agent:
 
-1. Keep `task_plan.md`, `findings.md`, and `progress.md` as source-of-truth
-2. Auto-bootstrap a minimal `docs/notes` structure if missing
-3. Publish milestone and snapshot notes in Obsidian-compatible Markdown
-4. Enforce traceability (`source_files`, `source_date`, `source_ref`)
-5. Avoid recursive or noisy summaries
+1. treats `task_plan.md`, `findings.md`, and `progress.md` as source-of-truth
+2. bootstraps missing `docs/notes` files from templates without overwriting existing user files
+3. routes updates through one deterministic workflow
+4. publishes timeline snapshots, decision notes, and knowledge notes with traceability metadata
+5. applies dedupe rules (`sot_fingerprint`) and skips recursive/noisy content
 
 ## Trigger Phrases
 
-Use phrases like:
-
 - `harvest`
 - `/harvest`
+- `/harvest-capture`
 - `harvest this`
-- `harvest this conversation`
 - `save this to second brain`
 - `save what we just did`
 - `document this work`
 - `capture this knowledge`
 
-## Output Model
+## Input and Output Model
 
-Source-of-truth input:
+Source-of-truth inputs:
 
 - `task_plan.md`
 - `findings.md`
 - `progress.md`
 
-Second-brain output:
+Published outputs:
 
 - `docs/notes/index.md`
 - `docs/notes/projects.md`
 - `docs/notes/decisions.md`
 - `docs/notes/knowledge.md`
-- timeline, decision, and knowledge notes under `docs/notes/...`
+- `docs/notes/projects/<project>/timeline/YYYY-MM-DD.md`
+- `docs/notes/decisions/*.md`
+- `docs/notes/knowledge/*.md`
 
-## First-Run Behavior
+## Capture Behavior
 
-On first run (or when files are missing), the skill creates a minimal structure from its internal bootstrap templates:
+`harvest` uses one execution path across manual commands and plugin automation:
 
-- hub notes (`index`, `projects`, `decisions`, `knowledge`)
-- timeline template
-- decision template
-- knowledge template
+1. preflight and bootstrap
+2. candidate extraction from source-of-truth files
+3. classification (timeline vs decision vs knowledge)
+4. publish with dedupe
+5. verification and compact report
 
-Existing user files are never overwritten during bootstrap.
+For timeline events, the agent records:
 
-## Safety Rules
+- `when`
+- `change`
+- `why`
+- `source_ref`
+- `sot_fingerprint`
 
-`harvest` intentionally excludes:
+Same-day + same fingerprint becomes no-op.
+
+## Minimal Example
+
+Input change in `progress.md`:
+
+```markdown
+## Cache rollout
+- Updated API cache TTL from 60s to 120s to reduce miss spikes.
+```
+
+`harvest` publishes one timeline event:
+
+```markdown
+## 14:30 - Cache TTL update
+- when: 2026-02-18 14:30
+- change: Increased API cache TTL from 60s to 120s.
+- why: Reduce miss spikes under peak traffic.
+- source_ref: `progress.md#Cache rollout`
+- sot_fingerprint: `3f3f...`
+```
+
+If the same `source_ref + change + why` appears again on the same day, `harvest` performs no-op and does not append a duplicate block.
+
+## Safety Boundaries
+
+`harvest` excludes:
 
 - tool chatter and operation traces
-- scaffolding placeholders
-- unresolved draft fragments without conclusions
-- recursive summaries of `docs/notes` itself
+- placeholder scaffolding
+- unresolved fragments without actionable conclusions
+- recursive summarization of `docs/notes`
 
-It also supports explicit exclusion markers inside source-of-truth files:
+You can force exclusion inside source-of-truth files with:
 
 - `<!-- harvest:exclude:start -->`
 - `<!-- harvest:exclude:end -->`
 
 ## Commands
 
-This repository also provides command wrappers:
-
 - `commands/harvest.md`
 - `commands/harvest-start.md`
-- `commands/harvest-status.md`
 - `commands/harvest-capture.md`
+- `commands/harvest-status.md`
 - `commands/harvest-audit.md`
 
-Use these for quick operational entrypoints and manual control.
+These commands are entrypoints only. `SKILL.md` remains the single source of truth for behavior.
 
-## Plugins
+## Optional Plugin Automation
 
-`harvest` also supports an optional OpenCode plugin for automatic capture.
+You can enable auto-capture with `.opencode/plugins/harvest.js`.
 
-Recommended setup:
+Recommended sequence:
 
-1. Run one manual `harvest` (or `/harvest-start`) first to initialize `docs/notes`.
-2. Enable plugin auto-capture for daily usage.
+1. run one manual `harvest` (or `/harvest-start`) to initialize structure
+2. enable plugin auto-capture for day-to-day SOT changes
 
-- Plugin file: `.opencode/plugins/harvest.js`
-- Install guide: `../../.opencode/INSTALL.md`
-- Trigger source: SOT changes in `task_plan.md`, `findings.md`, `progress.md`
-- Convergence: run again on `session.idle` when pending
-
-Simple flow:
-
-```mermaid
-flowchart TD
-  A[One-time setup\ndocs/notes ready] --> B[SOT changed]
-  B --> C[Plugin auto invokes\nharvest skill]
-  C --> D[Skill executes capture]
-  D --> E{Already captured?}
-  E -->|Yes| F[No-op]
-  E -->|No| G[Append same-day snapshot]
-  F --> H[Done]
-  G --> H
-```
-
-Notes:
-
-- Plugin is optional. You can run `harvest` manually without it.
-- With plugin enabled, repeated SOT updates are captured automatically for better day-to-day flow.
-
-## Example Workflow
-
-1. Work normally with planning files
-2. Run `harvest this` at a meaningful checkpoint
-3. Agent appends a timeline snapshot with `when/change/why/source_ref`
-4. At milestones, agent promotes stable insights into decisions/knowledge notes
-
-## How to Start
-
-1. Install this skill from this repository
-2. In any project, ask your agent:
-   - `harvest`
-   - or `save this to second brain`
-3. Review generated notes under `docs/notes`
+Reference: `../../.opencode/INSTALL.md`
 
 ## Related Files
 
-- [SKILL.md](SKILL.md) - agent execution contract
-- [../../.opencode/INSTALL.md](../../.opencode/INSTALL.md) - OpenCode auto-capture plugin install guide
-- [references/index.md](references/index.md) - default second-brain index template
+- [SKILL.md](SKILL.md)
+- [references/index.md](references/index.md)
 - [references/projects/.templates/timeline-template.md](references/projects/.templates/timeline-template.md)
 - [references/decisions/.templates/decision-template.md](references/decisions/.templates/decision-template.md)
 - [references/knowledge/.templates/knowledge-template.md](references/knowledge/.templates/knowledge-template.md)

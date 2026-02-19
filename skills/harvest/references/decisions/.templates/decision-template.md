@@ -1,7 +1,7 @@
 ---
 title: Decision Title
 type: decision
-status: draft
+status: confirmed
 tags:
   - decision
   - project/<project-name>
@@ -10,6 +10,8 @@ source_files:
   - "../../task_plan.md"
   - "../../findings.md"
 source_date: 2026-02-13
+source_ref:
+  - "findings.md#<section-or-keyword>"
 ---
 
 # Decision: <Title>
@@ -30,3 +32,11 @@ source_date: 2026-02-13
 
 - `../../task_plan.md`
 - `../../findings.md`
+- `findings.md#<section-or-keyword>`
+
+## Draft Fallback
+
+If source pointers are incomplete:
+
+- set `status: draft`
+- add frontmatter `unresolved_source_ref: ["<missing pointer>"]`

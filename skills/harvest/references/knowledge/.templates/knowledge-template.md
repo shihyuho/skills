@@ -1,7 +1,7 @@
 ---
 title: Knowledge Title
 type: knowledge
-status: draft
+status: confirmed
 tags:
   - knowledge
   - project/<project-name>
@@ -9,6 +9,8 @@ summary: "Reusable project insight."
 source_files:
   - "../../findings.md"
 source_date: 2026-02-13
+source_ref:
+  - "findings.md#<section-or-keyword>"
 ---
 
 # Knowledge: <Title>
@@ -30,3 +32,11 @@ source_date: 2026-02-13
 
 - `../../findings.md`
 - `../../progress.md`
+- `findings.md#<section-or-keyword>`
+
+## Draft Fallback
+
+If source pointers are incomplete:
+
+- set `status: draft`
+- add frontmatter `unresolved_source_ref: ["<missing pointer>"]`
