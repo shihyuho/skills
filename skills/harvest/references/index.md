@@ -18,6 +18,7 @@ summary: "Navigation entrypoint for project memory, decisions, and reusable know
 - [[projects|Projects]]
 - [[decisions|Decisions]]
 - [[knowledge|Knowledge]]
+- [[harvest-quality|Harvest Quality]]
 
 ## Conventions
 
@@ -30,3 +31,5 @@ summary: "Navigation entrypoint for project memory, decisions, and reusable know
 - Create first timeline note in `projects/<project>/timeline/YYYY-MM-DD.md`.
 - Add first formal decision in `decisions/`.
 - Add first reusable insight in `knowledge/`.
+- Add first quality review in `harvest-quality/YYYY-MM-DD-<project-slug>-harvest-review.md`.
+- Add first optimization rollup in `harvest-quality/rollups/YYYY-MM-<project-slug>-harvest-optimization.md`.
