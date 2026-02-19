@@ -67,6 +67,7 @@ Typical trigger phrases:
 2. Keep `SKILL.md` as execution logic and decision constraints.
 3. Move bulky detail to `references/` and keep one source of truth per schema.
 4. Add `scripts/` only for repeatable deterministic operations.
+5. When composing with other skills, invoke them by name and never copy their instruction bodies.
 
 ### Phase 3 - Author/Refactor SKILL
 
@@ -106,6 +107,7 @@ Typical trigger phrases:
 
 - Hardcoded local paths as universal defaults.
 - Tool lock-in with no fallback path.
+- Copying external skill instruction bodies instead of invoking the source skill.
 - Workflow summary inside frontmatter `description`.
 - Duplicated schema definitions across files.
 - Long narrative prose with no executable instruction.

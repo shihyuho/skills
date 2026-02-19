@@ -13,7 +13,6 @@ Create and maintain a project second brain without replacing source-of-truth pla
 
 ## Core Contract
 
-- Soft-integrate external skills by invocation; never copy their instruction bodies.
 - Treat `task_plan.md`, `findings.md`, and `progress.md` as the only source of truth (SOT).
 - Write second-brain outputs into `docs/notes` using Obsidian-compatible Markdown.
 - Never let `docs/notes` overwrite or redefine source-of-truth files.
@@ -218,7 +217,6 @@ Before finalizing updates:
 
 ## Anti-Patterns
 
-- Copying external skill bodies into this skill.
 - Treating second-brain notes as execution-state files.
 - Creating parallel truth that conflicts with source-of-truth planning files.
 - Defining trigger-specific behavior that diverges from the deterministic workflow.
