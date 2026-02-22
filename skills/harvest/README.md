@@ -29,6 +29,8 @@ When the skill triggers, the agent:
 - `harvest`
 - `/harvest`
 - `/harvest-capture`
+- `/harvest-review`
+- `/harvest-optimize`
 - `harvest this`
 - `save this to second brain`
 - `save what we just did`
@@ -49,9 +51,12 @@ Published outputs:
 - `docs/notes/projects.md`
 - `docs/notes/decisions.md`
 - `docs/notes/knowledge.md`
+- `docs/notes/harvest-quality.md`
 - `docs/notes/projects/<project>/timeline/YYYY-MM-DD.md`
 - `docs/notes/decisions/*.md`
 - `docs/notes/knowledge/*.md`
+- `docs/notes/harvest-quality/YYYY-MM-DD-<project-slug>-harvest-review.md`
+- `docs/notes/harvest-quality/rollups/YYYY-MM-<project-slug>-harvest-optimization.md`
 
 ## Capture Behavior
 
@@ -62,6 +67,12 @@ Published outputs:
 3. classification (timeline vs decision vs knowledge)
 4. publish with dedupe
 5. verification and compact report
+
+For `review` mode, `harvest` writes one reusable quality report file so teams can aggregate cross-repo quality trends.
+
+For `optimize` mode, `harvest` aggregates multiple review reports into one monthly optimization roadmap.
+
+`optimize` mode can use default local review reports and optional additional report directories provided by the user.
 
 For timeline events, the agent records:
 
@@ -116,6 +127,8 @@ You can force exclusion inside source-of-truth files with:
 - `commands/harvest-capture.md`
 - `commands/harvest-status.md`
 - `commands/harvest-audit.md`
+- `commands/harvest-review.md`
+- `commands/harvest-optimize.md`
 
 These commands are entrypoints only. `SKILL.md` remains the single source of truth for behavior.
 
@@ -138,6 +151,8 @@ Reference: `../../.opencode/INSTALL.md`
 - [references/projects/.templates/timeline-template.md](references/projects/.templates/timeline-template.md)
 - [references/decisions/.templates/decision-template.md](references/decisions/.templates/decision-template.md)
 - [references/knowledge/.templates/knowledge-template.md](references/knowledge/.templates/knowledge-template.md)
+- [references/harvest-quality/.templates/review-template.md](references/harvest-quality/.templates/review-template.md)
+- [references/harvest-quality/.templates/rollup-template.md](references/harvest-quality/.templates/rollup-template.md)
 
 ## License
 
