@@ -82,41 +82,27 @@ Run this workflow in order for every entrypoint (manual trigger phrases, slash-c
    - Confirm output root: `docs/notes`.
    - Set mode: `capture`, `status`, `audit`, `review`, or `optimize`.
    - For `optimize` mode, collect optional user-provided report directories as additional input roots.
-
 2. **Bootstrap**
    - Ensure required minimal `docs/notes` files and templates exist.
-   - Create missing files from `references/bootstrap/` without overwriting existing files.
-
+   - Apply contract in [references/publishing-and-dedupe.md](references/publishing-and-dedupe.md).
 3. **Extract Candidates**
-   - Read SOT files using allowlist/denylist boundaries.
-   - Apply exclusion markers.
-   - Produce candidate entries with traceability fields.
-
+   - Apply contracts in [references/extraction-and-classification.md](references/extraction-and-classification.md).
 4. **Classify**
-   - Route each candidate to timeline snapshot, decision note, or knowledge note using the decision table.
-   - If source pointer is unresolved, keep candidate as `draft`.
-
+   - Route each candidate using the classification decision table contract.
 5. **Publish**
-   - Append same-day timeline events.
-   - Create or update decision/knowledge notes.
-   - Apply dedupe and `sot_fingerprint` no-op rules.
-
+   - Append same-day timeline events and update decision/knowledge notes with dedupe.
 6. **Verify and Report**
    - Run verification checklist.
-   - For `status` mode: return compact state summary.
-   - For `audit` mode: return pass/fail with concrete file paths.
-   - For `review` mode: write one quality report file in `docs/notes/harvest-quality/`.
-   - For `optimize` mode: write one rollup roadmap file in `docs/notes/harvest-quality/rollups/`.
+   - For `review` and `optimize`, apply [references/quality-reports.md](references/quality-reports.md).
 
 ## Candidate Schema and Extraction Rules (Required)
 
-- Candidate fields: `source_ref`, `change`, `why`, `candidate_type`, `confidence`, `sot_fingerprint?`, `exclusion_reason?`, `unresolved_source_ref?`.
-- If source pointer is unresolved, keep candidate as `draft` with `unresolved_source_ref`.
-- Extraction thresholds:
-  - timeline: phase status change, finalized decision line, or validated fix.
-  - decision: clear conclusion plus rationale.
-  - knowledge: reusable pattern plus at least one caveat or constraint.
-- Skip criteria: tool chatter, placeholders, harvest self-logs, and format churn with no reusable value.
+Candidate fields MUST include:
+
+- `source_ref`, `change`, `why`, `candidate_type`, `confidence`
+- optional: `sot_fingerprint`, `exclusion_reason`, `unresolved_source_ref`
+
+Apply full extraction/classification contract in [references/extraction-and-classification.md](references/extraction-and-classification.md).
 
 ## Publish Confirmation Semantics (Required)
 
@@ -125,142 +111,29 @@ Run this workflow in order for every entrypoint (manual trigger phrases, slash-c
 3. Publish into target note.
 4. Mark committed after publish succeeds.
 
+Apply full publishing contract in [references/publishing-and-dedupe.md](references/publishing-and-dedupe.md).
+
 ## First-Run Bootstrap (Required)
 
 If `docs/notes` is missing, or if any required minimal file is missing, bootstrap from `references/bootstrap/`.
 
-Required minimal files:
-
-- `docs/notes/index.md`
-- `docs/notes/projects.md`
-- `docs/notes/decisions.md`
-- `docs/notes/knowledge.md`
-- `docs/notes/harvest-quality.md`
-- `docs/notes/projects/.templates/timeline-template.md`
-- `docs/notes/decisions/.templates/decision-template.md`
-- `docs/notes/knowledge/.templates/knowledge-template.md`
-- `docs/notes/harvest-quality/.templates/review-template.md`
-- `docs/notes/harvest-quality/.templates/rollup-template.md`
-
-Bootstrap rules:
-
-- Create missing directories first.
-- Create missing files from `references/bootstrap` templates.
-- Do not overwrite existing user files during bootstrap.
-- Continue normal publish behavior after bootstrap.
+Apply the required minimal files list and bootstrap rules in [references/publishing-and-dedupe.md](references/publishing-and-dedupe.md).
 
 ## Publishing Strategy
 
-### Classification Decision Table
-
-| Condition | Output | Required Fields | Default Status |
-| --- | --- | --- | --- |
-| Significant SOT update in current session/day | timeline event (`projects/<project>/timeline/YYYY-MM-DD.md`) | `when`, `change`, `why`, `source_ref`, `sot_fingerprint` | `draft` |
-| Final technical decision with clear rationale | decision note (`decisions/*.md`) | `summary`, `conclusion`, `source_files`, `source_date`, `source_ref` | `confirmed` |
-| Reusable validated pattern/fix/heuristic | knowledge note (`knowledge/*.md`) | `summary`, `insight`, `how_to_apply`, `source_files`, `source_date`, `source_ref` | `confirmed` |
-| Missing or ambiguous source pointer | keep candidate in target note but mark unresolved | `unresolved_source_ref` | `draft` |
-
-### Key-Update Snapshot (timeline)
-
-Create or append timeline events when source-of-truth files change significantly.
-
-Timeline event fields:
-
-- `when`
-- `change`
-- `why`
-- `source_ref`
-- `sot_fingerprint`
-
-If a same-day timeline file exists, append a new event block instead of creating a new file.
-
-### Milestone Publish (formal notes)
-
-Publish formal notes when one of these is true:
-
-- a phase becomes `complete`
-- a technical decision becomes final
-- an issue resolution is validated and reusable
+Apply classification, timeline, and milestone publish contracts in [references/extraction-and-classification.md](references/extraction-and-classification.md).
 
 ## Review Report Mode (Required)
 
 Use `review` mode to evaluate harvest output quality and persist one reusable report for later optimization planning.
 
-Report output contract:
-
-- Path: `docs/notes/harvest-quality/YYYY-MM-DD-<project-slug>-harvest-review.md`
-- Create `docs/notes/harvest-quality/` if missing.
-- Use `docs/notes/harvest-quality/.templates/review-template.md` when creating a new report.
-- If report for same date and project exists, append a new `## Review Iteration` section instead of overwriting.
-
-Review scope (repo-agnostic):
-
-- structure completeness (`docs/notes` required hubs/templates present)
-- traceability quality (`source_files`, `source_date`, `source_ref`, `sot_fingerprint`)
-- extraction quality (allowlist coverage, denylist leakage)
-- classification quality (timeline vs decisions vs knowledge routing)
-- dedupe behavior (`same day + same fingerprint` no-op integrity)
-
-Required report sections:
-
-- `## Snapshot`
-- `## Scorecard`
-- `## Findings`
-- `## Improvement Suggestions`
-- `## Evidence`
-
-Scoring rules:
-
-- Score each dimension from 0 to 5.
-- Provide weighted total out of 100.
-- Default weights: structure 20, traceability 25, extraction 20, classification 20, dedupe 15.
-- Keep scoring deterministic; tie every deduction to concrete evidence path.
+Apply full review contract in [references/quality-reports.md](references/quality-reports.md).
 
 ## Review Rollup Mode (Required)
 
 Use `optimize` mode to aggregate multiple review reports into one optimization roadmap.
 
-Rollup input contract:
-
-- Read reports from `docs/notes/harvest-quality/YYYY-MM-DD-<project-slug>-harvest-review.md`.
-- Include only reports with explicit scorecard values and evidence paths.
-- Default window: current calendar month (`YYYY-MM`).
-
-External input roots contract:
-
-- Default root is `docs/notes/harvest-quality/`.
-- Accept zero or more additional report directories from user input.
-- Accept absolute and relative paths.
-- Resolve relative paths from current workspace root.
-- Search each input root recursively for `*-harvest-review.md` only.
-- Exclude rollup files (`*-harvest-optimization.md`) and non-review notes.
-- Dedupe by normalized absolute file path.
-- Sort report paths lexicographically before aggregation for deterministic output.
-- If an input root is missing or unreadable, skip it and record reason in rollup report.
-
-Rollup output contract:
-
-- Path: `docs/notes/harvest-quality/rollups/YYYY-MM-<project-slug>-harvest-optimization.md`
-- Create `docs/notes/harvest-quality/rollups/` if missing.
-- Use `docs/notes/harvest-quality/.templates/rollup-template.md` when creating a new rollup file.
-- If the same month rollup exists, append a new `## Rollup Iteration` section instead of overwriting.
-
-Required rollup sections:
-
-- `## Snapshot`
-- `## Source Roots`
-- `## Aggregated Score Trends`
-- `## Repeated Gaps`
-- `## Prioritized Roadmap`
-- `## Evidence`
-
-Aggregation rules:
-
-- Report coverage: include report count, skipped report count, and skip reasons.
-- Dimension score: arithmetic mean (0-5) across included reports per dimension.
-- Total score: arithmetic mean of included report totals (0-100).
-- Prioritization: sort roadmap items by `impact desc`, then `effort asc`.
-- For empty input after filtering, still write rollup file with `status: draft` and explicit `no-report-input` reason.
+Apply full rollup contract in [references/quality-reports.md](references/quality-reports.md).
 
 ## Execution Contract (Required)
 
@@ -269,27 +142,13 @@ Aggregation rules:
 - Produce equivalent output for equivalent source input regardless of trigger method.
 - Do not implement separate dedupe behavior per trigger entrypoint.
 - Keep plugin-driven capture behavior contract-compatible with manual entrypoints.
-- Keep `review` mode repo-agnostic. Do not hardcode project-specific heuristics as universal rules.
-- Keep `optimize` mode repo-agnostic. Do not hardcode project-specific heuristics as universal rules.
+- Keep `review` and `optimize` modes repo-agnostic. Do not hardcode project-specific heuristics as universal rules.
 
 ## Source Extraction Boundaries (Required)
 
 Extract with allowlist rules from source-of-truth files. Do not summarize everything.
 
-Allowlist (preferred extraction targets):
-
-- finalized decisions
-- validated resolutions
-- completed phase outcomes
-- reusable technical findings
-- stable references that aid future execution
-
-Denylist (always exclude):
-
-- harvest operation traces, bootstrap logs, and tool chatter
-- progress noise without reusable value
-- placeholders or scaffolding text (for example `<...>`, empty bullets, TODO placeholders)
-- unresolved draft fragments with no actionable conclusion
+Apply full allowlist/denylist and thresholds in [references/extraction-and-classification.md](references/extraction-and-classification.md).
 
 ## Harvest Exclusion Markers
 
@@ -321,27 +180,15 @@ Fingerprint normalization:
 4. Join as `<source_ref>||<change>||<why>`.
 5. Compute SHA-256 hex lowercase.
 
-Example:
+Reference example:
 
-- source_ref: `progress.md#Cache rollout`
-- change: `Increased API cache TTL from 60s to 120s.`
-- why: `Reduce miss spikes under peak traffic.`
-- normalized string: `progress.md#cache rollout||increased api cache ttl from 60s to 120s.||reduce miss spikes under peak traffic.`
-- `sot_fingerprint`: `5f8b8cfa8b6fdc9f2d5e3c7f92f02c6aa4f4b2b4cb0d2d8e3f50f0f5d7d6e4a3`
+- [references/publishing-and-dedupe.md](references/publishing-and-dedupe.md)
 
 ## Note Rules
 
 - Keep notes concise and reusable.
 - Include traceability metadata in formal notes.
 - Summarize; do not paste large verbatim source-of-truth sections.
-
-Read templates before writing:
-
-- [references/bootstrap/projects/.templates/timeline-template.md](references/bootstrap/projects/.templates/timeline-template.md)
-- [references/bootstrap/decisions/.templates/decision-template.md](references/bootstrap/decisions/.templates/decision-template.md)
-- [references/bootstrap/knowledge/.templates/knowledge-template.md](references/bootstrap/knowledge/.templates/knowledge-template.md)
-- [references/bootstrap/harvest-quality/.templates/review-template.md](references/bootstrap/harvest-quality/.templates/review-template.md)
-- [references/bootstrap/harvest-quality/.templates/rollup-template.md](references/bootstrap/harvest-quality/.templates/rollup-template.md)
 
 ## Verification Checklist
 
@@ -355,14 +202,6 @@ Before finalizing updates:
 6. In `review` mode, report file includes scorecard, deductions, and path-based evidence.
 7. In `optimize` mode, rollup file includes coverage counts, aggregated scores, roadmap priority, and source report paths.
 8. In `optimize` mode, rollup file includes input root resolution results (included + skipped + reasons).
-
-## Structured Mode Outputs (Phase-Gated)
-
-- Enforcement: recommended until compatibility dry run passes; then raise to required.
-- `status`: `{mode, passed, missing_files[], notes_count}` plus one-line summary.
-- `audit`: `{mode, passed, issues:[{path, rule, severity}]}` plus brief findings.
-- `review`: dimension scores, weighted total, evidence paths.
-- `optimize`: input roots, included/skipped reports, aggregates, prioritized roadmap.
 
 ## Failure Handling
 
