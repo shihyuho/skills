@@ -1,4 +1,4 @@
-# Harvest - Durable Project Memory
+# Harvest - Project Second Brain
 
 Keep planning files as source-of-truth and publish reusable project knowledge into `docs/notes`.
 
@@ -147,6 +147,7 @@ Reference: `../../.opencode/INSTALL.md`
 
 - [SKILL.md](SKILL.md)
 - [references/index.md](references/index.md)
+- [references/progressive-disclosure-read-example.md](references/progressive-disclosure-read-example.md)
 - [references/projects/.templates/timeline-template.md](references/projects/.templates/timeline-template.md)
 - [references/decisions/.templates/decision-template.md](references/decisions/.templates/decision-template.md)
 - [references/knowledge/.templates/knowledge-template.md](references/knowledge/.templates/knowledge-template.md)

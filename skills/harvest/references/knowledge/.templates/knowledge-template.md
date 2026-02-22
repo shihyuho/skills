@@ -7,7 +7,7 @@ tags:
   - project/<project-name>
 summary: "Reusable project insight."
 source_files:
-  - "../../findings.md"
+  - "findings.md"
 source_date: 2026-02-13
 source_ref:
   - "findings.md#<section-or-keyword>"
@@ -30,8 +30,8 @@ source_ref:
 
 ## Source Pointers
 
-- `../../findings.md`
-- `../../progress.md`
+- `findings.md`
+- `progress.md`
 - `findings.md#<section-or-keyword>`
 
 ## Draft Fallback
