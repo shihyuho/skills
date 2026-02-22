@@ -109,7 +109,7 @@ Confirm unchanged:
 
 ## Definition of Done
 
-- `skills/harvest/SKILL.md` about 200 lines.
+- `skills/harvest/SKILL.md` <= 200 lines.
 - `semantic-parity-mapping.md` coverage complete.
 - Required command-dependent anchors preserved.
 - `skills-ref` validation passes.
