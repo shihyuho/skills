@@ -146,13 +146,13 @@ Reference: `../../.opencode/INSTALL.md`
 ## Related Files
 
 - [SKILL.md](SKILL.md)
-- [references/index.md](references/index.md)
+- [references/bootstrap/index.md](references/bootstrap/index.md)
 - [references/progressive-disclosure-read-example.md](references/progressive-disclosure-read-example.md)
-- [references/projects/.templates/timeline-template.md](references/projects/.templates/timeline-template.md)
-- [references/decisions/.templates/decision-template.md](references/decisions/.templates/decision-template.md)
-- [references/knowledge/.templates/knowledge-template.md](references/knowledge/.templates/knowledge-template.md)
-- [references/harvest-quality/.templates/review-template.md](references/harvest-quality/.templates/review-template.md)
-- [references/harvest-quality/.templates/rollup-template.md](references/harvest-quality/.templates/rollup-template.md)
+- [references/bootstrap/projects/.templates/timeline-template.md](references/bootstrap/projects/.templates/timeline-template.md)
+- [references/bootstrap/decisions/.templates/decision-template.md](references/bootstrap/decisions/.templates/decision-template.md)
+- [references/bootstrap/knowledge/.templates/knowledge-template.md](references/bootstrap/knowledge/.templates/knowledge-template.md)
+- [references/bootstrap/harvest-quality/.templates/review-template.md](references/bootstrap/harvest-quality/.templates/review-template.md)
+- [references/bootstrap/harvest-quality/.templates/rollup-template.md](references/bootstrap/harvest-quality/.templates/rollup-template.md)
 
 ## License
 
