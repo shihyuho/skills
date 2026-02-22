@@ -81,7 +81,7 @@ Run this workflow in order for every entrypoint (manual trigger phrases, slash-c
 
 2. **Bootstrap**
    - Ensure required minimal `docs/notes` files and templates exist.
-   - Create missing files from `references/` without overwriting existing files.
+   - Create missing files from `references/bootstrap/` without overwriting existing files.
 
 3. **Extract Candidates**
    - Read SOT files using allowlist/denylist boundaries.
@@ -121,7 +121,7 @@ Run this workflow in order for every entrypoint (manual trigger phrases, slash-c
 
 ## First-Run Bootstrap (Required)
 
-If `docs/notes` is missing, or if any required minimal file is missing, bootstrap from `references/`.
+If `docs/notes` is missing, or if any required minimal file is missing, bootstrap from `references/bootstrap/`.
 
 Required minimal files:
 
@@ -136,7 +136,7 @@ Required minimal files:
 Bootstrap rules:
 
 - Create missing directories first.
-- Create missing files from `references` templates.
+- Create missing files from `references/bootstrap` templates.
 - Do not overwrite existing user files during bootstrap.
 - Continue normal publish behavior after bootstrap.
 
@@ -246,9 +246,9 @@ Example:
 
 Read templates before writing:
 
-- [references/projects/.templates/timeline-template.md](references/projects/.templates/timeline-template.md)
-- [references/decisions/.templates/decision-template.md](references/decisions/.templates/decision-template.md)
-- [references/knowledge/.templates/knowledge-template.md](references/knowledge/.templates/knowledge-template.md)
+- [references/bootstrap/projects/.templates/timeline-template.md](references/bootstrap/projects/.templates/timeline-template.md)
+- [references/bootstrap/decisions/.templates/decision-template.md](references/bootstrap/decisions/.templates/decision-template.md)
+- [references/bootstrap/knowledge/.templates/knowledge-template.md](references/bootstrap/knowledge/.templates/knowledge-template.md)
 
 ## Verification Checklist
 
