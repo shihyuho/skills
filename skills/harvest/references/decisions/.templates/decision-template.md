@@ -7,8 +7,8 @@ tags:
   - project/<project-name>
 summary: "One-sentence decision summary."
 source_files:
-  - "../../task_plan.md"
-  - "../../findings.md"
+  - "task_plan.md"
+  - "findings.md"
 source_date: 2026-02-13
 source_ref:
   - "findings.md#<section-or-keyword>"
@@ -30,8 +30,8 @@ source_ref:
 
 ## Source Pointers
 
-- `../../task_plan.md`
-- `../../findings.md`
+- `task_plan.md`
+- `findings.md`
 - `findings.md#<section-or-keyword>`
 
 ## Draft Fallback

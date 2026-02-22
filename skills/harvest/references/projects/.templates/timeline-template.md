@@ -7,7 +7,7 @@ tags:
   - timeline
 summary: "Key source-of-truth update snapshot."
 source_files:
-  - "../../../task_plan.md"
+  - "task_plan.md"
 source_date: 2026-02-13
 ---
 

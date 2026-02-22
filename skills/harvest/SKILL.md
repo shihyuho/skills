@@ -31,6 +31,7 @@ Use this skill when users ask to:
 - summarize milestones into reusable notes
 - record stable decisions and knowledge
 - build an Obsidian-friendly project knowledge base
+- read intents: find prior decision, look up past context, trace project timeline, retrieve existing second-brain note
 
 Do not use this skill for unrelated implementation work that does not involve capture, summarization, or project memory publishing.
 
@@ -45,6 +46,29 @@ Do not use this skill for unrelated implementation work that does not involve ca
 - `docs/notes/knowledge/*.md`
 
 Create missing folders/files when absent.
+
+## Progressive Disclosure Read Workflow (Required)
+
+Follow this read order before any retrieval or context lookup:
+
+1. Read `docs/notes/index.md` to discover available hubs.
+2. Read the intent hub: `docs/notes/projects.md`, `docs/notes/decisions.md`, or `docs/notes/knowledge.md`.
+3. Read only targeted leaf notes that match the intent.
+
+Stop condition:
+
+- Stop when the target note is found, or after two consecutive reads that add no novel information.
+
+Hard constraints:
+
+- Never start from deep leaves unless the user provides an exact path.
+- Treat `docs/notes` as retrieval-only; never capture or summarize `docs/notes` back into `docs/notes`.
+- Preserve the anti-recursion guard and existing SOT-only contract (`task_plan.md`, `findings.md`, `progress.md`).
+- Do not expand read scope beyond the minimal files needed for the requested intent.
+
+Reference example:
+
+- [references/progressive-disclosure-read-example.md](references/progressive-disclosure-read-example.md)
 
 ## Deterministic Workflow (Required)
 
@@ -77,6 +101,23 @@ Run this workflow in order for every entrypoint (manual trigger phrases, slash-c
    - Run verification checklist.
    - For `status` mode: return compact state summary.
    - For `audit` mode: return pass/fail with concrete file paths.
+
+## Candidate Schema and Extraction Rules (Required)
+
+- Candidate fields: `source_ref`, `change`, `why`, `candidate_type`, `confidence`, `sot_fingerprint?`, `exclusion_reason?`, `unresolved_source_ref?`.
+- If source pointer is unresolved, keep candidate as `draft` with `unresolved_source_ref`.
+- Extraction thresholds:
+  - timeline: phase status change, finalized decision line, or validated fix.
+  - decision: clear conclusion plus rationale.
+  - knowledge: reusable pattern plus at least one caveat or constraint.
+- Skip criteria: tool chatter, placeholders, harvest self-logs, and format churn with no reusable value.
+
+## Publish Confirmation Semantics (Required)
+
+1. Extract candidate.
+2. Validate schema fields and thresholds.
+3. Publish into target note.
+4. Mark committed after publish succeeds.
 
 ## First-Run Bootstrap (Required)
 
@@ -181,6 +222,22 @@ Ignore content inside this block during harvest publishing.
 - Same timeline day + same `sot_fingerprint` means no-op (do not append duplicate block).
 - Equivalent source input must produce equivalent no-op behavior across manual and plugin entrypoints.
 
+Fingerprint normalization:
+
+1. Trim leading/trailing whitespace on `source_ref`, `change`, and `why`.
+2. Collapse internal whitespace to single spaces.
+3. Lowercase each part.
+4. Join as `<source_ref>||<change>||<why>`.
+5. Compute SHA-256 hex lowercase.
+
+Example:
+
+- source_ref: `progress.md#Cache rollout`
+- change: `Increased API cache TTL from 60s to 120s.`
+- why: `Reduce miss spikes under peak traffic.`
+- normalized string: `progress.md#cache rollout||increased api cache ttl from 60s to 120s.||reduce miss spikes under peak traffic.`
+- `sot_fingerprint`: `5f8b8cfa8b6fdc9f2d5e3c7f92f02c6aa4f4b2b4cb0d2d8e3f50f0f5d7d6e4a3`
+
 ## Note Rules
 
 - Keep notes concise and reusable.
@@ -202,6 +259,14 @@ Before finalizing updates:
 3. `docs/notes/index.md` links to latest decisions and knowledge.
 4. No reverse edits were made to `task_plan.md`, `findings.md`, `progress.md` by second-brain steps.
 5. No large copied source-of-truth blocks appear in formal notes.
+
+## Structured Mode Outputs (Phase-Gated)
+
+- Enforcement: recommended until compatibility dry run passes; then raise to required.
+- `status`: `{mode, passed, missing_files[], notes_count}` plus one-line summary.
+- `audit`: `{mode, passed, issues:[{path, rule, severity}]}` plus brief findings.
+- `review`: dimension scores, weighted total, evidence paths.
+- `optimize`: input roots, included/skipped reports, aggregates, prioritized roadmap.
 
 ## Failure Handling
 
