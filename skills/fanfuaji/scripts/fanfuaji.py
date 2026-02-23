@@ -36,6 +36,43 @@ from dataclasses import dataclass
 from pathlib import Path
 
 
+DEFAULT_MAX_INPUT_BYTES = 1024 * 1024
+BLOCKED_BASENAMES = {
+    ".env",
+    "id_rsa",
+    "id_dsa",
+    "id_ed25519",
+    "credentials",
+    "credentials.json",
+    "service-account.json",
+    "authorized_keys",
+}
+BLOCKED_EXTENSIONS = {
+    ".p12",
+    ".pfx",
+    ".pem",
+    ".key",
+    ".sqlite",
+    ".db",
+    ".exe",
+    ".dll",
+    ".so",
+    ".dylib",
+    ".zip",
+    ".tar",
+    ".gz",
+    ".7z",
+    ".jar",
+}
+BLOCKED_SUBSTRINGS = (
+    "credential",
+    "secret",
+    "token",
+    "apikey",
+    "api_key",
+)
+
+
 class Converter(str, Enum):
     """Available converter types."""
     SIMPLIFIED = "Simplified"
@@ -210,7 +247,67 @@ def convert_text(
         return result.text
 
 
-def read_file_content(file_path: str, encoding: str = 'utf-8') -> str:
+def _normalize_local_path(path_or_uri: str) -> Path:
+    local_path = path_or_uri
+    if local_path.startswith("file://"):
+        local_path = urllib.parse.unquote(local_path[7:])
+    return Path(local_path)
+
+
+def validate_input_path(
+    file_path: str,
+    max_input_bytes: int = DEFAULT_MAX_INPUT_BYTES,
+    allowed_dirs: Optional[List[str]] = None,
+) -> Path:
+    path = _normalize_local_path(file_path)
+
+    if not path.exists():
+        raise RuntimeError(f"File not found: {file_path}")
+    if not path.is_file():
+        raise RuntimeError(f"Not a file: {file_path}")
+
+    resolved_path = path.resolve()
+    lower_name = path.name.lower()
+    lower_path = str(resolved_path).lower()
+
+    if lower_name in BLOCKED_BASENAMES:
+        raise RuntimeError(f"Input path blocked by secret-file policy: {path.name}")
+    if any(marker in lower_name for marker in BLOCKED_SUBSTRINGS):
+        raise RuntimeError(f"Input path blocked by secret-file policy: {path.name}")
+    if any(marker in lower_path for marker in ("/.ssh/", "/.aws/", "/.gnupg/", "/.kube/")):
+        raise RuntimeError(f"Input path blocked by secret-directory policy: {resolved_path}")
+
+    suffix = path.suffix.lower()
+    if suffix in BLOCKED_EXTENSIONS:
+        raise RuntimeError(f"Input path blocked by extension policy: {suffix}")
+
+    if allowed_dirs:
+        resolved_allowed_dirs = [_normalize_local_path(p).resolve() for p in allowed_dirs]
+        if not any(
+            allowed_dir == resolved_path or allowed_dir in resolved_path.parents
+            for allowed_dir in resolved_allowed_dirs
+        ):
+            raise RuntimeError(
+                f"Input path blocked by allowlist policy: {resolved_path}. "
+                "Use --allow-dir to include a parent directory."
+            )
+
+    file_size = path.stat().st_size
+    if file_size > max_input_bytes:
+        raise RuntimeError(
+            f"Input size {file_size} exceeds max allowed size {max_input_bytes} bytes. "
+            "Use --max-input-bytes only with explicit approval."
+        )
+
+    return path
+
+
+def read_file_content(
+    file_path: str,
+    encoding: str = 'utf-8',
+    max_input_bytes: int = DEFAULT_MAX_INPUT_BYTES,
+    allowed_dirs: Optional[List[str]] = None,
+) -> str:
     """
     Read file content from path or file:// URI.
     
@@ -224,17 +321,13 @@ def read_file_content(file_path: str, encoding: str = 'utf-8') -> str:
     Raises:
         RuntimeError: If file cannot be read or is not a text file
     """
-    if file_path.startswith("file://"):
-        file_path = urllib.parse.unquote(file_path[7:])
-    
-    path = Path(file_path)
+    path = validate_input_path(
+        file_path,
+        max_input_bytes=max_input_bytes,
+        allowed_dirs=allowed_dirs,
+    )
     
     try:
-        if not path.exists():
-            raise RuntimeError(f"File not found: {file_path}")
-        if not path.is_file():
-            raise RuntimeError(f"Not a file: {file_path}")
-        
         mime_type, _ = mimetypes.guess_type(str(path))
         if mime_type and not mime_type.startswith('text/'):
             raise RuntimeError(
@@ -398,6 +491,20 @@ Available converters:
         default="utf-8",
         help="Input file character encoding (default: utf-8). Common: big5, gbk, gb2312, shift_jis"
     )
+
+    parser.add_argument(
+        "--max-input-bytes",
+        type=int,
+        default=DEFAULT_MAX_INPUT_BYTES,
+        help="Maximum allowed input file size in bytes (default: 1048576)"
+    )
+
+    parser.add_argument(
+        "--allow-dir",
+        action="append",
+        default=None,
+        help="Restrict file input to this directory (can be repeated)"
+    )
     
     args = parser.parse_args()
     
@@ -411,7 +518,12 @@ Available converters:
     # Read input
     if args.file:
         try:
-            input_text = read_file_content(args.file, encoding=args.encoding)
+            input_text = read_file_content(
+                args.file,
+                encoding=args.encoding,
+                max_input_bytes=args.max_input_bytes,
+                allowed_dirs=args.allow_dir,
+            )
         except RuntimeError as e:
             print(f"Error: {e}", file=sys.stderr)
             sys.exit(1)
