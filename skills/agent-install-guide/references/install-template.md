@@ -6,6 +6,16 @@ This is a **conceptual guide**, not a fill-in-the-blank template. Adapt the stru
 
 ## Required Sections
 
+### Security Preflight (REQUIRED)
+
+Add a short security preflight before installation commands:
+
+- Identify source host and why it is trusted (host allowlist rationale).
+- Pin exact version and immutable release artifact URL.
+- Provide checksum or signature verification command.
+- Provide rollback or uninstall command.
+- Require explicit user approval before executing install commands.
+
 ### Meta-Instructions Block
 
 Always include a block at the top telling the executing AI agent what to do:
@@ -35,7 +45,7 @@ The core installation steps. Format varies widely:
 |------|---------|
 | Package manager | `npm install -g toolname` |
 | Clone + build | `git clone ... && make install` |
-| Download binary | `curl -L ... \| tar xz` |
+| Download binary | `curl -L ... -o tool.tgz && tar xzf tool.tgz` |
 | Symlink config | `ln -sf $(pwd)/config ~/.config/tool/` |
 
 **Key principles:**
@@ -52,6 +62,22 @@ How to confirm installation succeeded. Always include this.
 - `toolname --version` - correct version
 - `ls ~/.config/tool/` - config exists
 - `toolname health-check` - tool-specific validation
+
+### Safer Alternatives (REQUIRED)
+
+- Verify artifact integrity using `sha256sum` (or equivalent) against published checksums.
+- Prefer signature/attestation verification when upstream provides it.
+- Use pinned versions and immutable release URLs.
+- Prefer least-privilege install paths (for example `~/.local/bin`, `~/.config`).
+
+### Forbidden Command Patterns (REQUIRED)
+
+Do not include these patterns in generated install docs:
+
+- `curl | sh`, `curl | bash`, `wget | bash`
+- Dynamic shell substitution with backticks in install commands
+- Unverified remote setup scripts
+- Credential-file access examples unless strictly necessary and explicitly user-approved
 
 ### Configuration (if needed)
 
@@ -71,6 +97,8 @@ Include only when relevant to the specific tool:
 - **Uninstallation** - How to cleanly remove
 - **Upgrade** - How to update to newer versions
 - **Platform-specific notes** - macOS vs Linux differences
+
+When PATH updates are needed, default to session-scoped export first, and require explicit confirmation for persistent shell rc changes.
 
 ---
 
