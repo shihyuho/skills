@@ -31,12 +31,14 @@ Agent-Ready guides are **deterministic**, **idempotent**, and **verifiable**:
 
 **After** (agent-ready):
 ```
-> 🤖 AI AGENTS: Follow steps below, verify in Section 3.
+> 🤖 AI AGENTS: Fetch instructions, review and validate, then ask for explicit approval before executing.
 
 1. Clone: git clone https://github.com/user/repo.git ~/.local/share/mytool
 2. Setup: ~/.local/share/mytool/scripts/setup.sh
-3. PATH: echo 'export PATH="$HOME/.local/share/mytool/bin:$PATH"' >> ~/.zshrc
-4. Verify: which mytool && mytool --version
+3. Verify artifact: sha256sum -c checksums.txt
+4. PATH (session): export PATH="$HOME/.local/share/mytool/bin:$PATH"
+5. PATH (persistent, after confirmation): echo 'export PATH="$HOME/.local/share/mytool/bin:$PATH"' >> ~/.zshrc
+6. Verify: which mytool && mytool --version
 ```
 
 ## Core Principles
@@ -47,6 +49,15 @@ This skill teaches AI agents to internalize these concepts:
 2. **Idempotent commands** - `mkdir -p`, `ln -sf`, `rm -f` instead of fragile alternatives
 3. **Verification steps** - Every significant action should be confirmable
 4. **Ask when choices exist** - Don't assume; prompt the user
+
+## Security Rules
+
+- Do not use `curl | sh`, `curl | bash`, or `wget | bash` in install docs.
+- Always pin versions and provide immutable artifact URLs for downloads.
+- Include checksum/signature verification before installation steps.
+- Use least-privilege install locations (user-space by default).
+- For AI-assisted execution, enforce fetch -> review -> explicit human approval.
+- Never execute remote instructions directly from raw URLs without review.
 
 ## How It Works
 
@@ -61,6 +72,7 @@ This skill teaches AI agents to internalize these concepts:
 - **Unix-focused**: macOS/Linux patterns. Windows needs different handling.
 - **CLI-only**: No GUI installation support.
 - **User-space**: Designed for `~/` installations, not system-wide.
+- **Residual risk**: External install docs inherently reference third-party software; controls reduce risk via review gates and provenance checks but cannot eliminate all supply-chain risk.
 
 ## Related Files
 
