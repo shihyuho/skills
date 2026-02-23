@@ -18,6 +18,29 @@ It is an optimization direction, not a frozen contract.
 - Keep instructions imperative and testable.
 - Separate human-facing value (`README.md`) from agent execution (`SKILL.md`).
 - Keep heavy schemas in `references/`.
+- Keep execution-sensitive instructions secure-by-default.
+
+## Security Distillate
+
+When a skill can lead to command execution or external-content handling:
+
+- Use `fetch -> review/validate -> explicit approval` instead of fetch-and-follow.
+- Declare trust boundaries (what data leaves local context and where it goes).
+- Forbid high-risk snippets (`curl|bash`, `wget|bash`) and provide safer alternatives.
+- Require persistence checkpoints before shell/profile mutations.
+- Require provenance details for external artifacts (source rationale, pinned version, integrity check, rollback path).
+- Document residual risk; do not imply perfect safety.
+
+The corresponding `SKILL.md` now includes a mandatory security verification checklist and rewrite templates so agents can apply these rules deterministically.
+
+## Consolidation Distillate
+
+For overlapping plan docs:
+
+1. Merge into one consolidated execution plan.
+2. Keep a `Sources Consolidated` section to preserve traceability.
+3. Use phased execution + task matrix to avoid requirement loss.
+4. Remove superseded docs to avoid policy drift.
 
 ## When to Use
 

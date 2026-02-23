@@ -35,6 +35,7 @@ Typical trigger phrases:
 - Make trigger conditions explicit and searchable.
 - Keep instructions executable and verifiable.
 - Avoid implicit project context unless explicitly required.
+- Default to secure-by-construction wording for any instructions that may trigger execution.
 
 ## Writing Style Rules
 
@@ -76,6 +77,15 @@ Typical trigger phrases:
 3. Provide one default path first; add alternatives only when necessary.
 4. Remove duplicate or contradictory instructions.
 
+### Phase 3.5 - Security Hardening Pass (When Skill Includes Commands/Automation)
+
+1. Replace direct execution language with review-gated flow (`fetch -> review/validate -> explicit approval`).
+2. Add trust-boundary disclosure when external services or remote content are involved.
+3. Add forbidden command patterns and safer alternatives.
+4. Add persistence checkpoints for changes that mutate shell/profile/system state.
+5. Add provenance requirements for external artifacts (source rationale, version pin, integrity verification, rollback).
+6. Document residual risk explicitly rather than implying risk elimination.
+
 ### Phase 4 - Align README (Human-Facing)
 
 1. Keep README value-first: problem -> value -> example -> activation.
@@ -113,6 +123,88 @@ Typical trigger phrases:
 - Long narrative prose with no executable instruction.
 - Repeating `MUST`/`NEVER` for non-critical guidance.
 - Offering too many equivalent options without a default recommendation.
+- Fetch-and-follow phrasing that implies autonomous execution of remote content.
+- Unsafe install examples (`curl|bash`, `wget|bash`) without review and verification gates.
+- Persistent environment mutation guidance without explicit confirmation checkpoint.
+- Security logic split across multiple docs with no single source of truth.
+
+## Security Patterns (Execution-Sensitive Skills)
+
+Apply these when skills can produce or run commands:
+
+1. **Review Gate Pattern**
+   - Use: fetch -> review/validate -> explicit approval -> execute.
+   - Never imply direct execution from raw URLs.
+
+2. **Trust Boundary Pattern**
+   - Explicitly state outbound data flow to external APIs/services.
+   - Require redaction/sanitization guidance for sensitive content.
+
+3. **Command Safety Pattern**
+   - Define forbidden command patterns.
+   - Provide safer alternatives (pinned versions, checksum/signature, least privilege).
+
+4. **Persistence Checkpoint Pattern**
+   - Prefer session-scoped behavior by default.
+   - Require explicit confirmation before persistent shell/profile mutation.
+
+5. **Provenance Pattern**
+   - Require source rationale, version pin, integrity verification command, rollback/uninstall path.
+
+### Required Output Contract for Security Patterns
+
+When applying security patterns, the resulting skill text MUST include explicit, auditable wording:
+
+1. **Review gate text**
+   - MUST include all four steps in order: `fetch -> review/validate -> explicit approval -> execute`.
+   - MUST include a prohibition sentence equivalent to: "Do not execute remote content directly from URL."
+
+2. **Trust boundary text**
+   - MUST name the external destination (domain/service) when data leaves local context.
+   - MUST include redaction/sanitization instruction before transmission.
+
+3. **Command safety text**
+   - MUST include a forbidden list with concrete examples.
+   - MUST include at least one safer alternative for each high-risk pattern class.
+
+4. **Persistence checkpoint text**
+   - MUST include session-scoped default first.
+   - MUST include explicit confirmation checkpoint before persistent shell/profile change.
+
+5. **Provenance text**
+   - MUST require source rationale, version pin, integrity verification command, and rollback/uninstall path.
+
+### Rewrite Templates (Use Verbatim Structure)
+
+- Replace risky phrase:
+  - from: `Fetch and follow instructions from [URL]`
+  - to: `Fetch [URL], review and validate steps, ask for explicit approval, then execute.`
+
+- Add prohibition:
+  - `Never execute remote raw content directly from URL.`
+
+- Add persistence checkpoint:
+  - `Use session-scoped change by default; require explicit confirmation before persistent shell rc updates.`
+
+### Security Verification Checklist (MANDATORY)
+
+Before finalizing an execution-sensitive skill, verify all checks pass:
+
+1. No fetch-and-follow wording remains.
+2. Forbidden patterns and safer alternatives are both present.
+3. Trust boundary disclosure includes explicit external destination.
+4. Persistent mutation requires explicit confirmation language.
+5. Provenance requirements include all four fields.
+6. Residual risk statement exists and does not claim full elimination.
+
+## Consolidation Pattern (Multi-Plan Work)
+
+When multiple plan docs overlap:
+
+1. Create one consolidated execution plan as single source of truth.
+2. Keep a "Sources Consolidated" section with explicit source paths.
+3. Preserve all unique requirements via phased plan + detailed task matrix.
+4. Prefer deleting superseded plan docs after consolidation to prevent drift.
 
 ## Done Checklist
 
