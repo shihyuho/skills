@@ -19,19 +19,23 @@ git status --short --branch
 
 ## Decision Rules
 
-1. **No tracking remote**
+1. **Not a git repository**
+   - Outcome: `SKIP` (per policy `skip_if: not a git repository`).
+   - Action: continue.
+
+2. **No tracking remote**
    - Outcome: `SKIP` (per policy `skip_if: no tracking remote`).
    - Action: continue.
 
-2. **Upstream exists and branch is up to date**
+3. **Upstream exists and branch is up to date**
    - Outcome: `PASS`.
    - Action: continue.
 
-3. **Upstream exists and branch is ahead only**
+4. **Upstream exists and branch is ahead only**
    - Outcome: `PASS`.
    - Action: continue.
 
-4. **Upstream exists and branch is behind or diverged**
+5. **Upstream exists and branch is behind or diverged**
    - Outcome: `BLOCK`.
    - Action: sync with upstream (`git pull --rebase` or equivalent workflow) before execution.
 

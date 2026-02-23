@@ -10,6 +10,8 @@ When implementation starts right after planning, it is easy to skip critical che
 
 Before implementation, AI evaluates gate policy in `references/preflight-gates.md` and executes gate details from `references/gates/*.md`.
 
+If the current directory is not a git repository, git-dependent gates are skipped by policy (`SKIP: not a git repository`) and do not block plan execution.
+
 Current policy includes:
 
 ```bash

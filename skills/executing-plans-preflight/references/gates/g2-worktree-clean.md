@@ -18,11 +18,15 @@ git status --porcelain
 
 ## Decision Rules
 
-1. **Working tree clean**
+1. **Not a git repository**
+   - Outcome: `SKIP` (per policy `skip_if: not a git repository`).
+   - Action: continue preflight without worktree-clean enforcement.
+
+2. **Working tree clean**
    - Outcome: `PASS`.
    - Action: continue.
 
-2. **Working tree has changes**
+3. **Working tree has changes**
    - Classify dirty paths into `whitelisted` and `non-whitelisted`.
    - If `non-whitelisted` is empty -> `PASS`.
    - If any `non-whitelisted` exists -> `BLOCK`.
@@ -54,6 +58,6 @@ Reporting requirements:
 ## Reporting Fields
 
 - `git status --porcelain` output summary
-- gate outcome (`PASS` or `BLOCK`)
+- gate outcome (`PASS`/`BLOCK`/`SKIP`)
 - next required action
 - matched/unmatched whitelist path summary

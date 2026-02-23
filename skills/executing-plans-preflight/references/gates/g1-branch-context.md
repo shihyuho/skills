@@ -19,20 +19,24 @@ git status --short
 
 ## Decision Rules
 
-1. **On `main` or `master`**
+1. **Not a git repository**
+   - Outcome: `SKIP` (per policy `skip_if: not a git repository`).
+   - Action: continue preflight without branch-context enforcement.
+
+2. **On `main` or `master`**
    - Risk: high.
    - Outcome: `BLOCK`.
    - Action: remind and ask whether to create a feature branch before implementation.
    - Suggested names:
-     - `feat/<task-slug>` for feature work
-     - `fix/<task-slug>` for bug fixes
+      - `feat/<task-slug>` for feature work
+      - `fix/<task-slug>` for bug fixes
 
-2. **Detached HEAD (empty branch name)**
+3. **Detached HEAD (empty branch name)**
    - Risk: critical.
    - Outcome: `BLOCK`.
    - Action: block implementation and ask the user to create/switch to a named branch first.
 
-3. **On non-main named branch**
+4. **On non-main named branch**
    - Risk: acceptable.
    - Outcome: `PASS`.
    - Action: confirm current branch and proceed.
@@ -47,5 +51,5 @@ git status --short
 
 - current branch
 - working tree state
-- gate outcome (`PASS` or `BLOCK`)
+- gate outcome (`PASS`/`BLOCK`/`SKIP`)
 - next required action
