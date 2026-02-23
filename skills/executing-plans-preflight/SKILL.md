@@ -40,9 +40,9 @@ Core model:
 
 1. Read `references/preflight-gates.md`.
 2. Evaluate gates in listed order.
-3. For each gate, apply policy fields (`skip_if`, `blocks_on_fail`).
+3. For each gate, apply policy rules defined in `references/preflight-gates.md`.
 4. Collect evidence and decision (`PASS`/`BLOCK`/`SKIP`).
-5. If any blocking condition is met, halt plan execution and propose concrete next actions.
+5. If preflight decision is `BLOCK`, halt plan execution and propose concrete next actions.
 6. Ask the user to confirm which suggested action to take.
 7. Invoke `superpowers:executing-plans` only after preflight passes.
 
@@ -56,7 +56,7 @@ Core model:
 
 **BLOCKING GATE**:
 
-- Do NOT start Task 1 of `superpowers:executing-plans` when preflight is in `BLOCK` state.
+- Do NOT start Task 1 of `superpowers:executing-plans` when preflight decision is `BLOCK`.
 - Report every blocking reason before asking user to resolve it.
 - Provide suggested remediation actions (with commands when applicable), then require user confirmation for the chosen next step.
 
@@ -81,7 +81,7 @@ If blocked, also report:
 - **MUST** detect git context first and mark git-dependent gates as `SKIP` when not inside a git repository.
 - **MUST** report evidence and decision for every evaluated gate.
 - **MUST** explicitly gate `superpowers:executing-plans` on preflight result.
-- **MUST** propose concrete remediation actions whenever preflight is `BLOCK`.
+- **MUST** propose concrete remediation actions whenever preflight decision is `BLOCK`.
 - **MUST** get user confirmation for the next action before resolving blockers.
 - **MUST NOT** ignore any listed gate unless its `skip_if` condition is met.
 - **MUST NOT** start Task 1 when policy returns blocking result.

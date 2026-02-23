@@ -12,20 +12,19 @@ Evaluate rows top-to-bottom.
 | G.2 | not a git repository | true | `references/gates/g2-worktree-clean.md` |
 | G.3 | not a git repository OR no tracking remote | true | `references/gates/g3-remote-sync.md` |
 
+### Allowed gate outcomes
+
+- `PASS`: gate conditions satisfied.
+- `BLOCK`: gate conditions failed; execution halts only when `blocks_on_fail: true`.
+- `SKIP`: gate intentionally skipped due to policy condition.
+
 ## Decision Semantics
 
 - Every gate is evaluated in listed order unless its `skip_if` condition is met.
 - `skip_if` defines when a gate is intentionally skipped.
-- `blocks_on_fail: true` means a failing gate blocks plan execution.
-- Gate outcome (`PASS`/`BLOCK`/`SKIP`) describes check result; `blocks_on_fail` describes execution policy for `BLOCK`.
-- `inside git worktree` means `git rev-parse --is-inside-work-tree` succeeds.
-- If preflight runs outside a git repository, all git-dependent gates must return `SKIP` with reason `not a git repository`.
-
-Allowed gate outcomes:
-
-- `PASS`: gate conditions satisfied.
-- `BLOCK`: gate conditions failed and execution must stop.
-- `SKIP`: gate intentionally skipped due to policy condition.
+- `blocks_on_fail: true` means outcome `BLOCK` halts plan execution.
+- Use `git rev-parse --is-inside-work-tree` to check whether preflight is inside a git repository.
+- If the check fails, treat the context as non-git and apply policy `skip_if` rules.
 
 ## Preflight Pass Criteria
 
@@ -39,11 +38,11 @@ Preflight passes only when:
 For each gate, report:
 
 - gate id
-- outcome (`PASS`/`BLOCK`/`SKIP`)
+- gate outcome
 - evidence summary
-- next required action (if blocked)
+- next required action (if gate outcome is `BLOCK` and `blocks_on_fail: true`)
 
-When any gate returns `BLOCK`:
+When any gate returns `BLOCK` with `blocks_on_fail: true`:
 
 - include at least one concrete suggested remediation action
 - include exact command or workflow step the user can approve
