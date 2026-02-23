@@ -14,7 +14,7 @@ git status --porcelain
 
 ## Pass Criteria
 
-- `git status --porcelain` output is empty.
+- `git status --porcelain` is empty, or all dirty paths are inside the allowed dirty-directory whitelist.
 
 ## Decision Rules
 
@@ -23,33 +23,37 @@ git status --porcelain
    - Action: continue.
 
 2. **Working tree has changes**
-   - Outcome: `BLOCK`.
-   - Action: ask user to resolve changes before execution (commit, stash, or intentional cleanup), then re-run preflight.
+   - Classify dirty paths into `whitelisted` and `non-whitelisted`.
+   - If `non-whitelisted` is empty -> `PASS`.
+   - If any `non-whitelisted` exists -> `BLOCK`.
+   - Action: ask user to resolve non-whitelisted changes, then re-run preflight.
 
-## Practical Handling: `docs/plans/*` Is Commonly Dirty
+## Allowed Dirty Directory Whitelist
 
-In plan-first workflows, `docs/plans/*` is often modified before implementation starts.
+Dirty paths under these patterns do not block G.2:
 
-Recommended handling order:
+- `docs/plans/**`
 
-1. **Preferred: commit plan artifacts first**
-   - Create a dedicated docs/planning commit before implementation commits.
-   - Benefit: keeps implementation history atomic and preflight reproducible.
+Evaluation rule:
 
-2. **Alternative: temporary stash for plan files**
-   - Stash plan-only changes, run preflight and implementation, then restore when needed.
-   - Use when plan notes are still being refined and should not be committed yet.
+1. Parse dirty paths from `git status --porcelain`.
+2. Match each dirty path against whitelist patterns.
+3. If every dirty path matches whitelist -> `PASS`.
+4. Otherwise -> `BLOCK`.
 
-3. **Avoid by default: silently allowing dirty `docs/plans/*`**
-   - Do not auto-pass G.2 just because changes are docs-only.
-   - If a team wants this behavior, define it explicitly in policy (`run_if`/`skip_if`) rather than ad hoc exceptions.
+Reporting requirements:
+
+- Report whitelist patterns.
+- Report `whitelisted` and `non-whitelisted` path lists.
+- If blocked, provide concrete remediation actions for non-whitelisted paths.
 
 ## Block Action
 
-- Do not start plan execution while uncommitted changes remain.
+- Do not start plan execution while non-whitelisted uncommitted changes remain.
 
 ## Reporting Fields
 
 - `git status --porcelain` output summary
 - gate outcome (`PASS` or `BLOCK`)
 - next required action
+- matched/unmatched whitelist path summary

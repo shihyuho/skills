@@ -42,8 +42,9 @@ Core model:
 2. Evaluate gates in listed order.
 3. For each gate, apply policy fields (`required`, `run_if`, `skip_if`, `blocks_on_fail`).
 4. Collect evidence and decision (`PASS`/`BLOCK`/`SKIP`).
-5. If any blocking condition is met, halt plan execution.
-6. Invoke `superpowers:executing-plans` only after preflight passes.
+5. If any blocking condition is met, halt plan execution and propose concrete next actions.
+6. Ask the user to confirm which suggested action to take.
+7. Invoke `superpowers:executing-plans` only after preflight passes.
 
 ## Integration with superpowers:executing-plans
 
@@ -57,6 +58,7 @@ Core model:
 
 - Do NOT start Task 1 of `superpowers:executing-plans` when preflight is in `BLOCK` state.
 - Report every blocking reason before asking user to resolve it.
+- Provide suggested remediation actions (with commands when applicable), then require user confirmation for the chosen next step.
 
 When user says "execute plan" or equivalent, run this skill as pre-step and report:
 
@@ -65,6 +67,12 @@ When user says "execute plan" or equivalent, run this skill as pre-step and repo
 - blocking reasons (if any)
 - whether plan execution is allowed or blocked
 
+If blocked, also report:
+
+- suggested remediation actions
+- recommended default action
+- explicit user confirmation prompt for next step
+
 ## Guardrails
 
 - **MUST** run preflight before any plan execution or code edits.
@@ -72,6 +80,8 @@ When user says "execute plan" or equivalent, run this skill as pre-step and repo
 - **MUST** read each gate's detail file before evaluating it.
 - **MUST** report evidence and decision for every evaluated gate.
 - **MUST** explicitly gate `superpowers:executing-plans` on preflight result.
+- **MUST** propose concrete remediation actions whenever preflight is `BLOCK`.
+- **MUST** get user confirmation for the next action before resolving blockers.
 - **MUST NOT** ignore a gate with `required: true`.
 - **MUST NOT** start Task 1 when policy returns blocking result.
 

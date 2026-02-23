@@ -40,3 +40,9 @@ For each gate, report:
 - outcome (`PASS`/`BLOCK`/`SKIP`)
 - evidence summary
 - next required action (if blocked)
+
+When any gate returns `BLOCK`:
+
+- include at least one concrete suggested remediation action
+- include exact command or workflow step the user can approve
+- do not continue to plan execution until user confirms the selected next step
