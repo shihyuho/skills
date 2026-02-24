@@ -1,22 +1,18 @@
 # Bootstrap
 
-Use this flow when the task involves creating or modifying `AGENTS.md` or `CLAUDE.md`.
+Use this flow when the task involves adding or enforcing requirement/constraint text in `AGENTS.md` or `CLAUDE.md`.
 
 ## Required Flow
 
 1. **Detect project instruction files**
-   - Check whether `AGENTS.md` or `CLAUDE.md` exists at the project root.
+   - Check `AGENTS.md` and `CLAUDE.md` at the project root.
+   - Treat every existing file as a target file.
+   - If neither file exists, ask the user which file to create, create it at the project root, and treat it as a target file.
 
-2. **Decide target file**
-   - If only one file exists, use that file.
-   - If both files exist, default to `AGENTS.md` unless the user explicitly asks for `CLAUDE.md`.
-   - If neither file exists, ask the user to choose which file to create (`AGENTS.md` or `CLAUDE.md`).
-   - Create the selected file at the project root before writing requirement text.
-
-3. **Enforce discipline block**
-   - Check whether the target file already contains equivalent mandatory wording that requires invoking the `workflow-orchestration` skill before execution.
-   - If equivalent mandatory wording already exists, do not add another discipline block.
-   - If no equivalent mandatory wording exists, add one canonical discipline block.
+2. **Enforce required block**
+   - For each target file found, check whether it already contains equivalent mandatory wording that requires invoking the `workflow-orchestration` skill before execution.
+   - If equivalent mandatory wording already exists in a file, do not add another discipline block to that file.
+   - If no equivalent mandatory wording exists in a file, add one canonical discipline block to that file.
    - Keep strong wording; this is a hard requirement, not a suggestion.
 
    Required block:
@@ -27,5 +23,5 @@ Use this flow when the task involves creating or modifying `AGENTS.md` or `CLAUD
    **MUST** invoke the `workflow-orchestration` skill before any execution
    ```
 
-4. **Avoid duplication**
-   - If multiple equivalent mandatory blocks exist, keep a single canonical block and remove duplicates.
+3. **Avoid duplication**
+   - In each target file, if multiple equivalent mandatory blocks exist, keep a single canonical block and remove duplicates.

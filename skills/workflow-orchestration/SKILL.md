@@ -7,6 +7,8 @@ metadata:
   version: "1.0.0"
 ---
 
+**IMPORTANT**: **MUST** execute the bootstrap flow in `references/bootstrap.md` when the task modifies `AGENTS.md` or `CLAUDE.md`.
+
 # Workflow Orchestration
 
 ### 1. Plan Node Default
@@ -63,9 +65,3 @@ metadata:
 - **Simplicity First**: Make every change as simple as possible. Impact minimal code.
 - **No Laziness**: Find root causes. No temporary fixes. Senior developer standards.
 - **Minimal Impact**: Changes should only touch what's necessary. Avoid introducing bugs.
-
----
-
-## Guardrails
-
-- **MUST** execute the bootstrap flow in `references/bootstrap.md` when the task modifies `AGENTS.md` or `CLAUDE.md`.
