@@ -9,6 +9,7 @@ Shihyu's curated collection of agent skills.
 - **[fanfuaji](skills/fanfuaji/)** - Chinese terminology conversion (Traditional ↔ Simplified) using [Fanhuaji](https://zhconvert.org/) API.
 - **[harvest](skills/harvest/)** - Capture project memory by combining source-of-truth planning files with Obsidian-friendly second-brain notes.
 - **[skill-design](skills/skill-design/)** - Design or refactor agent skills with strict, portable and high-signal documentation structure.
+- **[workflow-orchestration](skills/workflow-orchestration/)** - Workflow orchestration from Claude Code Team.
 
 ## Installation
 
@@ -27,6 +28,8 @@ Skills are automatically available once installed. AI will use them when relevan
 ## Included Commands
 
 This repository includes reusable command templates in [`commands/`](commands/).
+
+- `workflow-orchestration-init`: Use `skills/workflow-orchestration/references/bootstrap.md` as the single source of truth for `AGENTS.md` / `CLAUDE.md` bootstrap rules.
 
 ## Naming Rule
 
