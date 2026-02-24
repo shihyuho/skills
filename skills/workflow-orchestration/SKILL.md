@@ -11,7 +11,7 @@ metadata:
 
 ## Prerequisites
 
-**MUST** execute the bootstrap flow in `references/bootstrap.md` when the task modifies `AGENTS.md` or `CLAUDE.md`.
+**MUST** read `references/bootstrap.md` when the task modifies `AGENTS.md` or `CLAUDE.md`.
 
 ## Workflow
 
