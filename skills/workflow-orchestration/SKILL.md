@@ -51,8 +51,6 @@ metadata:
 - Zero context switching required from the user
 - Go fix failing CI tests without being told how
 
----
-
 ## Task Management
 
 1. **Plan First**: Write plan to `docs/tasks/todo.md` with checkable items
@@ -61,8 +59,6 @@ metadata:
 4. **Explain Changes**: High-level summary at each step
 5. **Document Results**: Add review section to `docs/tasks/todo.md`
 6. **Capture Lessons**: Update `docs/tasks/lessons.md` after corrections
-
----
 
 ## Core Principles
 

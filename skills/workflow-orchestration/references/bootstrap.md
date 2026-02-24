@@ -20,7 +20,7 @@ Use this flow when the task involves adding or enforcing requirement/constraint 
    ```markdown
    ## Workflow Orchestration
 
-   **MUST** invoke the `workflow-orchestration` skill before any execution
+   **MUST** use the `workflow-orchestration` skill before any execution
    ```
 
 3. **Avoid duplication**
