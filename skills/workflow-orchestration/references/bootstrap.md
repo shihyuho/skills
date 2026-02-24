@@ -22,9 +22,9 @@ Use this flow when the task involves creating or modifying `AGENTS.md` or `CLAUD
    Required block:
 
    ```markdown
-   ## Discipline
+   ## Workflow Orchestration
 
-   - **MUST** invoke the `workflow-orchestration` skill before any execution
+   **MUST** invoke the `workflow-orchestration` skill before any execution
    ```
 
 4. **Avoid duplication**
