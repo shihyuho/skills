@@ -7,9 +7,13 @@ metadata:
   version: "1.0.0"
 ---
 
-**IMPORTANT**: **MUST** execute the bootstrap flow in `references/bootstrap.md` when the task modifies `AGENTS.md` or `CLAUDE.md`.
-
 # Workflow Orchestration
+
+## Prerequisites
+
+**MUST** execute the bootstrap flow in `references/bootstrap.md` when the task modifies `AGENTS.md` or `CLAUDE.md`.
+
+## Workflow
 
 ### 1. Plan Node Default
 - Enter plan mode for ANY non-trivial task (3+ steps or architectural decisions)
