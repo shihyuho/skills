@@ -29,7 +29,8 @@ Skills are automatically available once installed. AI will use them when relevan
 
 This repository includes reusable command templates in [`commands/`](commands/).
 
-- `workflow-orchestration-init`: Use `skills/workflow-orchestration/references/bootstrap.md` as the single source of truth for `AGENTS.md` / `CLAUDE.md` bootstrap rules.
+- `workflow-orchestration-init`: Initialize workflow-orchestration bootstrap for AGENTS.md or CLAUDE.md.
+- `lessons-learned-init`: Initialize lessons-learned bootstrap for AGENTS.md or CLAUDE.md.
 
 ## Naming Rule
 
