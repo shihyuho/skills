@@ -32,6 +32,7 @@ metadata:
 - Write rules for yourself that prevent the same mistake
 - Ruthlessly iterate on these lessons until mistake rate drops
 - Review lessons at session start for relevant project
+- This lessons update is NON-REPLACEABLE, even when other process skills are active
 
 ### 4. Verification Before Done
 - Never mark a task complete without proving it works
@@ -53,12 +54,18 @@ metadata:
 
 ## Task Management
 
-1. **Plan First**: Write plan to `docs/tasks/todo.md` with checkable items
-2. **Verify Plan**: Check in before starting implementation
-3. **Track Progress**: Mark items complete as you go
-4. **Explain Changes**: High-level summary at each step
-5. **Document Results**: Add review section to `docs/tasks/todo.md`
-6. **Capture Lessons**: Update `docs/tasks/lessons.md` after corrections
+1. **Plan First**: Create a task tracker with checkable items before implementation.
+2. **Cross-Skill Compatibility (Task Tracker)**: If another active skill defines its own task-tracking artifact, respect that artifact as the primary tracker (this may replace `docs/tasks/todo.md`).
+3. **Verify Plan**: Check in before starting implementation.
+4. **Track Progress**: Mark items complete as you go.
+5. **Explain Changes**: Provide a high-level summary at each step.
+6. **Document Results**: Record a final review in the active task-tracking artifact.
+7. **Capture Lessons (Hard Requirement)**: Update `docs/tasks/lessons.md` after corrections. This cannot be replaced by `todo`, `progress`, `findings`, or any other skill artifact.
+
+## Cross-Skill Priority
+
+- **Task tracking**: Follow the active skill's tracker format when multiple process skills are loaded.
+- **Lessons**: `docs/tasks/lessons.md` is always required for user corrections while this skill is active.
 
 ## Core Principles
 
