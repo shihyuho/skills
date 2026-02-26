@@ -1,11 +1,6 @@
 ---
 name: lessons-learned
-description: >-
-  Use when starting, executing, or finishing non-trivial implementation tasks
-  to recall relevant lessons before work and capture reusable corrections,
-  mistakes, and decision rules after work. Also use when creating, editing, or
-  modifying AGENTS.md or CLAUDE.md to initialize or enforce lessons bootstrap
-  requirements.
+description: Use when starting, executing, or finishing non-trivial implementation tasks to recall relevant lessons before work and capture reusable corrections, mistakes, and decision rules after work. Also use when creating, editing, or modifying AGENTS.md or CLAUDE.md to initialize or enforce lessons bootstrap requirements.
 license: MIT
 metadata:
   author: shihyuho
