@@ -1,0 +1,23 @@
+---
+title: Knowledge Hub
+tags:
+  - second-brain
+  - knowledge
+status: active
+summary: "Hub page for reusable project knowledge and patterns."
+---
+
+# Knowledge
+
+## Purpose
+
+Store reusable insights, implementation patterns, and caveats.
+
+## Structure
+
+- Knowledge template: [[knowledge/.templates/knowledge-template|knowledge-template]]
+- Knowledge note path: `knowledge/<topic-slug>.md`
+
+## Latest Knowledge Notes
+
+- Add links to current reusable notes here.
