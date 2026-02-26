@@ -20,15 +20,5 @@ Use this flow when adding or enforcing requirement/constraint text in `AGENTS.md
    **MUST** use the `lessons-learned` skill before any execution
    ```
 
-3. **Enforce minimal verification guard (protective mode)**
-   - For each target file, check whether equivalent mandatory verification wording exists.
-   - If equivalent wording does not exist, add this canonical block:
-
-   ```markdown
-   ## Verification Before Done
-
-   **MUST** run relevant verification commands before claiming completion
-   ```
-
-4. **Avoid duplication**
+3. **Avoid duplication**
    - If multiple equivalent mandatory blocks exist, keep one canonical copy and remove duplicates.
