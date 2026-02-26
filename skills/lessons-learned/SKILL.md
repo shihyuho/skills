@@ -14,8 +14,9 @@ metadata:
 
 # Lessons Learned
 
-A self-improvement loop that stores atomic Zettelkasten lesson cards and recalls relevant
-lessons before work. Designed to be invoked by other skills, not used standalone.
+A self-improvement loop that stores atomic Zettelkasten lesson cards, recalls
+relevant lessons before work, and captures reusable lessons after work to avoid
+repeating the same mistakes.
 
 ## Prerequisites
 
