@@ -185,15 +185,11 @@ Apply these checks during capture or update:
 
 ## Integration Guide
 
-Other skills invoke lessons-learned by adding these steps to their workflow:
+When used with other skills in the same session:
 
-```markdown
-### Lessons Integration
-- **Task start**: Invoke `lessons-learned` skill recall phase.
-- **User correction**: Invoke `lessons-learned` skill capture phase.
-- **Task end**: Evaluate whether a lesson is worth capturing; auto-capture when criteria are met.
-- **AGENTS/CLAUDE edits**: Follow `references/bootstrap.md` to enforce canonical block(s).
-```
+- **Task start**: Run `lessons-learned` recall phase.
+- **User correction**: Run `lessons-learned` capture phase immediately.
+- **Task end**: Auto-capture when criteria are met.
 
 This is a **non-replaceable** step — lesson capture cannot be substituted by
 todo trackers, progress files, or other skill artifacts.
@@ -205,9 +201,3 @@ todo trackers, progress files, or other skill artifacts.
 - Capture compliance >= 9/10.
 - Related-link creation rate >= 0.8 when high-value criteria are met.
 - Broken-link rate = 0 after validation pass.
-
-## Future Extensions
-
-- **Wikilinks analysis**: Scan all cards to build `[[wikilinks]]` and a knowledge graph on demand.
-- **Lesson digest**: Periodically merge related cards into themed summaries.
-- **Cross-project sharing**: Aggregate lessons from multiple projects into a personal knowledge base.
