@@ -7,7 +7,6 @@ Shihyu's curated collection of agent skills.
 - **[agent-install-guide](skills/agent-install-guide/)** - Write installation guides that AI agents can reliably execute.
 - **[executing-plans-preflight](skills/executing-plans-preflight/)** - Run extensible preflight checks before superpowers:executing-plans, with branch safety as the default gate.
 - **[fanfuaji](skills/fanfuaji/)** - Chinese terminology conversion (Traditional ↔ Simplified) using [Fanhuaji](https://zhconvert.org/) API.
-- **[harvest](skills/harvest/)** - Capture project memory by combining source-of-truth planning files with Obsidian-friendly second-brain notes.
 - **[skill-design](skills/skill-design/)** - Design or refactor agent skills with strict, portable and high-signal documentation structure.
 - **[workflow-orchestration](skills/workflow-orchestration/)** - Workflow orchestration from Claude Code Team.
 
