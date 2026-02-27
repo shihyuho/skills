@@ -70,6 +70,13 @@ Typical trigger phrases:
 4. Add `scripts/` only for repeatable deterministic operations.
 5. When composing with other skills, invoke them by name and never copy their instruction bodies.
 
+### Phase 2.5 - Outer/Inner Boundary
+
+1. Treat `SKILL.md` as outer governance: trigger contract, conservative boundaries, workflow, verification gates, and escalation path.
+2. Treat `references/` as inner detail: practical conventions, preferred patterns, examples, and extended rationale.
+3. Do not place decision gates only in `references/`; keep governing decisions in `SKILL.md`.
+4. If `references/` and `SKILL.md` conflict, align `references/` to `SKILL.md`.
+
 ### Phase 3 - Author/Refactor SKILL
 
 1. Tighten description and trigger wording.
@@ -127,6 +134,8 @@ Typical trigger phrases:
 - Unsafe install examples (`curl|bash`, `wget|bash`) without review and verification gates.
 - Persistent environment mutation guidance without explicit confirmation checkpoint.
 - Security logic split across multiple docs with no single source of truth.
+- Keeping conservative boundaries, workflow gates, or escalation rules only in `references/`.
+- Letting `references/` override governing decisions defined in `SKILL.md`.
 
 ## Security Patterns (Execution-Sensitive Skills)
 
@@ -209,9 +218,11 @@ When multiple plan docs overlap:
 ## Done Checklist
 
 - `SKILL.md` has explicit trigger contract and executable workflow.
+- `SKILL.md` defines outer governance boundaries (conservative rules, gates, escalation).
 - Frontmatter `description` clearly states what + when.
 - `README.md` defines style expectations for future contributions.
 - `references/` contains heavy details only when needed.
+- `references/` extends details without conflicting with `SKILL.md` governance.
 - No stale terms, duplicated schema ownership, or contradictory rules.
 - Validation evidence is recorded (tool-based or manual).
 - Example validation command: `npx --yes skills-ref validate ./skills/<skill-name>`.
