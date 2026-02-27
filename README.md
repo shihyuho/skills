@@ -31,6 +31,7 @@ This repository includes reusable command templates in [`commands/`](commands/).
 
 - `workflow-orchestration-init`: Initialize workflow-orchestration bootstrap for AGENTS.md or CLAUDE.md.
 - `lessons-learned-init`: Initialize lessons-learned bootstrap for AGENTS.md or CLAUDE.md.
+- `lessons-learned-capture`: Capture reusable lessons at task end with lessons-learned.
 
 ## Naming Rule
 
