@@ -1,5 +1,5 @@
 ---
-description: "Initialize lessons-learned bootstrap for AGENTS.md or CLAUDE.md."
+description: "Initialize lessons-learned bootstrap"
 ---
 
 Invoke the `lessons-learned:lessons-learned` skill and follow it exactly as presented.
