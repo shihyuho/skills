@@ -15,7 +15,9 @@ repeating the same mistakes.
 
 ## Bootstrap Phase
 
-**MUST** read `references/bootstrap.md` when the task modifies `AGENTS.md` or `CLAUDE.md`, or the user asks for bootstrap.
+Read `references/bootstrap.md` and run Bootstrap Phase only when the task
+modifies `AGENTS.md` or `CLAUDE.md`, or the user asks for bootstrap.
+Otherwise, skip Bootstrap Phase.
 
 ## Trigger Contract
 
