@@ -1,59 +1,69 @@
 # Agent Skills Repository
 
-This repository contains AI agent skills following the [Agent Skills format](https://agentskills.io/). Each skill provides packaged instructions for AI coding agents.
+This repository contains AI agent skills following the
+[Agent Skills format](https://agentskills.io/).
+
+## Lessons Learned
+
+**MUST** use the `lessons-learned` skill before any execution
 
 ## Repository Structure
 
-```
+```text
 skills/
 ├── README.md                 # Repository index
 ├── package.json              # Metadata
+├── commands/                 # Reusable command entrypoints
 └── skills/                   # Skills directory
-    └── {skill-name}/         # Individual skill (kebab-case)
-        ├── SKILL.md          # AI instructions (required)
-        ├── README.md         # Human-readable documentation
-        ├── references/       # Supporting docs (optional)
-        └── scripts/          # Helper scripts (optional)
+    └── {skill-name}/
+        ├── SKILL.md
+        ├── README.md
+        ├── references/
+        └── scripts/
 ```
 
 ## Commands
 
-This is a documentation-only repository. No build/test/lint commands are needed.
+This is a documentation-first repository. No build/test/lint pipeline is
+required for routine edits.
 
 ### Command Design Guidelines
 
 - Treat command files as trigger entrypoints.
-- Keep behavior definitions in the owning `skills/<skill-name>/SKILL.md`.
-- Reference the SKILL section(s) for workflow details instead of duplicating rules in `commands/*.md`.
-- Do not redefine bootstrap file lists, validation checklists, or extraction criteria in command files.
-- If command-specific context is needed, keep it brief and non-authoritative.
+- Keep behavior definitions in `skills/<skill-name>/SKILL.md`.
+- Reference SKILL phase/section names instead of duplicating logic.
+- Do not redefine bootstrap file lists, validation checklists, or extraction
+  criteria in `commands/*.md`.
+- Keep command-specific context brief and non-authoritative.
+- When adding, removing, or renaming files under `commands/`, update and verify
+  the commands list in root `README.md` in the same change.
 
-### Validation
+## Validation
 
-Use the [skills-ref](https://github.com/agentskills/agentskills/tree/main/skills-ref) tool to validate skills:
+Validate changed skills with
+[skills-ref](https://github.com/agentskills/agentskills/tree/main/skills-ref):
 
 ```bash
 npx --yes skills-ref validate ./skills/skill-name
 ```
 
-## Writing Style Guidelines
+## Writing Guidelines
 
-### General Principles
+### General
 
-- **Language**: All documentation in English
-- **Tone**: Professional but approachable, direct and concise
-- **Audience**: AI agents (SKILL.md) and humans (README.md)
-- **Format**: Markdown with clear structure and hierarchy
+- **Language**: English
+- **Tone**: Professional, direct, concise
+- **Audience**: AI agents (`SKILL.md`) and humans (`README.md`)
 
-### SKILL.md Requirements
+### `SKILL.md`
 
-SKILL.md files are instructions for AI agents. Follow the [Agent Skills specification](https://agentskills.io/specification).
+Follow the [Agent Skills specification](https://agentskills.io/specification).
 
-#### YAML Frontmatter (Required)
+Required frontmatter template:
 
 ```yaml
 ---
-name: skill-name                    # kebab-case, max 64 chars
+name: skill-name
 description: What this skill does and when to use it. Include trigger keywords.
 license: MIT
 metadata:
@@ -62,245 +72,51 @@ metadata:
 ---
 ```
 
-**Frontmatter rules**:
-- `name`: Must match directory name, lowercase, hyphens only
-- `description`: 1-1024 chars, include both "what" and "when"
-- Keep metadata consistent across all skills
+Rules:
 
-#### Body Structure
+- `name` matches directory name; lowercase and hyphens only.
+- `description` is 1-1024 chars and includes both what/when.
+- Keep `SKILL.md` under 500 lines; move heavy detail to `references/`.
+- Use imperative instructions and explicit mandatory wording.
+- Include concrete examples when behavior is non-obvious.
 
-```markdown
-# Skill Name
+### Skill-Level `README.md`
 
-Brief introduction (1-2 sentences).
+- Write for human readers with value-first framing.
+- Prefer scenario-based explanation over API-style dumps.
+- Keep it concise; point detailed execution logic to `SKILL.md`.
 
-## Overview
+### `references/`
 
-- Bullet points for key capabilities
-- What problems this skill solves
-- Core principle or philosophy
-
-## When to Trigger
-
-Clear list of situations when AI should use this skill:
-- Specific error patterns
-- Task types
-- User requests
-
-## Workflow
-
-Step-by-step instructions:
-1. **Step name** - What to do
-2. **Step name** - What to do
-
-Use **bold** for step names, code blocks for examples.
-
-## [Additional Sections]
-
-- Examples
-- Best Practices
-- Limitations
-- See Also
-
-## See Also
-
-- Link to templates in references/
-- Link to related files
-```
-
-**SKILL.md guidelines**:
-- Keep under 500 lines (move details to references/)
-- Use imperative mood for instructions ("Create file", not "Creates file")
-- Include concrete examples with code blocks
-- Specify mandatory vs optional behaviors clearly
-- Use **bold** for emphasis on key terms
-- Use `code` for file names, commands, variables
-
-### README.md (Skill-Level)
-
-Each skill should have a README.md for human readers. The goal is to **attract users** by showing value first, technical details later.
-
-**README vs SKILL.md**
-
-| Aspect | README.md (Human) | SKILL.md (AI) |
-|--------|-------------------|---------------|
-| **Audience** | Potential users browsing GitHub | AI agents executing tasks |
-| **Goal** | Attract and convince | Instruct and guide |
-| **Tone** | Marketing, conversational | Technical, imperative |
-| **Examples** | Dialogue scenarios | Code snippets and workflows |
-| **Length** | Concise (100-200 lines) | Detailed (300-500 lines) |
-| **Focus** | Value proposition | Implementation details |
-
-**Core Principles for README:**
-
-1. **Problem-First**: Lead with user pain points, not technical features
-2. **Show AI Intelligence**: Demonstrate what AI does automatically, not what users need to configure
-3. **Use Scenarios**: Show real conversations and workflows, not just API documentation
-4. **Progressive Disclosure**: Hook → Value → Scenarios → Features → How to Start
-
-**Example**: See [`skills/fanfuaji/README.md`](skills/fanfuaji/README.md) for a complete implementation.
-
-### References and Templates
-
-Files in `references/` directory:
-
-- Use descriptive `lowercase-dash` names (e.g., `lesson-template.md`)
-- Include usage guidelines within the template itself
-- Keep templates concise with placeholder text in `[brackets]`
-- Add guidelines section at bottom of template
+- Use `lowercase-dash` file names.
+- Keep templates concise with placeholders.
+- Place detailed examples and long-form guidance here.
 
 ## Naming Conventions
 
-### Files and Directories
-
-- **Skill directories**: `kebab-case` (e.g., `lessons-learned`)
-- **Skill subdirectories**: Do not use `_`-prefixed directory names under `skills/`; prefer `.`-prefixed names (e.g., `.templates`).
-- **SKILL.md**: Always uppercase `SKILL.md`
-- **README.md**: Always uppercase `README.md`
-- **Command files**: `{skill-name}-{command-name}.md`
-- **References and templates**: `lowercase-dash.md` (or `lowercase-dash.base` when required by plugin format)
-
-### Generated Files (in User Projects)
-
-When skills instruct AI to create files in user projects:
-
-- **Date-based files**: `YYYY-MM-DD-topic-slug.md` (e.g., `2026-02-06-async-loops.md`)
-- **Directories**: `lowercase` (e.g., `lessons/`)
-- **slugs**: `kebab-case`, 2-4 words max
+- Skill directories: `kebab-case` (e.g., `lessons-learned`).
+- Skill subdirectories: do not use `_`-prefixed names under `skills/`; use
+  `.`-prefixed names when needed (e.g., `.templates`).
+- Fixed file names: `SKILL.md`, `README.md`.
+- Command files: `{skill-name}-{command-name}.md`.
+- Reference files: `lowercase-dash.md` (or `.base` when format requires it).
 
 ## Formatting Standards
 
-### Markdown
+- Headers: ATX (`#`, `##`, ...).
+- Lists: `-` for unordered; numbered for ordered.
+- Code blocks: always use language labels.
+- Emphasis: `**bold**` for key terms; use backticks for file paths/commands.
+- Break long lines at natural boundaries for readability.
 
-- **Headers**: Use ATX style (`#`, `##`, not underlines)
-- **Lists**: Use `-` for unordered, numbers for ordered
-- **Code blocks**: Always specify language (````markdown`, ```bash`, ```yaml`)
-- **Links**: Use reference-style for repeated links, inline for one-offs
-- **Emphasis**: `**bold**` for key terms, `*italic*` rarely (prefer bold or `code`)
-- **Line length**: No hard limit, but break long lines at natural points (after sentences)
+## Contribution Checklist
 
-### Code Blocks
+When adding or changing a skill:
 
-````markdown
-```bash
-# Good: Include comment explaining context
-npx skills add shihyuho/skills
-```
-
-```yaml
-# Good: Show complete, valid example
----
-name: example-skill
-description: Example description
----
-```
-````
-
-### Examples and Interactions
-
-Show AI-user interactions with clear formatting:
-
-````markdown
-**AI Suggestion**:
-```
-I noticed we hit the same issue twice.
-Would you like me to create a lesson-learned entry?
-```
-
-**User**: Yes
-
-**AI Response**:
-```
-✓ Created lesson: lessons/2026-02-06-example.md
-✓ Updated AGENTS.md
-```
-````
-
-## Writing Instructions for AI
-
-When writing SKILL.md instructions:
-
-### Be Explicit
-
-❌ **Bad**: "Update the file appropriately"
-✅ **Good**: "Add one line to the `## Lessons Learned` section in AGENTS.md"
-
-### Use Imperative Mood
-
-❌ **Bad**: "The AI should create a file"
-✅ **Good**: "Create a file at `lessons/YYYY-MM-DD-topic.md`"
-
-### Specify Mandatory Behaviors
-
-Use clear markers:
-- **Must**, **Required**, **Mandatory** for non-negotiable steps
-- **Should**, **Recommended** for best practices
-- **May**, **Optional**, **Can** for discretionary actions
-
-### Provide Templates
-
-Instead of describing format, show it:
-
-❌ **Bad**: "Use a date-based filename with a topic slug"
-✅ **Good**: "Naming: `lessons/YYYY-MM-DD-topic-slug.md`"
-
-### Include Confirmation Patterns
-
-For interactive workflows, specify exact prompts:
-
-```markdown
-**Template**:
-```
-I noticed [specific situation].
-Would you like me to [specific action]?
-```
-```
-
-## Error Handling
-
-Since this is a documentation repo, focus on preventing common mistakes:
-
-### Validation Checklist
-
-Before committing new skills:
-
-1. [ ] YAML frontmatter is valid
-2. [ ] `name` field matches directory name
-3. [ ] `description` is clear and includes trigger keywords
-4. [ ] SKILL.md is under 500 lines
-5. [ ] Examples are concrete and actionable
-6. [ ] Templates are in `references/` directory
-7. [ ] README.md provides human-friendly overview
-8. [ ] All links are valid (no broken references)
-
-### Common Pitfalls
-
-- **Don't** use relative paths that go up (e.g., `../../file`)
-- **Don't** reference files outside the skill directory
-- **Don't** use ambiguous language ("probably", "might", "usually")
-- **Do** be specific about file locations and formats
-- **Do** provide complete, copy-paste-ready examples
-
-## Agent Skills Format Compliance
-
-This repository follows the [Agent Skills specification](https://agentskills.io/specification):
-
-- ✅ Flat structure under `skills/` directory
-- ✅ Each skill has `SKILL.md` with YAML frontmatter
-- ✅ Progressive disclosure (metadata → instructions → resources)
-- ✅ File references use relative paths from skill root
-- ✅ Optional `references/`, `scripts/`, `assets/` directories
-
-## Contributing
-
-When adding new skills:
-
-1. Create directory: `skills/new-skill-name/`
-2. Add `SKILL.md` with YAML frontmatter
-3. Add `README.md` for human readers
-4. Add templates to `references/` if needed
-5. **Update root `README.md` skills list**
-6. Validate with `npx --yes skills-ref validate ./skills/new-skill-name`
+1. Update files under `skills/<skill-name>/`.
+2. Update root `README.md` skills list if needed.
+3. If `commands/` changed, update root `README.md` commands list.
+4. Run `npx --yes skills-ref validate ./skills/<skill-name>`.
 
 ## License
 

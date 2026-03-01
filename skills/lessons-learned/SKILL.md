@@ -15,7 +15,7 @@ repeating the same mistakes.
 
 ## Prerequisites
 
-**MUST** read `references/bootstrap.md` when the task modifies `AGENTS.md` or `CLAUDE.md`.
+**MUST** read `references/bootstrap.md` when the task modifies `AGENTS.md` or `CLAUDE.md`, or the user asks for bootstrap.
 
 ## Trigger Contract
 
@@ -78,6 +78,7 @@ If no cards match, continue work without lesson constraints.
 
 Run this phase when any of these conditions are met:
 - The user corrected your approach
+- The user asks for capture
 - A bug fix revealed a reusable pattern
 - A task completion surfaced a non-obvious reusable insight
 
