@@ -13,7 +13,7 @@ A self-improvement loop that stores atomic Zettelkasten lesson cards, recalls
 relevant lessons before work, and captures reusable lessons after work to avoid
 repeating the same mistakes.
 
-## Prerequisites
+## Bootstrap Phase
 
 **MUST** read `references/bootstrap.md` when the task modifies `AGENTS.md` or `CLAUDE.md`, or the user asks for bootstrap.
 
