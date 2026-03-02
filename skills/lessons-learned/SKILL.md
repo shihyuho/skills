@@ -1,6 +1,6 @@
 ---
 name: lessons-learned
-description: Use when starting, executing, or finishing non-trivial implementation tasks to recall relevant lessons before work and capture reusable corrections, mistakes, and decision rules after work. Also use when creating, editing, or modifying AGENTS.md or CLAUDE.md to initialize or enforce lessons bootstrap requirements.
+description: Use when starting, executing, or finishing non-trivial implementation tasks to recall relevant lessons before work and capture reusable corrections, mistakes, and decision rules after work.
 license: MIT
 metadata:
   author: shihyuho
@@ -12,12 +12,6 @@ metadata:
 A self-improvement loop that stores atomic Zettelkasten lesson cards, recalls
 relevant lessons before work, and captures reusable lessons after work to avoid
 repeating the same mistakes.
-
-## Bootstrap Phase
-
-Read `references/bootstrap.md` and run required flow ONLY when the task
-modifies `AGENTS.md` or `CLAUDE.md`, or the user asks for bootstrap.
-Otherwise, skip this phase.
 
 ## Trigger Contract
 

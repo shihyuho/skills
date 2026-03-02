@@ -56,16 +56,6 @@ Example prompt:
 
 - "Done. The fix only worked after setting timeout before client initialization."
 
-### AGENTS/CLAUDE Policy Edits (Bootstrap)
-
-Use when adding or enforcing project-level instruction blocks.
-
-Example prompt:
-
-- "Update AGENTS.md so lessons-learned is mandatory before execution."
-
-Agent behavior: follow `references/bootstrap.md` to add canonical blocks without duplication.
-
 ## Recall and Capture Lifecycle
 
 1. **Recall**
