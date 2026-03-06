@@ -16,10 +16,11 @@ This skill stores those insights as atomic Zettelkasten cards so future tasks ca
 
 ## What It Does
 
-- Maintains `docs/lessons/_index.md` for fast tag+scope recall (newest-first)
+- Maintains `docs/lessons/_index.md` for fast ranking by tag/scope/confidence/date
 - Stores one lesson per card under `docs/lessons/<card-id>.md`
 - Captures only non-obvious, reusable lessons
 - Auto-captures qualifying lessons at task end
+- Assigns `confidence` by source and uses it in recall priority
 - Adds selective `related` links for high-value knowledge connections
 
 ## What Counts as Non-Obvious
@@ -61,8 +62,9 @@ Example prompt:
 1. **Recall**
    - Determine task scope (`project` / `module` / `feature`)
    - Match task keywords to tags in `_index.md`
-   - Prefer cards with matching scope
-   - Break ties by `date` (newer first)
+   - Rank by `tag -> scope -> confidence(desc) -> date(desc)`
+   - For legacy cards without `confidence`, derive from `source`
+     (`user-correction=0.7`, `bug-fix=0.5`, `retrospective=0.3`, fallback `0.3`)
    - Load 1-3 primary cards
    - Optionally expand with up to 2 `related` cards
    - Apply those lessons as constraints
@@ -76,7 +78,7 @@ Example prompt:
 3. **Selective Linking**
    - Add `related` links only when high-value gate is met
    - Avoid speculative links
-   - Cap at 3 related links per card
+   - Cap at 2 related links per card
 
 ## File Layout
 
