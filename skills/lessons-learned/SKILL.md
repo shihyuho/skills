@@ -54,15 +54,17 @@ Run this phase before writing code.
 
 1. Extract task keywords (technology, failure mode, domain terms).
 2. Apply index recovery rule:
-   - If `docs/lessons/_index.md` is missing and no lesson cards exist, treat as first run and skip recall.
-   - If `_index.md` is missing but lesson cards exist, rebuild `_index.md` from card frontmatter, then continue recall and report index recovery.
+   - If `docs/lessons/_index.md` is missing, skip recall on first run (no cards) or rebuild `_index.md` from existing card frontmatter before recall.
 3. Determine working scope from the task context:
    - `project` for cross-cutting or repo-wide concerns
    - `module` for package/directory-level concerns
    - `feature` for a specific flow or component
 4. Read `docs/lessons/_index.md`.
-5. Match keywords against index tags and prefer cards with matching scope.
-   - If multiple candidates tie, prefer newer cards by `date` (descending).
+5. Rank candidates with this order:
+   `tag match -> scope match -> confidence (desc) -> date (desc)`.
+   - Legacy fallback: if a card has no `confidence`, derive it from `source`
+     (`user-correction=0.7`, `bug-fix=0.5`, `retrospective=0.3`). If both
+     are missing, use `0.3`.
 6. Load **1-3** primary cards.
 7. Expand with `related` links from primary cards, load up to **2** additional cards.
 8. Enforce hard cap: primary + related cards must not exceed **5** total.
@@ -113,6 +115,14 @@ Assign a `scope` before writing the card:
 - `module` for package/directory-level constraints
 - `feature` for one flow/component
 
+Assign initial `confidence` by `source`:
+- `user-correction`: `0.7`
+- `bug-fix`: `0.5`
+- `retrospective`: `0.3`
+
+If the user confirms a lesson was useful, increase `confidence` by `+0.1`
+(max `0.9`).
+
 Write the card to `docs/lessons/<id>.md` using the template in
 [references/card-template.md](references/card-template.md).
 
@@ -130,7 +140,8 @@ Card fields:
 | `scope` | `project` / `module` / `feature` applicability |
 | `tags` | 3–6 lowercase tags for recall matching |
 | `source` | `user-correction` / `bug-fix` / `retrospective` |
-| `related` | 0–3 related lesson references using `[[card-id]]` |
+| `confidence` | Numeric confidence score used for recall ranking |
+| `related` | 0–2 high-relevance lesson references using `[[card-id]]` |
 | Title | One-line summary of the lesson |
 | Context | What was happening when the mistake occurred |
 | Mistake | What went wrong |
@@ -177,7 +188,7 @@ Create `related` links when at least **2 of 4** conditions are true:
 
 Linking constraints:
 
-- Add 0–3 related links per card.
+- Add 0–2 related links per card, only when relevance is strong.
 - Use deterministic ranking from `references/linking-heuristics.md`.
 - Do not add weak or speculative links.
 
@@ -204,26 +215,17 @@ Apply these checks during capture or update:
 - `scope` is one of `project`, `module`, `feature`.
 - `tags` count is 3–6.
 - `source` is valid enum.
-- `related` count is 0–3 and every target resolves to an existing card.
+- `confidence` is numeric and in range `0.0-0.9`.
+- `related` count is 0–2 and every target resolves to an existing card.
 - Index row exists and matches card metadata, including `scope`.
 - `_index.md` rows are ordered by `Date` descending (newest first).
 - Recall limits are respected: 1–3 primary + up to 2 related, max 5 total.
 
 ## Integration Guide
 
-When used with other skills in the same session:
-
-- **Task start**: Run `lessons-learned` recall phase.
-- **User correction**: Run `lessons-learned` capture phase immediately.
-- **Task end**: Auto-capture when criteria are met.
+When used with other skills in the same session, follow the Trigger Contract
+above as the single source of truth (task start recall, correction capture,
+task-end capture evaluation).
 
 This is a **non-replaceable** step — lesson capture cannot be substituted by
 todo trackers, progress files, or other skill artifacts.
-
-## Benchmark Targets
-
-- Trigger precision >= 0.85 on evaluation set.
-- Recall usefulness >= 8/10 (human-scored samples).
-- Capture compliance >= 9/10.
-- Related-link creation rate >= 0.8 when high-value criteria are met.
-- Broken-link rate = 0 after validation pass.
