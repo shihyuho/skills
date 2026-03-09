@@ -1,0 +1,22 @@
+{
+  "capture_type": "user-correction",
+  "card_id": "db-schema-before-worker-restart",
+  "date": "2026-03-10",
+  "scope": "module",
+  "tags": ["db-schema", "worker", "deployment-order", "cache", "migration"],
+  "confidence": 0.7,
+  "related": [],
+  "outcome": "created",
+  "files_created": [
+    "docs/lessons/db-schema-before-worker-restart.md",
+    "docs/lessons/_index.md"
+  ],
+  "output_files": [
+    "result.md",
+    "transcript.md",
+    "user_notes.md",
+    "metrics.json"
+  ],
+  "qualifies_for_capture": true,
+  "capture_rationale": "This lesson captures a non-obvious deployment ordering constraint. The rule that DB schema changes must land before worker restart is reusable across future migrations involving schema and cache changes."
+}

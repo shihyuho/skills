@@ -1,0 +1,12 @@
+[
+  "Eval 1 assertion 2 ('converts recalled lessons into explicit constraints') only passes with_skill because no lessons existed - this is a weak differentiator when there's nothing to convert",
+  "Eval 3 assertion 1 ('setup-only, no recall or capture') is the clearest differentiator: with_skill stays in setup-only mode (PASS), without_skill runs recall/capture instead (FAIL)",
+  "Eval 2 assertion 3 ('compact outcome reported') fails in baseline because it never reports created/updated/skipped - skill adds this explicit behavior",
+  "Both configurations have identical average execution time (164.7s), suggesting the skill adds value without time cost in this sample",
+  "All three evals show consistent 33% improvement pattern: with_skill achieves 100% pass rate vs 67% without_skill",
+  "Eval 1 and Eval 2 both have one assertion passing in both configurations (assertion 1), meaning these don't differentiate skill value",
+  "Baseline fails at different points across evals: eval 1 fails on constraint conversion, eval 2 fails on outcome reporting, eval 3 fails on phase isolation",
+  "Token counts are unavailable (0 in all runs) - cannot use tokens as a comparison metric for this benchmark",
+  "Time variance is similar between configurations (stddev ~31s with_skill, ~34s without_skill), indicating consistent execution",
+  "The setup eval (eval 3) shows the most fundamental skill improvement: proper phase isolation prevents unnecessary recall/capture"
+]

@@ -1,0 +1,23 @@
+{
+  "skill_name": "lessons-learned",
+  "skill_version": "3.0.0",
+  "phase": "setup",
+  "trigger": "explicit_setup_request",
+  "execution": {
+    "timestamp": "2026-03-10",
+    "target_files_checked": [
+      "AGENTS.md"
+    ],
+    "canonical_block_found": true,
+    "canonical_block_location": "lines 6-8",
+    "duplicate_found": false,
+    "changes_made": false
+  },
+  "outputs": {
+    "result_md": "created",
+    "transcript_md": "created",
+    "user_notes_md": "created",
+    "metrics_json": "created"
+  },
+  "status": "complete_no_changes_needed"
+}

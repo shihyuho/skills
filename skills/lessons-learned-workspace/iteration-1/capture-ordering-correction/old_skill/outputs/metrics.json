@@ -1,0 +1,30 @@
+{
+  "capture_date": "2026-03-10",
+  "skill_version": "2.1.1",
+  "task_type": "capture",
+  "trigger": "user-correction",
+  "card": {
+    "id": "db-schema-before-worker-restart",
+    "scope": "project",
+    "tags": ["database", "migration", "deployment", "worker", "ordering"],
+    "source": "user-correction",
+    "confidence": 0.7,
+    "related_count": 0
+  },
+  "validation": {
+    "card_filename_valid": true,
+    "date_format_valid": true,
+    "scope_valid": true,
+    "tags_count_valid": true,
+    "source_valid": true,
+    "confidence_valid": true,
+    "related_count_valid": true
+  },
+  "output_files": [
+    "result.md",
+    "transcript.md",
+    "user_notes.md",
+    "metrics.json"
+  ],
+  "status": "completed"
+}

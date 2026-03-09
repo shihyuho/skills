@@ -1,0 +1,31 @@
+{
+  "skill_name": "lessons-learned",
+  "skill_version": "2.1.1",
+  "phase": "recall",
+  "execution_timestamp": "2026-03-10T00:00:00Z",
+  "task": {
+    "description": "Refactor migration runner",
+    "keywords": ["migration", "runner", "baseline", "migrate", "order"],
+    "scope": "module"
+  },
+  "recall_results": {
+    "index_found": false,
+    "cards_found": false,
+    "cards_matched": 0,
+    "primary_cards_loaded": 0,
+    "related_cards_loaded": 0,
+    "total_cards_applied": 0,
+    "outcome": "no_cards_available"
+  },
+  "constraints_applied": [],
+  "notes": [
+    "docs/lessons/ directory does not exist in this project",
+    "No existing lesson cards to recall",
+    "User mentioned past incident but no cards exist to recall that lesson",
+    "Per skill rule: continue work without lesson constraints"
+  ],
+  "recommendations": [
+    "Verify baseline runs before migrate in any refactored code",
+    "Capture lesson after refactor if reusable pattern emerges"
+  ]
+}

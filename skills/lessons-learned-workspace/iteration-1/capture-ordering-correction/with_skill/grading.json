@@ -1,0 +1,61 @@
+{
+  "expectations": [
+    {
+      "text": "The response treats the prompt as correction-driven capture.",
+      "passed": true,
+      "evidence": "transcript.md identifies the phase as 'Capture (correction-driven capture)' and the trigger as a user correction about deployment ordering."
+    },
+    {
+      "text": "The captured lesson focuses on the reusable ordering rule instead of generic commentary.",
+      "passed": true,
+      "evidence": "result.md defines the lesson as 'Apply DB schema changes before worker restart' and the Lesson section contains concrete ordering steps rather than generic advice."
+    },
+    {
+      "text": "The response reports a compact outcome such as created, updated, or skipped.",
+      "passed": true,
+      "evidence": "transcript.md line 34 states '**Outcome**: created' and metrics.json has 'outcome': 'created'."
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "tool_calls": {},
+    "total_tool_calls": 0,
+    "total_steps": 5,
+    "errors_encountered": 0,
+    "output_chars": 51,
+    "transcript_chars": 1312
+  },
+  "timing": {
+    "executor_duration_seconds": 193.0,
+    "grader_duration_seconds": 0,
+    "total_duration_seconds": 193.0
+  },
+  "claims": [
+    {
+      "claim": "A lesson card was created with ID db-schema-before-worker-restart",
+      "type": "factual",
+      "verified": true,
+      "evidence": "metrics.json includes 'card_id': 'db-schema-before-worker-restart'."
+    },
+    {
+      "claim": "The capture qualified as a reusable user correction",
+      "type": "process",
+      "verified": true,
+      "evidence": "metrics.json includes 'capture_type': 'user-correction' and 'qualifies_for_capture': true."
+    }
+  ],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": []
+  },
+  "eval_feedback": {
+    "suggestions": [],
+    "overall": "No suggestions, evals look solid."
+  }
+}

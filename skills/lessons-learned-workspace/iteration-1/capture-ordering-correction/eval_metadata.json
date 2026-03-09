@@ -1,0 +1,10 @@
+{
+  "eval_id": 2,
+  "eval_name": "capture-ordering-correction",
+  "prompt": "Correction: do not touch the cache layer first. In this repo the fix only works if the DB schema change lands before the worker restart, otherwise the worker reads an old column set and crashes. Capture that as a reusable lesson.",
+  "assertions": [
+    "The response treats the prompt as correction-driven capture.",
+    "The captured lesson focuses on the reusable ordering rule instead of generic commentary.",
+    "The response reports a compact outcome such as created, updated, or skipped."
+  ]
+}

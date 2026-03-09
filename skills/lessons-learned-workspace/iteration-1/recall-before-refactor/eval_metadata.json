@@ -1,0 +1,10 @@
+{
+  "eval_id": 1,
+  "eval_name": "recall-before-refactor",
+  "prompt": "Before I refactor our migration runner, recall any relevant lessons. We had a bad incident last month where the baseline and migrate order mattered, and I do not want to repeat that.",
+  "assertions": [
+    "The response behaves as recall-only rather than running capture or setup.",
+    "The response converts recalled lessons into explicit constraints for the upcoming task.",
+    "If no lessons exist, the response says so without inventing fake lessons."
+  ]
+}

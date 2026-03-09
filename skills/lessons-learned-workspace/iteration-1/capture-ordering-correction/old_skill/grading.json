@@ -1,0 +1,44 @@
+{
+  "expectations": [
+    {
+      "text": "The response treats the prompt as correction-driven capture.",
+      "passed": true,
+      "evidence": "Transcript Step 1 shows 'Status: Skipped - Reason: This is a capture task (correction from user), not a recall task'. The trigger is labeled as 'user-correction' in both transcript and metrics.json."
+    },
+    {
+      "text": "The captured lesson focuses on the reusable ordering rule instead of generic commentary.",
+      "passed": true,
+      "evidence": "result.md contains lesson: 'Always apply DB schema changes before restarting workers', 'Deployment order: database migration → verify complete → then restart workers', 'Do not touch the cache layer first'. Card ID is 'db-schema-before-worker-restart' with tag 'ordering'."
+    },
+    {
+      "text": "The response reports a compact outcome such as created, updated, or skipped.",
+      "passed": false,
+      "evidence": "No compact outcome phrase ('created', 'updated', or 'skipped') found in transcript or outputs. metrics.json shows status: 'completed' and transcript shows 'Status: Deferred' for Update Index, but none of the expected compact outcomes are explicitly reported."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 1,
+    "total": 3,
+    "pass_rate": 0.67
+  },
+  "execution_metrics": {
+    "output_chars": 132,
+    "transcript_chars": 1847
+  },
+  "claims": [],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": []
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "The response reports a compact outcome such as created, updated, or skipped.",
+        "reason": "The expectation is ambiguous - it could mean either (a) the skill's internal decision about whether to create/update/skip a card, or (b) a status message in the output. The current outputs show 'status: completed' and 'Status: Deferred' but no explicit compact outcome. Consider clarifying what 'compact outcome' specifically means in this context."
+      }
+    ],
+    "overall": "Two of three expectations pass. The third expectation about 'compact outcome' is unclear - the transcript and metrics don't contain 'created', 'updated', or 'skipped' as stated in the expectation."
+  }
+}

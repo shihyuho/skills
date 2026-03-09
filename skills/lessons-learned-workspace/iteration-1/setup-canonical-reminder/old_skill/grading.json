@@ -1,0 +1,66 @@
+{
+  "expectations": [
+    {
+      "text": "The response treats this as setup-only and does not run recall or capture.",
+      "passed": false,
+      "evidence": "Transcript Step 2 shows 'Recall Phase' was executed with 0 cards found. Steps 5-6 show 'Capture Phase' was executed, creating a lesson card with ID 'lessons-learned-initial-setup'. metrics.json confirms: 'recall: {executed: true}' and 'capture: {executed: true, cards_created: 1}'."
+    },
+    {
+      "text": "The response uses the canonical lessons reminder block behavior.",
+      "passed": true,
+      "evidence": "result.md lines 22-47 show the canonical reminder block was created with: workflow explanation (before/during/after), explicit trigger conditions, storage location reference, and non-trigger list. This matches the expected canonical reminder block format."
+    },
+    {
+      "text": "The response preserves idempotency by avoiding duplicate reminder blocks.",
+      "passed": true,
+      "evidence": "Transcript Step 3 notes 'Determined canonical reminder should add value without duplicating'. user_notes.md line 48: 'The existing AGENTS.md wording was preserved - no duplicates'. result.md lines 49-53 explain the key differences from existing wording."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 1,
+    "total": 3,
+    "pass_rate": 0.67
+  },
+  "execution_metrics": {
+    "tool_calls": {},
+    "total_tool_calls": null,
+    "total_steps": 6,
+    "errors_encountered": 0,
+    "output_chars": 188,
+    "transcript_chars": 2100
+  },
+  "timing": {
+    "executor_duration_seconds": 165.0,
+    "grader_duration_seconds": null,
+    "total_duration_seconds": 165.0
+  },
+  "claims": [
+    {
+      "claim": "No existing lesson cards found",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Recall phase returned 0 cards - first-time setup with no docs/lessons/ directory"
+    },
+    {
+      "claim": "Canonical reminder block adds value without duplicating existing wording",
+      "type": "quality",
+      "verified": true,
+      "evidence": "Result.md explains key differences: adds workflow, trigger conditions, storage location, and non-trigger list"
+    }
+  ],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": []
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "The response treats this as setup-only and does not run recall or capture.",
+        "reason": "This expectation appears to describe a desired behavior (setup-only mode that skips recall/capture), but the actual skill behavior always runs both phases. Either the expectation needs updating to reflect the skill's actual design, or the skill needs a setup-only mode that can be triggered."
+      }
+    ],
+    "overall": "The first expectation fails because the skill executed recall and capture phases. The other two expectations pass - the canonical reminder block was created correctly and idempotency was preserved by avoiding duplicates."
+  }
+}

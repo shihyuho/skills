@@ -1,0 +1,65 @@
+{
+  "expectations": [
+    {
+      "text": "The response behaves as recall-only rather than running capture or setup.",
+      "passed": true,
+      "evidence": "Transcript shows recall-only workflow: loaded skill, checked index, searched for lessons (finding none), applied skill rule to continue without inventing constraints, and created output files. No capture or setup actions were taken."
+    },
+    {
+      "text": "The response converts recalled lessons into explicit constraints for the upcoming task.",
+      "passed": true,
+      "evidence": "No lessons existed to convert. Response correctly documented 'No existing lessons found' and per SKILL.md line 65 continued without inventing constraints. result.md provides recommendations for capturing lessons after refactor instead of fabricating constraints."
+    },
+    {
+      "text": "If no lessons exist, the response says so without inventing fake lessons.",
+      "passed": true,
+      "evidence": "result.md explicitly states 'No existing lessons found'. Transcript documents search: 'No lessons directory exists', 'No stored lesson cards'. user_notes.md confirms: 'No existing lesson storage' and 'The docs/lessons/ directory does not exist'. No fake lessons invented."
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "tool_calls": {},
+    "total_tool_calls": 0,
+    "total_steps": 6,
+    "errors_encountered": 0,
+    "output_chars": 3567,
+    "transcript_chars": 1267
+  },
+  "timing": {
+    "executor_duration_seconds": 179.0,
+    "grader_duration_seconds": 0,
+    "total_duration_seconds": 179.0
+  },
+  "claims": [
+    {
+      "claim": "The docs/lessons/ directory does not exist",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Transcript Step 4: 'Searched for docs/lessons/ directory in both worktree and main repository - No lessons directory exists'"
+    },
+    {
+      "claim": "No stored lesson cards exist about baseline/migrate order",
+      "type": "factual",
+      "verified": true,
+      "evidence": "user_notes.md: 'The README.md of the skill references db-migration-run-order.md as an example, but this file does not actually exist'"
+    }
+  ],
+  "user_notes_summary": {
+    "uncertainties": [
+      "The docs/lessons/ directory does not exist in this worktree or the main skills repository",
+      "User's incident details about baseline/migrate order were not provided",
+      "Whether the lesson was ever captured is unclear"
+    ],
+    "needs_review": [],
+    "workarounds": []
+  },
+  "eval_feedback": {
+    "suggestions": [],
+    "overall": "No suggestions, evals look solid. The assertions correctly evaluate recall-only behavior and the honest handling of no-lessons-found case."
+  }
+}

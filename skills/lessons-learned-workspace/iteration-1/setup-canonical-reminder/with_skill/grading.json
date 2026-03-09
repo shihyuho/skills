@@ -1,0 +1,60 @@
+{
+  "expectations": [
+    {
+      "text": "The response treats this as setup-only and does not run recall or capture.",
+      "passed": true,
+      "evidence": "Transcript explicitly shows 'Phase: Setup Entry Point' and actions are limited to: loading skill, identifying target (AGENTS.md), analyzing content, verifying canonical block, checking for duplicates, and making decision (no changes). No recall or capture phases executed. metrics.json confirms 'phase': 'setup' and 'status': 'complete_no_changes_needed'."
+    },
+    {
+      "text": "The response uses the canonical lessons reminder block behavior.",
+      "passed": true,
+      "evidence": "Transcript lines 14-19 show 'Canonical Block Verified: Confirmed exact match with skill's specification' and shows the exact block: '## Lessons Learned\\n\\n**MUST** use the `lessons-learned` skill before any execution'. result.md confirms this matches the skill's canonical block (lines 127-131 of SKILL.md)."
+    },
+    {
+      "text": "The response preserves idempotency by avoiding duplicate reminder blocks.",
+      "passed": true,
+      "evidence": "Transcript line 5: 'Duplicate Check: No duplicate wording found - already canonical'. result.md line 25: 'No duplicate wording found'. metrics.json shows 'duplicate_found': false."
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "target_files_checked": ["AGENTS.md"],
+    "canonical_block_found": true,
+    "canonical_block_location": "lines 6-8",
+    "duplicate_found": false,
+    "changes_made": false,
+    "status": "complete_no_changes_needed"
+  },
+  "timing": {
+    "executor_duration_seconds": 122.0,
+    "total_duration_seconds": 122.0
+  },
+  "claims": [
+    {
+      "claim": "The canonical block in AGENTS.md matches exactly what the skill specifies",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Transcript shows exact match verification. result.md confirms block matches skill's specification (lines 127-131 of SKILL.md)."
+    },
+    {
+      "claim": "No modifications were made to the repository",
+      "type": "quality",
+      "verified": true,
+      "evidence": "result.md states 'Status: No changes required'. metrics.json shows 'changes_made': false. user_notes.md confirms no changes were persisted."
+    }
+  ],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": []
+  },
+  "eval_feedback": {
+    "suggestions": [],
+    "overall": "No suggestions, evals look solid"
+  }
+}

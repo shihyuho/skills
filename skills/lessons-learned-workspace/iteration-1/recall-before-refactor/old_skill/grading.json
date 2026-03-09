@@ -1,0 +1,72 @@
+{
+  "expectations": [
+    {
+      "text": "The response behaves as recall-only rather than running capture or setup.",
+      "passed": true,
+      "evidence": "Transcript shows: 'Loaded skill: lessons-learned v2.1.1 from baseline snapshot' - clearly recall phase. Steps 4-6 show index recovery attempted but no cards found. Step 7: 'Concluded: No lessons to apply as constraints.' No capture or setup was invoked."
+    },
+    {
+      "text": "The response converts recalled lessons into explicit constraints for the upcoming task.",
+      "passed": false,
+      "evidence": "No lessons were found (index not found, no cards exist). The transcript states: 'No lessons to apply as constraints' and metrics.json shows 'constraints_applied': []. The user's manual insight ('baseline must run before migrate') was noted as a recommendation to verify during refactoring, but this was not converted into explicit constraints - it remained a note. Since there were no recalled lessons, there were no constraints to convert."
+    },
+    {
+      "text": "If no lessons exist, the response says so without inventing fake lessons.",
+      "passed": true,
+      "evidence": "Transcript explicitly states: 'No lessons to apply as constraints' and 'docs/lessons/ directory does not exist in this project.' The skill followed its rule: 'If no cards match, continue work without lesson constraints.' No fake lessons were invented."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 1,
+    "total": 3,
+    "pass_rate": 0.67
+  },
+  "execution_metrics": {
+    "tool_calls": {},
+    "total_tool_calls": 0,
+    "total_steps": 7,
+    "errors_encountered": 0,
+    "output_chars": 1200,
+    "transcript_chars": 900
+  },
+  "timing": {
+    "executor_duration_seconds": 123.0,
+    "grader_duration_seconds": 0,
+    "total_duration_seconds": 123.0
+  },
+  "claims": [
+    {
+      "claim": "No lesson cards exist in the system",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Transcript confirms: index not found, docs/lessons/ directory does not exist, no cards matched"
+    },
+    {
+      "claim": "User mentioned past incident involving baseline/migrate order",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Transcript notes: 'The user mentioned a past incident involving baseline/migrate order'"
+    },
+    {
+      "claim": "Skill correctly followed 'continue without constraints' rule",
+      "type": "process",
+      "verified": true,
+      "evidence": "Transcript states: 'If no cards match, continue work without lesson constraints'"
+    }
+  ],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": []
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "The response converts recalled lessons into explicit constraints for the upcoming task.",
+        "reason": "This expectation is difficult to evaluate when no lessons exist - there's nothing to convert. Consider adding a nuance for 'no lessons found' case, or rephrasing to check whether the response appropriately handles the absence of lessons."
+      }
+    ],
+    "overall": "Two of three expectations pass. The second expectation may need refinement - it presupposes lessons exist to convert. The skill behaved correctly for a recall-only phase with no cards found."
+  }
+}

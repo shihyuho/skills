@@ -1,0 +1,51 @@
+{
+  "skill": "lessons-learned",
+  "skill_version": "2.1.1",
+  "task": "initialize lessons-learned reminder",
+  "execution_date": "2026-03-10",
+  "phase": "task-start",
+  
+  "recall": {
+    "executed": true,
+    "cards_found": 0,
+    "cards_loaded": 0,
+    "index_rebuilt": false,
+    "reason": "No existing docs/lessons/ directory - first-time setup"
+  },
+  
+  "capture": {
+    "executed": true,
+    "cards_created": 1,
+    "cards_updated": 0,
+    "cards_skipped": 0,
+    "lesson_id": "lessons-learned-initial-setup",
+    "scope": "project",
+    "source": "user-correction",
+    "confidence": 0.7,
+    "tags": ["setup", "lessons-learned", "workflow", "initialization"]
+  },
+  
+  "execution": {
+    "task_completed": true,
+    "output_files_created": 4,
+    "agencies_analyzed": true,
+    "canonical_reminder_created": true,
+    "duplicate_wording_avoided": true
+  },
+  
+  "metrics": {
+    "total_cards": 1,
+    "primary_cards": 0,
+    "related_cards": 0,
+    "max_cards_respected": true,
+    "validation_passed": true
+  },
+  
+  "output_location": "skills/lessons-learned-workspace/iteration-1/setup-canonical-reminder/old_skill/outputs/",
+  "output_files": [
+    "result.md",
+    "transcript.md",
+    "user_notes.md",
+    "metrics.json"
+  ]
+}
