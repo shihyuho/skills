@@ -1,0 +1,43 @@
+{
+  "skill_version": "3.0.0",
+  "skill_location": "/Users/matt/code/github.com/shihyuho/skills/.worktrees/lessons-learned-contract-redesign/skills/lessons-learned",
+  "task": "recall before refactor migration runner",
+  "phase": "recall",
+  "invocation_type": "task-start",
+  "timestamp": "2026-03-10T00:00:00Z",
+  "results": {
+    "cards_loaded": 0,
+    "cards_primary": 0,
+    "cards_related": 0,
+    "constraints_extracted": 1,
+    "total_cards_limit": 5,
+    "storage_found": false,
+    "index_exists": false,
+    "first_run": true
+  },
+  "input_context": {
+    "keywords": ["migration", "runner", "refactor", "baseline", "migrate", "order"],
+    "scope": "project",
+    "task_description": "Before I refactor our migration runner, recall any relevant lessons. We had a bad incident last month where the baseline and migrate order mattered, and I do not want to repeat that."
+  },
+  "output_files": [
+    "result.md",
+    "transcript.md",
+    "user_notes.md",
+    "metrics.json"
+  ],
+  "validation": {
+    "recall_completed": true,
+    "index_rebuilt": false,
+    "broken_links_warned": false,
+    "recall_limits_respected": true
+  },
+  "user_insight": {
+    "constraint": "baseline must run before migrate",
+    "source": "user task description"
+  },
+  "previous_iterations": {
+    "iteration_1_found_lessons": false,
+    "iteration_1_same_task": true
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "skill_name": "lessons-learned",
+  "skill_version": "2.1.1",
+  "phase": "recall",
+  "status": "skipped",
+  "reason": "no_existing_cards",
+  "task_keywords": ["auth", "middleware", "refactor"],
+  "primary_cards_loaded": 0,
+  "related_cards_loaded": 0,
+  "total_cards_applied": 0,
+  "constraints_found": 0,
+  "index_exists": false,
+  "lessons_directory_exists": false,
+  "timestamp": "2026-03-10T00:00:00Z"
+}

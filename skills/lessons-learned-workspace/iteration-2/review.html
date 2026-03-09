@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eval Review</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js" integrity="sha384-EnyY0/GSHQGSxSgMwaIPzSESbqoOLSexfnSMN2AP+39Ckmn92stwABZynq1JyzdT" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #faf9f5;
+      --surface: #ffffff;
+      --border: #e8e6dc;
+      --text: #141413;
+      --text-muted: #b0aea5;
+      --accent: #d97757;
+      --accent-hover: #c4613f;
+      --green: #788c5d;
+      --green-bg: #eef2e8;
+      --red: #c44;
+      --red-bg: #fceaea;
+      --header-bg: #141413;
+      --header-text: #faf9f5;
+      --radius: 6px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Lora', Georgia, serif;
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ---- Header ---- */
+    .header {
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .header h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+    .header .instructions {
+      font-size: 0.8rem;
+      opacity: 0.7;
+      margin-top: 0.25rem;
+    }
+    .header .progress {
+      font-size: 0.875rem;
+      opacity: 0.8;
+      text-align: right;
+    }
+
+    /* ---- Main content ---- */
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    /* ---- Sections ---- */
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      flex-shrink: 0;
+    }
+    .section-header {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.75rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .section-body {
+      padding: 1rem;
+    }
+
+    /* ---- Config badge ---- */
+    .config-badge {
+      display: inline-block;
+      padding: 0.2rem 0.625rem;
+      border-radius: 9999px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-left: 0.75rem;
+      vertical-align: middle;
+    }
+    .config-badge.config-primary {
+      background: rgba(33, 150, 243, 0.12);
+      color: #1976d2;
+    }
+    .config-badge.config-baseline {
+      background: rgba(255, 193, 7, 0.15);
+      color: #f57f17;
+    }
+
+    /* ---- Prompt ---- */
+    .prompt-text {
+      white-space: pre-wrap;
+      font-size: 0.9375rem;
+      line-height: 1.6;
+    }
+
+    /* ---- Outputs ---- */
+    .output-file {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .output-file + .output-file {
+      margin-top: 1rem;
+    }
+    .output-file-header {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .output-file-header .dl-btn {
+      font-size: 0.7rem;
+      color: var(--accent);
+      text-decoration: none;
+      cursor: pointer;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 500;
+      opacity: 0.8;
+    }
+    .output-file-header .dl-btn:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+    .output-file-content {
+      padding: 0.75rem;
+      overflow-x: auto;
+    }
+    .output-file-content pre {
+      font-size: 0.8125rem;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+    }
+    .output-file-content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+    }
+    .output-file-content iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+    }
+    .output-file-content table {
+      border-collapse: collapse;
+      font-size: 0.8125rem;
+      width: 100%;
+    }
+    .output-file-content table td,
+    .output-file-content table th {
+      border: 1px solid var(--border);
+      padding: 0.375rem 0.5rem;
+      text-align: left;
+    }
+    .output-file-content table th {
+      background: var(--bg);
+      font-weight: 600;
+    }
+    .output-file-content .download-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.875rem;
+      cursor: pointer;
+    }
+    .output-file-content .download-link:hover {
+      background: var(--border);
+    }
+    .empty-state {
+      color: var(--text-muted);
+      font-style: italic;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    /* ---- Feedback ---- */
+    .prev-feedback {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.625rem 0.75rem;
+      margin-top: 0.75rem;
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .prev-feedback-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.25rem;
+      color: var(--text-muted);
+    }
+    .feedback-textarea {
+      width: 100%;
+      min-height: 100px;
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 0.9375rem;
+      line-height: 1.5;
+      resize: vertical;
+      color: var(--text);
+    }
+    .feedback-textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    .feedback-status {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      min-height: 1.1em;
+    }
+
+    /* ---- Grades (collapsible) ---- */
+    .grades-toggle {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+    .grades-toggle:hover {
+      color: var(--accent);
+    }
+    .grades-toggle .arrow {
+      margin-right: 0.5rem;
+      transition: transform 0.15s;
+      font-size: 0.75rem;
+    }
+    .grades-toggle .arrow.open {
+      transform: rotate(90deg);
+    }
+    .grades-content {
+      display: none;
+      margin-top: 0.75rem;
+    }
+    .grades-content.open {
+      display: block;
+    }
+    .grades-summary {
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .grade-badge {
+      display: inline-block;
+      padding: 0.125rem 0.5rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .grade-pass { background: var(--green-bg); color: var(--green); }
+    .grade-fail { background: var(--red-bg); color: var(--red); }
+    .assertion-list {
+      list-style: none;
+    }
+    .assertion-item {
+      padding: 0.625rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.8125rem;
+    }
+    .assertion-item:last-child { border-bottom: none; }
+    .assertion-status {
+      font-weight: 600;
+      margin-right: 0.5rem;
+    }
+    .assertion-status.pass { color: var(--green); }
+    .assertion-status.fail { color: var(--red); }
+    .assertion-evidence {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+      padding-left: 1.5rem;
+    }
+
+    /* ---- View tabs ---- */
+    .view-tabs {
+      display: flex;
+      gap: 0;
+      padding: 0 2rem;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .view-tab {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.625rem 1.25rem;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: var(--text-muted);
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s;
+    }
+    .view-tab:hover { color: var(--text); }
+    .view-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+    .view-panel { display: none; }
+    .view-panel.active { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
+
+    /* ---- Benchmark view ---- */
+    .benchmark-view {
+      padding: 1.5rem 2rem;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .benchmark-table {
+      border-collapse: collapse;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.8125rem;
+      width: 100%;
+      margin-bottom: 1.5rem;
+    }
+    .benchmark-table th, .benchmark-table td {
+      padding: 0.625rem 0.75rem;
+      text-align: left;
+      border: 1px solid var(--border);
+    }
+    .benchmark-table th {
+      font-family: 'Poppins', sans-serif;
+      background: var(--header-bg);
+      color: var(--header-text);
+      font-weight: 500;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .benchmark-table tr:hover { background: var(--bg); }
+    .benchmark-table tr.benchmark-row-with { background: rgba(33, 150, 243, 0.06); }
+    .benchmark-table tr.benchmark-row-without { background: rgba(255, 193, 7, 0.06); }
+    .benchmark-table tr.benchmark-row-with:hover { background: rgba(33, 150, 243, 0.12); }
+    .benchmark-table tr.benchmark-row-without:hover { background: rgba(255, 193, 7, 0.12); }
+    .benchmark-table tr.benchmark-row-avg { font-weight: 600; border-top: 2px solid var(--border); }
+    .benchmark-table tr.benchmark-row-avg.benchmark-row-with { background: rgba(33, 150, 243, 0.12); }
+    .benchmark-table tr.benchmark-row-avg.benchmark-row-without { background: rgba(255, 193, 7, 0.12); }
+    .benchmark-delta-positive { color: var(--green); font-weight: 600; }
+    .benchmark-delta-negative { color: var(--red); font-weight: 600; }
+    .benchmark-notes {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+    }
+    .benchmark-notes h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+    }
+    .benchmark-notes ul {
+      list-style: disc;
+      padding-left: 1.25rem;
+    }
+    .benchmark-notes li {
+      font-size: 0.8125rem;
+      line-height: 1.6;
+      margin-bottom: 0.375rem;
+    }
+    .benchmark-empty {
+      color: var(--text-muted);
+      font-style: italic;
+      text-align: center;
+      padding: 3rem;
+    }
+
+    /* ---- Navigation ---- */
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      flex-shrink: 0;
+    }
+    .nav-btn {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.5rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text);
+      transition: all 0.15s;
+    }
+    .nav-btn:hover:not(:disabled) {
+      background: var(--bg);
+      border-color: var(--text-muted);
+    }
+    .nav-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    .done-btn {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.5rem 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.15s;
+    }
+    .done-btn:hover {
+      background: var(--bg);
+      border-color: var(--text-muted);
+    }
+    .done-btn.ready {
+      border: none;
+      background: var(--accent);
+      color: white;
+      font-weight: 600;
+    }
+    .done-btn.ready:hover {
+      background: var(--accent-hover);
+    }
+    /* ---- Done overlay ---- */
+    .done-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+    }
+    .done-overlay.visible {
+      display: flex;
+    }
+    .done-card {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 2rem 3rem;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 500px;
+    }
+    .done-card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .done-card p {
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+    .done-card .btn-row {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+    .done-card button {
+      padding: 0.5rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 0.875rem;
+    }
+    .done-card button:hover {
+      background: var(--bg);
+    }
+    /* ---- Toast ---- */
+    .toast {
+      position: fixed;
+      bottom: 5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 0.625rem 1.25rem;
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      z-index: 200;
+    }
+    .toast.visible {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div id="app" style="height:100vh; display:flex; flex-direction:column;">
+    <div class="header">
+      <div>
+        <h1>Eval Review: <span id="skill-name"></span></h1>
+        <div class="instructions">Review each output and leave feedback below. Navigate with arrow keys or buttons. When done, copy feedback and paste into Claude Code.</div>
+      </div>
+      <div class="progress" id="progress"></div>
+    </div>
+
+    <!-- View tabs (only shown when benchmark data exists) -->
+    <div class="view-tabs" id="view-tabs" style="display:none;">
+      <button class="view-tab active" onclick="switchView('outputs')">Outputs</button>
+      <button class="view-tab" onclick="switchView('benchmark')">Benchmark</button>
+    </div>
+
+    <!-- Outputs panel (qualitative review) -->
+    <div class="view-panel active" id="panel-outputs">
+    <div class="main">
+      <!-- Prompt -->
+      <div class="section">
+        <div class="section-header">Prompt <span class="config-badge" id="config-badge" style="display:none;"></span></div>
+        <div class="section-body">
+          <div class="prompt-text" id="prompt-text"></div>
+        </div>
+      </div>
+
+      <!-- Outputs -->
+      <div class="section">
+        <div class="section-header">Output</div>
+        <div class="section-body" id="outputs-body">
+          <div class="empty-state">No output files found</div>
+        </div>
+      </div>
+
+      <!-- Previous Output (collapsible) -->
+      <div class="section" id="prev-outputs-section" style="display:none;">
+        <div class="section-header">
+          <div class="grades-toggle" onclick="togglePrevOutputs()">
+            <span class="arrow" id="prev-outputs-arrow">&#9654;</span>
+            Previous Output
+          </div>
+        </div>
+        <div class="grades-content" id="prev-outputs-content"></div>
+      </div>
+
+      <!-- Grades (collapsible) -->
+      <div class="section" id="grades-section" style="display:none;">
+        <div class="section-header">
+          <div class="grades-toggle" onclick="toggleGrades()">
+            <span class="arrow" id="grades-arrow">&#9654;</span>
+            Formal Grades
+          </div>
+        </div>
+        <div class="grades-content" id="grades-content"></div>
+      </div>
+
+      <!-- Feedback -->
+      <div class="section">
+        <div class="section-header">Your Feedback</div>
+        <div class="section-body">
+          <textarea
+            class="feedback-textarea"
+            id="feedback"
+            placeholder="What do you think of this output? Any issues, suggestions, or things that look great?"
+          ></textarea>
+          <div class="feedback-status" id="feedback-status"></div>
+          <div class="prev-feedback" id="prev-feedback" style="display:none;">
+            <div class="prev-feedback-label">Previous feedback</div>
+            <div id="prev-feedback-text"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav" id="outputs-nav">
+      <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">&#8592; Previous</button>
+      <button class="done-btn" id="done-btn" onclick="showDoneDialog()">Submit All Reviews</button>
+      <button class="nav-btn" id="next-btn" onclick="navigate(1)">Next &#8594;</button>
+    </div>
+    </div><!-- end panel-outputs -->
+
+    <!-- Benchmark panel (quantitative stats) -->
+    <div class="view-panel" id="panel-benchmark">
+      <div class="benchmark-view" id="benchmark-content">
+        <div class="benchmark-empty">No benchmark data available. Run a benchmark to see quantitative results here.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Done overlay -->
+  <div class="done-overlay" id="done-overlay">
+    <div class="done-card">
+      <h2>Review Complete</h2>
+      <p>Your feedback has been saved. Go back to your Claude Code session and tell Claude you're done reviewing.</p>
+      <div class="btn-row">
+        <button onclick="closeDoneDialog()">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ---- Embedded data (injected by generate_review.py) ----
+    const EMBEDDED_DATA = {"skill_name": "lessons-learned", "runs": [{"id": "recall-before-refactor-old_skill", "prompt": "Before I refactor our migration runner, recall any relevant lessons. We had a bad incident last month where the baseline and migrate order mattered, and I do not want to repeat that.", "eval_id": 1, "outputs": [{"name": "result.md", "type": "text", "content": "# Recall Result\n\n## Task\nRecall relevant lessons before refactoring migration runner (baseline and migrate order issue).\n\n## Recall Execution\n\n### Step 1: Extract Keywords\n- **Technology**: migration runner, database migrations\n- **Failure mode**: baseline and migrate order\n- **Domain**: database, schema migration\n\n### Step 2: Check Index\n- **Location checked**: `docs/lessons/_index.md`\n- **Status**: NOT FOUND - no `docs/lessons/` directory exists in this worktree\n\n### Step 3: Load Cards\n- **Primary cards found**: 0\n- **Related cards loaded**: 0\n- **Total cards loaded**: 0\n\n### Step 4: Apply Lessons\nPer skill specification: \"If no cards match, continue work without lesson constraints.\"\n\n## Outcome\n**No lessons recalled** - This is the baseline old_skill snapshot with no captured lessons. The user's concern about baseline/migrate order is valid but no prior lessons exist to recall.\n\n## Recommendation\nProceed with migration runner refactor. Consider capturing a lesson after the refactor if issues arise to prevent future repetition.\n"}], "grading": {"expectations": [{"text": "The response behaves as recall-only rather than running capture or setup.", "passed": true, "evidence": "Transcript shows recall behavior: keyword extraction (Step 1), index recovery check (Step 2), working scope determination (Step 3), reading index (Step 4), card ranking (Step 5), and loading cards (Steps 6-8). No capture or setup phases executed. Phase explicitly marked as 'Recall (before work)'."}, {"text": "The response either converts recalled lessons into explicit constraints or clearly states that no constraints were loaded because no matching lessons exist.", "passed": true, "evidence": "result.md states 'If no cards match, continue work without lesson constraints.' user_notes.md explicitly states 'No lessons were recalled' and explains why - no docs/lessons directory exists. Metrics shows 0 cards found, 0 constraints applied."}, {"text": "If no lessons exist, the response says so without inventing fake lessons.", "passed": true, "evidence": "user_notes.md line 5: 'No lessons were recalled', line 9: 'no lessons have been captured yet in the worktree'. result.md line 26: 'No lessons recalled - This is the baseline old_skill snapshot with no captured lessons.' No invented lessons found in any output."}], "summary": {"passed": 3, "failed": 0, "total": 3, "pass_rate": 1.0}, "execution_metrics": {"tool_calls": {}, "total_tool_calls": 0, "total_steps": 8, "errors_encountered": 0, "output_chars": 3800, "transcript_chars": 1400}, "timing": {"executor_duration_seconds": 214.0, "grader_duration_seconds": 0, "total_duration_seconds": 214.0}, "claims": [{"claim": "No lessons exist in the worktree", "type": "factual", "verified": true, "evidence": "Index check confirms docs/lessons/_index.md does not exist, 0 cards found"}, {"claim": "Recall phase continued without lesson constraints", "type": "process", "verified": true, "evidence": "Per skill spec: 'If no cards match, continue work without lesson constraints' - this was executed"}], "user_notes_summary": {"uncertainties": [], "needs_review": [], "workarounds": []}, "eval_feedback": {"suggestions": [], "overall": "No suggestions, evals look solid"}}}, {"id": "recall-before-refactor-with_skill", "prompt": "Before I refactor our migration runner, recall any relevant lessons. We had a bad incident last month where the baseline and migrate order mattered, and I do not want to repeat that.", "eval_id": 1, "outputs": [{"name": "result.md", "type": "text", "content": "# Recall Result: Migration Runner Refactor\n\n**Skill**: lessons-learned (v3.0.0 from contract-redesign worktree)\n**Task**: Before I refactor our migration runner, recall any relevant lessons. We had a bad incident last month where the baseline and migrate order mattered, and I do not want to repeat that.\n**Date**: 2026-03-10\n\n## Summary\n\n**No existing lessons found** for the migration runner refactoring task.\n\n## Recall Process\n\n1. **Task keywords identified**: migration, runner, refactor, baseline, migrate order\n2. **Working scope**: project (migration systems span project-wide)\n3. **Storage location checked**: `docs/lessons/` - no directory exists\n4. **Index file checked**: `docs/lessons/_index.md` - not found\n\n### Finding\n\n- No lesson cards exist in the system\n- This is a first-run scenario (no stored lessons to recall)\n- Previous iteration-1 recall also found no stored lessons\n\n## Working Constraints\n\nFrom the user's task description, the known constraint is:\n- **baseline must run before migrate**\n\n## Recommendation\n\n1. Proceed with migration runner refactoring\n2. When the refactor reveals specific prevention rules about baseline/migrate ordering, capture them using the lessons-learned skill\n3. Consider creating a lesson card after the refactor if the incident details are understood\n\n## Card IDs Loaded\n\nNo cards loaded (first run - no lessons stored).\n"}], "grading": {"expectations": [{"text": "The response behaves as recall-only rather than running capture or setup.", "passed": true, "evidence": "Transcript shows recall phase with steps: 'Identify current context', 'Check for index and cards', 'Check for previous iterations', 'Load cards'. No capture or setup actions present. Metrics confirms phase: 'recall'."}, {"text": "The response either converts recalled lessons into explicit constraints or clearly states that no constraints were loaded because no matching lessons exist.", "passed": true, "evidence": "Result section explicitly states 'Cards loaded: 0' and 'No cards to load - first run scenario'. The response clearly indicates no matching lessons were found."}, {"text": "If no lessons exist, the response says so without inventing fake lessons.", "passed": true, "evidence": "Multiple clear statements: 'Cards loaded: 0', 'No cards to load', 'No lesson cards exist in the system', 'No stored lessons'. No fabricated lessons present."}], "summary": {"passed": 3, "failed": 0, "total": 3, "pass_rate": 1.0}, "execution_metrics": {"tool_calls": {}, "total_tool_calls": 0, "total_steps": 4, "errors_encountered": 0, "output_chars": 0, "transcript_chars": 39}, "timing": {"executor_duration_seconds": 210.0, "grader_duration_seconds": 0, "total_duration_seconds": 210.0}, "claims": [{"claim": "Cards loaded: 0", "type": "factual", "verified": true, "evidence": "Confirmed in transcript result section and metrics.json (cards_loaded: 0)"}, {"claim": "First run scenario - no stored lessons to recall", "type": "factual", "verified": true, "evidence": "Result.md states 'No lesson cards exist in the system' and 'first run scenario'"}], "user_notes_summary": {"uncertainties": [], "needs_review": [], "workarounds": []}, "eval_feedback": {"suggestions": [], "overall": "No suggestions, evals look solid"}}}, {"id": "capture-ordering-correction-old_skill", "prompt": "Correction: do not touch the cache layer first. In this repo the fix only works if the DB schema change lands before the worker restart, otherwise the worker reads an old column set and crashes. Capture that as a reusable lesson.", "eval_id": 2, "outputs": [{"name": "result.md", "type": "text", "content": "# Lesson Capture Result\n\n## Summary\n\nCaptured 1 new lesson card from user correction.\n\n## Created Cards\n\n| ID | Scope | Source | Confidence |\n|---|---|---|---|\n| `db-schema-before-worker-restart` | project | user-correction | 0.7 |\n\n## Card Details\n\n### db-schema-before-worker-restart\n\n**Title**: Apply DB schema changes before worker restart\n\n**Tags**: db-schema, worker, restart-order, migration, cache\n\n**Lesson**: DB schema changes must be applied BEFORE worker restart. If you restart the worker first, it will read the old column set from the cache and crash due to schema mismatch.\n\n## Files Created\n\n- `db-schema-before-worker-restart.md` (lesson card in docs/lessons/)\n\n## Notes\n\nThis lesson applies to any scenario where:\n- A worker process caches DB schema/column information\n- Schema changes are being deployed\n- The fix requires both DB migration AND worker restart\n\nThe critical ordering constraint: schema migration must complete and land BEFORE the worker restarts.\n"}], "grading": {"expectations": [{"text": "The response treats the prompt as correction-driven capture.", "passed": true, "evidence": "Transcript Phase 2 shows 'Correction Received' with the user's correction, and Step 4 in Phase 3 identifies source as 'user-correction'"}, {"text": "The captured lesson focuses on the reusable ordering rule instead of generic commentary.", "passed": true, "evidence": "Card 'db-schema-before-worker-restart' captures specific ordering rule: 'DB schema changes must be applied BEFORE worker restart' with relevant tags (db-schema, worker, restart-order)"}, {"text": "The response reports a compact outcome such as created, updated, or skipped.", "passed": true, "evidence": "Step 4 confirmation shows: 'created=1 (`db-schema-before-worker-restart`), updated=0, skipped=0'"}], "summary": {"passed": 3, "failed": 0, "total": 3, "pass_rate": 1.0}, "execution_metrics": {"phase": "capture", "skill_version": "2.1.1", "cards_created": 1, "cards_updated": 0, "cards_skipped": 0}, "claims": [{"claim": "The lesson captures a reusable ordering constraint", "type": "factual", "verified": true, "evidence": "Card explicitly captures 'DB schema must be applied BEFORE worker restart' - a specific ordering rule"}], "user_notes_summary": {"uncertainties": [], "needs_review": [], "workarounds": []}, "eval_feedback": {"suggestions": [], "overall": "No suggestions, evals look solid"}}}, {"id": "capture-ordering-correction-with_skill", "prompt": "Correction: do not touch the cache layer first. In this repo the fix only works if the DB schema change lands before the worker restart, otherwise the worker reads an old column set and crashes. Capture that as a reusable lesson.", "eval_id": 2, "outputs": [{"name": "result.md", "type": "text", "content": "# Capture Result\n\n**Result**: created\n\nA new lesson card was created for the DB schema/worker ordering lesson.\n\n## Details\n\n- **Card ID**: db-schema-before-worker-restart\n- **Source**: user-correction\n- **Confidence**: 0.7\n- **Scope**: module\n\n## Summary\n\nThe lesson captures the constraint that DB schema changes must land before worker restart, otherwise the worker reads stale column metadata and crashes.\n"}], "grading": {"expectations": [{"text": "The response treats the prompt as correction-driven capture.", "passed": true, "evidence": "The input clearly begins with 'Correction: do not touch the cache layer first...' and metrics.json shows source: 'user-correction', confirming it was treated as a correction-driven capture."}, {"text": "The captured lesson focuses on the reusable ordering rule instead of generic commentary.", "passed": true, "evidence": "The lesson captures 'DB schema changes must land before worker restart' with tags including 'ordering', 'schema-change'. The user_notes.md explicitly states 'The deployment order must be: schema change first, then worker restart' - this is a specific reusable ordering rule."}, {"text": "The response reports a compact outcome such as created, updated, or skipped.", "passed": true, "evidence": "result.md line 3: 'Result: created' - a compact single-word outcome."}], "summary": {"passed": 3, "failed": 0, "total": 3, "pass_rate": 1.0}, "execution_metrics": {"total_tool_calls": null, "total_steps": null, "errors_encountered": 0, "output_chars": 66, "transcript_chars": 600}, "timing": {"executor_duration_seconds": 204.0, "total_duration_seconds": 204.0}, "claims": [{"claim": "A new lesson card was created for the DB schema/worker ordering lesson", "type": "factual", "verified": true, "evidence": "metrics.json shows action: 'created', card_id: 'db-schema-before-worker-restart'"}], "user_notes_summary": {"uncertainties": [], "needs_review": [], "workarounds": []}, "eval_feedback": {"suggestions": [], "overall": "All expectations pass. The eval captures the key requirements appropriately."}}}, {"id": "setup-canonical-reminder-old_skill", "prompt": "Please initialize the lessons-learned reminder for this project. We have `AGENTS.md` already, but I want the canonical reminder block and I do not want duplicate wording if something similar is already there.", "eval_id": 3, "outputs": [{"name": "result.md", "type": "text", "content": "# Lessons Learned Reminder Initialization - Result\n\n## Task Summary\nInitialize the lessons-learned reminder for this sandbox project.\n\n## Canonical Reminder Verification\n\n### AGENTS.md Status\n- **Location**: `/Users/matt/code/github.com/shihyuho/skills/.worktrees/lessons-learned-contract-redesign/skills/lessons-learned-workspace/iteration-2/sandboxes/setup-old-skill/AGENTS.md`\n- **Status**: \u2705 Canonical reminder block present\n- **Content**:\n  ```markdown\n  ## Lessons Learned\n  \n  **MUST** use the `lessons-learned` skill before any execution\n  ```\n- **Duplicate Check**: No duplicates found. This is the correct canonical reminder.\n\n## Recall Phase Results\n\n### Index Status\n- **docs/lessons/_index.md**: Not present (baseline skill snapshot)\n- **Lesson Cards**: None exist in baseline snapshot\n\n### Recall Execution\n- **Rule Applied**: \"If `docs/lessons/_index.md` is missing, skip recall on first run (no cards)\"\n- **Result**: No lessons loaded - continuing without lesson constraints\n- **Reason**: Baseline skill snapshot has no existing lesson cards to recall\n\n### Task Keywords Extracted\n- `lessons-learned` (skill name)\n- `reminder` (task type)\n- `AGENTS.md` (target file)\n- `canonical` (modifier)\n\n## Conclusion\nThe canonical reminder block is already correctly configured in the sandbox's AGENTS.md. No changes required. The lessons-learned reminder is properly initialized for this project.\n"}], "grading": {"expectations": [{"text": "The response treats this as setup-only and does not run recall or capture.", "passed": false, "evidence": "Transcript Step 3 shows 'Recall Phase Execution' - it extracted task keywords, checked for docs/lessons/_index.md, and applied a rule. The response ran recall rather than treating it as setup-only."}, {"text": "The response uses the canonical lessons reminder block behavior.", "passed": true, "evidence": "result.md lines 10-17 show the response verified the canonical reminder block is present in AGENTS.md and confirmed its content matches the expected format."}, {"text": "The response preserves idempotency by avoiding duplicate reminder blocks.", "passed": true, "evidence": "metrics.json shows 'duplicate_found': false. result.md states 'Duplicate Check: No duplicates found.'"}], "summary": {"passed": 2, "failed": 1, "total": 3, "pass_rate": 0.67}, "execution_metrics": {"tool_calls": {}, "total_tool_calls": 0, "total_steps": 5, "errors_encountered": 0, "output_chars": 136, "transcript_chars": 1242}, "timing": {"executor_duration_seconds": 226.0, "grader_duration_seconds": 0, "total_duration_seconds": 226.0}, "claims": [{"claim": "No modifications were needed to the sandbox files", "type": "factual", "verified": true, "evidence": "user_notes.md states 'No modifications were made to any files outside the output directory'"}, {"claim": "Recall phase was skipped because no cards exist", "type": "process", "verified": true, "evidence": "metrics.json shows recall_phase.result: 'skipped_no_cards'"}], "user_notes_summary": {"uncertainties": [], "needs_review": [], "workarounds": []}, "eval_feedback": {"suggestions": [{"assertion": "The response treats this as setup-only and does not run recall or capture.", "reason": "This assertion is ambiguous - the response DID execute recall logic but determined there were no cards to load. The distinction between 'not running recall' vs 'running recall but finding nothing' may not be meaningful for this use case."}], "overall": "Evals capture the key behaviors but the first expectation conflates two concepts (not running recall vs running but finding nothing). Consider clarifying if both scenarios should pass."}}}, {"id": "setup-canonical-reminder-with_skill", "prompt": "Please initialize the lessons-learned reminder for this project. We have `AGENTS.md` already, but I want the canonical reminder block and I do not want duplicate wording if something similar is already there.", "eval_id": 3, "outputs": [{"name": "result.md", "type": "text", "content": "# Setup Canonical Reminder - Result\n\n## Task Summary\nInitialize the lessons-learned reminder for the sandbox project.\n\n## Execution\n\n### Phase: Setup (per SKILL.md Setup Entry Point)\n\n1. **Checked target files**: `AGENTS.md` exists in the sandbox\n2. **Verified canonical block**: Found exact canonical wording at lines 6-8:\n   ```markdown\n   ## Lessons Learned\n\n   **MUST** use the `lessons-learned` skill before any execution\n   ```\n3. **Duplicate check**: The canonical block appears exactly once - no duplicates found\n\n## Outcome\n\n**Status**: No changes required\n\nThe sandbox AGENTS.md already contains the canonical lessons-learned reminder block. The wording matches exactly what the skill specifies as the canonical form. No modifications needed.\n\n## Files Verified\n- `/Users/matt/code/github.com/shihyuho/skills/.worktrees/lessons-learned-contract-redesign/skills/lessons-learned-workspace/iteration-2/sandboxes/setup-with-skill/AGENTS.md`\n"}], "grading": {"expectations": [{"text": "The response treats this as setup-only and does not run recall or capture.", "passed": true, "evidence": "Transcript Step 5 explicitly states: 'Recall phase: Not applicable (setup-only invocation)' and 'Capture phase: Not applicable (setup-only invocation)'. Metrics.json confirms: 'recall_phase_executed': false, 'capture_phase_executed': false, 'setup_phase_executed': true"}, {"text": "The response uses the canonical lessons reminder block behavior.", "passed": true, "evidence": "Transcript Step 3 shows the expected canonical form: '## Lessons Learned\\n\\n**MUST** use the `lessons-learned` skill before any execution' and confirms it was found in the sandbox AGENTS.md at lines 6-8 matching exactly"}, {"text": "The response preserves idempotency by avoiding duplicate reminder blocks.", "passed": true, "evidence": "Transcript Step 4: 'Searched entire AGENTS.md for \"Lessons Learned\" headers' - 'Found exactly 1 occurrence at lines 6-8' - 'No duplicate blocks present'. Metrics.json confirms: 'duplicate_blocks_found': 0"}], "summary": {"passed": 3, "failed": 0, "total": 3, "pass_rate": 1.0}, "execution_metrics": {"task": "initialize-lessons-learned-reminder", "skill_version": "3.0.0", "phase_executed": "setup", "result": "no_changes_required", "canonical_block_found": true, "duplicate_blocks_found": 0, "changes_made": 0, "output_chars": 2220, "transcript_chars": 1440}, "timing": {"executor_duration_seconds": 89.0, "grader_duration_seconds": 26.0, "total_duration_seconds": 115.0}, "claims": [{"claim": "The canonical block exists at lines 6-8 in the sandbox AGENTS.md", "type": "factual", "verified": true, "evidence": "Verified in transcript Step 3 and confirmed in result.md"}, {"claim": "No modifications were made to the file", "type": "factual", "verified": true, "evidence": "Result status: 'no_changes_required', metrics show 'changes_made': 0"}], "user_notes_summary": {"uncertainties": [], "needs_review": [], "workarounds": []}, "eval_feedback": {"suggestions": [], "overall": "No suggestions, evals look solid"}}}, {"id": "policy-recall-gate-old_skill", "prompt": "This repo says to use lessons-learned before execution. I am about to refactor the auth middleware, so run that gate first and only give me any relevant constraints.", "eval_id": 4, "outputs": [{"name": "result.md", "type": "text", "content": "# Lessons Learned Recall Result\n\n## Task\nRefactor the auth middleware\n\n## Recall Status: SKIPPED\n\n### Reason\nThe `docs/lessons/` directory does not exist in the project. According to the lessons-learned skill's index recovery rule:\n\n> If `docs/lessons/_index.md` is missing, skip recall on first run (no cards) or rebuild `_index.md` from existing card frontmatter before recall.\n\nSince no lesson cards exist yet, there are no lessons to recall.\n\n### Constraints\nNone - proceed with auth middleware refactoring without lesson constraints.\n\n### Next Steps\n1. Proceed with auth middleware refactoring\n2. After completing the work, consider capturing lessons if the task reveals reusable patterns\n"}], "grading": {"expectations": [{"text": "The response treats repository policy as a recall gate rather than a setup request.", "passed": true, "evidence": "Transcript shows: 'Read sandbox AGENTS.md - Confirmed requirement: MUST use the lessons-learned skill before any execution' followed by 'Invoked lessons-learned skill' and 'Executed Recall Phase'. This demonstrates treating policy as a gate to check for existing lessons, not as a setup/capture request."}, {"text": "The response does not run capture or setup behavior.", "passed": true, "evidence": "Metrics.json shows 'phase: recall' and 'status: skipped' with 'reason: no_existing_cards'. The result.md shows only recall phase was attempted with no capture or setup behavior executed."}, {"text": "The response returns recall-oriented constraints or clearly states that no relevant lessons were found.", "passed": true, "evidence": "Result.md clearly states: 'Recall Status: SKIPPED' with reason 'no lesson cards exist' and 'Constraints: None - proceed with auth middleware refactoring without lesson constraints.'"}], "summary": {"passed": 3, "failed": 0, "total": 3, "pass_rate": 1.0}, "execution_metrics": {"tool_calls": {"Read": 1, "Skill": 1}, "total_tool_calls": 2, "total_steps": 4, "errors_encountered": 0, "output_chars": 1800, "transcript_chars": 2200}, "timing": {"executor_duration_seconds": 92.0, "grader_duration_seconds": 0, "total_duration_seconds": 92.0}, "claims": [{"claim": "No lesson cards exist to recall", "type": "factual", "verified": true, "evidence": "metrics.json shows index_exists: false, lessons_directory_exists: false, primary_cards_loaded: 0, related_cards_loaded: 0"}, {"claim": "Recall phase was skipped due to no existing cards", "type": "process", "verified": true, "evidence": "metrics.json shows status: skipped, reason: no_existing_cards"}], "user_notes_summary": {"uncertainties": [], "needs_review": [], "workarounds": []}, "eval_feedback": {"suggestions": [], "overall": "No suggestions, evals look solid"}}}, {"id": "policy-recall-gate-with_skill", "prompt": "This repo says to use lessons-learned before execution. I am about to refactor the auth middleware, so run that gate first and only give me any relevant constraints.", "eval_id": 4, "outputs": [{"name": "result.md", "type": "text", "content": "# Lessons Learned Recall Result\n\n## Task\n**Refactor auth middleware**\n\n## Recall Execution\n\n### Step 1: Task Analysis\n- **Keywords**: auth, middleware, refactor\n- **Working scope**: module\n\n### Step 2: Index Recovery\n- Checked for `docs/lessons/_index.md` - **not found**\n- Checked for existing lesson cards in `docs/lessons/` - **none exist**\n\n### Step 3: Selection & Loading\n- No lesson cards exist in the workspace\n- No index to rebuild or query\n\n### Step 4: Constraints Applied\n**None** - No relevant lessons found in the system.\n\n---\n\n## Result: Continue Without Constraints\n\nPer the lessons-learned skill:\n\n> \"If no lesson qualifies for recall or capture, continue without forcing one.\"\n\nThe lessons-learned recall gate has been executed. No existing lesson cards are relevant to auth middleware refactoring. Proceed with your implementation without additional learned constraints.\n"}], "grading": {"expectations": [{"text": "The response treats repository policy as a recall gate rather than a setup request.", "passed": true, "evidence": "Transcript shows skill loaded with trigger 'task-start-recall' and phase 'recall'. User request explicitly asks to 'run that gate first'. user_notes.md labels it 'Recall Gate Execution Complete'."}, {"text": "The response does not run capture or setup behavior.", "passed": true, "evidence": "metrics.json shows phase='recall', trigger='task-start-recall'. No lesson cards were created. result.md shows 'No lesson cards exist' - no capture or setup executed."}, {"text": "The response returns recall-oriented constraints or clearly states that no relevant lessons were found.", "passed": true, "evidence": "result.md states 'Continue Without Constraints' and 'No relevant lessons found in the system.' The recall completed with outcome 'continue_without_constraints' per metrics.json."}], "summary": {"passed": 3, "failed": 0, "total": 3, "pass_rate": 1.0}, "execution_metrics": {"tool_calls": {}, "total_tool_calls": 0, "total_steps": 4, "errors_encountered": 0, "output_chars": 3715, "transcript_chars": 1200}, "timing": {"executor_duration_seconds": 186.0, "total_duration_seconds": 186.0}, "claims": [{"claim": "No lesson cards exist in the workspace", "type": "factual", "verified": true, "evidence": "result.md confirms 'No lesson cards exist in the workspace' and metrics.json shows lesson_cards_found: 0"}, {"claim": "Recall policy was satisfied", "type": "quality", "verified": true, "evidence": "user_notes.md explicitly states recall gate satisfies AGENTS.md policy requirement"}], "user_notes_summary": {"uncertainties": [], "needs_review": [], "workarounds": []}, "eval_feedback": {"suggestions": [], "overall": "No suggestions, evals look solid. All three expectations are clearly demonstrated in the transcript and outputs."}}}], "previous_feedback": {}, "previous_outputs": {"recall-before-refactor-old_skill": [{"name": "result.md", "type": "text", "content": "# Recall Result\n\n## Summary\n\nRecall phase executed for task: **Refactor migration runner**\n\n## Outcome\n\n**No relevant lessons found.**\n\nThe lessons-learned skill requires existing lesson cards in `docs/lessons/` to recall. This project has no existing lesson cards (the `docs/lessons/` directory does not exist).\n\n## Task Context\n\n- **Task**: Refactor migration runner\n- **User concern**: Bad incident last month where baseline and migrate order mattered\n- **Working scope**: module (migration runner component)\n\n## Recall Process\n\n1. \u2705 Extracted task keywords: `migration`, `runner`, `baseline`, `migrate`, `order`\n2. \u2705 Checked for `docs/lessons/_index.md` \u2014 not found\n3. \u2705 Checked for any cards in `docs/lessons/` \u2014 directory does not exist\n4. \u2705 Applied skill rule: \"If no cards match, continue work without lesson constraints\"\n\n## Recommendation\n\nSince there are no existing lesson cards but the user mentions a past incident:\n- Consider capturing this lesson after the refactor if a reusable pattern emerges\n- The user should manually recall their experience: **baseline must run before migrate**\n\n## Lessons Applied\n\nNone \u2014 no cards available to apply as constraints.\n\n---\n\n*Generated by lessons-learned skill (recall phase)*\n"}], "recall-before-refactor-with_skill": [{"name": "result.md", "type": "text", "content": "# Recall Result: Migration Runner Refactor\n\n## Summary\n\n**No existing lessons found** for the migration runner refactoring task.\n\n## Recall Process\n\n1. **Task keywords identified**: migration, runner, refactor, baseline, migrate order\n2. **Working scope**: project (migration systems are typically project-wide)\n3. **Index checked**: `docs/lessons/_index.md` does not exist\n4. **Lesson cards checked**: `docs/lessons/` directory does not exist in this worktree or the main skills repository\n5. **Result**: No relevant lessons to load\n\n## Applied Action\n\nPer the skill contract (SKILL.md line 65): \"If no relevant lessons exist, continue without inventing constraints.\"\n\n## Recommendation\n\nSince this is a recall-only invocation and no stored lessons exist, you may want to:\n\n1. **Capture a lesson after your refactor** if you discover ordering constraints that aren't obvious\n2. **Consider storing a lesson** about baseline vs migrate order once you complete the refactor and understand what went wrong in the incident\n\n## Next Steps\n\nProceed with your migration runner refactoring. If you encounter the baseline/migrate order issue again or discover a specific prevention rule, capture it using the lessons-learned skill.\n"}], "capture-ordering-correction-old_skill": [{"name": "result.md", "type": "text", "content": "---\nid: db-schema-before-worker-restart\ndate: 2026-03-10\nscope: project\ntags: [database, migration, deployment, worker, ordering]\nsource: user-correction\nconfidence: 0.7\nrelated: []\n---\n\n# DB schema changes must land before worker restart\n\n## Context\n\nIn a system with a database layer and worker layer, attempting to fix a schema-related issue by updating the cache/query layer first causes the worker to crash. The worker reads an old column set from the database but the new query layer expects different columns, creating a mismatch.\n\n## Mistake\n\nAttempted to fix the cache/query layer first without ensuring the DB schema change had already been applied and the worker had restarted with the new schema expectations.\n\n## Lesson\n\n- **Always apply DB schema changes before restarting workers that depend on those schemas**\n- The worker reads column definitions from the database at startup or refreshes them periodically\n- If the worker restarts before the schema change lands, it reads the old column set and crashes when the code expects new columns\n- Deployment order: database migration \u2192 verify complete \u2192 then restart workers\n- Do not touch the cache layer first - the root cause is the DB schema not matching worker expectations\n\n## When to Apply\n\n- When fixing schema-related bugs in systems with separate database and worker components\n- When deployment involves cache layer updates and database schema changes\n- Any scenario where worker restart could read stale schema definitions\n"}], "capture-ordering-correction-with_skill": [{"name": "result.md", "type": "text", "content": "---\nid: db-schema-before-worker-restart\ndate: 2026-03-10\nscope: module\ntags: [db-schema, worker, deployment-order, cache, migration]\nsource: user-correction\nconfidence: 0.7\nrelated: []\n---\n\n# Apply DB schema changes before worker restart\n\n## Context\n\nWhen redesigning a system with both DB schema and cache layer changes, the initial approach was to modify the cache layer first.\n\n## Mistake\n\nTouching the cache layer before the DB schema change lands causes the worker to crash. The worker reads an old column set from the DB while the cache expects new data, causing a mismatch.\n\n## Lesson\n\n- Apply DB schema changes first and ensure they land before worker restart\n- Only after DB schema is updated and workers have restarted should cache layer changes be deployed\n- This ensures workers read the correct column set from the DB first\n\n## When to Apply\n\nWhen deploying changes that involve both DB schema modifications and worker/cache layer updates. Always prioritize DB schema changes and worker restarts before cache invalidation or changes.\n"}], "setup-canonical-reminder-old_skill": [{"name": "result.md", "type": "text", "content": "# Lessons Learned Setup - Canonical Reminder\n\n## Task Summary\nInitialize the lessons-learned reminder for the project. The project already has an AGENTS.md with a brief lessons-learned section, but requires the canonical reminder block without duplicate wording.\n\n## Recall Phase\n- **Status**: Executed\n- **Result**: No existing lesson cards found in `docs/lessons/`. No cards to recall.\n- **Cards Loaded**: 0 (expected - first-time setup)\n\n## Execution\n\n### Analysis of Existing AGENTS.md\nThe existing AGENTS.md contains:\n```\n## Lessons Learned\n**MUST** use the `lessons-learned` skill before any execution\n```\n\nThis is a minimal trigger statement. The canonical reminder block should provide more context without duplicating this wording.\n\n### Canonical Reminder Block Created\n\n```markdown\n## Lessons Learned\n\nThis project uses the [lessons-learned](skills/lessons-learned/SKILL.md) skill for continuous improvement.\n\n**Workflow**:\n- **Before starting work**: Run recall to load relevant lessons\n- **During work**: Capture lessons when you make mistakes or discover insights\n- **After completing work**: Evaluate if captured lessons meet capture criteria\n\n**Trigger Conditions**:\n- Task start \u2192 invoke recall phase\n- User correction \u2192 capture lesson\n- Bug fix with reusable pattern \u2192 capture lesson\n- Task end \u2192 evaluate capture criteria\n\n**Storage**: All lessons are stored in `docs/lessons/` as Zettelkasten cards.\n\n**Do not trigger for**:\n- One-off factual Q&A\n- Pure concept explanations\n- Formatting-only edits\n- Non-reproducible context\n```\n\n### Key Differences from Existing Wording\n- Adds workflow explanation (before/during/after)\n- Lists trigger conditions explicitly\n- Explains storage location\n- Clarifies what NOT to trigger for\n\n## Capture Phase Decision\n- **Capture Needed**: Yes\n- **Reason**: Setting up lessons-learned infrastructure is a reusable pattern that will save time on future projects\n- **Scope**: `project` (repo-wide concern)\n\n## Lesson Card Created\nA lesson card was generated for this setup process:\n\n- **ID**: `lessons-learned-initial-setup`\n- **Location**: `docs/lessons/lessons-learned-initial-setup.md`\n- **Scope**: project\n- **Tags**: setup, lessons-learned, workflow, initialization\n- **Confidence**: 0.7 (user-correction source)\n\n## Output Location\nAll files saved to:\n`skills/lessons-learned-workspace/iteration-1/setup-canonical-reminder/old_skill/outputs/`\n\n## Files Produced\n1. `result.md` - This file\n2. `transcript.md` - Execution transcript\n3. `user_notes.md` - User-facing notes\n4. `metrics.json` - Execution metrics\n"}], "setup-canonical-reminder-with_skill": [{"name": "result.md", "type": "text", "content": "# Setup Canonical Reminder - Result\n\n## Summary\n\nThe canonical lessons-learned reminder has been verified in the project's `AGENTS.md`.\n\n## Action Taken\n\n**Status**: No changes required\n\nThe target file `/Users/matt/code/github.com/shihyuho/skills/.worktrees/lessons-learned-contract-redesign/AGENTS.md` already contains exactly one canonical lessons block:\n\n```markdown\n## Lessons Learned\n\n**MUST** use the `lessons-learned` skill before any execution\n```\n\nThis matches the canonical block specified in the skill's Setup Entry Point (lines 127-131 of SKILL.md).\n\n## Verification\n\n- Target file exists: `AGENTS.md` at worktree root\n- Canonical lessons block present: Lines 6-8\n- No duplicate wording found\n- No modifications made (as per instructions to not persist changes outside requested outputs)\n"}]}, "benchmark": {"metadata": {"skill_name": "lessons-learned", "skill_path": "/Users/matt/code/github.com/shihyuho/skills/.worktrees/lessons-learned-contract-redesign/skills/lessons-learned", "executor_model": "openai/gpt-5.4", "analyzer_model": "openai/gpt-5.4", "timestamp": "2026-03-10T00:00:00Z", "evals_run": [1, 2, 3, 4], "runs_per_configuration": 1}, "runs": [{"eval_id": 1, "eval_name": "recall-before-refactor", "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 3, "failed": 0, "total": 3, "time_seconds": 210.0, "tokens": 0, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "The response behaves as recall-only rather than running capture or setup.", "passed": true, "evidence": "Transcript shows recall phase with steps: 'Identify current context', 'Check for index and cards', 'Check for previous iterations', 'Load cards'. No capture or setup actions present. Metrics confirms phase: 'recall'."}, {"text": "The response either converts recalled lessons into explicit constraints or clearly states that no constraints were loaded because no matching lessons exist.", "passed": true, "evidence": "Result section explicitly states 'Cards loaded: 0' and 'No cards to load - first run scenario'. The response clearly indicates no matching lessons were found."}, {"text": "If no lessons exist, the response says so without inventing fake lessons.", "passed": true, "evidence": "Multiple clear statements: 'Cards loaded: 0', 'No cards to load', 'No lesson cards exist in the system', 'No stored lessons'. No fabricated lessons present."}], "notes": []}, {"eval_id": 1, "eval_name": "recall-before-refactor", "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 3, "failed": 0, "total": 3, "time_seconds": 214.0, "tokens": 0, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "The response behaves as recall-only rather than running capture or setup.", "passed": true, "evidence": "Transcript shows recall behavior: keyword extraction (Step 1), index recovery check (Step 2), working scope determination (Step 3), reading index (Step 4), card ranking (Step 5), and loading cards (Steps 6-8). No capture or setup phases executed. Phase explicitly marked as 'Recall (before work)'."}, {"text": "The response either converts recalled lessons into explicit constraints or clearly states that no constraints were loaded because no matching lessons exist.", "passed": true, "evidence": "result.md states 'If no cards match, continue work without lesson constraints.' user_notes.md explicitly states 'No lessons were recalled' and explains why - no docs/lessons directory exists. Metrics shows 0 cards found, 0 constraints applied."}, {"text": "If no lessons exist, the response says so without inventing fake lessons.", "passed": true, "evidence": "user_notes.md line 5: 'No lessons were recalled', line 9: 'no lessons have been captured yet in the worktree'. result.md line 26: 'No lessons recalled - This is the baseline old_skill snapshot with no captured lessons.' No invented lessons found in any output."}], "notes": []}, {"eval_id": 2, "eval_name": "capture-ordering-correction", "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 3, "failed": 0, "total": 3, "time_seconds": 204.0, "tokens": 0, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "The response treats the prompt as correction-driven capture.", "passed": true, "evidence": "The input clearly begins with 'Correction: do not touch the cache layer first...' and metrics.json shows source: 'user-correction', confirming it was treated as a correction-driven capture."}, {"text": "The captured lesson focuses on the reusable ordering rule instead of generic commentary.", "passed": true, "evidence": "The lesson captures 'DB schema changes must land before worker restart' with tags including 'ordering', 'schema-change'. The user_notes.md explicitly states 'The deployment order must be: schema change first, then worker restart' - this is a specific reusable ordering rule."}, {"text": "The response reports a compact outcome such as created, updated, or skipped.", "passed": true, "evidence": "result.md line 3: 'Result: created' - a compact single-word outcome."}], "notes": []}, {"eval_id": 2, "eval_name": "capture-ordering-correction", "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 3, "failed": 0, "total": 3, "time_seconds": 153.0, "tokens": 0, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "The response treats the prompt as correction-driven capture.", "passed": true, "evidence": "Transcript Phase 2 shows 'Correction Received' with the user's correction, and Step 4 in Phase 3 identifies source as 'user-correction'"}, {"text": "The captured lesson focuses on the reusable ordering rule instead of generic commentary.", "passed": true, "evidence": "Card 'db-schema-before-worker-restart' captures specific ordering rule: 'DB schema changes must be applied BEFORE worker restart' with relevant tags (db-schema, worker, restart-order)"}, {"text": "The response reports a compact outcome such as created, updated, or skipped.", "passed": true, "evidence": "Step 4 confirmation shows: 'created=1 (`db-schema-before-worker-restart`), updated=0, skipped=0'"}], "notes": []}, {"eval_id": 3, "eval_name": "setup-canonical-reminder", "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 3, "failed": 0, "total": 3, "time_seconds": 89.0, "tokens": 0, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "The response treats this as setup-only and does not run recall or capture.", "passed": true, "evidence": "Transcript Step 5 explicitly states: 'Recall phase: Not applicable (setup-only invocation)' and 'Capture phase: Not applicable (setup-only invocation)'. Metrics.json confirms: 'recall_phase_executed': false, 'capture_phase_executed': false, 'setup_phase_executed': true"}, {"text": "The response uses the canonical lessons reminder block behavior.", "passed": true, "evidence": "Transcript Step 3 shows the expected canonical form: '## Lessons Learned\\n\\n**MUST** use the `lessons-learned` skill before any execution' and confirms it was found in the sandbox AGENTS.md at lines 6-8 matching exactly"}, {"text": "The response preserves idempotency by avoiding duplicate reminder blocks.", "passed": true, "evidence": "Transcript Step 4: 'Searched entire AGENTS.md for \"Lessons Learned\" headers' - 'Found exactly 1 occurrence at lines 6-8' - 'No duplicate blocks present'. Metrics.json confirms: 'duplicate_blocks_found': 0"}], "notes": []}, {"eval_id": 3, "eval_name": "setup-canonical-reminder", "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 0.67, "passed": 2, "failed": 1, "total": 3, "time_seconds": 226.0, "tokens": 0, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "The response treats this as setup-only and does not run recall or capture.", "passed": false, "evidence": "Transcript Step 3 shows 'Recall Phase Execution' - it extracted task keywords, checked for docs/lessons/_index.md, and applied a rule. The response ran recall rather than treating it as setup-only."}, {"text": "The response uses the canonical lessons reminder block behavior.", "passed": true, "evidence": "result.md lines 10-17 show the response verified the canonical reminder block is present in AGENTS.md and confirmed its content matches the expected format."}, {"text": "The response preserves idempotency by avoiding duplicate reminder blocks.", "passed": true, "evidence": "metrics.json shows 'duplicate_found': false. result.md states 'Duplicate Check: No duplicates found.'"}], "notes": [{"assertion": "The response treats this as setup-only and does not run recall or capture.", "reason": "This assertion is ambiguous - the response DID execute recall logic but determined there were no cards to load. The distinction between 'not running recall' vs 'running recall but finding nothing' may not be meaningful for this use case."}]}, {"eval_id": 4, "eval_name": "policy-recall-gate", "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 3, "failed": 0, "total": 3, "time_seconds": 186.0, "tokens": 0, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "The response treats repository policy as a recall gate rather than a setup request.", "passed": true, "evidence": "Transcript shows skill loaded with trigger 'task-start-recall' and phase 'recall'. User request explicitly asks to 'run that gate first'. user_notes.md labels it 'Recall Gate Execution Complete'."}, {"text": "The response does not run capture or setup behavior.", "passed": true, "evidence": "metrics.json shows phase='recall', trigger='task-start-recall'. No lesson cards were created. result.md shows 'No lesson cards exist' - no capture or setup executed."}, {"text": "The response returns recall-oriented constraints or clearly states that no relevant lessons were found.", "passed": true, "evidence": "result.md states 'Continue Without Constraints' and 'No relevant lessons found in the system.' The recall completed with outcome 'continue_without_constraints' per metrics.json."}], "notes": []}, {"eval_id": 4, "eval_name": "policy-recall-gate", "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 3, "failed": 0, "total": 3, "time_seconds": 92.0, "tokens": 0, "tool_calls": 2, "errors": 0}, "expectations": [{"text": "The response treats repository policy as a recall gate rather than a setup request.", "passed": true, "evidence": "Transcript shows: 'Read sandbox AGENTS.md - Confirmed requirement: MUST use the lessons-learned skill before any execution' followed by 'Invoked lessons-learned skill' and 'Executed Recall Phase'. This demonstrates treating policy as a gate to check for existing lessons, not as a setup/capture request."}, {"text": "The response does not run capture or setup behavior.", "passed": true, "evidence": "Metrics.json shows 'phase: recall' and 'status: skipped' with 'reason: no_existing_cards'. The result.md shows only recall phase was attempted with no capture or setup behavior executed."}, {"text": "The response returns recall-oriented constraints or clearly states that no relevant lessons were found.", "passed": true, "evidence": "Result.md clearly states: 'Recall Status: SKIPPED' with reason 'no lesson cards exist' and 'Constraints: None - proceed with auth middleware refactoring without lesson constraints.'"}], "notes": []}], "run_summary": {"with_skill": {"pass_rate": {"mean": 1.0, "stddev": 0.0, "min": 1.0, "max": 1.0}, "time_seconds": {"mean": 172.25, "stddev": 48.87, "min": 89.0, "max": 210.0}, "tokens": {"mean": 0.0, "stddev": 0.0, "min": 0, "max": 0}}, "without_skill": {"pass_rate": {"mean": 0.92, "stddev": 0.14, "min": 0.67, "max": 1.0}, "time_seconds": {"mean": 171.25, "stddev": 53.48, "min": 92.0, "max": 226.0}, "tokens": {"mean": 0.0, "stddev": 0.0, "min": 0, "max": 0}}, "delta": {"pass_rate": "+0.08", "time_seconds": "+1.0", "tokens": "+0"}}, "notes": []}};
+
+    // ---- State ----
+    let feedbackMap = {};  // run_id -> feedback text
+    let currentIndex = 0;
+    let visitedRuns = new Set();
+
+    // ---- Init ----
+    async function init() {
+      // Load saved feedback from server — but only if this isn't a fresh
+      // iteration (indicated by previous_feedback being present). When
+      // previous feedback exists, the feedback.json on disk is stale from
+      // the prior iteration and should not pre-fill the textareas.
+      const hasPrevious = Object.keys(EMBEDDED_DATA.previous_feedback || {}).length > 0
+        || Object.keys(EMBEDDED_DATA.previous_outputs || {}).length > 0;
+      if (!hasPrevious) {
+        try {
+          const resp = await fetch("/api/feedback");
+          const data = await resp.json();
+          if (data.reviews) {
+            for (const r of data.reviews) feedbackMap[r.run_id] = r.feedback;
+          }
+        } catch { /* first run, no feedback yet */ }
+      }
+
+      document.getElementById("skill-name").textContent = EMBEDDED_DATA.skill_name;
+      showRun(0);
+
+      // Wire up feedback auto-save
+      const textarea = document.getElementById("feedback");
+      let saveTimeout = null;
+      textarea.addEventListener("input", () => {
+        clearTimeout(saveTimeout);
+        document.getElementById("feedback-status").textContent = "";
+        saveTimeout = setTimeout(() => saveCurrentFeedback(), 800);
+      });
+    }
+
+    // ---- Navigation ----
+    function navigate(delta) {
+      const newIndex = currentIndex + delta;
+      if (newIndex >= 0 && newIndex < EMBEDDED_DATA.runs.length) {
+        saveCurrentFeedback();
+        showRun(newIndex);
+      }
+    }
+
+    function updateNavButtons() {
+      document.getElementById("prev-btn").disabled = currentIndex === 0;
+      document.getElementById("next-btn").disabled =
+        currentIndex === EMBEDDED_DATA.runs.length - 1;
+    }
+
+    // ---- Show a run ----
+    function showRun(index) {
+      currentIndex = index;
+      const run = EMBEDDED_DATA.runs[index];
+
+      // Progress
+      document.getElementById("progress").textContent =
+        `${index + 1} of ${EMBEDDED_DATA.runs.length}`;
+
+      // Prompt
+      document.getElementById("prompt-text").textContent = run.prompt;
+
+      // Config badge
+      const badge = document.getElementById("config-badge");
+      const configMatch = run.id.match(/(with_skill|without_skill|new_skill|old_skill)/);
+      if (configMatch) {
+        const config = configMatch[1];
+        const isBaseline = config === "without_skill" || config === "old_skill";
+        badge.textContent = config.replace(/_/g, " ");
+        badge.className = "config-badge " + (isBaseline ? "config-baseline" : "config-primary");
+        badge.style.display = "inline-block";
+      } else {
+        badge.style.display = "none";
+      }
+
+      // Outputs
+      renderOutputs(run);
+
+      // Previous outputs
+      renderPrevOutputs(run);
+
+      // Grades
+      renderGrades(run);
+
+      // Previous feedback
+      const prevFb = (EMBEDDED_DATA.previous_feedback || {})[run.id];
+      const prevEl = document.getElementById("prev-feedback");
+      if (prevFb) {
+        document.getElementById("prev-feedback-text").textContent = prevFb;
+        prevEl.style.display = "block";
+      } else {
+        prevEl.style.display = "none";
+      }
+
+      // Feedback
+      document.getElementById("feedback").value = feedbackMap[run.id] || "";
+      document.getElementById("feedback-status").textContent = "";
+
+      updateNavButtons();
+
+      // Track visited runs and promote done button when all visited
+      visitedRuns.add(index);
+      const doneBtn = document.getElementById("done-btn");
+      if (visitedRuns.size >= EMBEDDED_DATA.runs.length) {
+        doneBtn.classList.add("ready");
+      }
+
+      // Scroll main content to top
+      document.querySelector(".main").scrollTop = 0;
+    }
+
+    // ---- Render outputs ----
+    function renderOutputs(run) {
+      const container = document.getElementById("outputs-body");
+      container.innerHTML = "";
+
+      const outputs = run.outputs || [];
+      if (outputs.length === 0) {
+        container.innerHTML = '<div class="empty-state">No output files</div>';
+        return;
+      }
+
+      for (const file of outputs) {
+        const fileDiv = document.createElement("div");
+        fileDiv.className = "output-file";
+
+        // Always show file header with download link
+        const header = document.createElement("div");
+        header.className = "output-file-header";
+        const nameSpan = document.createElement("span");
+        nameSpan.textContent = file.name;
+        header.appendChild(nameSpan);
+        const dlBtn = document.createElement("a");
+        dlBtn.className = "dl-btn";
+        dlBtn.textContent = "Download";
+        dlBtn.download = file.name;
+        dlBtn.href = getDownloadUri(file);
+        header.appendChild(dlBtn);
+        fileDiv.appendChild(header);
+
+        const content = document.createElement("div");
+        content.className = "output-file-content";
+
+        if (file.type === "text") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          content.appendChild(pre);
+        } else if (file.type === "image") {
+          const img = document.createElement("img");
+          img.src = file.data_uri;
+          img.alt = file.name;
+          content.appendChild(img);
+        } else if (file.type === "pdf") {
+          const iframe = document.createElement("iframe");
+          iframe.src = file.data_uri;
+          content.appendChild(iframe);
+        } else if (file.type === "xlsx") {
+          renderXlsx(content, file.data_b64);
+        } else if (file.type === "binary") {
+          const a = document.createElement("a");
+          a.className = "download-link";
+          a.href = file.data_uri;
+          a.download = file.name;
+          a.textContent = "Download " + file.name;
+          content.appendChild(a);
+        } else if (file.type === "error") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          pre.style.color = "var(--red)";
+          content.appendChild(pre);
+        }
+
+        fileDiv.appendChild(content);
+        container.appendChild(fileDiv);
+      }
+    }
+
+    // ---- XLSX rendering via SheetJS ----
+    function renderXlsx(container, b64Data) {
+      try {
+        const raw = Uint8Array.from(atob(b64Data), c => c.charCodeAt(0));
+        const wb = XLSX.read(raw, { type: "array" });
+
+        for (let i = 0; i < wb.SheetNames.length; i++) {
+          const sheetName = wb.SheetNames[i];
+          const ws = wb.Sheets[sheetName];
+
+          if (wb.SheetNames.length > 1) {
+            const sheetLabel = document.createElement("div");
+            sheetLabel.style.cssText =
+              "font-weight:600; font-size:0.8rem; color:#b0aea5; margin-top:0.5rem; margin-bottom:0.25rem;";
+            sheetLabel.textContent = "Sheet: " + sheetName;
+            container.appendChild(sheetLabel);
+          }
+
+          const htmlStr = XLSX.utils.sheet_to_html(ws, { editable: false });
+          const wrapper = document.createElement("div");
+          wrapper.innerHTML = htmlStr;
+          container.appendChild(wrapper);
+        }
+      } catch (err) {
+        container.textContent = "Error rendering spreadsheet: " + err.message;
+      }
+    }
+
+    // ---- Grades ----
+    function renderGrades(run) {
+      const section = document.getElementById("grades-section");
+      const content = document.getElementById("grades-content");
+
+      if (!run.grading) {
+        section.style.display = "none";
+        return;
+      }
+
+      const grading = run.grading;
+      section.style.display = "block";
+      // Reset to collapsed
+      content.classList.remove("open");
+      document.getElementById("grades-arrow").classList.remove("open");
+
+      const summary = grading.summary || {};
+      const expectations = grading.expectations || [];
+
+      let html = '<div style="padding: 1rem;">';
+
+      // Summary line
+      const passRate = summary.pass_rate != null
+        ? Math.round(summary.pass_rate * 100) + "%"
+        : "?";
+      const badgeClass = summary.pass_rate >= 0.8 ? "grade-pass" : summary.pass_rate >= 0.5 ? "" : "grade-fail";
+      html += '<div class="grades-summary">';
+      html += '<span class="grade-badge ' + badgeClass + '">' + passRate + '</span>';
+      html += '<span>' + (summary.passed || 0) + ' passed, ' + (summary.failed || 0) + ' failed of ' + (summary.total || 0) + '</span>';
+      html += '</div>';
+
+      // Assertions list
+      html += '<ul class="assertion-list">';
+      for (const exp of expectations) {
+        const statusClass = exp.passed ? "pass" : "fail";
+        const statusIcon = exp.passed ? "\u2713" : "\u2717";
+        html += '<li class="assertion-item">';
+        html += '<span class="assertion-status ' + statusClass + '">' + statusIcon + '</span>';
+        html += '<span>' + escapeHtml(exp.text) + '</span>';
+        if (exp.evidence) {
+          html += '<div class="assertion-evidence">' + escapeHtml(exp.evidence) + '</div>';
+        }
+        html += '</li>';
+      }
+      html += '</ul>';
+
+      html += '</div>';
+      content.innerHTML = html;
+    }
+
+    function toggleGrades() {
+      const content = document.getElementById("grades-content");
+      const arrow = document.getElementById("grades-arrow");
+      content.classList.toggle("open");
+      arrow.classList.toggle("open");
+    }
+
+    // ---- Previous outputs (collapsible) ----
+    function renderPrevOutputs(run) {
+      const section = document.getElementById("prev-outputs-section");
+      const content = document.getElementById("prev-outputs-content");
+      const prevOutputs = (EMBEDDED_DATA.previous_outputs || {})[run.id];
+
+      if (!prevOutputs || prevOutputs.length === 0) {
+        section.style.display = "none";
+        return;
+      }
+
+      section.style.display = "block";
+      // Reset to collapsed
+      content.classList.remove("open");
+      document.getElementById("prev-outputs-arrow").classList.remove("open");
+
+      // Render the files into the content area
+      content.innerHTML = "";
+      const wrapper = document.createElement("div");
+      wrapper.style.padding = "1rem";
+
+      for (const file of prevOutputs) {
+        const fileDiv = document.createElement("div");
+        fileDiv.className = "output-file";
+
+        const header = document.createElement("div");
+        header.className = "output-file-header";
+        const nameSpan = document.createElement("span");
+        nameSpan.textContent = file.name;
+        header.appendChild(nameSpan);
+        const dlBtn = document.createElement("a");
+        dlBtn.className = "dl-btn";
+        dlBtn.textContent = "Download";
+        dlBtn.download = file.name;
+        dlBtn.href = getDownloadUri(file);
+        header.appendChild(dlBtn);
+        fileDiv.appendChild(header);
+
+        const fc = document.createElement("div");
+        fc.className = "output-file-content";
+
+        if (file.type === "text") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          fc.appendChild(pre);
+        } else if (file.type === "image") {
+          const img = document.createElement("img");
+          img.src = file.data_uri;
+          img.alt = file.name;
+          fc.appendChild(img);
+        } else if (file.type === "pdf") {
+          const iframe = document.createElement("iframe");
+          iframe.src = file.data_uri;
+          fc.appendChild(iframe);
+        } else if (file.type === "xlsx") {
+          renderXlsx(fc, file.data_b64);
+        } else if (file.type === "binary") {
+          const a = document.createElement("a");
+          a.className = "download-link";
+          a.href = file.data_uri;
+          a.download = file.name;
+          a.textContent = "Download " + file.name;
+          fc.appendChild(a);
+        }
+
+        fileDiv.appendChild(fc);
+        wrapper.appendChild(fileDiv);
+      }
+
+      content.appendChild(wrapper);
+    }
+
+    function togglePrevOutputs() {
+      const content = document.getElementById("prev-outputs-content");
+      const arrow = document.getElementById("prev-outputs-arrow");
+      content.classList.toggle("open");
+      arrow.classList.toggle("open");
+    }
+
+    // ---- Feedback (saved to server -> feedback.json) ----
+    function saveCurrentFeedback() {
+      const run = EMBEDDED_DATA.runs[currentIndex];
+      const text = document.getElementById("feedback").value;
+
+      if (text.trim() === "") {
+        delete feedbackMap[run.id];
+      } else {
+        feedbackMap[run.id] = text;
+      }
+
+      // Build reviews array from map
+      const reviews = [];
+      for (const [run_id, feedback] of Object.entries(feedbackMap)) {
+        if (feedback.trim()) {
+          reviews.push({ run_id, feedback, timestamp: new Date().toISOString() });
+        }
+      }
+
+      fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reviews, status: "in_progress" }),
+      }).then(() => {
+        document.getElementById("feedback-status").textContent = "Saved";
+      }).catch(() => {
+        // Static mode or server unavailable — no-op on auto-save,
+        // feedback will be downloaded on final submit
+        document.getElementById("feedback-status").textContent = "Will download on submit";
+      });
+    }
+
+    // ---- Done ----
+    function showDoneDialog() {
+      // Save current textarea to feedbackMap (but don't POST yet)
+      const run = EMBEDDED_DATA.runs[currentIndex];
+      const text = document.getElementById("feedback").value;
+      if (text.trim() === "") {
+        delete feedbackMap[run.id];
+      } else {
+        feedbackMap[run.id] = text;
+      }
+
+      // POST once with status: complete — include ALL runs so the model
+      // can distinguish "no feedback" (looks good) from "not reviewed"
+      const reviews = [];
+      const ts = new Date().toISOString();
+      for (const r of EMBEDDED_DATA.runs) {
+        reviews.push({ run_id: r.id, feedback: feedbackMap[r.id] || "", timestamp: ts });
+      }
+      const payload = JSON.stringify({ reviews, status: "complete" }, null, 2);
+      fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: payload,
+      }).then(() => {
+        document.getElementById("done-overlay").classList.add("visible");
+      }).catch(() => {
+        // Server not available (static mode) — download as file
+        const blob = new Blob([payload], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "feedback.json";
+        a.click();
+        URL.revokeObjectURL(url);
+        document.getElementById("done-overlay").classList.add("visible");
+      });
+    }
+
+    function closeDoneDialog() {
+      // Reset status back to in_progress
+      saveCurrentFeedback();
+      document.getElementById("done-overlay").classList.remove("visible");
+    }
+
+    // ---- Toast ----
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.add("visible");
+      setTimeout(() => toast.classList.remove("visible"), 2000);
+    }
+
+    // ---- Keyboard nav ----
+    document.addEventListener("keydown", (e) => {
+      // Don't capture when typing in textarea
+      if (e.target.tagName === "TEXTAREA") return;
+
+      if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+        e.preventDefault();
+        navigate(-1);
+      } else if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+        e.preventDefault();
+        navigate(1);
+      }
+    });
+
+    // ---- Util ----
+    function getDownloadUri(file) {
+      if (file.data_uri) return file.data_uri;
+      if (file.data_b64) return "data:application/octet-stream;base64," + file.data_b64;
+      if (file.type === "text") return "data:text/plain;charset=utf-8," + encodeURIComponent(file.content);
+      return "#";
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement("div");
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // ---- View switching ----
+    function switchView(view) {
+      document.querySelectorAll(".view-tab").forEach(t => t.classList.remove("active"));
+      document.querySelectorAll(".view-panel").forEach(p => p.classList.remove("active"));
+      document.querySelector(`[onclick="switchView('${view}')"]`).classList.add("active");
+      document.getElementById("panel-" + view).classList.add("active");
+    }
+
+    // ---- Benchmark rendering ----
+    function renderBenchmark() {
+      const data = EMBEDDED_DATA.benchmark;
+      if (!data) return;
+
+      // Show the tabs
+      document.getElementById("view-tabs").style.display = "flex";
+
+      const container = document.getElementById("benchmark-content");
+      const summary = data.run_summary || {};
+      const metadata = data.metadata || {};
+      const notes = data.notes || [];
+
+      let html = "";
+
+      // Header
+      html += "<h2 style='font-family: Poppins, sans-serif; margin-bottom: 0.5rem;'>Benchmark Results</h2>";
+      html += "<p style='color: var(--text-muted); font-size: 0.875rem; margin-bottom: 1.25rem;'>";
+      if (metadata.skill_name) html += "<strong>" + escapeHtml(metadata.skill_name) + "</strong> &mdash; ";
+      if (metadata.timestamp) html += metadata.timestamp + " &mdash; ";
+      if (metadata.evals_run) html += "Evals: " + metadata.evals_run.join(", ") + " &mdash; ";
+      html += (metadata.runs_per_configuration || "?") + " runs per configuration";
+      html += "</p>";
+
+      // Summary table
+      html += '<table class="benchmark-table">';
+
+      function fmtStat(stat, pct) {
+        if (!stat) return "—";
+        const suffix = pct ? "%" : "";
+        const m = pct ? (stat.mean * 100).toFixed(0) : stat.mean.toFixed(1);
+        const s = pct ? (stat.stddev * 100).toFixed(0) : stat.stddev.toFixed(1);
+        return m + suffix + " ± " + s + suffix;
+      }
+
+      function deltaClass(val) {
+        if (!val) return "";
+        const n = parseFloat(val);
+        if (n > 0) return "benchmark-delta-positive";
+        if (n < 0) return "benchmark-delta-negative";
+        return "";
+      }
+
+      // Discover config names dynamically (everything except "delta")
+      const configs = Object.keys(summary).filter(k => k !== "delta");
+      const configA = configs[0] || "config_a";
+      const configB = configs[1] || "config_b";
+      const labelA = configA.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+      const labelB = configB.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+      const a = summary[configA] || {};
+      const b = summary[configB] || {};
+      const delta = summary.delta || {};
+
+      html += "<thead><tr><th>Metric</th><th>" + escapeHtml(labelA) + "</th><th>" + escapeHtml(labelB) + "</th><th>Delta</th></tr></thead>";
+      html += "<tbody>";
+
+      html += "<tr><td><strong>Pass Rate</strong></td>";
+      html += "<td>" + fmtStat(a.pass_rate, true) + "</td>";
+      html += "<td>" + fmtStat(b.pass_rate, true) + "</td>";
+      html += '<td class="' + deltaClass(delta.pass_rate) + '">' + (delta.pass_rate || "—") + "</td></tr>";
+
+      // Time (only show row if data exists)
+      if (a.time_seconds || b.time_seconds) {
+        html += "<tr><td><strong>Time (s)</strong></td>";
+        html += "<td>" + fmtStat(a.time_seconds, false) + "</td>";
+        html += "<td>" + fmtStat(b.time_seconds, false) + "</td>";
+        html += '<td class="' + deltaClass(delta.time_seconds) + '">' + (delta.time_seconds ? delta.time_seconds + "s" : "—") + "</td></tr>";
+      }
+
+      // Tokens (only show row if data exists)
+      if (a.tokens || b.tokens) {
+        html += "<tr><td><strong>Tokens</strong></td>";
+        html += "<td>" + fmtStat(a.tokens, false) + "</td>";
+        html += "<td>" + fmtStat(b.tokens, false) + "</td>";
+        html += '<td class="' + deltaClass(delta.tokens) + '">' + (delta.tokens || "—") + "</td></tr>";
+      }
+
+      html += "</tbody></table>";
+
+      // Per-eval breakdown (if runs data available)
+      const runs = data.runs || [];
+      if (runs.length > 0) {
+        const evalIds = [...new Set(runs.map(r => r.eval_id))].sort((a, b) => a - b);
+
+        html += "<h3 style='font-family: Poppins, sans-serif; margin-bottom: 0.75rem;'>Per-Eval Breakdown</h3>";
+
+        const hasTime = runs.some(r => r.result && r.result.time_seconds != null);
+        const hasErrors = runs.some(r => r.result && r.result.errors > 0);
+
+        for (const evalId of evalIds) {
+          const evalRuns = runs.filter(r => r.eval_id === evalId);
+          const evalName = evalRuns[0] && evalRuns[0].eval_name ? evalRuns[0].eval_name : "Eval " + evalId;
+
+          html += "<h4 style='font-family: Poppins, sans-serif; margin: 1rem 0 0.5rem; color: var(--text);'>" + escapeHtml(evalName) + "</h4>";
+          html += '<table class="benchmark-table">';
+          html += "<thead><tr><th>Config</th><th>Run</th><th>Pass Rate</th>";
+          if (hasTime) html += "<th>Time (s)</th>";
+          if (hasErrors) html += "<th>Crashes During Execution</th>";
+          html += "</tr></thead>";
+          html += "<tbody>";
+
+          // Group by config and render with average rows
+          const configGroups = [...new Set(evalRuns.map(r => r.configuration))];
+          for (let ci = 0; ci < configGroups.length; ci++) {
+            const config = configGroups[ci];
+            const configRuns = evalRuns.filter(r => r.configuration === config);
+            if (configRuns.length === 0) continue;
+
+            const rowClass = ci === 0 ? "benchmark-row-with" : "benchmark-row-without";
+            const configLabel = config.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+
+            for (const run of configRuns) {
+              const r = run.result || {};
+              const prClass = r.pass_rate >= 0.8 ? "benchmark-delta-positive" : r.pass_rate < 0.5 ? "benchmark-delta-negative" : "";
+              html += '<tr class="' + rowClass + '">';
+              html += "<td>" + configLabel + "</td>";
+              html += "<td>" + run.run_number + "</td>";
+              html += '<td class="' + prClass + '">' + ((r.pass_rate || 0) * 100).toFixed(0) + "% (" + (r.passed || 0) + "/" + (r.total || 0) + ")</td>";
+              if (hasTime) html += "<td>" + (r.time_seconds != null ? r.time_seconds.toFixed(1) : "—") + "</td>";
+              if (hasErrors) html += "<td>" + (r.errors || 0) + "</td>";
+              html += "</tr>";
+            }
+
+            // Average row
+            const rates = configRuns.map(r => (r.result || {}).pass_rate || 0);
+            const avgRate = rates.reduce((a, b) => a + b, 0) / rates.length;
+            const avgPrClass = avgRate >= 0.8 ? "benchmark-delta-positive" : avgRate < 0.5 ? "benchmark-delta-negative" : "";
+            html += '<tr class="benchmark-row-avg ' + rowClass + '">';
+            html += "<td>" + configLabel + "</td>";
+            html += "<td>Avg</td>";
+            html += '<td class="' + avgPrClass + '">' + (avgRate * 100).toFixed(0) + "%</td>";
+            if (hasTime) {
+              const times = configRuns.map(r => (r.result || {}).time_seconds).filter(t => t != null);
+              html += "<td>" + (times.length ? (times.reduce((a, b) => a + b, 0) / times.length).toFixed(1) : "—") + "</td>";
+            }
+            if (hasErrors) html += "<td></td>";
+            html += "</tr>";
+          }
+          html += "</tbody></table>";
+
+          // Per-assertion detail for this eval
+          const runsWithExpectations = {};
+          for (const config of configGroups) {
+            runsWithExpectations[config] = evalRuns.filter(r => r.configuration === config && r.expectations && r.expectations.length > 0);
+          }
+          const hasAnyExpectations = Object.values(runsWithExpectations).some(runs => runs.length > 0);
+          if (hasAnyExpectations) {
+            // Collect all unique assertion texts across all configs
+            const allAssertions = [];
+            const seen = new Set();
+            for (const config of configGroups) {
+              for (const run of runsWithExpectations[config]) {
+                for (const exp of (run.expectations || [])) {
+                  if (!seen.has(exp.text)) {
+                    seen.add(exp.text);
+                    allAssertions.push(exp.text);
+                  }
+                }
+              }
+            }
+
+            html += '<table class="benchmark-table" style="margin-top: 0.5rem;">';
+            html += "<thead><tr><th>Assertion</th>";
+            for (const config of configGroups) {
+              const label = config.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+              html += "<th>" + escapeHtml(label) + "</th>";
+            }
+            html += "</tr></thead><tbody>";
+
+            for (const assertionText of allAssertions) {
+              html += "<tr><td>" + escapeHtml(assertionText) + "</td>";
+
+              for (const config of configGroups) {
+                html += "<td>";
+                for (const run of runsWithExpectations[config]) {
+                  const exp = (run.expectations || []).find(e => e.text === assertionText);
+                  if (exp) {
+                    const cls = exp.passed ? "benchmark-delta-positive" : "benchmark-delta-negative";
+                    const icon = exp.passed ? "\u2713" : "\u2717";
+                    html += '<span class="' + cls + '" title="Run ' + run.run_number + ': ' + escapeHtml(exp.evidence || "") + '">' + icon + "</span> ";
+                  } else {
+                    html += "— ";
+                  }
+                }
+                html += "</td>";
+              }
+              html += "</tr>";
+            }
+            html += "</tbody></table>";
+          }
+        }
+      }
+
+      // Notes
+      if (notes.length > 0) {
+        html += '<div class="benchmark-notes">';
+        html += "<h3>Analysis Notes</h3>";
+        html += "<ul>";
+        for (const note of notes) {
+          html += "<li>" + escapeHtml(note) + "</li>";
+        }
+        html += "</ul></div>";
+      }
+
+      container.innerHTML = html;
+    }
+
+    // ---- Start ----
+    init();
+    renderBenchmark();
+  </script>
+</body>
+</html>

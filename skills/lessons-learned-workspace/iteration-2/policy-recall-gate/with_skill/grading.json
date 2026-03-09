@@ -1,0 +1,60 @@
+{
+  "expectations": [
+    {
+      "text": "The response treats repository policy as a recall gate rather than a setup request.",
+      "passed": true,
+      "evidence": "Transcript shows skill loaded with trigger 'task-start-recall' and phase 'recall'. User request explicitly asks to 'run that gate first'. user_notes.md labels it 'Recall Gate Execution Complete'."
+    },
+    {
+      "text": "The response does not run capture or setup behavior.",
+      "passed": true,
+      "evidence": "metrics.json shows phase='recall', trigger='task-start-recall'. No lesson cards were created. result.md shows 'No lesson cards exist' - no capture or setup executed."
+    },
+    {
+      "text": "The response returns recall-oriented constraints or clearly states that no relevant lessons were found.",
+      "passed": true,
+      "evidence": "result.md states 'Continue Without Constraints' and 'No relevant lessons found in the system.' The recall completed with outcome 'continue_without_constraints' per metrics.json."
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "tool_calls": {},
+    "total_tool_calls": 0,
+    "total_steps": 4,
+    "errors_encountered": 0,
+    "output_chars": 3715,
+    "transcript_chars": 1200
+  },
+  "timing": {
+    "executor_duration_seconds": 186.0,
+    "total_duration_seconds": 186.0
+  },
+  "claims": [
+    {
+      "claim": "No lesson cards exist in the workspace",
+      "type": "factual",
+      "verified": true,
+      "evidence": "result.md confirms 'No lesson cards exist in the workspace' and metrics.json shows lesson_cards_found: 0"
+    },
+    {
+      "claim": "Recall policy was satisfied",
+      "type": "quality",
+      "verified": true,
+      "evidence": "user_notes.md explicitly states recall gate satisfies AGENTS.md policy requirement"
+    }
+  ],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": []
+  },
+  "eval_feedback": {
+    "suggestions": [],
+    "overall": "No suggestions, evals look solid. All three expectations are clearly demonstrated in the transcript and outputs."
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "expectations": [
+    {
+      "text": "The response behaves as recall-only rather than running capture or setup.",
+      "passed": true,
+      "evidence": "Transcript shows recall phase with steps: 'Identify current context', 'Check for index and cards', 'Check for previous iterations', 'Load cards'. No capture or setup actions present. Metrics confirms phase: 'recall'."
+    },
+    {
+      "text": "The response either converts recalled lessons into explicit constraints or clearly states that no constraints were loaded because no matching lessons exist.",
+      "passed": true,
+      "evidence": "Result section explicitly states 'Cards loaded: 0' and 'No cards to load - first run scenario'. The response clearly indicates no matching lessons were found."
+    },
+    {
+      "text": "If no lessons exist, the response says so without inventing fake lessons.",
+      "passed": true,
+      "evidence": "Multiple clear statements: 'Cards loaded: 0', 'No cards to load', 'No lesson cards exist in the system', 'No stored lessons'. No fabricated lessons present."
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "tool_calls": {},
+    "total_tool_calls": 0,
+    "total_steps": 4,
+    "errors_encountered": 0,
+    "output_chars": 0,
+    "transcript_chars": 39
+  },
+  "timing": {
+    "executor_duration_seconds": 210.0,
+    "grader_duration_seconds": 0,
+    "total_duration_seconds": 210.0
+  },
+  "claims": [
+    {
+      "claim": "Cards loaded: 0",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Confirmed in transcript result section and metrics.json (cards_loaded: 0)"
+    },
+    {
+      "claim": "First run scenario - no stored lessons to recall",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Result.md states 'No lesson cards exist in the system' and 'first run scenario'"
+    }
+  ],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": []
+  },
+  "eval_feedback": {
+    "suggestions": [],
+    "overall": "No suggestions, evals look solid"
+  }
+}

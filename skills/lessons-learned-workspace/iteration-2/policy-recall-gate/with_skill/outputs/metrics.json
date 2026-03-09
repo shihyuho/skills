@@ -1,0 +1,36 @@
+{
+  "skill_invocation": {
+    "skill_name": "lessons-learned",
+    "version": "3.0.0",
+    "phase": "recall",
+    "trigger": "task-start-recall"
+  },
+  "task_context": {
+    "description": "refactor auth middleware",
+    "keywords": ["auth", "middleware", "refactor"],
+    "scope": "module"
+  },
+  "recall_results": {
+    "index_status": "not_found",
+    "lesson_cards_found": 0,
+    "cards_loaded": 0,
+    "cards_expanded": 0,
+    "constraints_applied": 0,
+    "outcome": "continue_without_constraints"
+  },
+  "execution": {
+    "timestamp": "2026-03-10T00:00:00Z",
+    "references_checked": [
+      "SKILL.md",
+      "references/recall-and-index.md",
+      "references/card-template.md",
+      "references/linking-heuristics.md"
+    ],
+    "storage_checked": "docs/lessons/"
+  },
+  "validation": {
+    "index_rebuilt": false,
+    "broken_links_handled": "N/A",
+    "recall_limit_respected": true
+  }
+}

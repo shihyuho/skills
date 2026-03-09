@@ -1,0 +1,37 @@
+{
+  "skill_name": "lessons-learned",
+  "skill_version": "2.1.1",
+  "phase": "recall",
+  "execution_timestamp": "2026-03-10T00:00:00Z",
+  "task": {
+    "description": "Recall relevant lessons before refactoring migration runner",
+    "keywords_extracted": [
+      "migration runner",
+      "baseline",
+      "migrate order",
+      "database"
+    ],
+    "working_scope": "project"
+  },
+  "recall_results": {
+    "index_checked": "docs/lessons/_index.md",
+    "index_exists": false,
+    "cards_found": 0,
+    "primary_cards_loaded": 0,
+    "related_cards_loaded": 0,
+    "total_cards_applied": 0,
+    "hard_cap_respected": true,
+    "continuation_reason": "no cards match - no docs/lessons directory exists"
+  },
+  "outcome": {
+    "lessons_recalled": 0,
+    "constraints_applied": 0,
+    "status": "completed_without_lesson_constraints"
+  },
+  "output_files": [
+    "result.md",
+    "transcript.md",
+    "user_notes.md",
+    "metrics.json"
+  ]
+}

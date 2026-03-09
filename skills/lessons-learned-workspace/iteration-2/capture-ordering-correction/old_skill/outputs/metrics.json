@@ -1,0 +1,40 @@
+{
+  "phase": "capture",
+  "skill_version": "2.1.1",
+  "timestamp": "2026-03-10T00:00:00Z",
+  "sandbox": "capture-old-skill",
+  "recall": {
+    "executed": true,
+    "index_found": false,
+    "cards_loaded": 0,
+    "related_loaded": 0,
+    "total_recalled": 0,
+    "constraints_applied": false,
+    "reason": "No existing lesson cards in this repository snapshot"
+  },
+  "capture": {
+    "executed": true,
+    "trigger": "user-correction",
+    "cards_created": 1,
+    "cards_updated": 0,
+    "cards_skipped": 0,
+    "created_ids": ["db-schema-before-worker-restart"],
+    "updated_ids": [],
+    "skipped_ids": [],
+    "index_updated": true
+  },
+  "validation": {
+    "passed": true,
+    "errors": [],
+    "warnings": []
+  },
+  "lesson_card": {
+    "id": "db-schema-before-worker-restart",
+    "date": "2026-03-10",
+    "scope": "project",
+    "tags": ["db-schema", "worker", "restart-order", "migration", "cache"],
+    "source": "user-correction",
+    "confidence": 0.7,
+    "related": []
+  }
+}

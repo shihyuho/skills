@@ -8,7 +8,7 @@
       "files": [],
       "expectations": [
         "The response behaves as recall-only rather than running capture or setup.",
-        "The response converts recalled lessons into explicit constraints for the upcoming task.",
+        "The response either converts recalled lessons into explicit constraints or clearly states that no constraints were loaded because no matching lessons exist.",
         "If no lessons exist, the response says so without inventing fake lessons."
       ]
     },
@@ -32,6 +32,17 @@
         "The response treats this as setup-only and does not run recall or capture.",
         "The response uses the canonical lessons reminder block behavior.",
         "The response preserves idempotency by avoiding duplicate reminder blocks."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "This repo says to use lessons-learned before execution. I am about to refactor the auth middleware, so run that gate first and only give me any relevant constraints.",
+      "expected_output": "Treats repo policy as a recall-gate invocation, stays out of setup and capture, and returns only recall-oriented constraints or an honest no-lessons-found result.",
+      "files": [],
+      "expectations": [
+        "The response treats repository policy as a recall gate rather than a setup request.",
+        "The response does not run capture or setup behavior.",
+        "The response returns recall-oriented constraints or clearly states that no relevant lessons were found."
       ]
     }
   ]

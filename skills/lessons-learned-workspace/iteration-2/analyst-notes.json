@@ -1,0 +1,10 @@
+[
+  "Eval 3 (setup-canonical-reminder) is the only test where skill makes a difference - with_skill passes 100% while without_skill passes 67% (failed on 'setup-only' assertion)",
+  "The without_skill eval 3 failure shows ambiguity in the expectation: it ran recall logic but found no cards, while with_skill correctly recognized setup-only invocation and skipped recall entirely",
+  "All other evals (1, 2, 4) pass 100% in both configurations - skill provides no differentiation on these tests",
+  "Time variance is high across evals (89s to 226s), but average time is nearly identical (+1.0s with skill)",
+  "Eval 3 shows dramatic time improvement with skill (89s vs 226s - 137s faster), suggesting skill provides more efficient phase detection",
+  "Eval 4 without_skill used 2 tool_calls while all other runs used 0 - unusual outlier in tool usage",
+  "All 4 evals show stable pass rates within each configuration (stddev 0.0 for with_skill, 0.14 for without_skill)",
+  "The run notes flag eval 3's failing assertion as ambiguous - the distinction between 'not running recall' vs 'running recall but finding nothing' may not be meaningful"
+]

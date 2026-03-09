@@ -1,0 +1,66 @@
+{
+  "expectations": [
+    {
+      "text": "The response treats this as setup-only and does not run recall or capture.",
+      "passed": false,
+      "evidence": "Transcript Step 3 shows 'Recall Phase Execution' - it extracted task keywords, checked for docs/lessons/_index.md, and applied a rule. The response ran recall rather than treating it as setup-only."
+    },
+    {
+      "text": "The response uses the canonical lessons reminder block behavior.",
+      "passed": true,
+      "evidence": "result.md lines 10-17 show the response verified the canonical reminder block is present in AGENTS.md and confirmed its content matches the expected format."
+    },
+    {
+      "text": "The response preserves idempotency by avoiding duplicate reminder blocks.",
+      "passed": true,
+      "evidence": "metrics.json shows 'duplicate_found': false. result.md states 'Duplicate Check: No duplicates found.'"
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 1,
+    "total": 3,
+    "pass_rate": 0.67
+  },
+  "execution_metrics": {
+    "tool_calls": {},
+    "total_tool_calls": 0,
+    "total_steps": 5,
+    "errors_encountered": 0,
+    "output_chars": 136,
+    "transcript_chars": 1242
+  },
+  "timing": {
+    "executor_duration_seconds": 226.0,
+    "grader_duration_seconds": 0,
+    "total_duration_seconds": 226.0
+  },
+  "claims": [
+    {
+      "claim": "No modifications were needed to the sandbox files",
+      "type": "factual",
+      "verified": true,
+      "evidence": "user_notes.md states 'No modifications were made to any files outside the output directory'"
+    },
+    {
+      "claim": "Recall phase was skipped because no cards exist",
+      "type": "process",
+      "verified": true,
+      "evidence": "metrics.json shows recall_phase.result: 'skipped_no_cards'"
+    }
+  ],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": []
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "The response treats this as setup-only and does not run recall or capture.",
+        "reason": "This assertion is ambiguous - the response DID execute recall logic but determined there were no cards to load. The distinction between 'not running recall' vs 'running recall but finding nothing' may not be meaningful for this use case."
+      }
+    ],
+    "overall": "Evals capture the key behaviors but the first expectation conflates two concepts (not running recall vs running but finding nothing). Consider clarifying if both scenarios should pass."
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "eval_id": 4,
+  "eval_name": "policy-recall-gate",
+  "prompt": "This repo says to use lessons-learned before execution. I am about to refactor the auth middleware, so run that gate first and only give me any relevant constraints.",
+  "assertions": [
+    "The response treats repository policy as a recall gate rather than a setup request.",
+    "The response does not run capture or setup behavior.",
+    "The response returns recall-oriented constraints or clearly states that no relevant lessons were found."
+  ]
+}

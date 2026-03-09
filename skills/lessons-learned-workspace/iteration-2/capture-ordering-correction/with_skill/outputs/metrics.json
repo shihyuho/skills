@@ -1,0 +1,23 @@
+{
+  "capture": {
+    "card_id": "db-schema-before-worker-restart",
+    "action": "created",
+    "source": "user-correction",
+    "confidence": 0.7,
+    "scope": "module",
+    "tags": ["db-migration", "worker", "restart", "ordering", "schema-change"],
+    "related": [],
+    "date": "2026-03-10"
+  },
+  "index": {
+    "total_cards": 1,
+    "cards_added": 1,
+    "cards_updated": 0
+  },
+  "output": {
+    "result": "result.md",
+    "transcript": "transcript.md",
+    "user_notes": "user_notes.md",
+    "metrics": "metrics.json"
+  }
+}

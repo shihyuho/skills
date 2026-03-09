@@ -1,0 +1,53 @@
+{
+  "expectations": [
+    {
+      "text": "The response treats the prompt as correction-driven capture.",
+      "passed": true,
+      "evidence": "The input clearly begins with 'Correction: do not touch the cache layer first...' and metrics.json shows source: 'user-correction', confirming it was treated as a correction-driven capture."
+    },
+    {
+      "text": "The captured lesson focuses on the reusable ordering rule instead of generic commentary.",
+      "passed": true,
+      "evidence": "The lesson captures 'DB schema changes must land before worker restart' with tags including 'ordering', 'schema-change'. The user_notes.md explicitly states 'The deployment order must be: schema change first, then worker restart' - this is a specific reusable ordering rule."
+    },
+    {
+      "text": "The response reports a compact outcome such as created, updated, or skipped.",
+      "passed": true,
+      "evidence": "result.md line 3: 'Result: created' - a compact single-word outcome."
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "total_tool_calls": null,
+    "total_steps": null,
+    "errors_encountered": 0,
+    "output_chars": 66,
+    "transcript_chars": 600
+  },
+  "timing": {
+    "executor_duration_seconds": 204.0,
+    "total_duration_seconds": 204.0
+  },
+  "claims": [
+    {
+      "claim": "A new lesson card was created for the DB schema/worker ordering lesson",
+      "type": "factual",
+      "verified": true,
+      "evidence": "metrics.json shows action: 'created', card_id: 'db-schema-before-worker-restart'"
+    }
+  ],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": []
+  },
+  "eval_feedback": {
+    "suggestions": [],
+    "overall": "All expectations pass. The eval captures the key requirements appropriately."
+  }
+}

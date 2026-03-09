@@ -1,0 +1,61 @@
+{
+  "expectations": [
+    {
+      "text": "The response behaves as recall-only rather than running capture or setup.",
+      "passed": true,
+      "evidence": "Transcript shows recall behavior: keyword extraction (Step 1), index recovery check (Step 2), working scope determination (Step 3), reading index (Step 4), card ranking (Step 5), and loading cards (Steps 6-8). No capture or setup phases executed. Phase explicitly marked as 'Recall (before work)'."
+    },
+    {
+      "text": "The response either converts recalled lessons into explicit constraints or clearly states that no constraints were loaded because no matching lessons exist.",
+      "passed": true,
+      "evidence": "result.md states 'If no cards match, continue work without lesson constraints.' user_notes.md explicitly states 'No lessons were recalled' and explains why - no docs/lessons directory exists. Metrics shows 0 cards found, 0 constraints applied."
+    },
+    {
+      "text": "If no lessons exist, the response says so without inventing fake lessons.",
+      "passed": true,
+      "evidence": "user_notes.md line 5: 'No lessons were recalled', line 9: 'no lessons have been captured yet in the worktree'. result.md line 26: 'No lessons recalled - This is the baseline old_skill snapshot with no captured lessons.' No invented lessons found in any output."
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "tool_calls": {},
+    "total_tool_calls": 0,
+    "total_steps": 8,
+    "errors_encountered": 0,
+    "output_chars": 3800,
+    "transcript_chars": 1400
+  },
+  "timing": {
+    "executor_duration_seconds": 214.0,
+    "grader_duration_seconds": 0,
+    "total_duration_seconds": 214.0
+  },
+  "claims": [
+    {
+      "claim": "No lessons exist in the worktree",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Index check confirms docs/lessons/_index.md does not exist, 0 cards found"
+    },
+    {
+      "claim": "Recall phase continued without lesson constraints",
+      "type": "process",
+      "verified": true,
+      "evidence": "Per skill spec: 'If no cards match, continue work without lesson constraints' - this was executed"
+    }
+  ],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": []
+  },
+  "eval_feedback": {
+    "suggestions": [],
+    "overall": "No suggestions, evals look solid"
+  }
+}

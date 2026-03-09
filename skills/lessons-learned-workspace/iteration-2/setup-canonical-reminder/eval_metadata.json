@@ -1,0 +1,10 @@
+{
+  "eval_id": 3,
+  "eval_name": "setup-canonical-reminder",
+  "prompt": "Please initialize the lessons-learned reminder for this project. We have `AGENTS.md` already, but I want the canonical reminder block and I do not want duplicate wording if something similar is already there.",
+  "assertions": [
+    "The response treats this as setup-only and does not run recall or capture.",
+    "The response uses the canonical lessons reminder block behavior.",
+    "The response preserves idempotency by avoiding duplicate reminder blocks."
+  ]
+}

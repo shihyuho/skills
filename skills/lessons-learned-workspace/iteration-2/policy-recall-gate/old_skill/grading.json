@@ -1,0 +1,64 @@
+{
+  "expectations": [
+    {
+      "text": "The response treats repository policy as a recall gate rather than a setup request.",
+      "passed": true,
+      "evidence": "Transcript shows: 'Read sandbox AGENTS.md - Confirmed requirement: MUST use the lessons-learned skill before any execution' followed by 'Invoked lessons-learned skill' and 'Executed Recall Phase'. This demonstrates treating policy as a gate to check for existing lessons, not as a setup/capture request."
+    },
+    {
+      "text": "The response does not run capture or setup behavior.",
+      "passed": true,
+      "evidence": "Metrics.json shows 'phase: recall' and 'status: skipped' with 'reason: no_existing_cards'. The result.md shows only recall phase was attempted with no capture or setup behavior executed."
+    },
+    {
+      "text": "The response returns recall-oriented constraints or clearly states that no relevant lessons were found.",
+      "passed": true,
+      "evidence": "Result.md clearly states: 'Recall Status: SKIPPED' with reason 'no lesson cards exist' and 'Constraints: None - proceed with auth middleware refactoring without lesson constraints.'"
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "tool_calls": {
+      "Read": 1,
+      "Skill": 1
+    },
+    "total_tool_calls": 2,
+    "total_steps": 4,
+    "errors_encountered": 0,
+    "output_chars": 1800,
+    "transcript_chars": 2200
+  },
+  "timing": {
+    "executor_duration_seconds": 92.0,
+    "grader_duration_seconds": 0,
+    "total_duration_seconds": 92.0
+  },
+  "claims": [
+    {
+      "claim": "No lesson cards exist to recall",
+      "type": "factual",
+      "verified": true,
+      "evidence": "metrics.json shows index_exists: false, lessons_directory_exists: false, primary_cards_loaded: 0, related_cards_loaded: 0"
+    },
+    {
+      "claim": "Recall phase was skipped due to no existing cards",
+      "type": "process",
+      "verified": true,
+      "evidence": "metrics.json shows status: skipped, reason: no_existing_cards"
+    }
+  ],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": []
+  },
+  "eval_feedback": {
+    "suggestions": [],
+    "overall": "No suggestions, evals look solid"
+  }
+}
