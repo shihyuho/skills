@@ -1,0 +1,82 @@
+[
+  {
+    "query": "Before I start debugging why our payment webhook retries are exploding in production, load any relevant lessons so we do not repeat the same setup mistake from last week.",
+    "should_trigger": true
+  },
+  {
+    "query": "I am about to refactor the migration flow in `services/db/runner.ts`; please recall any lessons about run order, baseline steps, or preconditions first.",
+    "should_trigger": true
+  },
+  {
+    "query": "Correction: optimistic locking is the wrong fix here. In this codebase the update must run inside one transaction or the audit row and state row drift apart. Capture that rule for later.",
+    "should_trigger": true
+  },
+  {
+    "query": "Done. The deploy only worked after exporting `APP_REGION` before starting the worker process. Please keep that as a reusable lesson because we lost half a day on it.",
+    "should_trigger": true
+  },
+  {
+    "query": "Initialize the lessons-learned reminder in our `AGENTS.md` so every future task consults it before execution.",
+    "should_trigger": true
+  },
+  {
+    "query": "This repo says to use lessons-learned before execution. I am about to work on a risky refactor, so run that gate first.",
+    "should_trigger": true
+  },
+  {
+    "query": "Can you pull up any lessons before I touch `infra/terraform/network.tf`? Last time we broke deploys because one environment variable had to be exported before the worker booted.",
+    "should_trigger": true
+  },
+  {
+    "query": "We finally fixed the flaky CI job: the test suite only stabilizes if Redis comes up before the worker pool. That took multiple attempts; capture it as a lesson.",
+    "should_trigger": true
+  },
+  {
+    "query": "pls run the lessons-learned thing first before you start this migration cleanup. i vaguely remember there was some nasty baseline ordering gotcha.",
+    "should_trigger": true
+  },
+  {
+    "query": "Repair the lessons-learned setup in `CLAUDE.md`. I think we already have similar wording in there, so keep it canonical and deduplicated.",
+    "should_trigger": true
+  },
+  {
+    "query": "What is the syntax for Python list comprehensions again? I always forget where the `if` goes.",
+    "should_trigger": false
+  },
+  {
+    "query": "Explain how React `useEffect` cleanup works. I am writing docs for junior devs and just need a plain-English explanation.",
+    "should_trigger": false
+  },
+  {
+    "query": "Can you clean up the indentation in `config/sample.json` and sort the keys alphabetically? No behavior changes.",
+    "should_trigger": false
+  },
+  {
+    "query": "Take notes from today's product sync. I want a quick summary of action items and open questions for Q2 planning.",
+    "should_trigger": false
+  },
+  {
+    "query": "My laptop environment is cursed today and Docker is acting weird again. I just need help poking at it live, not turning this into a reusable process.",
+    "should_trigger": false
+  },
+  {
+    "query": "The user entered the wrong password twice and got locked out. Help me explain the support policy, but do not change the system.",
+    "should_trigger": false
+  },
+  {
+    "query": "I need a concise postmortem for yesterday's outage. Summarize the timeline and action items, but do not store anything as reusable memory yet.",
+    "should_trigger": false
+  },
+  {
+    "query": "Search the repo for anywhere we mention lessons learned and update the wording to 'retrospectives' instead. This is just a terminology cleanup.",
+    "should_trigger": false
+  },
+  {
+    "query": "I know this repo says to use lessons-learned before execution, but right now I only want you to explain what the command does. Do not run anything.",
+    "should_trigger": false
+  },
+  {
+    "query": "Please journal what happened during today's pairing session so I can remember it later. This is for my own notes, not for future automation behavior.",
+    "should_trigger": false
+  }
+]

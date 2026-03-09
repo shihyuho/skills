@@ -1,0 +1,38 @@
+{
+  "skill_name": "lessons-learned",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Before I refactor our migration runner, recall any relevant lessons. We had a bad incident last month where the baseline and migrate order mattered, and I do not want to repeat that.",
+      "expected_output": "Runs the recall workflow only, looks for relevant lessons using the task context, and returns concise working constraints without trying to capture a new lesson or run setup.",
+      "files": [],
+      "expectations": [
+        "The response behaves as recall-only rather than running capture or setup.",
+        "The response converts recalled lessons into explicit constraints for the upcoming task.",
+        "If no lessons exist, the response says so without inventing fake lessons."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Correction: do not touch the cache layer first. In this repo the fix only works if the DB schema change lands before the worker restart, otherwise the worker reads an old column set and crashes. Capture that as a reusable lesson.",
+      "expected_output": "Runs the capture workflow, recognizes that the user correction is reusable, and produces a compact create/update outcome centered on the ordering constraint.",
+      "files": [],
+      "expectations": [
+        "The response treats the prompt as correction-driven capture.",
+        "The captured lesson focuses on the reusable ordering rule instead of generic commentary.",
+        "The response reports a compact outcome such as created, updated, or skipped."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Please initialize the lessons-learned reminder for this project. We have `AGENTS.md` already, but I want the canonical reminder block and I do not want duplicate wording if something similar is already there.",
+      "expected_output": "Runs the explicit setup flow only, targets project instruction files, applies the canonical reminder block idempotently, and avoids recall or capture behavior.",
+      "files": [],
+      "expectations": [
+        "The response treats this as setup-only and does not run recall or capture.",
+        "The response uses the canonical lessons reminder block behavior.",
+        "The response preserves idempotency by avoiding duplicate reminder blocks."
+      ]
+    }
+  ]
+}
