@@ -2,7 +2,7 @@
 
 Turn every costly mistake into reusable memory.
 
-`lessons-learned` gives your agent a lightweight self-improvement loop:
+`lessons-learned` gives your agent a lightweight memory loop:
 
 - Recall relevant lessons before starting work
 - Capture reusable lessons after meaningful corrections or outcomes
@@ -14,14 +14,17 @@ Without a lesson loop, agents often repeat setup errors, forget preconditions, a
 
 This skill stores those insights as atomic Zettelkasten cards so future tasks can load only what matters.
 
-## What It Does
+## What Problem It Solves
 
-- Maintains `docs/lessons/_index.md` for fast ranking by tag/scope/confidence/date
-- Stores one lesson per card under `docs/lessons/<card-id>.md`
-- Captures only non-obvious, reusable lessons
-- Auto-captures qualifying lessons at task end
-- Assigns `confidence` by source and uses it in recall priority
-- Adds selective `related` links for high-value knowledge connections
+Agents are good at solving the task in front of them and bad at remembering
+the exact trap that wasted time two tasks ago. This skill closes that gap.
+
+Use it when you want the next task to inherit hard-won constraints such as:
+
+- a migration that only works in a specific order
+- a setup step that must happen before running tests
+- a misleading error that points to the wrong file
+- a user correction that should become a lasting rule
 
 ## What Counts as Non-Obvious
 
@@ -30,11 +33,12 @@ This skill stores those insights as atomic Zettelkasten cards so future tasks ca
 - Non-obvious ordering, config, env var, or flag constraints
 - Files that must change together to keep behavior correct
 
-## When It Triggers
+## When It Activates
 
 ### Task Start (Recall)
 
-Use when a new task begins and you want to preload relevant constraints.
+Use when non-trivial work is about to start and prior constraints could prevent
+repeat mistakes.
 
 Example prompts:
 
@@ -43,7 +47,8 @@ Example prompts:
 
 ### User Correction (Capture)
 
-Use when the user corrects approach and the correction is reusable.
+Use when the user corrects the approach and that correction should become part
+of future behavior.
 
 Example prompt:
 
@@ -51,34 +56,21 @@ Example prompt:
 
 ### Task End (Capture Evaluation)
 
-Use when finishing a task and a reusable rule emerged.
+Use when the task is done and you discovered a rule worth keeping.
 
 Example prompt:
 
 - "Done. The fix only worked after setting timeout before client initialization."
 
-## Recall and Capture Lifecycle
+## What You Get
 
-1. **Recall**
-   - Determine task scope (`project` / `module` / `feature`)
-   - Match task keywords to tags in `_index.md`
-   - Rank by `tag -> scope -> confidence(desc) -> date(desc)`
-   - For legacy cards without `confidence`, derive from `source`
-     (`user-correction=0.7`, `bug-fix=0.5`, `retrospective=0.3`, fallback `0.3`)
-   - Load 1-3 primary cards
-   - Optionally expand with up to 2 `related` cards
-   - Apply those lessons as constraints
+The skill maintains a small reusable memory system under `docs/lessons/`:
 
-2. **Capture**
-   - Evaluate whether the outcome is reusable and non-obvious
-   - Auto-capture if criteria are met
-   - Update or create card + index row
-   - Report `created/updated/skipped` in a compact capture report
+- lesson cards live at `docs/lessons/<card-id>.md`
+- an index helps the agent load only the most relevant cards
+- capture results stay compact: `created`, `updated`, or `skipped`
 
-3. **Selective Linking**
-   - Add `related` links only when high-value gate is met
-   - Avoid speculative links
-   - Cap at 2 related links per card
+Detailed execution rules stay in `SKILL.md` and `references/`.
 
 ## File Layout
 
@@ -96,3 +88,9 @@ docs/lessons/
 - Do not capture one-off, non-reproducible facts.
 - Do not capture session-only noise (temporary paths/logs/local artifacts).
 - Do not create duplicate cards when an existing card can be updated.
+
+## Related Files
+
+- Runtime contract: `skills/lessons-learned/SKILL.md`
+- Card format: `skills/lessons-learned/references/card-template.md`
+- Recall and index rules: `skills/lessons-learned/references/recall-and-index.md`
