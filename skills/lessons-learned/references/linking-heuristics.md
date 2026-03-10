@@ -2,6 +2,8 @@
 
 Use these rules to build `related` links for lesson cards.
 
+This file supports `SKILL.md`. It does not define independent limits.
+
 ## High-Value Gate (2-of-4)
 
 Only create `related` links when at least **2** of these conditions are true:
@@ -22,7 +24,7 @@ When multiple candidates are available, rank in this order:
 3. Card recency by `date` (newer first)
 4. Stable tie-breaker by `id` (ascending)
 
-Select the top candidates and cap at 3 links.
+Select the top candidates and cap at 2 links.
 
 ## Link Constraints
 

@@ -2,7 +2,7 @@
 
 Turn every costly mistake into reusable memory.
 
-`lessons-learned` gives your agent a lightweight self-improvement loop:
+`lessons-learned` gives an agent a lightweight self-improvement loop:
 
 - Recall relevant lessons before starting work
 - Capture reusable lessons after meaningful corrections or outcomes
@@ -14,71 +14,51 @@ Without a lesson loop, agents often repeat setup errors, forget preconditions, a
 
 This skill stores those insights as atomic Zettelkasten cards so future tasks can load only what matters.
 
-## What It Does
+## What It Maintains
 
 - Maintains `docs/lessons/_index.md` for fast ranking by tag/scope/confidence/date
 - Stores one lesson per card under `docs/lessons/<card-id>.md`
-- Captures only non-obvious, reusable lessons
-- Auto-captures qualifying lessons at task end
-- Assigns `confidence` by source and uses it in recall priority
-- Adds selective `related` links for high-value knowledge connections
-
-## What Counts as Non-Obvious
-
-- Hidden relationships between files/modules
-- Misleading errors that required a specific workaround
-- Non-obvious ordering, config, env var, or flag constraints
-- Files that must change together to keep behavior correct
+- Uses `confidence` and scope metadata to prioritize recall
+- Keeps `related` links selective so recall stays small and relevant
 
 ## When It Triggers
 
-### Task Start (Recall)
+- **Task start** - load relevant lessons before non-trivial implementation.
+- **User correction** - capture a reusable correction while the context is fresh.
+- **Task end** - evaluate whether a new lesson should be stored.
 
-Use when a new task begins and you want to preload relevant constraints.
+Typical prompts:
 
-Example prompts:
-
-- "Start implementing retry logic for webhook timeout handling."
 - "Before I touch migrations, load relevant lessons."
-
-### User Correction (Capture)
-
-Use when the user corrects approach and the correction is reusable.
-
-Example prompt:
-
-- "Correction: baseline must run before migrate."
-
-### Task End (Capture Evaluation)
-
-Use when finishing a task and a reusable rule emerged.
-
-Example prompt:
-
+- "Correction: baseline must run before migrate. Capture that."
 - "Done. The fix only worked after setting timeout before client initialization."
 
-## Recall and Capture Lifecycle
+## High-Level Lifecycle
 
 1. **Recall**
-   - Determine task scope (`project` / `module` / `feature`)
-   - Match task keywords to tags in `_index.md`
-   - Rank by `tag -> scope -> confidence(desc) -> date(desc)`
-   - For legacy cards without `confidence`, derive from `source`
-     (`user-correction=0.7`, `bug-fix=0.5`, `retrospective=0.3`, fallback `0.3`)
-   - Load 1-3 primary cards
-   - Optionally expand with up to 2 `related` cards
-   - Apply those lessons as constraints
+   - Read the lesson index if it exists.
+   - Rank cards by tags, scope, confidence, and recency.
+   - Load only the most relevant cards.
 
 2. **Capture**
-   - Evaluate whether the outcome is reusable and non-obvious
-   - Auto-capture if criteria are met
-   - Update or create card + index row
-   - Report `created/updated/skipped` in a compact capture report
+   - Store only non-obvious, reusable lessons.
+   - Update an existing card when the lesson already exists.
+   - Keep the index synchronized with card metadata.
 
-3. **Selective Linking**
-   - Add `related` links only when high-value gate is met
-   - Avoid speculative links
-   - Cap at 2 related links per card
+3. **Reuse**
+   - Apply loaded lessons as constraints on the current task.
+   - Report concise capture results when new memory is written.
+
+Detailed execution rules live in `SKILL.md`.
+
+## What Counts as Worth Capturing
+
+- Hidden relationships between files or modules
+- Misleading errors that required a specific workaround
+- Non-obvious ordering, config, env var, or flag constraints
+- Pairs or sets of files that must change together
+
+Avoid capturing obvious framework behavior, one-off facts, or session-only noise.
 
 ## File Layout
 
@@ -96,3 +76,4 @@ docs/lessons/
 - Do not capture one-off, non-reproducible facts.
 - Do not capture session-only noise (temporary paths/logs/local artifacts).
 - Do not create duplicate cards when an existing card can be updated.
+- Do not treat this README as the canonical spec; use `SKILL.md` for that.

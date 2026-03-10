@@ -7,7 +7,7 @@ Shihyu's curated collection of agent skills.
 - **[agent-install-guide](skills/agent-install-guide/)** - Write installation guides that AI agents can reliably execute.
 - **[executing-plans-preflight](skills/executing-plans-preflight/)** - Run extensible preflight checks before superpowers:executing-plans, with branch safety as the default gate.
 - **[fanfuaji](skills/fanfuaji/)** - Chinese terminology conversion (Traditional ↔ Simplified) using [Fanhuaji](https://zhconvert.org/) API.
-- **[lessons-learned](skills/lessons-learned/)** - Capture reusable lessons after work and recall relevant lessons before execution with Zettelkasten cards.
+- **[lessons-learned](skills/lessons-learned/)** - Recall relevant lessons before non-trivial work and capture reusable lessons after meaningful corrections or outcomes.
 - **[skill-design](skills/skill-design/)** - Design or refactor agent skills with strict, portable and high-signal documentation structure.
 
 ## Installation
@@ -30,7 +30,7 @@ This repository includes reusable command templates in [`commands/`](commands/).
 
 - `lessons-learned-init`: Initialize lessons-learned setup for AGENTS.md or CLAUDE.md.
 - `lessons-learned-recall`: Recall relevant lessons before work with lessons-learned.
-- `lessons-learned-capture`: Capture reusable lessons at task end with lessons-learned.
+- `lessons-learned-capture`: Capture reusable lessons during corrections or at task end with lessons-learned.
 
 ## Naming Rule
 
