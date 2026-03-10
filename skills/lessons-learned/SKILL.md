@@ -1,6 +1,6 @@
 ---
 name: lessons-learned
-description: Use when starting, executing, or finishing non-trivial implementation tasks to recall relevant lessons before work and capture reusable corrections, mistakes, and decision rules after work.
+description: Use when starting, executing, or finishing non-trivial implementation tasks where reusable constraints may matter. Recall relevant lessons before work, capture reusable corrections or discoveries during and after work, and keep project memory in `docs/lessons/`.
 license: MIT
 metadata:
   author: shihyuho
@@ -9,9 +9,12 @@ metadata:
 
 # Lessons Learned
 
-A self-improvement loop that stores atomic Zettelkasten lesson cards, recalls
-relevant lessons before work, and captures reusable lessons after work to avoid
-repeating the same mistakes.
+Use this skill to maintain a lightweight project memory loop.
+
+Treat this file as the **single source of truth** for lesson-memory behavior:
+trigger rules, recall flow, capture flow, limits, and validation.
+`README.md`, `references/`, and phase-entry commands must not override those
+rules.
 
 ## Trigger Contract
 
@@ -38,9 +41,9 @@ When this skill is the primary process skill in a session:
 
 ## Storage
 
-All lessons live under **`docs/lessons/`** at the project root:
+Store all lesson artifacts under `docs/lessons/` at the project root:
 
-```
+```text
 docs/lessons/
 ├── _index.md
 ├── api-timeout-retry-pattern.md
@@ -48,13 +51,30 @@ docs/lessons/
 └── null-check-before-save.md
 ```
 
-## Recall Phase — Before Starting Work
+Each lesson card is one atomic Zettelkasten note. Keep one reusable lesson per
+card.
+
+## Canonical Limits
+
+Apply these limits everywhere in the skill package:
+
+- Load **1-3** primary cards during recall.
+- Load up to **2** related cards.
+- Load at most **5** cards total.
+- Use **0-2** `related` links per card.
+- Use **3-6** tags per card.
+- Keep `confidence` in the inclusive range `0.0-0.9`.
+
+If another file conflicts with these limits, this file wins.
+
+## Recall Phase
 
 Run this phase before writing code.
 
 1. Extract task keywords (technology, failure mode, domain terms).
-2. Apply index recovery rule:
-   - If `docs/lessons/_index.md` is missing, skip recall on first run (no cards) or rebuild `_index.md` from existing card frontmatter before recall.
+2. Determine whether lesson storage exists:
+   - If `docs/lessons/` does not exist, treat this as first-run state and skip recall.
+   - If `docs/lessons/` exists but `_index.md` does not, rebuild `_index.md` from existing card frontmatter before recall.
 3. Determine working scope from the task context:
    - `project` for cross-cutting or repo-wide concerns
    - `module` for package/directory-level concerns
@@ -63,18 +83,30 @@ Run this phase before writing code.
 5. Rank candidates with this order:
    `tag match -> scope match -> confidence (desc) -> date (desc)`.
    - Legacy fallback: if a card has no `confidence`, derive it from `source`
-     (`user-correction=0.7`, `bug-fix=0.5`, `retrospective=0.3`). If both
-     are missing, use `0.3`.
+      (`user-correction=0.7`, `bug-fix=0.5`, `retrospective=0.3`). If both
+      are missing, use `0.3`.
 6. Load **1-3** primary cards.
-7. Expand with `related` links from primary cards, load up to **2** additional cards.
-8. Enforce hard cap: primary + related cards must not exceed **5** total.
+7. Expand with `related` links from primary cards, loading up to **2**
+   additional cards.
+8. Enforce the hard cap: primary plus related cards must not exceed **5**
+   total.
 9. Apply loaded lessons as constraints for current work and mention loaded card IDs briefly.
 
 If no cards match, continue work without lesson constraints.
 
-## Capture Phase — After Completing Work
+### Recall Warnings
+
+Treat these as non-blocking and continue:
+
+- `docs/lessons/` is missing on first run.
+- `_index.md` had to be rebuilt.
+- A loaded card is missing `confidence` and needs legacy fallback.
+- A `related` target is missing.
+
+## Capture Phase
 
 Run this phase when any of these conditions are met:
+
 - The user corrected your approach
 - The user asks for capture
 - A bug fix revealed a reusable pattern
@@ -110,6 +142,15 @@ Skip if:
 
 Generate a semantic kebab-case ID that describes the lesson (e.g., `api-timeout-retry-pattern`).
 
+Before writing a new card, check for a semantically similar existing card and
+make the decision explicit:
+
+- `decision=create` when no similar card exists.
+- `decision=update` when a similar card already covers the same lesson.
+
+Surface this decision in the capture output. Do not jump straight to card
+content without stating whether you are creating or updating.
+
 Assign a `scope` before writing the card:
 - `project` for repo-wide constraints
 - `module` for package/directory-level constraints
@@ -124,12 +165,16 @@ If the user confirms a lesson was useful, increase `confidence` by `+0.1`
 (max `0.9`).
 
 Write the card to `docs/lessons/<id>.md` using the template in
-[references/card-template.md](references/card-template.md).
+`references/card-template.md`.
 
 Before creating a new card, check semantic duplication:
 
 - If an existing card is semantically similar, update that card instead of creating a duplicate.
 - Preserve existing card ID when updating.
+
+Minimal correction-capture example:
+
+> Lessons capture report: decision=update, updated=1 (`db-migration-run-order`), skipped=0
 
 Card fields:
 
@@ -152,6 +197,8 @@ Task-end behavior:
 
 - If capture criteria are met, auto-capture without asking for permission first.
 - After capture, report what was created or updated.
+- For normal user-facing output, prefer a short capture summary.
+- Do not reproduce the full card body unless the user asks to inspect it.
 
 ### Step 3 — Update the index
 
@@ -173,7 +220,15 @@ Then keep rows sorted by `Date` descending (newest first).
 ### Step 4 — Confirm with user
 
 Tell the user what was captured using a compact report, e.g.:
-> ✏️ Lessons capture report: created=1 (`api-timeout-retry-pattern`), updated=1 (`db-migration-run-order`), skipped=1 (obvious behavior)
+
+> Lessons capture report: created=1 (`api-timeout-retry-pattern`), updated=1 (`db-migration-run-order`), skipped=1 (obvious behavior)
+
+If capture occurred, include the create-vs-update decision in the report when it
+helps explain the outcome, for example `decision=create` or `decision=update`.
+
+Keep this confirmation short. Prefer the decision, the affected card ID, and a
+one-line rule summary. Avoid dumping the full markdown card or index contents in
+normal output.
 
 ## Linking Rule
 
@@ -192,10 +247,9 @@ Linking constraints:
 - Use deterministic ranking from `references/linking-heuristics.md`.
 - Do not add weak or speculative links.
 
-Broken related targets:
+Broken related targets are non-blocking:
 
 - If a related target is missing, ignore it and warn.
-- Treat this as non-blocking.
 - Continue recall/capture flow.
 
 ## Anti-patterns
@@ -208,7 +262,8 @@ Broken related targets:
 
 ## Validation
 
-Apply these checks during capture or update:
+Apply these checks during capture or update. These are blocking failures unless
+explicitly listed as warnings elsewhere.
 
 - Card filename equals `id` slug.
 - `date` format is ISO `YYYY-MM-DD`.
@@ -223,9 +278,12 @@ Apply these checks during capture or update:
 
 ## Integration Guide
 
-When used with other skills in the same session, follow the Trigger Contract
-above as the single source of truth (task start recall, correction capture,
-task-end capture evaluation).
+When used with other skills in the same session, follow the Trigger Contract as
+the single source of truth:
+
+- task start -> recall
+- user correction during work -> capture
+- task end -> capture evaluation
 
 This is a **non-replaceable** step — lesson capture cannot be substituted by
 todo trackers, progress files, or other skill artifacts.

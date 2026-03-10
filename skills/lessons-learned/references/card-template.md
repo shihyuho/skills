@@ -2,6 +2,9 @@
 
 Use this template when creating a new lesson card.
 
+This file supports `SKILL.md`. If this file and `SKILL.md` disagree, follow
+`SKILL.md`.
+
 ```markdown
 ---
 id: <semantic-kebab-case-id>
@@ -50,3 +53,4 @@ related: ["[[related-card-id-1]]"]
 - `confidence` is numeric and between 0.0 and 0.9.
 - `related` count is between 0 and 2.
 - Every `related` target resolves to an existing card ID.
+- Index metadata should match the card after any update.
