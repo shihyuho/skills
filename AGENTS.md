@@ -1,123 +1,133 @@
-# Agent Skills Repository
+# AGENTS.md
 
-This repository contains AI agent skills following the
-[Agent Skills format](https://agentskills.io/).
+## Purpose
+- This repository is a published collection of agent skills, not a traditional application.
+- Most edits are Markdown under `skills/`; the main executable code is Python under `skills/fanfuaji/scripts/`.
+- Prefer repo conventions and CI behavior over generic app assumptions.
 
-## Lessons Learned
+## Instruction Sources
+- Primary repo instructions live in this file, `README.md`, and each skill's `SKILL.md`.
+- No `.cursorrules` file is present.
+- No `.cursor/rules/` directory is present.
+- No `.github/copilot-instructions.md` file is present.
+- Do not invent extra Cursor or Copilot rules; none are checked into this repo today.
 
-**MUST** use the `lessons-learned` skill before any execution
+## Repository Shape
+- `skills/<skill-name>/` contains one published skill.
+- Each valid skill directory must include `SKILL.md`.
+- Support material usually lives beside it in `references/`, `scripts/`, or `README.md`.
+- `commands/` contains reusable command templates, currently centered on `lessons-learned`.
+- `.github/workflows/validate-skills.yml` is the canonical validation reference.
+- If you add, remove, or rename items under `skills/` or `commands/`, update `README.md` in the same change.
+- Keep `README.md` lists in sync: `Available Skills` for `skills/`, `Included Commands` for `commands/`.
+- Use the `skill-creator` skill when adding a new skill or adjusting an existing one.
 
-## Repository Structure
+## Build, Lint, and Test
+- There is no build pipeline, no transpile step, and no `package.json` scripts.
+- There is no dedicated lint command configured via ESLint, Prettier, Biome, Ruff, or similar.
+- The main repo-wide verification is skill validation through `skills-ref`.
+- The only checked-in unit tests are pytest tests for `fanfuaji`.
 
-```text
-skills/
-├── README.md                 # Repository index
-├── package.json              # Metadata
-├── commands/                 # Reusable command entrypoints
-└── skills/                   # Skills directory
-    └── {skill-name}/
-        ├── SKILL.md
-        ├── README.md
-        ├── references/
-        └── scripts/
-```
-
-## Commands
-
-This is a documentation-first repository. No build/test/lint pipeline is
-required for routine edits.
-
-### Command Design Guidelines
-
-- Treat command files as trigger entrypoints.
-- Keep behavior definitions in `skills/<skill-name>/SKILL.md`.
-- Reference SKILL phase/section names instead of duplicating logic.
-- Do not redefine bootstrap file lists, validation checklists, or extraction
-  criteria in `commands/*.md`.
-- Keep command-specific context brief and non-authoritative.
-- When adding, removing, or renaming files under `commands/`, update and verify
-  the commands list in root `README.md` in the same change.
-
-## Validation
-
-Validate changed skills with
-[skills-ref](https://github.com/agentskills/agentskills/tree/main/skills-ref):
-
+### Core Commands
 ```bash
-npx --yes skills-ref validate ./skills/skill-name
+# Install all published skills from this repository
+npx skills add shihyuho/skills --skill='*'
+
+# Install one skill only
+npx skills add shihyuho/skills --skill=fanfuaji
+
+# Validate one skill directory (matches CI behavior)
+npx --yes skills-ref validate skills/fanfuaji
+
+# Validate all skill directories locally
+for dir in skills/*; do
+  [ -f "$dir/SKILL.md" ] && npx --yes skills-ref validate "$dir"
+done
+
+# Run the checked-in pytest file
+python3 -m pytest skills/fanfuaji/scripts/test_fanfuaji_security.py -v
 ```
 
-## Writing Guidelines
+### Single-Test Commands
+```bash
+# Run one exact pytest test
+python3 -m pytest \
+  skills/fanfuaji/scripts/test_fanfuaji_security.py::test_deny_blocked_secret_filenames \
+  -v
 
-### General
+# Run a subset by name pattern
+python3 -m pytest \
+  skills/fanfuaji/scripts/test_fanfuaji_security.py \
+  -k allowlist \
+  -v
 
-- **Language**: English
-- **Tone**: Professional, direct, concise
-- **Audience**: AI agents (`SKILL.md`) and humans (`README.md`)
-
-### `SKILL.md`
-
-Follow the [Agent Skills specification](https://agentskills.io/specification).
-
-Required frontmatter template:
-
-```yaml
----
-name: skill-name
-description: What this skill does and when to use it. Include trigger keywords.
-license: MIT
-metadata:
-  author: shihyuho
-  version: "1.0.0"
----
+# Validate one skill while iterating on docs
+npx --yes skills-ref validate skills/lessons-learned
 ```
 
-Rules:
+### Command Notes
+- Use `npx --yes skills-ref validate <skill-dir>` after editing any `SKILL.md` or skill package content.
+- If you change multiple skills, run the local validation loop across all `skills/*` directories.
+- If you touch only `skills/fanfuaji/scripts/`, run both `skills-ref validate skills/fanfuaji` and the relevant pytest command.
+- Do not claim a lint step passed; this repo currently has no dedicated lint runner.
 
-- `name` matches directory name; lowercase and hyphens only.
-- `description` is 1-1024 chars and includes both what/when.
-- Keep `SKILL.md` under 500 lines; move heavy detail to `references/`.
-- Use imperative instructions and explicit mandatory wording.
-- Include concrete examples when behavior is non-obvious.
+## Verification Checklist
+- `SKILL.md` still validates with `skills-ref`.
+- Example commands in docs still match real file paths and filenames.
+- Skill directory names under `skills/` still avoid `_`-prefixed subdirectories.
+- Python changes in `fanfuaji` still pass the targeted pytest command.
 
-### Skill-Level `README.md`
+## General Style
+- Match existing repo style instead of importing a new formatting system.
+- Keep documentation deterministic, explicit, and agent-executable.
+- Prefer concise, operational wording over marketing language.
+- When documenting commands, use exact paths, flags, and expected behavior.
+- If the repo does not define a workflow, say so plainly.
 
-- Write for human readers with value-first framing.
-- Prefer scenario-based explanation over API-style dumps.
-- Keep it concise; point detailed execution logic to `SKILL.md`.
+## Markdown Style
+- Use ATX headings (`#`, `##`, `###`), not Setext headings.
+- Prefer short sections, bullets, tables, and numbered workflows.
+- Use fenced code blocks with language tags for commands, JSON, YAML, and Python.
+- Prefer explicit examples over abstract summaries.
+- Keep command snippets idempotent and deterministic where possible.
 
-### `references/`
+## Python Style
+- Group imports as standard library first, then third-party, then local imports.
+- Use `snake_case` for functions, variables, and test names.
+- Use `PascalCase` for classes and `UPPER_SNAKE_CASE` for module-level constants.
+- Add type hints for public functions and important helpers.
+- Existing code uses `Optional`, `Dict`, and `List` from `typing`; stay consistent within touched files.
+- Use `@dataclass` for simple structured return values when appropriate.
+- Use docstrings for modules, classes, and non-trivial functions.
+- Prefer stdlib solutions when they keep the implementation clear; `fanfuaji.py` intentionally avoids `requests`.
 
-- Use `lowercase-dash` file names.
-- Keep templates concise with placeholders.
-- Place detailed examples and long-form guidance here.
+## Naming and Data Modeling
+- Match existing skill names exactly across directory names, frontmatter, and docs.
+- Use semantic kebab-case for lesson-card IDs and similar document identifiers.
+- Keep return types declared on script-facing functions.
+- Name tests after behavior, for example `test_allowlist_mode_blocks_outside_directories`.
 
-## Naming Conventions
+## Error Handling and Tests
+- Raise or surface specific, actionable errors.
+- Include enough context in error text for an agent to recover without guessing.
+- In CLI code, convert expected failures into clear stderr output plus non-zero exit.
+- Re-raise intentionally when preserving semantics is clearer than wrapping everything.
+- Pytest is the current test style for Python code in this repo.
+- Keep tests isolated with `tmp_path` and assert policy failures with `pytest.raises(..., match=...)`.
 
-- Skill directories: `kebab-case` (e.g., `lessons-learned`).
-- Skill subdirectories: do not use `_`-prefixed names under `skills/`; use
-  `.`-prefixed names when needed (e.g., `.templates`).
-- Fixed file names: `SKILL.md`, `README.md`.
-- Command files: `{skill-name}-{command-name}.md`.
-- Reference files: `lowercase-dash.md` (or `.base` when format requires it).
+## JSON, YAML, and Docs
+- Preserve existing indentation and key ordering style in touched files.
+- Use valid JSON only; no comments or trailing commas.
+- In YAML workflows, keep steps explicit and readable rather than overly compact.
+- Keep line length readable rather than maximally dense.
 
-## Formatting Standards
+## Working In This Repo
+- Do not treat incidental local files as canonical repo configuration unless they are clearly part of the committed project structure.
+- Before referencing a workflow in docs, confirm the underlying file or command actually exists in the repository.
+- Prefer small, targeted edits because many files are normative instruction documents.
 
-- Headers: ATX (`#`, `##`, ...).
-- Lists: `-` for unordered; numbered for ordered.
-- Code blocks: always use language labels.
-- Emphasis: `**bold**` for key terms; use backticks for file paths/commands.
-- Break long lines at natural boundaries for readability.
-
-## Contribution Checklist
-
-When adding or changing a skill:
-
-1. Update files under `skills/<skill-name>/`.
-2. Update root `README.md` skills list if needed.
-3. If `commands/` changed, update root `README.md` commands list.
-4. Run `npx --yes skills-ref validate ./skills/<skill-name>`.
-
-## License
-
-MIT
+## Safe Defaults For Agents
+- If asked for a build command, explain that this repo validates skills rather than building an app.
+- If asked for lint, explain that there is no dedicated lint runner configured.
+- If asked how to verify a skill change, start with `npx --yes skills-ref validate <skill-dir>`.
+- If asked how to verify `fanfuaji` script behavior, run the relevant pytest file or a single pytest test.
