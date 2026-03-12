@@ -94,6 +94,14 @@ Capture the reusable insight from this debugging session into my ultrabrain note
 - It does not treat MOCs as category buckets or replace notes with folder structure.
 - It keeps human-readable structure in files, so your vault stays inspectable.
 
+## Related Files
+
+- [SKILL.md](SKILL.md) - Canonical workflow and operational rules
+- [../../commands/ultrabrain-init.md](../../commands/ultrabrain-init.md) - Install the reminder block in `AGENTS.md` or `CLAUDE.md`
+- [../../commands/ultrabrain-recall.md](../../commands/ultrabrain-recall.md) - Manual recall entrypoint
+- [../../commands/ultrabrain-capture.md](../../commands/ultrabrain-capture.md) - Manual capture entrypoint
+- [../../commands/ultrabrain-groom.md](../../commands/ultrabrain-groom.md) - Manual MOC grooming entrypoint
+
 ## License
 
 MIT
