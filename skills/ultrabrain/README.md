@@ -4,6 +4,29 @@ Build a second brain your AI can actually navigate.
 
 `ultrabrain` helps turn a pile of notes into a living knowledge system built from linked notes, MOCs, source notes, and reusable knowledge cards.
 
+## Core Principles
+
+### Cards are self-contained
+
+Every knowledge card must be understandable on its own. The card's main idea should be complete within the card itself—not depending on reading the source to understand the point.
+
+- Short is OK. Thin is not.
+- Key definitions and context belong in the card.
+- If removing the source makes the card unclear, the card needs work—not the source.
+
+### Maps are for navigation, not storage
+
+- Domain MOCs (`code-style-moc`, `testing-moc`, etc.) are primary recall entry points.
+- Review lenses (`by-source-moc`, `by-confidence-moc`) are for provenance or confidence review only.
+- Troubleshooting lenses (`timeout-retry-idempotency-moc`, `network-path-moc`, etc.) are problem-specific entry points for systematic diagnosis.
+
+### Source notes track provenance only
+
+A source note records where knowledge came from. It does not fill gaps in card comprehensibility. If a card needs its source to make sense, rewrite the card.
+
+- Fix thin cards first.
+- Do not use a source note as the first remedy for missing context.
+
 ## Why Use This Skill
 
 Your notes probably already contain useful ideas. The hard part is not writing them down. The hard part is finding the right note later, keeping structure stable as the vault grows, and letting AI help without turning everything into a messy folder dump.
@@ -16,11 +39,41 @@ UltraBrain gives your AI a cleaner way to work with knowledge:
 - preserve provenance when a source still matters later
 - groom maps over time without constantly rewriting your cards
 
+## Think While Recalling
+
+Most knowledge systems assume you already know the exact domain before you start planning. Real work does not feel like that.
+
+Usually you begin with a vague issue, a half-formed idea, or a broad theme. The useful domains and problem frames only become visible while you are thinking through the task.
+
+UltraBrain is built for that reality.
+
+It starts with a small seed recall, just enough to orient the work. Then, as planning or brainstorming exposes a new gap, risk, or decision, it pulls in more of your prior knowledge through maps and cards.
+
+That makes UltraBrain feel less like a static archive and more like a knowledge partner:
+
+- start with one map, not the whole vault
+- think in public while the plan is still forming
+- use new questions to trigger better recall
+- keep old knowledge flowing into the plan without drowning in search results
+
+If you also use file-based planning, the fit is especially strong:
+
+- planning files hold the new discoveries from this session
+- UltraBrain supplies the old knowledge that becomes relevant as those discoveries appear
+
+In other words: planning surfaces the gaps, and UltraBrain fills them map-first.
+
 ## What AI Can Do With It
 
 ### Recall before acting
 
-When you ask AI to plan, write, or research, UltraBrain can start from your knowledge maps instead of a blind repo-wide search.
+When you ask AI to plan, write, or research, UltraBrain starts from your knowledge maps. It uses a small seed recall first, then follows the planning process as new domains, risks, and decision points become clear.
+
+That means recall is not a one-shot ritual before planning. It is a map-first loop that keeps feeding the plan as the problem gets sharper.
+
+### Review provenance and confidence when needed
+
+AI uses `by-source-moc` and `by-confidence-moc` only for audit work—not for everyday recall. This keeps navigation clean.
 
 ### Capture without chaos
 
@@ -32,7 +85,7 @@ Your knowledge cards stay focused on ideas. Your MOCs stay focused on navigation
 
 ### Preserve where ideas came from
 
-When provenance matters, UltraBrain uses lightweight source notes so you can keep context without turning the whole vault into an archive.
+Source notes track provenance, not context. The card itself contains the idea; the source note only remembers the origin.
 
 ## Typical Use Cases
 
@@ -63,11 +116,11 @@ docs/ultrabrain/
   sources/
 ```
 
-- `maps/` holds your MOCs and entry pages
+- `maps/` holds your MOCs, review lenses, and troubleshooting lenses
 - `notes/` holds canonical knowledge cards
 - `sources/` holds lightweight provenance notes
 
-The default philosophy is simple: notes store knowledge, maps store navigation, and source notes store context.
+The default philosophy is simple: notes store knowledge, maps store navigation, and source notes store origin—not context.
 
 ## How To Start
 
@@ -77,7 +130,7 @@ The default philosophy is simple: notes store knowledge, maps store navigation, 
 npx skills add shihyuho/skills --skill=ultrabrain
 ```
 
-2. Optionally install the reminder block with `ultrabrain-init` so your agent gets nudged to use the skill in PKM or second-brain workflows.
+2. Optionally install the reminder block with `ultrabrain-init`. This inserts a mandatory prompt block in your `AGENTS.md` or `CLAUDE.md` that forces agents to consider using UltraBrain when you mention PKM-related keywords.
 
 3. Start with prompts like:
 
