@@ -7,6 +7,7 @@ Shihyu's curated collection of agent skills.
 - **[agent-install-guide](skills/agent-install-guide/)** - Write installation guides that AI agents can reliably execute.
 - **[executing-plans-preflight](skills/executing-plans-preflight/)** - Run extensible preflight checks before superpowers:executing-plans, with branch safety as the default gate.
 - **[fanfuaji](skills/fanfuaji/)** - Chinese terminology conversion (Traditional ↔ Simplified) using [Fanhuaji](https://zhconvert.org/) API.
+- **[ultrabrain](skills/ultrabrain/)** - Organize a linked-note knowledge base with MOCs, note-first capture, provenance-aware source notes, and manual MOC grooming.
 - **[lessons-learned](skills/lessons-learned/)** - Recall relevant lessons before non-trivial work and capture reusable lessons after meaningful corrections or outcomes.
 
 ## Installation
@@ -27,6 +28,10 @@ Skills are automatically available once installed. AI will use them when relevan
 
 This repository includes reusable command templates in [`commands/`](commands/).
 
+- `ultrabrain-init`: Initialize the canonical ultrabrain reminder block in `AGENTS.md` or `CLAUDE.md`.
+- `ultrabrain-recall`: Recall relevant knowledge maps before planning with ultrabrain.
+- `ultrabrain-capture`: Capture reusable knowledge after work with ultrabrain.
+- `ultrabrain-groom`: Run manual MOC grooming with ultrabrain.
 - `lessons-learned-init`: Initialize lessons-learned setup for AGENTS.md or CLAUDE.md.
 - `lessons-learned-recall`: Recall relevant lessons before work with lessons-learned.
 - `lessons-learned-capture`: Capture reusable lessons during corrections or at task end with lessons-learned.
