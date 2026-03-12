@@ -92,7 +92,6 @@ Capture the reusable insight from this debugging session into my ultrabrain note
 - It is not a general task manager or project planner.
 - It is not for one-off factual Q&A with no knowledge-base goal.
 - It does not treat MOCs as category buckets or replace notes with folder structure.
-- It does not assume `lessons-learned` is installed.
 - It keeps human-readable structure in files, so your vault stays inspectable.
 
 ## License
