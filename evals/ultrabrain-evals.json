@@ -1,0 +1,38 @@
+{
+  "skill_name": "ultrabrain",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I have a bunch of notes about debugging flaky tests and AI workflows. Before planning any cleanup, load the most relevant map context and tell me what existing knowledge I should look at first.",
+      "expected_output": "Uses atlas recall before planning, starts from home, finds the relevant domain moc, and recommends a small set of related cards instead of scanning everything.",
+      "files": [],
+      "expectations": [
+        "Runs Atlas recall before planning rather than jumping straight into restructuring",
+        "Prioritizes relevant domain MOCs and a small number of cards",
+        "Avoids full-vault or flat exhaustive search behavior"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "We just finished a task and learned that keeping source links on every card caused too much churn when maps changed. Capture that into the knowledge system in the right place.",
+      "expected_output": "Uses note-first capture after the task, decides whether to create or update a reusable card, and keeps volatile map or source relationships out of canonical card metadata.",
+      "files": [],
+      "expectations": [
+        "Treats the lesson as reusable knowledge rather than a raw source note",
+        "Uses create-vs-update reasoning",
+        "Preserves the principle that cards should not store volatile external relationships"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "We just finished a task and learned that storing current moc membership on cards causes churn. Capture this into the knowledge system. It probably belongs in workflow-moc and lessons-moc, and workflow-moc also feels crowded.",
+      "expected_output": "Uses note-first capture with an explicit create-or-update decision, keeps moc names out of card canonical fields, and treats any moc update or grooming as separate follow-up work rather than part of the card result.",
+      "files": [],
+      "expectations": [
+        "Makes create-vs-update reasoning explicit before presenting the card result",
+        "Does not put workflow-moc or lessons-moc into card canonical fields or `related`",
+        "Keeps any MOC update or grooming as separate follow-up work"
+      ]
+    }
+  ]
+}
