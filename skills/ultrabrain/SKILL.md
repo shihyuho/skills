@@ -43,7 +43,7 @@ docs/ultrabrain/
   sources/
 ```
 
-- `maps/` stores MOCs, review lenses, and troubleshooting lenses
+- `maps/` stores entry pages, MOCs, and review lenses
 - `notes/` stores the canonical knowledge cards
 - `sources/` stores minimal provenance notes (not archives)
 
@@ -56,6 +56,20 @@ Examples:
 - `docs/ultrabrain/sources/2026-03-12-ai-conversation-moc-churn.md`
 
 This system uses maps as its navigation layer. Do not force abstract system words into card titles or MOC names. Prefer concrete lowercase names like `workflow-moc` or `debugging-moc`.
+
+### Map Classes
+
+Use these map classes in the navigation layer:
+
+- `home`: the entry page and top-level orientation map
+- `domain maps`: the default recall maps for concrete areas such as code style, testing, git, debugging, or workflow
+- `lessons-moc`: the default recall map for high-value lessons, decision rules, and reusable hard-won constraints
+- `general-moc`: the default recall map for cross-domain or meta-level ideas that do not fit one domain cleanly
+- `review lenses`: conditional review views such as `by-source-moc` and `by-confidence-moc`
+
+`home` is the entry page, not the parent class of every other map.
+
+`domain maps`, `lessons-moc`, and `general-moc` form the default recall maps. `review lenses` are views over existing knowledge, not canonical homes for it.
 
 ## MOC Rules
 
@@ -139,20 +153,19 @@ If you do not know any clearly related cards, omit `related` rather than inventi
 
 ## Map Structure
 
-Use these maps as the default navigation layer:
+Use this navigation model by default:
 
-- `home`
-- `code-style-moc`
-- `testing-moc`
-- `git-moc`
-- `debugging-moc`
-- `workflow-moc`
-- `general-moc`
+- start at `home`
+- move to the most relevant default recall map
+- load only the cards needed for the current task
+
+Default recall maps include:
+
+- domain maps such as `code-style-moc`, `testing-moc`, `git-moc`, `debugging-moc`, and `workflow-moc`
 - `lessons-moc`
-- `by-source-moc`
-- `by-confidence-moc`
+- `general-moc`
 
-Use domain maps as follows:
+Use default recall maps as follows:
 
 - `code-style-moc`: naming, structure, readability, abstraction choices
 - `testing-moc`: testing methods, validation patterns, regression strategy
@@ -162,36 +175,16 @@ Use domain maps as follows:
 - `general-moc`: cross-domain or meta-level ideas that do not fit one domain cleanly
 - `lessons-moc`: high-value lessons, decision rules, and reusable hard-won insights
 
-### Lens maps
+### Review lenses
 
-Lens maps are different from domain MOCs. They are review tools, not primary recall entry points.
-
-#### Review lenses
+Review lenses are different from default recall maps. They are review tools, not everyday navigation entry points.
 
 Use `by-source-moc` and `by-confidence-moc` for provenance review or uncertainty review, not as everyday navigation:
 
 - `by-source-moc`: groups cards by `personal`, `inherited`, or `source-derived` origin. Useful when you need to audit where knowledge came from or verify provenance.
 - `by-confidence-moc`: groups cards into human-readable confidence zones such as high-confidence vs tentative. Useful when assessing reliability or deciding how much to trust a constraint.
 
-Do not treat review lenses as primary recall paths like `home`, domain MOCs, or `lessons-moc`.
-
-#### Troubleshooting lenses
-
-Create problem-oriented or troubleshooting-oriented lenses when a specific failure pattern or problem area recurs. These lenses are entry points for systematic diagnosis, not general navigation.
-
-Examples of troubleshooting lens topics:
-
-- `timeout-retry-idempotency-moc`: patterns for handling transient failures, retry logic, and idempotent operations
-- `network-path-moc`: network connectivity, DNS, routing, firewall, and transport-layer issues
-- `state-invalidation-moc`: cache invalidation, stale state, consistency models, and state recovery
-- `workspace-locality-moc`: local vs remote state, workspace-specific configuration, environment isolation
-- `compatibility-support-matrix-moc`: version compatibility, feature flags, support matrices, and migration paths
-
-Create a troubleshooting lens when:
-
-- a specific problem area has multiple related cards
-- the problem is recurrent and worth systematic documentation
-- readers would benefit from a checklist or pattern catalog rather than scattered notes
+Do not treat review lenses as default recall maps like `domain maps`, `lessons-moc`, or `general-moc`.
 
 ### Map filenames
 
@@ -206,7 +199,7 @@ Good examples:
 Map filename rules:
 
 - use lowercase `kebab-case`
-- suffix all navigation maps (including domain MOCs, review lenses, and troubleshooting lenses) with `-moc`
+- suffix all navigation maps other than `home.md` with `-moc`
 - reserve `home.md` for the main entry page
 - name maps by function or domain, not by temporary project context
 
@@ -215,7 +208,7 @@ Map filename rules:
 Use this workflow order:
 
 ```text
-1. Seed map recall
+1. Map recall
 2. Rough plan or problem framing
 3. Gap-driven map recall loop
 4. Planning convergence
@@ -228,7 +221,7 @@ Use this workflow order:
 Use this mental model:
 
 ```text
-seed recall
+map recall
   ->
 rough plan or brainstorming
   ->
@@ -253,34 +246,32 @@ task execution
 
 Recall should start before planning, but it does not need to be complete before planning. Use a small initial recall to orient the work, then pull in more knowledge only when planning exposes a real gap.
 
-### 1. Seed map recall
+### 1. Map recall
 
 Run before detailed planning:
 
 1. Read `home`.
-2. Identify the most relevant domain MOC or problem-oriented lens.
+2. Identify the most relevant default recall map. In most cases, this should be a domain MOC.
 3. Read that map.
 4. Load only the most relevant cards.
 
-Seed recall is for orientation, not completeness. Its job is to give the plan an initial direction, not to find every relevant card before planning starts.
+Map recall is for orientation, not completeness. Its job is to give the plan an initial direction, not to find every relevant card before planning starts.
 
 **Skip review lenses for normal recall.** Only consult `by-source-moc` or `by-confidence-moc` when:
 
 - doing provenance review (checking where knowledge originated)
 - doing uncertainty review (assessing reliability or confidence)
 
-**Use troubleshooting lenses as entry points.** If a problem-oriented lens exists for the issue at hand (e.g., `timeout-retry-idempotency-moc`), use it as the troubleshooting entry instead of generic search.
+Map recall should give planning context, not full-vault search results.
 
-Seed recall should give planning context, not full-vault search results.
-
-When a relevant domain MOC or troubleshooting lens exists, prefer that map-first path over falling back to repo-wide search, unrelated skills, or general documentation. The point of map recall is to start from the navigation maps, not from whatever other files happen to mention similar topics.
+When a relevant domain MOC, `lessons-moc`, or `general-moc` exists, prefer that map-first path over falling back to repo-wide search, unrelated skills, or general documentation. The point of map recall is to start from the navigation maps, not from whatever other files happen to mention similar topics.
 
 ### 2. Rough plan or problem framing
 
 Use the initial recall to frame the problem:
 
 - what the task appears to be about
-- which domain or problem area is most likely central
+- which domain or knowledge area is most likely central
 - which risks, unknowns, or decision points still need clarification
 
 At this stage, the plan is provisional. Its purpose is to expose recall gaps, not to freeze the final approach.
@@ -291,7 +282,7 @@ During planning or brainstorming, run another round of map-first recall only whe
 
 Valid triggers include:
 
-- a newly discovered domain or problem area
+- a newly discovered domain or knowledge area
 - a high-risk assumption that needs support or contradiction
 - a decision fork where different prior lessons may matter
 - a missing prerequisite or dependency that changes the plan
@@ -299,7 +290,7 @@ Valid triggers include:
 For each recall loop:
 
 1. State the gap you are trying to answer.
-2. Read at most 1-2 maps or lenses that directly address that gap.
+2. Read at most 1-2 default recall maps or review lenses that directly address that gap.
 3. Load only a small number of cards.
 4. Update the rough plan with what changed.
 
@@ -431,25 +422,57 @@ Use this source-note structure:
 
 Do not automatically reorganize MOCs after every capture. Groom them only when manually triggered or when the user explicitly asks.
 
-### Create a new MOC when
+### Home grooming
+
+Keep `home` clear, scannable, and restrained.
+
+Update `home` when:
+
+- the top-level entry points no longer match how the vault is actually used
+- one domain or section deserves a clearer top-level slot
+- the page is drifting toward content storage instead of navigation
+
+Do not turn `home` into a long index of cards. Its job is to orient a reader toward the right map.
+
+### Default recall map grooming
+
+Treat `domain maps`, `lessons-moc`, and `general-moc` as the stable navigation layer for everyday recall.
+
+Create a new default recall map when:
 
 - a stable cluster of notes exists but has no good entry point
 - the cluster is large enough to need navigation
 - a reader would understand the area better from a map than from flat links
 
-### Update an existing MOC when
+Update an existing default recall map when:
 
 - a new card clearly belongs to an existing section
 - the structure is still good and only needs small changes
 - section order or summaries need minor refinement
 
-### Split a MOC when
+Split a default recall map when:
 
 - it reads like a list instead of a map
 - multiple clear sub-clusters have formed
 - readers or AI have to search repeatedly inside one oversized page
 
 When splitting, keep the old MOC as an upper-level map of maps instead of deleting it.
+
+### Review lens grooming
+
+Treat `by-source-moc` and `by-confidence-moc` as secondary views for audit and review, not as replacements for everyday recall.
+
+Update a review lens when:
+
+- provenance groupings or confidence groupings no longer reflect the current cards
+- a review page helps answer audit questions faster without duplicating the main map structure
+- the view still adds clear review value
+
+Prune or simplify a review lens when:
+
+- it duplicates what the default recall maps already do
+- it stops helping provenance review or uncertainty review
+- it starts acting like a second primary home for knowledge
 
 ## Boundary Rules
 

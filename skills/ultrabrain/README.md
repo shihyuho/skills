@@ -16,9 +16,8 @@ Every knowledge card must be understandable on its own. The card's main idea sho
 
 ### Maps are for navigation, not storage
 
-- Domain MOCs (`code-style-moc`, `testing-moc`, etc.) are primary recall entry points.
+- Domain MOCs (`code-style-moc`, `testing-moc`, etc.), `lessons-moc`, and `general-moc` form the default recall layer.
 - Review lenses (`by-source-moc`, `by-confidence-moc`) are for provenance or confidence review only.
-- Troubleshooting lenses (`timeout-retry-idempotency-moc`, `network-path-moc`, etc.) are problem-specific entry points for systematic diagnosis.
 
 ### Source notes track provenance only
 
@@ -47,7 +46,7 @@ Usually you begin with a vague issue, a half-formed idea, or a broad theme. The 
 
 UltraBrain is built for that reality.
 
-It starts with a small seed recall, just enough to orient the work. Then, as planning or brainstorming exposes a new gap, risk, or decision, it pulls in more of your prior knowledge through maps and cards.
+It starts with a small map recall, just enough to orient the work. Then, as planning or brainstorming exposes a new gap, risk, or decision, it pulls in more of your prior knowledge through maps and cards.
 
 That makes UltraBrain feel less like a static archive and more like a knowledge partner:
 
@@ -67,7 +66,7 @@ In other words: planning surfaces the gaps, and UltraBrain fills them map-first.
 
 ### Recall before acting
 
-When you ask AI to plan, write, or research, UltraBrain starts from your knowledge maps. It uses a small seed recall first, then follows the planning process as new domains, risks, and decision points become clear.
+When you ask AI to plan, write, or research, UltraBrain starts from your knowledge maps. It uses a small map recall first, then follows the planning process as new domains, risks, and decision points become clear.
 
 That means recall is not a one-shot ritual before planning. It is a map-first loop that keeps feeding the plan as the problem gets sharper.
 
@@ -116,11 +115,13 @@ docs/ultrabrain/
   sources/
 ```
 
-- `maps/` holds your MOCs, review lenses, and troubleshooting lenses
+- `maps/` holds your entry pages, MOCs, and review lenses
 - `notes/` holds canonical knowledge cards
 - `sources/` holds lightweight provenance notes
 
 The default philosophy is simple: notes store knowledge, maps store navigation, and source notes store origin—not context.
+
+In that navigation layer, `home` is the entry page, `domain maps`, `lessons-moc`, and `general-moc` act as the default recall maps, and `review lenses` stay secondary so they help with provenance or confidence review without becoming the main home for knowledge.
 
 ## How To Start
 
