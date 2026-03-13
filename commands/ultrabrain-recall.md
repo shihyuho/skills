@@ -2,7 +2,7 @@
 description: "Recall relevant knowledge before planning"
 ---
 
-Invoke the `ultrabrain:ultrabrain` skill and follow the **Atlas recall** portion
+Invoke the `ultrabrain:ultrabrain` skill and follow the **map recall** portion
 of the workflow.
 
 Execute only the recall action for this invocation. Do not run capture, MOC

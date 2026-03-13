@@ -12,8 +12,11 @@ metadata:
 ## Overview
 
 Use this skill to maintain a linked-note knowledge system where notes are the
-canonical units, MOCs are navigation maps, source notes preserve minimal
+canonical units, maps are the navigation layer, source notes preserve minimal
 provenance, and recall, capture, and MOC grooming happen at different times.
+
+`SKILL.md` defines the primary rules. Use `references/` for exact formats,
+templates, and grooming procedures when those details are needed.
 
 ## When to Use
 
@@ -43,9 +46,9 @@ docs/ultrabrain/
   sources/
 ```
 
-- `maps/` stores MOCs and entry pages
+- `maps/` stores entry pages, MOCs, and review lenses
 - `notes/` stores the canonical knowledge cards
-- `sources/` stores minimal provenance or evidence notes when source context matters later
+- `sources/` stores minimal provenance notes, not archives
 
 Use lowercase `kebab-case` for directories and filenames. Do not use spaces.
 
@@ -56,6 +59,20 @@ Examples:
 - `docs/ultrabrain/sources/2026-03-12-ai-conversation-moc-churn.md`
 
 This system uses maps as its navigation layer. Do not force abstract system words into card titles or MOC names. Prefer concrete lowercase names like `workflow-moc` or `debugging-moc`.
+
+### Map Classes
+
+Use these map classes in the navigation layer:
+
+- `home`: the entry page and top-level orientation map
+- `domain maps`: the default recall maps for concrete areas such as code style, testing, git, debugging, or workflow
+- `lessons-moc`: the default recall map for high-value lessons, decision rules, and reusable hard-won constraints
+- `general-moc`: the default recall map for cross-domain or meta-level ideas that do not fit one domain cleanly
+- `review lenses`: conditional review views such as `by-source-moc` and `by-confidence-moc`
+
+`home` is the entry page, not the parent class of every other map.
+
+`domain maps`, `lessons-moc`, and `general-moc` form the default recall maps. `review lenses` are views over existing knowledge, not canonical homes for it.
 
 ## MOC Rules
 
@@ -69,263 +86,60 @@ This system uses maps as its navigation layer. Do not force abstract system word
 
 Use cards as the canonical knowledge unit.
 
-### Card filenames
+### Self-consistency standard
 
-Store cards in `docs/ultrabrain/notes/` using semantic lowercase `kebab-case` slugs.
+Every card must meet these minimum standards:
 
-Good examples:
+- **Standalone comprehensible**: A reader can understand the card's core idea without reading the source.
+- **Self-contained premise**: Key definitions, context, and judgment criteria belong in the card, not in external context.
+- **No slogan-only content**: A card can be short, but not thin. "Short is OK, thin is not."
 
-- `docs/ultrabrain/notes/avoid-storing-volatile-relationships-in-card-metadata.md`
-- `docs/ultrabrain/notes/source-notes-are-provenance-not-archives.md`
+A card that is only a conclusion without reasoning, context, or trigger conditions is too thin.
 
-Filename rules:
+For rule-like, lesson-like, or heuristic cards, self-contained means the card can state:
 
-- use lowercase only
-- use `-` instead of spaces
-- make the filename describe the knowledge itself, not the tool session that created it
-- keep one atomic idea per file
-- prefer stable semantic names over timestamps for cards
+- **Rule**: what to do or not do
+- **Trigger**: when it applies
+- **Why**: the reasoning behind it
 
-### Card frontmatter
+If a card's main comprehensibility depends on its source, the card has a writing problem, not a sourcing problem.
 
-Use this default frontmatter:
+When a card is too thin, rewrite the card first. Do not propose a source note as the first fix for missing context.
 
-```yaml
----
-title: <note title>
-type: statement
-confidence: 0.7
-brief: "<one-sentence summary of the card's core idea>"
-created: YYYY-MM-DD
-updated: YYYY-MM-DD
-tags:
-  - tag1
-  - tag2
----
-```
+### Card metadata rules
 
-### Field meanings
-
-- `type`: the card role; use `statement | thing | question | quote | person`
-- `confidence`: numeric confidence in the `0.0-0.9` range
-- `brief`: one-sentence summary for preview and recall
-- `related`: optional high-value horizontal links to other cards only
-- `created` and `updated`: temporal tracking for evolution
-- `tags`: lightweight search aids
+- Use `type: statement | thing | question | quote | person`
+- Keep `confidence` in the `0.0-0.9` range
+- Use `brief` as the one-sentence preview for recall
+- Use `related` only for high-value card-to-card links
+- Do not put MOCs, source notes, folders, or placeholder concepts in `related`
+- Omit `related` when there is no clearly useful target
 
 Do not use card frontmatter for volatile relationships such as current MOC membership or current source grouping. Those belong in maps and source notes.
 
-Do not put MOCs, source notes, folders, or other navigation pages in `related`. `related` is only for card-to-card links.
-
-Default to omitting `related`.
-
-Add `related` only when the target is a real existing card, the link adds real
-retrieval value, and the target is not a MOC, source note, folder, or
-placeholder concept.
-
-If you do not know any clearly related cards, omit `related` rather than inventing placeholders, synthetic card names, or links to maps.
+For exact filename rules, frontmatter, map naming, and source-note templates, read `references/templates-and-conventions.md`.
 
 ## Map Structure
 
-Use these maps as the default navigation layer:
+Use this navigation model by default:
 
-- `home`
-- `code-style-moc`
-- `testing-moc`
-- `git-moc`
-- `debugging-moc`
-- `workflow-moc`
-- `general-moc`
+- start at `home`
+- move to the most relevant default recall map
+- load only the cards needed for the current task
+
+Default recall maps include:
+
+- domain maps such as `code-style-moc`, `testing-moc`, `git-moc`, `debugging-moc`, and `workflow-moc`
 - `lessons-moc`
-- `by-source-moc`
-- `by-confidence-moc`
+- `general-moc`
 
-Use domain maps as follows:
+Review lenses are different from default recall maps. They are review tools, not everyday navigation entry points.
 
-- `code-style-moc`: naming, structure, readability, abstraction choices
-- `testing-moc`: testing methods, validation patterns, regression strategy
-- `git-moc`: commit practices, branching, review patterns, version-control principles
-- `debugging-moc`: diagnosis paths, failure patterns, verification tactics
-- `workflow-moc`: research flow, AI collaboration flow, execution order, process heuristics
-- `general-moc`: cross-domain or meta-level ideas that do not fit one domain cleanly
-- `lessons-moc`: high-value lessons, decision rules, and reusable hard-won insights
+Use `by-source-moc` and `by-confidence-moc` for provenance review or uncertainty review, not as everyday navigation.
 
-### Lens maps
+Do not treat review lenses as default recall maps like `domain maps`, `lessons-moc`, or `general-moc`.
 
-- `by-source-moc`: groups cards by `personal`, `inherited`, or `source-derived` origin
-- `by-confidence-moc`: groups cards into human-readable confidence zones such as high-confidence vs tentative
-
-### Map filenames
-
-Store maps in `docs/ultrabrain/maps/`.
-
-Good examples:
-
-- `docs/ultrabrain/maps/home.md`
-- `docs/ultrabrain/maps/workflow-moc.md`
-- `docs/ultrabrain/maps/by-source-moc.md`
-
-Map filename rules:
-
-- use lowercase `kebab-case`
-- suffix map files with `-moc` when they are actual MOCs
-- reserve `home.md` for the main entry page
-- name maps by function or domain, not by temporary project context
-
-## Recall Workflow
-
-Use this workflow order:
-
-```text
-1. Map recall
-2. Plan
-3. High-value recall
-4. Task execution
-5. Capture
-6. MOC grooming (manual trigger)
-```
-
-### 1. Map recall
-
-Run before planning:
-
-1. Read `home`.
-2. Identify the most relevant domain MOC.
-3. Read that MOC.
-4. If useful, read `by-source-moc` or `by-confidence-moc`.
-5. Load only the most relevant cards.
-
-Map recall should give planning context, not full-vault search results.
-
-When a relevant domain MOC exists, prefer that map-first path over falling back to repo-wide search, unrelated skills, or general documentation. The point of map recall is to start from the navigation maps, not from whatever other files happen to mention similar topics.
-
-### 2. High-value recall
-
-Run before task execution, not before every planning step.
-
-Use `lessons-moc` and strongly related cards as the default source of
-high-value constraints. Load only a small number of cards that can constrain
-the upcoming task and help avoid repeated mistakes.
-
-Recommended high-value recall flow:
-
-1. Check whether `docs/ultrabrain/maps/lessons-moc.md` exists.
-2. If it exists, load only the most relevant lesson-oriented cards from that map.
-3. If it does not exist, continue without lesson-specific recall.
-
-## Capture Workflow
-
-Run capture after the task, not during every intermediate thought.
-
-Use note-first capture:
-
-1. Decide whether the new material is worth becoming a card.
-2. Check whether a semantically similar card already exists.
-3. Make the decision explicit as `decision=create` or `decision=update` before presenting the card result.
-4. Update the card's `type`, `confidence`, `brief`, `related`, `updated`, and tags as needed.
-5. Update the relevant MOC separately if the card should now appear in a map.
-6. Create or update a source note only if later provenance is likely to matter.
-
-Capture only when the knowledge is reusable, non-obvious, or likely to matter again.
-
-Keep the layers separate during capture:
-
-- card content belongs in the card
-- navigation belongs in MOCs
-- provenance belongs in source notes
-
-Do not solve a card update by stuffing map membership or source grouping back into the card metadata.
-
-When reporting capture results, do not jump straight to a heading like
-`Card Created`. First state `decision=create` or `decision=update` and why,
-then present the card change itself.
-
-If you recommend updating a MOC after capture, present that as a separate follow-up action. Do not mix MOC placement into the card's canonical fields.
-
-During capture, do not phrase navigation updates as if they are part of the card itself. Avoid lines like `add to lessons-moc` inside the card result. If map maintenance matters, say it separately as a later grooming or follow-up action.
-
-## Source Notes
-
-Treat source notes as provenance notes, not archives.
-
-### Source note filenames
-
-Store source notes in `docs/ultrabrain/sources/` using a date prefix plus a short topic slug.
-
-Good examples:
-
-- `docs/ultrabrain/sources/2026-03-12-ai-conversation-moc-churn.md`
-- `docs/ultrabrain/sources/2026-03-12-directory-scan-linked-notes.md`
-- `docs/ultrabrain/sources/2026-03-12-lyt-framework-guide.md`
-
-Source filename rules:
-
-- use lowercase `kebab-case`
-- prefix with `YYYY-MM-DD-`
-- describe the source context, not the conclusion card
-- keep source filenames distinct from note card filenames
-
-Create a source note when one source produced multiple cards, may disappear
-later, is likely to matter for future verification, or would otherwise require
-duplicated provenance across cards.
-
-Skip source notes when the card is already self-contained and the source has no future tracing value.
-
-Use this source-note structure:
-
-```md
-# <source-title>
-
-## Metadata
-- Type: conversation | directory-scan | article | book | meeting
-- Date: YYYY-MM-DD
-- Origin: <URL / path / conversation topic / directory>
-- Status: ephemeral | available | archived
-
-## Summary
-- What this source covered
-- Why it is worth keeping
-
-## Key Extracts
-- Key point 1
-- Key point 2
-- Key point 3
-
-## Derived Notes
-- [[card-one]]
-- [[card-two]]
-
-## Why It Matters
-- Why this provenance is worth retaining
-```
-
-## MOC Grooming
-
-Do not automatically reorganize MOCs after every capture. Groom them only when manually triggered or when the user explicitly asks.
-
-### Create a new MOC when
-
-- a stable cluster of notes exists but has no good entry point
-- the cluster is large enough to need navigation
-- a reader would understand the area better from a map than from flat links
-
-### Update an existing MOC when
-
-- a new card clearly belongs to an existing section
-- the structure is still good and only needs small changes
-- section order or summaries need minor refinement
-
-### Split a MOC when
-
-- it reads like a list instead of a map
-- multiple clear sub-clusters have formed
-- readers or AI have to search repeatedly inside one oversized page
-
-When splitting, keep the old MOC as an upper-level map of maps instead of deleting it.
-
-## Boundary Rules
-
-### general-moc
+### Boundary Rules
 
 Use `general-moc` for:
 
@@ -335,15 +149,221 @@ Use `general-moc` for:
 
 Do not use `general-moc` as a dump for unprocessed material.
 
-### lessons-moc
-
 Use `lessons-moc` for:
 
 - reusable lessons
 - high-value decision rules
 - hard-won constraints or prerequisites worth remembering
+- heuristics that constrain future decisions
 
-Do not put generic definitions, weak observations, or raw source summaries in `lessons-moc`.
+For decision rules and heuristics, include in the card:
+
+- **Rule**: what to do or not do
+- **Trigger**: when this rule applies
+- **Why**: the reasoning behind the rule
+
+Do not reduce a decision rule to a slogan. If a card says "always use X" without explaining when it applies, it is too thin for `lessons-moc`.
+
+## Recall Workflow
+
+Use this workflow order:
+
+```text
+1. Map recall
+2. Rough plan or problem framing
+3. Gap-driven map recall loop
+4. Planning convergence
+5. High-value recall
+6. Task execution
+7. Capture
+8. MOC grooming (manual trigger)
+```
+
+Use this mental model:
+
+```text
+map recall
+  ->
+rough plan or brainstorming
+  ->
+[new critical gap, risk, or decision?]
+  | yes
+  v
+gap-driven map recall
+(budgeted, map-first)
+  ->
+update rough plan
+  ->
+[more critical gaps?] --yes--> repeat
+  |
+  no
+  v
+planning convergence
+  ->
+high-value recall
+  ->
+task execution
+```
+
+Recall should start before planning, but it does not need to be complete before planning. Use a small initial recall to orient the work, then pull in more knowledge only when planning exposes a real gap.
+
+### 1. Map recall
+
+Run before detailed planning:
+
+1. Read `home`.
+2. Identify the most relevant default recall map. In most cases, this should be a domain MOC.
+3. Read that map.
+4. Load only the most relevant cards.
+
+Map recall is for orientation, not completeness.
+
+Skip review lenses for normal recall. Only consult `by-source-moc` or `by-confidence-moc` when:
+
+- doing provenance review
+- doing uncertainty review
+
+When a relevant domain MOC, `lessons-moc`, or `general-moc` exists, prefer that map-first path over falling back to repo-wide search, unrelated skills, or general documentation.
+
+### 2. Rough plan or problem framing
+
+Use the initial recall to frame the problem:
+
+- what the task appears to be about
+- which domain or knowledge area is most likely central
+- which risks, unknowns, or decision points still need clarification
+
+At this stage, the plan is provisional. Its purpose is to expose recall gaps, not to freeze the final approach.
+
+### 3. Gap-driven map recall loop
+
+During planning or brainstorming, run another round of map-first recall only when a real gap appears.
+
+Valid triggers include:
+
+- a newly discovered domain or knowledge area
+- a high-risk assumption that needs support or contradiction
+- a decision fork where different prior lessons may matter
+- a missing prerequisite or dependency that changes the plan
+
+For each recall loop:
+
+1. State the gap you are trying to answer.
+2. Read at most 1-2 default recall maps or review lenses that directly address that gap.
+3. Load only a small number of cards.
+4. Update the rough plan with what changed.
+
+Keep each loop budgeted and specific. Do not let gap-driven recall turn into broad vault exploration.
+
+If file-based planning artifacts exist, record newly discovered gaps, risks, and decisions there while the plan evolves.
+
+If a map-first path does not help within the current loop, treat that as a coverage gap or open assumption and continue planning.
+
+### 4. Planning convergence
+
+Move on when the work is execution-ready:
+
+- the main approach is clear
+- the major risks or unknowns are named
+- the next concrete steps are understandable
+
+Planning convergence is not irreversible. Reopen the planning loop if later recall or execution reveals a material contradiction.
+
+### 5. High-value recall
+
+Run after planning convergence and before task execution, not before every planning step.
+
+Use `lessons-moc` and strongly related cards as the default source of high-value constraints. Load only a small number of cards that can constrain the upcoming task and help avoid repeated mistakes.
+
+Recommended high-value recall flow:
+
+1. Check whether `docs/ultrabrain/maps/lessons-moc.md` exists.
+2. If it exists, load only the most relevant lesson-oriented cards from that map.
+3. If it does not exist, continue without lesson-specific recall.
+
+High-value recall is a narrow pre-execution constraint pass. It is not a second broad brainstorming phase.
+
+## Capture Workflow
+
+Run capture after the task, not during every intermediate thought.
+
+Use note-first capture:
+
+1. Decide whether the new material is worth becoming a card.
+2. Check whether the card is self-contained enough to stand on its own.
+3. If it is too thin, stop there and return `decision=rewrite-first`.
+4. Only after the card is self-contained, check whether a semantically similar card already exists.
+5. Make the decision explicit as `decision=create` or `decision=update` before presenting the card result.
+6. Update the card's key fields as needed.
+7. Update the relevant MOC separately if the card should now appear in a map.
+8. Create or update a source note only if later provenance is likely to matter after the card itself is already understandable.
+
+Capture only when the knowledge is reusable, non-obvious, or likely to matter again.
+
+When a proposed card is too thin, the correct immediate outcome is to rewrite the card, not to jump straight to `decision=create`, `decision=update`, or source-note handling.
+
+If a proposed card is only a conclusion without reasoning, context, or trigger conditions, do not output `decision=create` or `decision=update` yet; return `decision=rewrite-first` until the card is self-contained.
+
+If the card is a lesson, rule, or heuristic and cannot yet state `Rule`, `Trigger`, and `Why`, it is still too thin.
+
+For a thin-card result, do not draft frontmatter, do not pick a filename, do not assign a MOC, and do not decide whether to create a source note yet.
+
+For thin-card cases, use this output shape:
+
+```text
+decision=rewrite-first
+
+Why the card is too thin:
+- <missing reasoning / context / trigger>
+
+Rewrite target:
+- Rule: <what to do>
+- Trigger: <when it applies>
+- Why: <why it matters>
+
+Only after that rewrite should you decide whether the final result is `create` or `update`.
+```
+
+For thin-card prompts, any answer that jumps straight to a finished card, filename, frontmatter, MOC placement, or source-note decision is incorrect.
+
+Keep the layers separate during capture:
+
+- card content belongs in the card
+- navigation belongs in MOCs
+- provenance belongs in source notes
+
+Do not solve a card update by stuffing map membership or source grouping back into the card metadata.
+
+When reporting capture results, do not jump straight to a heading like `Card Created`. First state `decision=create` or `decision=update` and why, then present the card change itself.
+
+If you recommend updating a MOC after capture, present that as a separate follow-up action. Do not mix MOC placement into the card's canonical fields.
+
+During capture, do not phrase navigation updates as if they are part of the card itself. If map maintenance matters, say it separately as a later grooming or follow-up action.
+
+## Source Notes
+
+Treat source notes as provenance notes, not archives. Their only job is to track where knowledge came from.
+
+A source note records provenance, not context. If a card's main idea requires the source to make sense, the card is not yet self-contained.
+
+Create a source note when:
+
+- one source produced multiple cards
+- the source may disappear later
+- provenance is likely to matter for future verification
+- the source would otherwise require duplicated provenance across cards
+
+Skip source notes when the card is self-contained and the source has no future tracing value.
+
+If a card is not yet self-contained, improve the card first. Do not create a source note as a substitute for missing rule, trigger, reasoning, definitions, or other core context.
+
+For exact source-note filename rules and the source-note template, read `references/templates-and-conventions.md`.
+
+## MOC Grooming
+
+Do not automatically reorganize MOCs after every capture. Groom them only when manually triggered or when the user explicitly asks.
+
+For create, update, split, prune, and class-specific grooming guidance, read `references/map-grooming.md`.
 
 ## Output Expectations
 

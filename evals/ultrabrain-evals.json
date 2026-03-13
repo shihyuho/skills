@@ -4,10 +4,10 @@
     {
       "id": 1,
       "prompt": "I have a bunch of notes about debugging flaky tests and AI workflows. Before planning any cleanup, load the most relevant map context and tell me what existing knowledge I should look at first.",
-      "expected_output": "Uses atlas recall before planning, starts from home, finds the relevant domain moc, and recommends a small set of related cards instead of scanning everything.",
+      "expected_output": "Uses map recall before planning, starts from home, finds the relevant domain moc, and recommends a small set of related cards instead of scanning everything.",
       "files": [],
       "expectations": [
-        "Runs Atlas recall before planning rather than jumping straight into restructuring",
+        "Runs map recall before planning rather than jumping straight into restructuring",
         "Prioritizes relevant domain MOCs and a small number of cards",
         "Avoids full-vault or flat exhaustive search behavior"
       ]
@@ -32,6 +32,73 @@
         "Makes create-vs-update reasoning explicit before presenting the card result",
         "Does not put workflow-moc or lessons-moc into card canonical fields or `related`",
         "Keeps any MOC update or grooming as separate follow-up work"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "I'm debugging API timeouts in our deploy service. The failures look retry-related, and I also want to know which debugging notes are still tentative before I touch anything. What should I recall first?",
+      "expected_output": "Recognizes the primary task as troubleshooting recall, starts from a problem-oriented lens or domain troubleshooting path, and treats confidence review as a secondary follow-up rather than the first recall action.",
+      "files": [],
+      "expectations": [
+        "Identifies the primary task as troubleshooting rather than uncertainty review",
+        "Starts with a troubleshooting lens or domain debugging path before any review lens",
+        "Treats confidence review as optional follow-up instead of first-pass recall"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "This card only says 'write the smoke test before expanding the integration test'. It came from a Slack thread, and testing-moc already feels crowded. Help me capture this correctly.",
+      "expected_output": "Recognizes the card is too thin, rewrites or recommends rewriting it first, keeps source-note decisions separate, and treats MOC crowding as separate grooming rather than part of the card itself.",
+      "files": [],
+      "expectations": [
+        "Identifies the card is too thin to meet self-contained standard",
+        "For thin-card prompts, clearly signals rewrite-first handling instead of jumping straight to final create/update output (machine check: `python3 evals/scripts/check_ultrabrain_thin_card.py <response-file>`)",
+        "Handles source-note need only after fixing card comprehensibility",
+        "Keeps MOC grooming separate from the card capture result"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "We already have a card called 'avoid storing volatile relationships in card metadata'. A new lesson says 'don't put current workflow links in frontmatter because map structure churns every quarter'. Capture this in the right place.",
+      "expected_output": "Makes an explicit create-vs-update decision, prefers updating the existing semantically similar card unless there is a real conceptual distinction, and explains why the other path was rejected.",
+      "files": [],
+      "expectations": [
+        "Makes an explicit `decision=update` or `decision=create` before presenting the result",
+        "Justifies why the chosen decision is better than the other plausible decision",
+        "Does not create a duplicate card when the lesson is semantically the same"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Please update this card and make it easier to find by adding `workflow-moc`, `lessons-moc`, and `source-group=slack-thread` into the frontmatter. It should stay linked to all of those places.",
+      "expected_output": "Refuses to put MOC membership or source grouping into canonical card metadata, keeps the card update separate from navigation updates, and treats any map changes as separate follow-up actions.",
+      "files": [],
+      "expectations": [
+        "Rejects putting MOC membership into card canonical fields",
+        "Rejects using source grouping as card metadata for navigation",
+        "Separates card content updates from MOC or source-note follow-up work"
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "We just finished an incident and someone said 'check the logs before guessing'. It came from chat, but there's no new mechanism or surprising constraint here, and debugging notes probably already cover it. Capture it and tidy the maps while you're at it.",
+      "expected_output": "Evaluates whether the lesson is actually worth capturing, can choose `decision=skip` when the insight is too generic or already covered, and avoids doing unnecessary MOC work when capture is skipped.",
+      "files": [],
+      "expectations": [
+        "Considers `decision=skip` as a valid outcome rather than assuming capture is mandatory",
+        "Explains why the proposed lesson is too generic, redundant, or not worth a new card",
+        "Avoids unnecessary MOC grooming when no card should be created or updated"
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "I only know this is probably a deployment problem. Start the recall, but don't assume we already know the exact domain. As we brainstorm, we realize it might involve retries, network paths, and a risky migration step. What should the recall flow look like?",
+      "expected_output": "Uses a staged recall flow: seed recall first, then rough planning, then targeted gap-driven recall as new domains or risks become clear, and only later does a narrow high-value recall before execution.",
+      "files": [],
+      "expectations": [
+        "Uses seed recall as orientation rather than trying to complete all recall before planning",
+        "Treats newly discovered domains or risks during brainstorming as triggers for targeted map-first recall",
+        "Keeps high-value recall as a later pre-execution step rather than mixing it into the first recall pass"
       ]
     }
   ]
