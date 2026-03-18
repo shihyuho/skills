@@ -37,11 +37,11 @@
     {
       "id": 4,
       "prompt": "I'm debugging API timeouts in our deploy service. The failures look retry-related, and I also want to know which debugging notes are still tentative before I touch anything. What should I recall first?",
-      "expected_output": "Recognizes the primary task as troubleshooting recall, starts from a problem-oriented lens or domain troubleshooting path, and treats confidence review as a secondary follow-up rather than the first recall action.",
+      "expected_output": "Recognizes the primary task as a debugging-oriented recall, starts from the relevant domain debugging path or domain map, and treats confidence review as a secondary follow-up rather than the first recall action.",
       "files": [],
       "expectations": [
         "Identifies the primary task as troubleshooting rather than uncertainty review",
-        "Starts with a troubleshooting lens or domain debugging path before any review lens",
+        "Starts with the relevant domain debugging path or domain map before any review lens",
         "Treats confidence review as optional follow-up instead of first-pass recall"
       ]
     },
