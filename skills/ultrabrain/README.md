@@ -18,11 +18,11 @@ Most AI workflows lose important learning in chat history, scattered notes, or u
 
 ### Recall before acting
 
-UltraBrain uses map-first recall so AI starts from the most relevant maps and cards instead of searching the whole vault.
+UltraBrain starts with a small map-first recall to orient the work, loops back only when planning reveals a real gap, risk, or decision, then runs a narrow lessons pass before execution.
 
 ### Learn from finished work
 
-After a task, AI can turn reusable lessons into durable notes rather than leaving them trapped in transcripts or issue comments.
+After a task, AI can decide whether a lesson should be skipped, rewritten first, added as a new note, or used to update an existing one.
 
 ### Avoid repeating mistakes
 
@@ -30,7 +30,7 @@ Past decisions, debugging lessons, and proven heuristics stay available for the 
 
 ### Keep knowledge clean as the vault evolves
 
-Cards hold ideas, maps hold navigation, and source notes hold provenance. That separation keeps the system usable even when structure changes.
+Cards stay self-contained, maps stay focused on navigation, and source notes stay minimal. That separation keeps the system usable even when structure changes.
 
 ## How It Works
 
@@ -43,16 +43,16 @@ docs/ultrabrain/
   sources/
 ```
 
-- `maps/` contains entry pages, MOCs, and review lenses
-- `notes/` contains canonical knowledge cards
-- `sources/` contains lightweight provenance notes
+- `maps/` contains entry pages, default recall maps, and optional review lenses for provenance or uncertainty review
+- `notes/` contains self-contained canonical knowledge cards
+- `sources/` contains minimal provenance notes, not archives or missing card context
 
 The workflow is simple:
 
-- recall from maps before acting
-- capture reusable knowledge as notes
+- start with a small map recall, then pull in more only when planning exposes a real gap
+- capture reusable knowledge only when it is worth keeping, and rewrite thin lessons before turning them into notes
 - keep navigation changes in maps instead of stuffing them into note metadata
-- keep source notes for provenance only
+- keep source notes for provenance only, and treat broader MOC grooming as a separate manual pass
 
 ### Obsidian Integration
 
