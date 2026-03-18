@@ -29,6 +29,14 @@ FINAL_DECISION_PATTERNS = [
     r"decision=update",
 ]
 
+FORBIDDEN_FINISHED_OUTPUT_PATTERNS = [
+    r"suggested filename",
+    r"filename:",
+    r"frontmatter:",
+    r"add to [a-z0-9-]+-moc",
+    r"source note",
+]
+
 
 def has_any_pattern(text: str, patterns: list[str]) -> bool:
     return any(re.search(pattern, text, re.IGNORECASE) for pattern in patterns)
@@ -49,10 +57,18 @@ def main() -> int:
     has_thin = has_any_pattern(text, THIN_PATTERNS)
     has_rewrite = has_any_pattern(text, REWRITE_PATTERNS)
     has_final_decision = has_any_pattern(text, FINAL_DECISION_PATTERNS)
+    has_forbidden_finished_output = has_any_pattern(text, FORBIDDEN_FINISHED_OUTPUT_PATTERNS)
 
     if has_final_decision:
         print(
             "FAIL: response jumped to decision=create/update instead of stopping at rewrite-first",
+            file=sys.stderr,
+        )
+        return 1
+
+    if has_forbidden_finished_output:
+        print(
+            "FAIL: response included finished-output signals before rewrite-first was resolved",
             file=sys.stderr,
         )
         return 1

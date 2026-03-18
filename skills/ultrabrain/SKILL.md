@@ -289,16 +289,24 @@ Run capture after the task, not during every intermediate thought.
 
 Use note-first capture:
 
-1. Decide whether the new material is worth becoming a card.
-2. Check whether the card is self-contained enough to stand on its own.
-3. If it is too thin, stop there and return `decision=rewrite-first`.
-4. Only after the card is self-contained, check whether a semantically similar card already exists.
-5. Make the decision explicit as `decision=create` or `decision=update` before presenting the card result.
-6. Update the card's key fields as needed.
-7. Update the relevant MOC separately if the card should now appear in a map.
-8. Create or update a source note only if later provenance is likely to matter after the card itself is already understandable.
+1. Decide whether the new material is worth becoming a card at all.
+2. If it is too generic, redundant, or not worth preserving as reusable knowledge, return `decision=skip` and explain why.
+3. Check whether the card is self-contained enough to stand on its own.
+4. If it is too thin, stop there and return `decision=rewrite-first`.
+5. Only after the card is self-contained, check whether a semantically similar card already exists.
+6. Make the decision explicit as `decision=create` or `decision=update` before presenting the card result.
+7. Update the card's key fields as needed.
+8. Update the relevant MOC separately if the card should now appear in a map.
+9. Create or update a source note only if later provenance is likely to matter after the card itself is already understandable.
 
 Capture only when the knowledge is reusable, non-obvious, or likely to matter again.
+
+If the proposed lesson is too generic, already covered, or not worth preserving as a reusable card, return `decision=skip` instead of forcing a create or update.
+
+`decision=skip` and `decision=rewrite-first` are different outcomes:
+
+- `decision=skip`: do not capture this item as a card
+- `decision=rewrite-first`: the idea may be worth capturing, but the card is still too thin
 
 When a proposed card is too thin, the correct immediate outcome is to rewrite the card, not to jump straight to `decision=create`, `decision=update`, or source-note handling.
 
@@ -334,7 +342,7 @@ Keep the layers separate during capture:
 
 Do not solve a card update by stuffing map membership or source grouping back into the card metadata.
 
-When reporting capture results, do not jump straight to a heading like `Card Created`. First state `decision=create` or `decision=update` and why, then present the card change itself.
+When reporting capture results, do not jump straight to a heading like `Card Created`. First state `decision=create`, `decision=update`, or `decision=skip` and why, then present the card change itself when there is one.
 
 If you recommend updating a MOC after capture, present that as a separate follow-up action. Do not mix MOC placement into the card's canonical fields.
 
