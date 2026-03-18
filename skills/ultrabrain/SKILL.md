@@ -111,11 +111,16 @@ When a card is too thin, rewrite the card first. Do not propose a source note as
 - Use `type: statement | thing | question | quote | person`
 - Keep `confidence` in the `0.0-0.9` range
 - Use `brief` as the one-sentence preview for recall
+- Use `tags` only for stable topic or source descriptors, not for map placement or navigation
 - Use `related` only for high-value card-to-card links
 - Do not put MOCs, source notes, folders, or placeholder concepts in `related`
 - Omit `related` when there is no clearly useful target
 
 Do not use card frontmatter for volatile relationships such as current MOC membership or current source grouping. Those belong in maps and source notes.
+
+If a tag is only standing in for MOC membership, source grouping, or other navigation scaffolding, do not use that tag either.
+
+Do not smuggle MOC membership or source grouping back into `tags`. If the intent is navigation, keep it in maps or source notes instead.
 
 For exact filename rules, frontmatter, map naming, and source-note templates, read `references/templates-and-conventions.md`.
 
@@ -303,10 +308,18 @@ Capture only when the knowledge is reusable, non-obvious, or likely to matter ag
 
 If the proposed lesson is too generic, already covered, or not worth preserving as a reusable card, return `decision=skip` instead of forcing a create or update.
 
+Use `decision=skip` only when there is no card worth creating and no existing card worth updating.
+
+If a semantically similar card already exists and the new material sharpens its rule, trigger, why, boundary, or example, prefer `decision=update` rather than `decision=skip`.
+
 `decision=skip` and `decision=rewrite-first` are different outcomes:
 
 - `decision=skip`: do not capture this item as a card
 - `decision=rewrite-first`: the idea may be worth capturing, but the card is still too thin
+
+After `decision=skip`, stop there. Do not draft a hypothetical card, filename, frontmatter, map placement, or source-note plan.
+
+If the user also asked for grooming, only mention that as a separate follow-up when it is still necessary after the skip decision. Do not turn a skip result into ad hoc map work, map verification, or map cleanup by default.
 
 When a proposed card is too thin, the correct immediate outcome is to rewrite the card, not to jump straight to `decision=create`, `decision=update`, or source-note handling.
 
