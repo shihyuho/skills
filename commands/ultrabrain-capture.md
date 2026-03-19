@@ -5,7 +5,7 @@ description: "Capture reusable knowledge after work"
 Invoke the `ultrabrain:ultrabrain` skill and follow the **Capture Workflow** in
 `SKILL.md`.
 
-For visible trace output, follow the **Visible trace contract (authoritative)**
+For visible trace output, follow the **Visible trace contract**
 section in the `ultrabrain` skill's `SKILL.md`.
 
 `decision=skip` is a valid completed capture outcome when no reusable

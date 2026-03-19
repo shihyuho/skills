@@ -208,13 +208,13 @@ task execution
 
 Recall should start before planning, but it does not need to be complete before planning. Use a small initial recall to orient the work, then pull in more knowledge only when planning exposes a real gap.
 
-### Visible trace contract (authoritative)
+### Visible trace contract
 
-This section is the single authoritative contract for reply-layer trace output.
+Use reply-layer trace only for relevant planning, strategy, architecture, debugging, or closure-oriented work. Tiny one-off factual Q&A does not require trace output.
 
-Use trace output for relevant planning, strategy, architecture, debugging, and completion-oriented work. Tiny non-relevant one-off Q&A does not require trace output.
+Emit trace only when recall or capture materially affects the current task.
 
-Use this reply-layer recall trace format:
+Recall trace:
 
 ```text
 Recall used:
@@ -223,7 +223,7 @@ Recall used:
 - reason: <why>
 ```
 
-Use this reply-layer capture trace format:
+Capture trace:
 
 ```text
 Capture decision:
@@ -231,38 +231,13 @@ Capture decision:
 - reason: <why>
 ```
 
-Canonical semantics:
+Semantics:
 
-- `checked` lists only stable map/note labels that were actually inspected in this task.
-- Use `checked: none` only when no inspectable structure exists.
-- `unavailable` means required structure/path is unavailable (for example missing `docs/ultrabrain/`, missing `maps/`, or missing `maps/home.md`).
-- `not-found` means structure is available but relevant content was not found.
-- `found` means at least one relevant map or note materially constrained the current plan or decision.
-
-Minimal `checked` examples:
-
-- `checked: none`
-- `checked: home, workflow-moc`
-
-Cadence and lifecycle:
-
-- Default per relevant task: one initial `Recall used` and one final `Capture decision`.
-- Add an extra recall trace only when a new gap-driven recall loop runs, or status changes from `unavailable`/`not-found` to `found`.
-- Add an extra capture trace only when task lifecycle meaningfully changes the earlier capture conclusion.
-- A pre-closure relevant task may emit only `Recall used`.
-- A single-turn relevant task may include both trace blocks in one reply.
-
-Treat a task as closure-ready when at least one is true:
-
-- the reply delivers a final recommendation, final plan, final analysis, or final organized result
-- the reply is a wrap-up, post-task review, or handoff
-- the current relevant task is treated as a temporarily complete work unit
-
-Capture format alignment:
-
-- Reply-layer canonical form is the `Capture decision:` block above.
-- Card-decision inline form (`decision=create`, `decision=update`, `decision=rewrite-first`, `decision=skip`) remains valid inside capture workflow details.
-- When both appear, they must express the same decision value and must not conflict.
+- `found`: at least one relevant map or note materially constrained the plan or decision
+- `not-found`: structure exists but relevant content was not found
+- `unavailable`: required structure/path is missing
+- `checked`: only labels actually inspected in this task
+- use `checked: none` only when no inspectable structure exists
 
 ### 1. Map recall
 
@@ -318,7 +293,7 @@ If file-based planning artifacts exist, record newly discovered gaps, risks, and
 
 If a map-first path does not help within the current loop, treat that as a coverage gap or open assumption and continue planning.
 
-Recall/output cadence and status semantics follow `Visible trace contract (authoritative)`.
+Trace output follows the contract above.
 
 ### 4. Planning convergence
 
@@ -360,7 +335,7 @@ Use note-first capture:
 8. Update the relevant MOC separately if the card should now appear in a map.
 9. Create or update a source note only if later provenance is likely to matter after the card itself is already understandable.
 
-Use the reply-layer trace format from `Visible trace contract (authoritative)` when a relevant task reaches closure.
+Use the reply-layer trace format from `Visible trace contract` when a relevant task reaches closure.
 
 Capture only when the knowledge is reusable, non-obvious, or likely to matter again.
 
@@ -413,7 +388,7 @@ Only after that rewrite should you decide whether the final result is `create` o
 
 For thin-card prompts, any answer that jumps straight to a finished card, filename, frontmatter, MOC placement, or source-note decision is incorrect.
 
-Capture/output cadence and closure rules follow `Visible trace contract (authoritative)`.
+Trace output follows the contract above.
 
 Keep the layers separate during capture:
 

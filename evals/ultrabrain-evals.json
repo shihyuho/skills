@@ -82,10 +82,10 @@
     {
       "id": 8,
       "prompt": "We just finished an incident and someone said 'check the logs before guessing'. It came from chat, but there's no new mechanism or surprising constraint here, and debugging notes probably already cover it. Capture it and tidy the maps while you're at it.",
-      "expected_output": "For this relevant closure prompt, proactively includes reply-layer `Capture decision` even without an explicit trace request, can choose `decision=skip` when the insight is too generic or already covered, and avoids unnecessary MOC work when capture is skipped.",
+      "expected_output": "When capture materially affects the current task, includes a reply-layer `Capture decision`, can choose `decision=skip` when the insight is too generic or already covered, and avoids unnecessary MOC work when capture is skipped.",
       "files": [],
       "expectations": [
-        "For relevant closure turns, outputs `Capture decision` in reply-layer trace even when the user does not explicitly ask to show visible trace",
+        "Uses reply-layer `Capture decision` when capture materially affects the current task, even without an explicit trace request",
         "Considers `decision=skip` as a valid outcome rather than assuming capture is mandatory",
         "Explains why the proposed lesson is too generic, redundant, or not worth a new card",
         "Avoids unnecessary MOC grooming when no card should be created or updated"
@@ -105,12 +105,12 @@
     {
       "id": 10,
       "prompt": "For this debugging task, show your visible trace in the reply layer. Start recall now, then stop before any closure or capture decision.",
-      "expected_output": "Includes reply-layer `Recall used` trace for a relevant pre-closure task, does not force a `Capture decision` yet, and does not present file-writing trace artifacts.",
+      "expected_output": "Includes reply-layer `Recall used` when recall materially affects the current task, does not force a `Capture decision` when no capture decision was made, and does not present file-writing trace artifacts.",
       "files": [],
       "expectations": [
         "Trace appears in the assistant reply, not as file-writing or hidden tooling logs",
         "Includes `Recall used` with a valid recall status from `found | not-found | unavailable`",
-        "Does not require `Capture decision` when the relevant task intentionally stops pre-closure"
+        "Does not require `Capture decision` when the response only performs recall"
       ]
     },
     {
@@ -132,7 +132,7 @@
       "expectations": [
         "Uses recall status `not-found` only when recall was attempted but yielded no relevant results",
         "Avoids fabricated references to existing cards, MOCs, or source notes",
-        "As a recall-only pre-closure case, does not require a `Capture decision`"
+        "Does not require a `Capture decision` when the response only performs recall"
       ]
     },
     {
@@ -182,10 +182,10 @@
     {
       "id": 17,
       "prompt": "Start with initial recall, then draft a short plan. During planning, a new migration-risk gap appears; show how visible trace should evolve.",
-      "expected_output": "Includes an additional gap-driven recall trace after planning reveals the new gap, rather than forcing all recall into the first step.",
+      "expected_output": "Allows another `Recall used` trace after planning reveals a new gap when that follow-up recall materially changes the task.",
       "files": [],
       "expectations": [
-        "Allows a second, gap-driven recall trace later in the flow",
+        "Allows a later `Recall used` trace when follow-up recall materially changes the task",
         "Keeps each recall trace status explicit (`found | not-found | unavailable`)",
         "Shows progression from initial orientation to targeted follow-up recall"
       ]
@@ -193,10 +193,10 @@
     {
       "id": 18,
       "prompt": "Kick off a relevant troubleshooting task, do recall now, and stop before any capture/closure step.",
-      "expected_output": "Allows response to include only `Recall used` trace when the relevant task legitimately stops before closure.",
+      "expected_output": "Allows the response to include only `Recall used` when the response performs recall and no capture decision was made.",
       "files": [],
       "expectations": [
-        "Does not require `Capture decision` when the interaction ends before capture/closure stage",
+        "Does not require `Capture decision` when no capture decision was made",
         "Still requires visible `Recall used` trace for the relevant recall action",
         "Avoids pretending a final capture decision was made"
       ]
@@ -215,7 +215,7 @@
     {
       "id": 20,
       "prompt": "In one reply, do recall for this relevant debugging request and finish with a concrete capture decision for the lesson we just learned.",
-      "expected_output": "For a single-turn relevant closure response, includes both `Recall used` and `Capture decision` in the same reply-layer trace.",
+      "expected_output": "Allows the same reply to include both `Recall used` and `Capture decision` when both recall and capture materially affect the current task.",
       "files": [],
       "expectations": [
         "Same response includes `Recall used` with status from `found | not-found | unavailable`",

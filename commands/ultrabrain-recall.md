@@ -6,7 +6,7 @@ Invoke the `ultrabrain:ultrabrain` skill and follow the **Recall Workflow** in
 `SKILL.md`, starting with **Map recall** as the first stage of the staged
 recall flow.
 
-For visible trace output, follow the **Visible trace contract (authoritative)**
+For visible trace output, follow the **Visible trace contract**
 section in the `ultrabrain` skill's `SKILL.md`.
 
 Do not perform recall silently when this command is relevant.
