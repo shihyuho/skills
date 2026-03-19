@@ -1,10 +1,6 @@
 ---
 name: ultrabrain
 description: Use when working with a second-brain or PKM system built from linked notes, MOCs, knowledge cards, and source notes. Use when the user mentions Obsidian, LYT, MOCs, note recall, note capture, knowledge-base restructuring, map cleanup, source-note design, or wants AI to organize, retrieve, and evolve a personal knowledge system over time, even if they do not explicitly ask for "PKM" or "second brain."
-license: MIT
-metadata:
-  author: shihyuho
-  version: "0.1.0"
 ---
 
 # UltraBrain
@@ -212,6 +208,62 @@ task execution
 
 Recall should start before planning, but it does not need to be complete before planning. Use a small initial recall to orient the work, then pull in more knowledge only when planning exposes a real gap.
 
+### Visible trace contract (authoritative)
+
+This section is the single authoritative contract for reply-layer trace output.
+
+Use trace output for relevant planning, strategy, architecture, debugging, and completion-oriented work. Tiny non-relevant one-off Q&A does not require trace output.
+
+Use this reply-layer recall trace format:
+
+```text
+Recall used:
+- status: found | not-found | unavailable
+- checked: <stable map/note labels or none>
+- reason: <why>
+```
+
+Use this reply-layer capture trace format:
+
+```text
+Capture decision:
+- decision: create | update | rewrite-first | skip
+- reason: <why>
+```
+
+Canonical semantics:
+
+- `checked` lists only stable map/note labels that were actually inspected in this task.
+- Use `checked: none` only when no inspectable structure exists.
+- `unavailable` means required structure/path is unavailable (for example missing `docs/ultrabrain/`, missing `maps/`, or missing `maps/home.md`).
+- `not-found` means structure is available but relevant content was not found.
+- `found` means at least one relevant map or note materially constrained the current plan or decision.
+
+Minimal `checked` examples:
+
+- `checked: none`
+- `checked: home, workflow-moc`
+
+Cadence and lifecycle:
+
+- Default per relevant task: one initial `Recall used` and one final `Capture decision`.
+- Add an extra recall trace only when a new gap-driven recall loop runs, or status changes from `unavailable`/`not-found` to `found`.
+- Add an extra capture trace only when task lifecycle meaningfully changes the earlier capture conclusion.
+- A pre-closure relevant task may emit only `Recall used`.
+- A single-turn relevant task may include both trace blocks in one reply.
+
+Treat a task as closure-ready when at least one is true:
+
+- the reply delivers a final recommendation, final plan, final analysis, or final organized result
+- the reply is a wrap-up, post-task review, or handoff
+- the current relevant task is treated as a temporarily complete work unit
+
+Capture format alignment:
+
+- Reply-layer canonical form is the `Capture decision:` block above.
+- Card-decision inline form (`decision=create`, `decision=update`, `decision=rewrite-first`, `decision=skip`) remains valid inside capture workflow details.
+- When both appear, they must express the same decision value and must not conflict.
+
 ### 1. Map recall
 
 Run before detailed planning:
@@ -229,6 +281,8 @@ Skip review lenses for normal recall. Only consult `by-source-moc` or `by-confid
 - doing uncertainty review
 
 When a relevant domain MOC, `lessons-moc`, or `general-moc` exists, prefer that map-first path over falling back to repo-wide search, unrelated skills, or general documentation.
+
+
 
 ### 2. Rough plan or problem framing
 
@@ -263,6 +317,8 @@ Keep each loop budgeted and specific. Do not let gap-driven recall turn into bro
 If file-based planning artifacts exist, record newly discovered gaps, risks, and decisions there while the plan evolves.
 
 If a map-first path does not help within the current loop, treat that as a coverage gap or open assumption and continue planning.
+
+Recall/output cadence and status semantics follow `Visible trace contract (authoritative)`.
 
 ### 4. Planning convergence
 
@@ -304,6 +360,8 @@ Use note-first capture:
 8. Update the relevant MOC separately if the card should now appear in a map.
 9. Create or update a source note only if later provenance is likely to matter after the card itself is already understandable.
 
+Use the reply-layer trace format from `Visible trace contract (authoritative)` when a relevant task reaches closure.
+
 Capture only when the knowledge is reusable, non-obvious, or likely to matter again.
 
 If the proposed lesson is too generic, already covered, or not worth preserving as a reusable card, return `decision=skip` instead of forcing a create or update.
@@ -312,10 +370,18 @@ Use `decision=skip` only when there is no card worth creating and no existing ca
 
 If a semantically similar card already exists and the new material sharpens its rule, trigger, why, boundary, or example, prefer `decision=update` rather than `decision=skip`.
 
+Use this `create` vs `update` boundary:
+
+- Choose `update` when semantic overlap is strong and the new material mainly sharpens an existing card.
+- Choose `create` when the topic is nearby but the core rule or judgment is materially different.
+- If overlap is unclear, explain the overlap first and prefer `create` unless semantic identity is clearly strong.
+
 `decision=skip` and `decision=rewrite-first` are different outcomes:
 
 - `decision=skip`: do not capture this item as a card
 - `decision=rewrite-first`: the idea may be worth capturing, but the card is still too thin
+
+`decision=skip` is a valid completed capture outcome.
 
 After `decision=skip`, stop there. Do not draft a hypothetical card, filename, frontmatter, map placement, or source-note plan.
 
@@ -346,6 +412,8 @@ Only after that rewrite should you decide whether the final result is `create` o
 ```
 
 For thin-card prompts, any answer that jumps straight to a finished card, filename, frontmatter, MOC placement, or source-note decision is incorrect.
+
+Capture/output cadence and closure rules follow `Visible trace contract (authoritative)`.
 
 Keep the layers separate during capture:
 
@@ -394,5 +462,11 @@ When asked to organize a knowledge base, produce concise outputs that make the n
 - which source notes should be created or skipped
 - which MOC should be updated, created, or split
 - what the current recall constraints are
+
+Keep layers explicit:
+
+- workflow traces (`Recall used`, `Capture decision`) belong in the reply layer
+- knowledge artifacts (cards, MOCs, source notes) belong in file outputs only when create/update work is actually done
+- if no artifact is created or updated, the workflow trace should still be present for relevant tasks
 
 If the user asks you to edit files directly, make the note or MOC changes. If they ask for planning only, return the recommended changes without pretending the files already exist.

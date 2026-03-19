@@ -54,6 +54,32 @@ The workflow is simple:
 - keep navigation changes in maps instead of stuffing them into note metadata
 - keep source notes for provenance only, and treat broader MOC grooming as a separate manual pass
 
+### Visible traces in replies
+
+UltraBrain uses visible traces in the assistant reply layer. These traces are not
+the same thing as writing files.
+
+- `Recall used` and `Capture decision` are workflow traces shown in replies
+- cards, MOCs, and source notes are file-layer artifacts created only when needed
+- relevant tasks should still show the trace even when no file is created or updated
+
+Example when no ultrabrain structure is available:
+
+```text
+Recall used:
+- status: unavailable
+- checked: none
+- reason: no ultrabrain structure found in this project
+```
+
+Example when no reusable knowledge should be captured:
+
+```text
+Capture decision:
+- decision: skip
+- reason: no reusable, non-obvious knowledge worth preserving
+```
+
 ### Obsidian Integration
 
 `docs/ultrabrain/` is plain Markdown. If you use Obsidian, you can open `docs/ultrabrain/` directly as a vault and work with the same files your AI uses.

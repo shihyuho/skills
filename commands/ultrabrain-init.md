@@ -16,11 +16,15 @@ Run setup for project instruction files.
    - If equivalent wording exists, do not add another block.
    - If equivalent wording does not exist, add this canonical block:
 
-   ```markdown
-   ## UltraBrain
+    ```markdown
+    ## UltraBrain
 
-   **MUST** use the `ultrabrain` skill before any execution
-   ```
+    **MUST** use the `ultrabrain` skill for ultrabrain-relevant work only:
+    knowledge recall/capture, second-brain or PKM workflows, and
+    notes/MOC/linked-note organization.
+    For relevant work, follow the visible trace rules in the `ultrabrain`
+    skill's `SKILL.md`.
+    ```
 
 3. **Avoid duplication**
    - If multiple equivalent mandatory blocks exist, keep one canonical copy and
