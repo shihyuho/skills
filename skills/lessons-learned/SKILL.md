@@ -74,23 +74,34 @@ Run this phase before writing code.
 1. Extract task keywords (technology, failure mode, domain terms).
 2. Determine whether lesson storage exists:
    - If `docs/lessons/` does not exist, treat this as first-run state and skip recall.
-   - If `docs/lessons/` exists but `_index.md` does not, rebuild `_index.md` from existing card frontmatter before recall.
+   - If `docs/lessons/` exists but `_index.md` does not, read existing card frontmatter directly for this recall pass and warn that `_index.md` should be rebuilt during the next capture/update maintenance pass.
 3. Determine working scope from the task context:
    - `project` for cross-cutting or repo-wide concerns
    - `module` for package/directory-level concerns
    - `feature` for a specific flow or component
 4. Read `docs/lessons/_index.md`.
-5. Rank candidates with this order:
+5. Build candidates for normal recall from cards in `docs/lessons/`.
+   - Exclude only cards that explicitly set `confidence: 0.0`.
+   - Cards with missing `confidence` remain eligible and use legacy fallback.
+   - Cards with `confidence: 0.0` remain in `docs/lessons/` for explicit
+     historical lookup.
+   - Load cards excluded from normal recall only when the user explicitly asks
+     to review cards excluded from normal recall.
+6. Rank eligible candidates with this order:
    `tag match -> scope match -> confidence (desc) -> date (desc)`.
-   - Legacy fallback: if a card has no `confidence`, derive it from `source`
-      (`user-correction=0.7`, `bug-fix=0.5`, `retrospective=0.3`). If both
-      are missing, use `0.3`.
-6. Load **1-3** primary cards.
-7. Expand with `related` links from primary cards, loading up to **2**
+   - Legacy fallback applies only when `confidence` is missing: derive it from
+     `source` (`user-correction=0.7`, `bug-fix=0.5`,
+     `retrospective=0.3`). If both are missing, use `0.3`.
+7. Load **1-3** primary cards.
+8. Expand with `related` links from primary cards, loading up to **2**
    additional cards.
-8. Enforce the hard cap: primary plus related cards must not exceed **5**
+9. Enforce the hard cap: primary plus related cards must not exceed **5**
    total.
-9. Apply loaded lessons as constraints for current work and mention loaded card IDs briefly.
+10. Apply loaded lessons as constraints for current work and mention loaded card IDs briefly.
+11. Treat recall as read-only for `confidence`:
+    - Do not change `confidence` because a lesson was loaded.
+    - Do not change `confidence` because a lesson was not loaded.
+    - Do not change `confidence` because a lesson was not used recently.
 
 If no cards match, continue work without lesson constraints.
 
@@ -99,7 +110,7 @@ If no cards match, continue work without lesson constraints.
 Treat these as non-blocking and continue:
 
 - `docs/lessons/` is missing on first run.
-- `_index.md` had to be rebuilt.
+- `_index.md` is missing, so this recall pass used direct card metadata.
 - A loaded card is missing `confidence` and needs legacy fallback.
 - A `related` target is missing.
 
@@ -112,9 +123,24 @@ Run this phase when any of these conditions are met:
 - A bug fix revealed a reusable pattern
 - A task completion surfaced a non-obvious reusable insight
 
+Use this phase for both kinds of memory maintenance:
+
+- creating a new lesson card when current work reveals a reusable new lesson
+- updating an existing lesson card when current work shows that a recalled or
+  related card is less applicable, partially outdated, or no longer valid
+
 ### Step 1 — Decide whether to capture
 
 Ask: *"Will this lesson save time next time a similar task appears?"*
+
+Apply this step separately for two decisions:
+
+- whether to create a new lesson card
+- whether to update an existing lesson card
+
+Skipping new-card creation does not skip corrective updates to an existing card.
+If current work shows that a recalled or related card needs correction, continue
+to Step 2 for that existing card even when no new lesson is captured.
 
 Only capture non-obvious insights. Prioritize lessons such as:
 - Hidden relationships between files/modules.
@@ -131,6 +157,11 @@ Capture if:
 - ✅ Key parameter, config, or precondition that is easy to forget
 - ✅ Multi-attempt solution (include failure reasons + success conditions)
 
+Update an existing card if:
+- ✅ current work shows a recalled or related card is less applicable than before
+- ✅ current work shows a recalled or related card is partially outdated
+- ✅ current work shows a recalled or related card should no longer participate in normal recall
+
 Skip if:
 - ❌ One-off Q&A with no reusable process
 - ❌ Pure concept explanation without actionable guidance
@@ -138,18 +169,27 @@ Skip if:
 - ❌ Obvious framework/language behavior with no hidden constraint
 - ❌ Session-specific notes that are unlikely to repeat
 
+These skip rules apply to creating a new card. They do not block corrective
+updates to an existing card when current evidence shows that the card should be
+rewritten or its `confidence` should change.
+
 ### Step 2 — Write the Zettel card
 
-Generate a semantic kebab-case ID that describes the lesson (e.g., `api-timeout-retry-pattern`).
+Generate a semantic kebab-case ID that describes the lesson (e.g., `api-timeout-retry-pattern`) when creating a new card.
 
-Before writing a new card, check for a semantically similar existing card and
+Before writing or updating a card, check for a semantically similar existing card and
 make the decision explicit:
 
-- `decision=create` when no similar card exists.
-- `decision=update` when a similar card already covers the same lesson.
+- `decision=create` when no similar card exists and a new lesson should be captured.
+- `decision=update` when a similar card already covers the same lesson, or when current work corrects an existing card.
 
-Surface this decision in the capture output. Do not jump straight to card
-content without stating whether you are creating or updating.
+Use `decision=create` or `decision=update` only when all affected cards in the
+capture pass share the same outcome kind. If one capture pass both creates and
+updates cards, report only the `created=<n>` and `updated=<n>` counts.
+
+When one capture pass affects multiple cards, report `created=<n>` and
+`updated=<n>` counts. If one capture pass both creates and updates cards, do
+not include `decision=`.
 
 Assign a `scope` before writing the card:
 - `project` for repo-wide constraints
@@ -161,8 +201,21 @@ Assign initial `confidence` by `source`:
 - `bug-fix`: `0.5`
 - `retrospective`: `0.3`
 
-If the user confirms a lesson was useful, increase `confidence` by `+0.1`
-(max `0.9`).
+Confidence changes only during capture/update, never during recall.
+
+If the user explicitly confirms a lesson remains useful, increase `confidence` by
+`+0.1` (max `0.9`).
+
+Decrease `confidence` by `-0.1` when later evidence shows the lesson is less
+applicable.
+
+When a lesson is partially outdated, update the card content first, then
+decrease `confidence` only if needed.
+
+Set `confidence` directly to `0.0` only when the card should no longer
+participate in normal recall.
+
+Do not decrease `confidence` solely because the lesson was not used recently.
 
 Write the card to `docs/lessons/<id>.md` using the template in
 `references/card-template.md`.
@@ -172,9 +225,16 @@ Before creating a new card, check semantic duplication:
 - If an existing card is semantically similar, update that card instead of creating a duplicate.
 - Preserve existing card ID when updating.
 
+When current work weakens a recalled or related card:
+
+- update the existing card even if no new lesson card is created
+- update the card content first when the lesson is only partially outdated
+- then lower `confidence` only if the lesson's default applicability is weaker than before
+- set `confidence` to `0.0` only when the card should no longer participate in normal recall
+
 Minimal correction-capture example:
 
-> Lessons capture report: decision=update, updated=1 (`db-migration-run-order`), skipped=0
+> Lessons capture report: decision=update, updated=1 (`db-migration-run-order`), confidence=0.7->0.6 (weaker applicability in current config), skipped=0
 
 Card fields:
 
@@ -223,8 +283,23 @@ Tell the user what was captured using a compact report, e.g.:
 
 > Lessons capture report: created=1 (`api-timeout-retry-pattern`), updated=1 (`db-migration-run-order`), skipped=1 (obvious behavior)
 
-If capture occurred, include the create-vs-update decision in the report when it
-helps explain the outcome, for example `decision=create` or `decision=update`.
+If all affected cards share the same outcome kind, include `decision=create` or
+`decision=update` in the report. If one capture pass both creates and updates
+cards, report only the `created=<n>` and `updated=<n>` counts.
+
+When capture or update changes confidence, include confidence transition
+`old->new` for each affected card plus a short reason.
+
+For new cards, use `none-><value>`.
+
+If a transition reaches `0.0`, explicitly state that the card is excluded from
+normal recall.
+
+Examples:
+
+- `Lessons capture report: decision=create, created=1 (\`api-timeout-retry-pattern\`), confidence=none->0.5 (new reusable pattern)`
+- `Lessons capture report: decision=update, updated=1 (\`db-migration-run-order\`), confidence=0.7->0.6 (weaker applicability in current config)`
+- `Lessons capture report: decision=update, updated=1 (\`legacy-bootstrap-flow\`), confidence=0.1->0.0 (excluded from normal recall)`
 
 Keep this confirmation short. Prefer the decision, the affected card ID, and a
 one-line rule summary. Avoid dumping the full markdown card or index contents in
@@ -274,7 +349,6 @@ explicitly listed as warnings elsewhere.
 - `related` count is 0–2 and every target resolves to an existing card.
 - Index row exists and matches card metadata, including `scope`.
 - `_index.md` rows are ordered by `Date` descending (newest first).
-- Recall limits are respected: 1–3 primary + up to 2 related, max 5 total.
 
 ## Integration Guide
 

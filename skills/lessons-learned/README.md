@@ -6,7 +6,7 @@ Turn every costly mistake into reusable memory.
 
 - Recall relevant lessons before starting work
 - Capture reusable lessons after meaningful corrections or outcomes
-- Reuse those lessons to avoid repeating the same mistakes
+- Apply recalled lessons to avoid repeating the same mistakes
 
 ## Why Use This Skill
 
@@ -19,6 +19,7 @@ This skill stores those insights as atomic Zettelkasten cards so future tasks ca
 - Maintains `docs/lessons/_index.md` for fast ranking by tag/scope/confidence/date
 - Stores one lesson per card under `docs/lessons/<card-id>.md`
 - Uses `confidence` and scope metadata to prioritize recall
+- Keeps cards with `confidence: 0.0` in `docs/lessons/` for historical lookup, while excluding them from normal recall
 - Keeps `related` links selective so recall stays small and relevant
 
 ## When It Triggers
@@ -38,16 +39,16 @@ Typical prompts:
 1. **Recall**
    - Read the lesson index if it exists.
    - Rank cards by tags, scope, confidence, and recency.
+   - Skip cards that explicitly set `confidence: 0.0` during normal recall.
    - Load only the most relevant cards.
+   - Apply loaded lessons as constraints for the current task.
 
 2. **Capture**
    - Store only non-obvious, reusable lessons.
    - Update an existing card when the lesson already exists.
    - Keep the index synchronized with card metadata.
-
-3. **Reuse**
-   - Apply loaded lessons as constraints on the current task.
-   - Report concise capture results when new memory is written.
+   - Confirm capture outcomes concisely when memory is written or updated.
+   - Include concise confidence transitions when confidence changes.
 
 Detailed execution rules live in `SKILL.md`.
 

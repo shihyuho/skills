@@ -38,7 +38,7 @@ related: ["[[related-card-id-1]]"]
 - **scope**: Choose one — `project` (repo-wide), `module` (package/directory), `feature` (specific flow/component).
 - **tags**: 3–6 lowercase tags. Include technology names, error categories, and domain concepts.
 - **source**: Choose one — `user-correction` (user pointed out a mistake), `bug-fix` (discovered during debugging), `retrospective` (insight from task review).
-- **confidence**: Initialize by source (`user-correction=0.7`, `bug-fix=0.5`, `retrospective=0.3`). Increase by `+0.1` when confirmed useful, cap at `0.9`.
+- **confidence**: Initialize by source (`user-correction=0.7`, `bug-fix=0.5`, `retrospective=0.3`). Keep range `0.0-0.9`. For recall/capture behavior and `0.0` handling, follow `SKILL.md`.
 - **related**: 0-2 high-relevance wikilink references in `[[card-id]]` form. Add links only when high-value criteria are met (2-of-4 gate in `references/linking-heuristics.md`).
 - **Context**: Keep to 1–2 sentences. Enough context to understand the scenario.
 - **Mistake**: Be specific. Include error messages or symptoms when available.
