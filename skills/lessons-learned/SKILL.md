@@ -80,17 +80,28 @@ Run this phase before writing code.
    - `module` for package/directory-level concerns
    - `feature` for a specific flow or component
 4. Read `docs/lessons/_index.md`.
-5. Rank candidates with this order:
+5. Build candidates for normal recall from cards in `docs/lessons/`.
+   - Exclude only cards that explicitly set `confidence: 0.0`.
+   - Cards with missing `confidence` remain eligible and use legacy fallback.
+   - Cards with `confidence: 0.0` remain in `docs/lessons/` for explicit
+     historical lookup.
+   - Load cards excluded from normal recall only when the user explicitly asks
+     to review cards excluded from normal recall.
+6. Rank eligible candidates with this order:
    `tag match -> scope match -> confidence (desc) -> date (desc)`.
-   - Legacy fallback: if a card has no `confidence`, derive it from `source`
-      (`user-correction=0.7`, `bug-fix=0.5`, `retrospective=0.3`). If both
-      are missing, use `0.3`.
-6. Load **1-3** primary cards.
-7. Expand with `related` links from primary cards, loading up to **2**
+   - Legacy fallback applies only when `confidence` is missing: derive it from
+     `source` (`user-correction=0.7`, `bug-fix=0.5`,
+     `retrospective=0.3`). If both are missing, use `0.3`.
+7. Load **1-3** primary cards.
+8. Expand with `related` links from primary cards, loading up to **2**
    additional cards.
-8. Enforce the hard cap: primary plus related cards must not exceed **5**
+9. Enforce the hard cap: primary plus related cards must not exceed **5**
    total.
-9. Apply loaded lessons as constraints for current work and mention loaded card IDs briefly.
+10. Apply loaded lessons as constraints for current work and mention loaded card IDs briefly.
+11. Treat recall as read-only for `confidence`:
+    - Do not change `confidence` because a lesson was loaded.
+    - Do not change `confidence` because a lesson was not loaded.
+    - Do not change `confidence` because a lesson was not used recently.
 
 If no cards match, continue work without lesson constraints.
 
@@ -161,8 +172,21 @@ Assign initial `confidence` by `source`:
 - `bug-fix`: `0.5`
 - `retrospective`: `0.3`
 
-If the user confirms a lesson was useful, increase `confidence` by `+0.1`
-(max `0.9`).
+Confidence changes only during capture/update, never during recall.
+
+If the user explicitly confirms a lesson remains useful, increase `confidence` by
+`+0.1` (max `0.9`).
+
+Decrease `confidence` by `-0.1` when later evidence shows the lesson is less
+applicable.
+
+When a lesson is partially outdated, update the card content first, then
+decrease `confidence` only if needed.
+
+Set `confidence` directly to `0.0` only when the card should no longer
+participate in normal recall.
+
+Do not decrease `confidence` solely because the lesson was not used recently.
 
 Write the card to `docs/lessons/<id>.md` using the template in
 `references/card-template.md`.
@@ -174,7 +198,7 @@ Before creating a new card, check semantic duplication:
 
 Minimal correction-capture example:
 
-> Lessons capture report: decision=update, updated=1 (`db-migration-run-order`), skipped=0
+> Lessons capture report: decision=update, updated=1 (`db-migration-run-order`), confidence=0.7->0.6 (weaker applicability in current config), skipped=0
 
 Card fields:
 
@@ -226,6 +250,20 @@ Tell the user what was captured using a compact report, e.g.:
 If capture occurred, include the create-vs-update decision in the report when it
 helps explain the outcome, for example `decision=create` or `decision=update`.
 
+When capture or update changes confidence, include confidence transition
+`old->new` for each affected card plus a short reason.
+
+For new cards, use `none-><value>`.
+
+If a transition reaches `0.0`, explicitly state that the card is excluded from
+normal recall.
+
+Examples:
+
+- `Lessons capture report: decision=create, created=1 (\`api-timeout-retry-pattern\`), confidence=none->0.5 (new reusable pattern)`
+- `Lessons capture report: decision=update, updated=1 (\`db-migration-run-order\`), confidence=0.7->0.6 (weaker applicability in current config)`
+- `Lessons capture report: decision=update, updated=1 (\`legacy-bootstrap-flow\`), confidence=0.1->0.0 (excluded from normal recall)`
+
 Keep this confirmation short. Prefer the decision, the affected card ID, and a
 one-line rule summary. Avoid dumping the full markdown card or index contents in
 normal output.
@@ -274,7 +312,6 @@ explicitly listed as warnings elsewhere.
 - `related` count is 0–2 and every target resolves to an existing card.
 - Index row exists and matches card metadata, including `scope`.
 - `_index.md` rows are ordered by `Date` descending (newest first).
-- Recall limits are respected: 1–3 primary + up to 2 related, max 5 total.
 
 ## Integration Guide
 
