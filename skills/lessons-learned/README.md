@@ -18,7 +18,7 @@ This skill stores those insights as atomic Zettelkasten cards so future tasks ca
 
 - Maintains `docs/lessons/_index.md` for fast ranking by tag/scope/confidence/date
 - Stores one lesson per card under `docs/lessons/<card-id>.md`
-- Uses `confidence` and scope metadata to prioritize recall
+- Uses `confidence` as application-strength metadata to prioritize recall
 - Keeps `related` links selective so recall stays small and relevant
 
 ## When It Triggers
@@ -37,12 +37,14 @@ Typical prompts:
 
 1. **Recall**
    - Read the lesson index if it exists.
-   - Rank cards by tags, scope, confidence, and recency.
+   - Exclude inactive lessons with `confidence: 0.0` from normal recall.
+   - Rank active cards by tags, scope, confidence, and recency.
    - Load only the most relevant cards.
 
 2. **Capture**
    - Store only non-obvious, reusable lessons.
    - Update an existing card when the lesson already exists.
+   - Raise or lower `confidence` when new evidence changes how strongly a lesson should apply.
    - Keep the index synchronized with card metadata.
 
 3. **Reuse**
@@ -72,6 +74,8 @@ docs/lessons/
 ## Guardrails
 
 - Do not read entire card corpus during recall.
+- Do not treat `confidence` as objective truth; it describes default application strength.
+- Do not include `confidence: 0.0` lessons in normal recall.
 - Do not capture obvious framework/language behavior.
 - Do not capture one-off, non-reproducible facts.
 - Do not capture session-only noise (temporary paths/logs/local artifacts).
