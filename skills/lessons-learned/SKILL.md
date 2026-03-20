@@ -74,7 +74,7 @@ Run this phase before writing code.
 1. Extract task keywords (technology, failure mode, domain terms).
 2. Determine whether lesson storage exists:
    - If `docs/lessons/` does not exist, treat this as first-run state and skip recall.
-   - If `docs/lessons/` exists but `_index.md` does not, rebuild `_index.md` from existing card frontmatter before recall.
+   - If `docs/lessons/` exists but `_index.md` does not, read existing card frontmatter directly for this recall pass and warn that `_index.md` should be rebuilt during the next capture/update maintenance pass.
 3. Determine working scope from the task context:
    - `project` for cross-cutting or repo-wide concerns
    - `module` for package/directory-level concerns
@@ -110,7 +110,7 @@ If no cards match, continue work without lesson constraints.
 Treat these as non-blocking and continue:
 
 - `docs/lessons/` is missing on first run.
-- `_index.md` had to be rebuilt.
+- `_index.md` is missing, so this recall pass used direct card metadata.
 - A loaded card is missing `confidence` and needs legacy fallback.
 - A `related` target is missing.
 
@@ -123,9 +123,24 @@ Run this phase when any of these conditions are met:
 - A bug fix revealed a reusable pattern
 - A task completion surfaced a non-obvious reusable insight
 
+Use this phase for both kinds of memory maintenance:
+
+- creating a new lesson card when current work reveals a reusable new lesson
+- updating an existing lesson card when current work shows that a recalled or
+  related card is less applicable, partially outdated, or no longer valid
+
 ### Step 1 — Decide whether to capture
 
 Ask: *"Will this lesson save time next time a similar task appears?"*
+
+Apply this step separately for two decisions:
+
+- whether to create a new lesson card
+- whether to update an existing lesson card
+
+Skipping new-card creation does not skip corrective updates to an existing card.
+If current work shows that a recalled or related card needs correction, continue
+to Step 2 for that existing card even when no new lesson is captured.
 
 Only capture non-obvious insights. Prioritize lessons such as:
 - Hidden relationships between files/modules.
@@ -142,6 +157,11 @@ Capture if:
 - ✅ Key parameter, config, or precondition that is easy to forget
 - ✅ Multi-attempt solution (include failure reasons + success conditions)
 
+Update an existing card if:
+- ✅ current work shows a recalled or related card is less applicable than before
+- ✅ current work shows a recalled or related card is partially outdated
+- ✅ current work shows a recalled or related card should no longer participate in normal recall
+
 Skip if:
 - ❌ One-off Q&A with no reusable process
 - ❌ Pure concept explanation without actionable guidance
@@ -149,18 +169,27 @@ Skip if:
 - ❌ Obvious framework/language behavior with no hidden constraint
 - ❌ Session-specific notes that are unlikely to repeat
 
+These skip rules apply to creating a new card. They do not block corrective
+updates to an existing card when current evidence shows that the card should be
+rewritten or its `confidence` should change.
+
 ### Step 2 — Write the Zettel card
 
-Generate a semantic kebab-case ID that describes the lesson (e.g., `api-timeout-retry-pattern`).
+Generate a semantic kebab-case ID that describes the lesson (e.g., `api-timeout-retry-pattern`) when creating a new card.
 
-Before writing a new card, check for a semantically similar existing card and
+Before writing or updating a card, check for a semantically similar existing card and
 make the decision explicit:
 
-- `decision=create` when no similar card exists.
-- `decision=update` when a similar card already covers the same lesson.
+- `decision=create` when no similar card exists and a new lesson should be captured.
+- `decision=update` when a similar card already covers the same lesson, or when current work corrects an existing card.
 
-Surface this decision in the capture output. Do not jump straight to card
-content without stating whether you are creating or updating.
+Use `decision=create` or `decision=update` only when all affected cards in the
+capture pass share the same outcome kind. If one capture pass both creates and
+updates cards, report only the `created=<n>` and `updated=<n>` counts.
+
+When one capture pass affects multiple cards, report `created=<n>` and
+`updated=<n>` counts. If one capture pass both creates and updates cards, do
+not include `decision=`.
 
 Assign a `scope` before writing the card:
 - `project` for repo-wide constraints
@@ -195,6 +224,13 @@ Before creating a new card, check semantic duplication:
 
 - If an existing card is semantically similar, update that card instead of creating a duplicate.
 - Preserve existing card ID when updating.
+
+When current work weakens a recalled or related card:
+
+- update the existing card even if no new lesson card is created
+- update the card content first when the lesson is only partially outdated
+- then lower `confidence` only if the lesson's default applicability is weaker than before
+- set `confidence` to `0.0` only when the card should no longer participate in normal recall
 
 Minimal correction-capture example:
 
@@ -247,8 +283,9 @@ Tell the user what was captured using a compact report, e.g.:
 
 > Lessons capture report: created=1 (`api-timeout-retry-pattern`), updated=1 (`db-migration-run-order`), skipped=1 (obvious behavior)
 
-If capture occurred, include the create-vs-update decision in the report when it
-helps explain the outcome, for example `decision=create` or `decision=update`.
+If all affected cards share the same outcome kind, include `decision=create` or
+`decision=update` in the report. If one capture pass both creates and updates
+cards, report only the `created=<n>` and `updated=<n>` counts.
 
 When capture or update changes confidence, include confidence transition
 `old->new` for each affected card plus a short reason.
