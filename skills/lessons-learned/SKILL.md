@@ -65,40 +65,7 @@ Apply these limits everywhere in the skill package:
 - Use **3-6** tags per card.
 - Keep `confidence` in the inclusive range `0.0-0.9`.
 
-Use these canonical `confidence` values for new and edited cards:
-
-- `0.0`
-- `0.3`
-- `0.5`
-- `0.7`
-- `0.9`
-
 If another file conflicts with these limits, this file wins.
-
-## Confidence Scoring
-
-`confidence` represents application strength, not objective truth.
-
-- A low-confidence lesson may still be valid, but should be applied cautiously.
-- A high-confidence lesson should be treated as a stronger default unless the current context conflicts.
-- `confidence` must not decay solely because a lesson was not used recently.
-
-Use these canonical levels:
-
-| Score | Meaning | Behavior |
-|---|---|---|
-| `0.0` | Inactive | Excluded from normal recall |
-| `0.3` | Tentative | Suggested but not enforced |
-| `0.5` | Moderate | Applied when relevant |
-| `0.7` | Strong | Preferred unless context conflicts |
-| `0.9` | Core | Treat as default project behavior |
-
-For compatibility during transition work:
-
-- Existing non-canonical values may remain temporarily.
-- If an existing non-canonical value is edited, normalize it to the nearest canonical value.
-- If a value is exactly between two canonical levels, normalize downward to the more conservative level.
-- Do not perform a one-time bulk migration of untouched cards.
 
 ## Recall Phase
 
@@ -113,19 +80,17 @@ Run this phase before writing code.
    - `module` for package/directory-level concerns
    - `feature` for a specific flow or component
 4. Read `docs/lessons/_index.md`.
-5. Exclude cards with `confidence: 0.0` from normal recall.
-   - They remain available only when the user explicitly asks to inspect inactive lessons.
-6. Rank remaining candidates with this order:
+5. Rank candidates with this order:
    `tag match -> scope match -> confidence (desc) -> date (desc)`.
    - Legacy fallback: if a card has no `confidence`, derive it from `source`
       (`user-correction=0.7`, `bug-fix=0.5`, `retrospective=0.3`). If both
       are missing, use `0.3`.
-7. Load **1-3** primary cards.
-8. Expand with `related` links from primary cards, loading up to **2**
+6. Load **1-3** primary cards.
+7. Expand with `related` links from primary cards, loading up to **2**
    additional cards.
-9. Enforce the hard cap: primary plus related cards must not exceed **5**
+8. Enforce the hard cap: primary plus related cards must not exceed **5**
    total.
-10. Apply loaded lessons as constraints for current work and mention loaded card IDs briefly.
+9. Apply loaded lessons as constraints for current work and mention loaded card IDs briefly.
 
 If no cards match, continue work without lesson constraints.
 
@@ -196,12 +161,8 @@ Assign initial `confidence` by `source`:
 - `bug-fix`: `0.5`
 - `retrospective`: `0.3`
 
-When updating an existing card, choose the canonical `confidence` value that
-best matches the new evidence.
-
-- Small strengthening or weakening usually moves one canonical level.
-- Strong validating or contradictory evidence may justify moving multiple levels.
-- If a lesson should no longer participate in normal recall, move it directly to `0.0`.
+If the user confirms a lesson was useful, increase `confidence` by `+0.1`
+(max `0.9`).
 
 Write the card to `docs/lessons/<id>.md` using the template in
 `references/card-template.md`.
@@ -213,7 +174,7 @@ Before creating a new card, check semantic duplication:
 
 Minimal correction-capture example:
 
-> Lessons capture report: decision=update, updated=1 (`db-migration-run-order`), confidence=0.7->0.5 (weaker applicability in current config)
+> Lessons capture report: decision=update, updated=1 (`db-migration-run-order`), skipped=0
 
 Card fields:
 
@@ -224,7 +185,7 @@ Card fields:
 | `scope` | `project` / `module` / `feature` applicability |
 | `tags` | 3–6 lowercase tags for recall matching |
 | `source` | `user-correction` / `bug-fix` / `retrospective` |
-| `confidence` | Application strength for recall and default lesson use |
+| `confidence` | Numeric confidence score used for recall ranking |
 | `related` | 0–2 high-relevance lesson references using `[[card-id]]` |
 | Title | One-line summary of the lesson |
 | Context | What was happening when the mistake occurred |
@@ -260,19 +221,10 @@ Then keep rows sorted by `Date` descending (newest first).
 
 Tell the user what was captured using a compact report, e.g.:
 
-> Lessons capture report: decision=create, created=1 (`api-timeout-retry-pattern`), confidence=none->0.5 (new reusable pattern)
+> Lessons capture report: created=1 (`api-timeout-retry-pattern`), updated=1 (`db-migration-run-order`), skipped=1 (obvious behavior)
 
 If capture occurred, include the create-vs-update decision in the report when it
 helps explain the outcome, for example `decision=create` or `decision=update`.
-
-If `confidence` changed, include:
-
-- the previous value
-- the new value
-- a brief reason
-
-If `confidence` becomes `0.0`, explicitly state that the card is excluded from
-normal recall.
 
 Keep this confirmation short. Prefer the decision, the affected card ID, and a
 one-line rule summary. Avoid dumping the full markdown card or index contents in
@@ -319,13 +271,10 @@ explicitly listed as warnings elsewhere.
 - `tags` count is 3–6.
 - `source` is valid enum.
 - `confidence` is numeric and in range `0.0-0.9`.
-- New and edited cards use canonical confidence values only: `0.0`, `0.3`, `0.5`, `0.7`, `0.9`.
 - `related` count is 0–2 and every target resolves to an existing card.
 - Index row exists and matches card metadata, including `scope`.
 - `_index.md` rows are ordered by `Date` descending (newest first).
-- Cards with `confidence: 0.0` are excluded from normal recall unless the user explicitly requests inactive lesson lookup.
 - Recall limits are respected: 1–3 primary + up to 2 related, max 5 total.
-- Capture reports include confidence transitions when confidence changed.
 
 ## Integration Guide
 
