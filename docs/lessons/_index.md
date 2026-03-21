@@ -4,4 +4,5 @@
 
 | Card | Scope | Tags | Date |
 |---|---|---|---|
+| `eval-coverage-and-discrimination-are-different` | project | `skill-writing`, `evals`, `benchmarking`, `agents-md` | 2026-03-21 |
 | `agent-rule-discoverability-needs-costly-mistake-exception` | project | `skill-writing`, `agents-md`, `heuristics`, `prompting` | 2026-03-21 |

@@ -33,11 +33,12 @@ If a detail fails any of those tests, delete it, narrow it, or move it into a sk
 ## Workflow
 
 1. Identify the target file and whether the task is create, rewrite, or review.
-2. Read the current file or the proposed content.
-3. Classify each item as `keep`, `rewrite`, `delete`, or `move-to-skill`.
-4. Keep only rules that are non-discoverable, global, and stable.
-5. Rewrite the file into a short, high-signal document.
-6. Briefly explain what was removed and why, so the file does not bloat again.
+2. Perform a fresh repo audit for current high-value, non-obvious, global constraints before trusting any existing `AGENTS.md` or `CLAUDE.md` content.
+3. If a file already exists, treat it as a candidate source to verify against the repo, not as the source of truth.
+4. Classify each item as `keep`, `rewrite`, `delete`, `move-to-skill`, or `stale`.
+5. Keep only rules that are non-discoverable, global, and stable.
+6. Rewrite the file into a short, high-signal document.
+7. Briefly explain what was removed or marked stale and why, so the file does not bloat again.
 
 ## Core Filter
 
@@ -80,6 +81,7 @@ Every standing instruction is a potential landmine. Prefer a smaller file over a
 
 - Do not generate repo overviews, directory tours, or handbook-style summaries in global agent files.
 - Do not repeat information the model can discover from code, docs, or config.
+- If `AGENTS.md` or `CLAUDE.md` already exists, do not start by rewriting it; re-audit the repo first.
 - Do not mention legacy technologies without clearly labeling them as legacy or avoid-using.
 - Do not keep broad instructions in the global file if they only matter for some tasks.
 - If the repo has little truly global guidance, prefer a very short file over a padded one.
