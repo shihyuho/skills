@@ -33,8 +33,8 @@ If a detail fails any of those tests, delete it, narrow it, or move it into a sk
 ## Workflow
 
 1. Identify the target file and whether the task is create, rewrite, or review.
-2. Analyze the codebase for high-value, non-obvious, repo-wide constraints.
-3. If `AGENTS.md` or `CLAUDE.md` already exists, read it only after that analysis as historical input, not as the source of truth. If it conflicts with your findings from the codebase, trust your codebase analysis.
+2. Analyze the repo for high-value, non-obvious, global constraints.
+3. If `AGENTS.md` or `CLAUDE.md` already exists, read it only after that analysis as historical input, not as the source of truth. If it conflicts with what the repo shows, trust the repo.
 4. Classify each item as `keep`, `rewrite`, `delete`, `move-to-skill`, or `stale`.
 5. Keep only rules that are non-discoverable, global, and stable.
 6. Rewrite the file into a short, high-signal document.

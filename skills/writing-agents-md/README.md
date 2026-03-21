@@ -14,8 +14,8 @@ If not, delete it, narrow it, or move it into a task-specific skill.
 
 ## Source priority
 
-- Analyze the codebase before reading any existing `AGENTS.md` or `CLAUDE.md`.
-- Treat existing files as historical input only; if they conflict with your findings from the codebase, trust your codebase analysis.
+- Analyze the repo before reading any existing `AGENTS.md` or `CLAUDE.md`.
+- Treat existing files as historical input only; if they conflict with what the repo shows, trust the repo.
 
 ## What it optimizes for
 
