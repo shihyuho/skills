@@ -9,6 +9,7 @@ Shihyu's curated collection of agent skills.
 - **[fanfuaji](skills/fanfuaji/)** - Chinese terminology conversion (Traditional ↔ Simplified) using [Fanhuaji](https://zhconvert.org/) API.
 - **[ultrabrain](skills/ultrabrain/)** - Organize a linked-note knowledge base with MOCs, note-first capture, provenance-aware source notes, and manual MOC grooming.
 - **[lessons-learned](skills/lessons-learned/)** - Recall relevant lessons before non-trivial work and capture reusable lessons after meaningful corrections or outcomes.
+- **[writing-agents-md](skills/writing-agents-md/)** - Create or prune `AGENTS.md` and `CLAUDE.md` so they keep only minimal, high-signal global constraints.
 
 ## Installation
 
