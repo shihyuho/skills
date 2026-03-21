@@ -12,6 +12,11 @@ The rule of thumb:
 
 If not, delete it, narrow it, or move it into a task-specific skill.
 
+## Source priority
+
+- Audit the repo before reading any existing `AGENTS.md` or `CLAUDE.md`.
+- Treat existing files as historical input only; if they conflict with the audit, trust the audit.
+
 ## What it optimizes for
 
 - keep non-obvious tool or environment hazards

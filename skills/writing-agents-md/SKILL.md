@@ -33,8 +33,8 @@ If a detail fails any of those tests, delete it, narrow it, or move it into a sk
 ## Workflow
 
 1. Identify the target file and whether the task is create, rewrite, or review.
-2. Perform a fresh repo audit for current high-value, non-obvious, global constraints before trusting any existing `AGENTS.md` or `CLAUDE.md` content.
-3. If a file already exists, treat it as a candidate source to verify against the repo, not as the source of truth.
+2. Audit the current repo for high-value, non-obvious, global constraints.
+3. If `AGENTS.md` or `CLAUDE.md` already exists, read it after the audit as historical input, not as the source of truth. If it conflicts with the repo audit, trust the audit.
 4. Classify each item as `keep`, `rewrite`, `delete`, `move-to-skill`, or `stale`.
 5. Keep only rules that are non-discoverable, global, and stable.
 6. Rewrite the file into a short, high-signal document.
@@ -81,7 +81,6 @@ Every standing instruction is a potential landmine. Prefer a smaller file over a
 
 - Do not generate repo overviews, directory tours, or handbook-style summaries in global agent files.
 - Do not repeat information the model can discover from code, docs, or config.
-- If `AGENTS.md` or `CLAUDE.md` already exists, do not start by rewriting it; re-audit the repo first.
 - Do not mention legacy technologies without clearly labeling them as legacy or avoid-using.
 - Do not keep broad instructions in the global file if they only matter for some tasks.
 - If the repo has little truly global guidance, prefer a very short file over a padded one.
@@ -89,11 +88,11 @@ Every standing instruction is a potential landmine. Prefer a smaller file over a
 
 ## Output Shape
 
-Aim for a short file with sections like:
+Aim for a short file that may include sections like:
 
 - environment or tooling constraints
 - important landmines
-- minimal routing notes to existing skills or workflows
+- minimal routing notes to existing skills
 
 Avoid turning the file into a setup guide, architecture document, or coding standards manual.
 
