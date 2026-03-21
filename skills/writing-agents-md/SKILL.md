@@ -26,8 +26,8 @@ If a detail fails any of those tests, delete it, narrow it, or move it into a sk
 ## When to Use
 
 - Creating a new `AGENTS.md` or `CLAUDE.md`
-- Reviewing or pruning an existing one
-- Rewriting `/init`-style generated files
+- Reviewing, pruning, or rewriting an existing `AGENTS.md` or `CLAUDE.md`
+- Removing repo summaries, stale rules, or handbook-style guidance from a global agent file
 - Deciding whether guidance belongs in a global rule file or a skill
 
 ## Workflow
@@ -78,7 +78,7 @@ Every standing instruction is a potential landmine. Prefer a smaller file over a
 
 ## Guardrails
 
-- Do not generate `/init`-style repo overviews.
+- Do not generate repo overviews, directory tours, or handbook-style summaries in global agent files.
 - Do not repeat information the model can discover from code, docs, or config.
 - Do not mention legacy technologies without clearly labeling them as legacy or avoid-using.
 - Do not keep broad instructions in the global file if they only matter for some tasks.
