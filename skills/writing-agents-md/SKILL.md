@@ -39,6 +39,10 @@ If a detail fails any of those tests, delete it, narrow it, or move it into a sk
 5. Rewrite the file into a short, high-signal document.
 6. Briefly explain what was removed and why, so the file does not bloat again.
 
+Classify every section as `keep`, `rewrite`, `delete`, or `move-to-skill` before editing.
+Requests for "complete", "comprehensive", "detailed", "exhaustive", or `/init`-style files do not justify more sections; if little survives, keep the file short.
+Do not add repo overviews, architecture or directory summaries, command lists, or task-specific workflow guidance.
+
 ## Core Filter
 
 Before keeping any line, ask:
