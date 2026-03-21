@@ -7,7 +7,7 @@ Create one GitHub tracking issue that captures the key follow-up findings from P
 The issue should help maintainers answer two questions:
 
 1. Which behaviors are the intended canonical contract for `ultrabrain` after PR #12?
-2. Which repo artifacts (`commands/`, `evals/`, helper scripts) have not yet caught up to that contract?
+2. Which repo artifacts (`commands/`, skill-local evals, helper scripts) have not yet caught up to that contract?
 
 ## Scope
 
@@ -56,7 +56,7 @@ The issue body should use these sections:
 
 ## Summary
 
-Briefly state that PR #12 improved the `ultrabrain` model but appears to have left follow-up inconsistencies across `commands/`, `evals/`, and validation helpers.
+Briefly state that PR #12 improved the `ultrabrain` model but appears to have left follow-up inconsistencies across `commands/`, skill-local evals, and validation helpers.
 
 ## Findings
 
@@ -64,13 +64,13 @@ List the five findings in priority order.
 
 ### High priority
 
-1. `evals/ultrabrain-evals.json` eval 4 still validates a `troubleshooting lens` concept that no longer matches the new taxonomy.
+1. `skills/ultrabrain/evals/ultrabrain-evals.json` eval 4 still validates a `troubleshooting lens` concept that no longer matches the new taxonomy.
 2. `commands/ultrabrain-recall.md` still frames recall as a one-shot pre-planning action instead of staged recall.
 3. `skills/ultrabrain/SKILL.md` does not formally define `decision=skip`, but eval 8 assumes it is valid.
 
 ### Medium priority
 
-4. `evals/scripts/check_ultrabrain_thin_card.py` does not catch several thin-card violations the spec now forbids.
+4. `skills/ultrabrain/evals/check_ultrabrain_thin_card.py` does not catch several thin-card violations the spec now forbids.
 5. `commands/ultrabrain-groom.md` may underspecify grooming now that detailed rules live in `skills/ultrabrain/references/map-grooming.md`.
 
 Each finding should include:
@@ -92,9 +92,9 @@ The issue should explicitly ask maintainers to align on these decisions:
 Recommend this order in the issue body:
 
 1. Clarify the canonical contract where it is still ambiguous.
-2. Update `evals/ultrabrain-evals.json` to match that contract.
+2. Update `skills/ultrabrain/evals/ultrabrain-evals.json` to match that contract.
 3. Update `commands/` files so invocation guidance matches the skill.
-4. Tighten machine checks such as `evals/scripts/check_ultrabrain_thin_card.py`.
+4. Tighten machine checks such as `skills/ultrabrain/evals/check_ultrabrain_thin_card.py`.
 
 This order reduces the chance of fixing downstream artifacts against the wrong rule set.
 

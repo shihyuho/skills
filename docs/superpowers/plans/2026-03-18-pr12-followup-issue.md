@@ -17,8 +17,8 @@
 - Read: `skills/ultrabrain/SKILL.md`
 - Read: `commands/ultrabrain-recall.md`
 - Read: `commands/ultrabrain-groom.md`
-- Read: `evals/ultrabrain-evals.json`
-- Read: `evals/scripts/check_ultrabrain_thin_card.py`
+- Read: `skills/ultrabrain/evals/ultrabrain-evals.json`
+- Read: `skills/ultrabrain/evals/check_ultrabrain_thin_card.py`
 
 - [ ] **Step 1: Re-read the approved spec**
 
@@ -32,7 +32,7 @@ Expected: Confirm staged recall, map taxonomy, thin-card rewrite-first rules, an
 
 - [ ] **Step 3: Re-check downstream artifacts cited in findings**
 
-Read: `commands/ultrabrain-recall.md`, `commands/ultrabrain-groom.md`, `evals/ultrabrain-evals.json`, and `evals/scripts/check_ultrabrain_thin_card.py`.
+Read: `commands/ultrabrain-recall.md`, `commands/ultrabrain-groom.md`, `skills/ultrabrain/evals/ultrabrain-evals.json`, and `skills/ultrabrain/evals/check_ultrabrain_thin_card.py`.
 Expected: Evidence still matches the planned issue body.
 
 - [ ] **Step 4: Note any wording changes needed before issue creation**
@@ -98,9 +98,9 @@ Create a dedicated `## Proposed Discussion Questions` section with these three q
 Create a dedicated `## Recommended Fix Order` section with this four-step sequence:
 
 1. clarify the canonical contract where it is still ambiguous
-2. update `evals/ultrabrain-evals.json` to match that contract
+2. update `skills/ultrabrain/evals/ultrabrain-evals.json` to match that contract
 3. update `commands/` files so invocation guidance matches the skill
-4. tighten machine checks such as `evals/scripts/check_ultrabrain_thin_card.py`
+4. tighten machine checks such as `skills/ultrabrain/evals/check_ultrabrain_thin_card.py`
 
 Do not collapse this section into general discussion prompts.
 

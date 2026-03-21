@@ -2,7 +2,7 @@
 
 ## Summary
 
-PR #12 introduced several improvements to the `ultrabrain` skill, including staged recall, an updated map taxonomy, and stronger thin-card rewrite rules. This tracking issue captures findings from post-PR review indicating that some downstream artifacts (`commands/`, `evals/`, and validation scripts) have not yet fully caught up to the updated canonical behavior. The goal is to align on the canonical contract, prioritize findings, and agree on a fix order before implementing changes.
+PR #12 introduced several improvements to the `ultrabrain` skill, including staged recall, an updated map taxonomy, and stronger thin-card rewrite rules. This tracking issue captures findings from post-PR review indicating that some downstream artifacts (`commands/`, skill-local evals, and validation scripts) have not yet fully caught up to the updated canonical behavior. The goal is to align on the canonical contract, prioritize findings, and agree on a fix order before implementing changes.
 
 ## Findings
 
@@ -10,10 +10,10 @@ PR #12 introduced several improvements to the `ultrabrain` skill, including stag
 
 **Finding 1: Eval 4 validates a deprecated taxonomy concept**
 
-- **Issue**: Eval 4 in `evals/ultrabrain-evals.json` (line 44) expects a "troubleshooting lens" as the first recall action. This concept existed before PR #12 but was removed from the canonical taxonomy. The expectation persists in the eval file but no longer reflects current behavior.
+- **Issue**: Eval 4 in `skills/ultrabrain/evals/ultrabrain-evals.json` (line 44) expects a "troubleshooting lens" as the first recall action. This concept existed before PR #12 but was removed from the canonical taxonomy. The expectation persists in the eval file but no longer reflects current behavior.
 - **Type**: Confirmed inconsistency — the eval explicitly references a concept that was removed from `skills/ultrabrain/SKILL.md`.
 - **Evidence**:
-  - `evals/ultrabrain-evals.json` lines 43–44: expects "Starts with a troubleshooting lens or domain debugging path"
+  - `skills/ultrabrain/evals/ultrabrain-evals.json` lines 43–44: expects "Starts with a troubleshooting lens or domain debugging path"
   - `skills/ultrabrain/SKILL.md`: current taxonomy centers on `home`, `domain maps`, `lessons-moc`, `general-moc`, and `review lenses`; no "troubleshooting lens" appears
 
 **Finding 2: Recall command does not fully reflect the staged recall workflow**
@@ -29,17 +29,17 @@ PR #12 introduced several improvements to the `ultrabrain` skill, including stag
 - **Issue**: Eval 8 expects the model to consider `decision=skip` as a valid capture outcome when a lesson is too generic or already covered. However, `skills/ultrabrain/SKILL.md` only defines `decision=rewrite-first`, `decision=create`, and `decision=update`. The `decision=skip` behavior is implied in the eval but not explicitly documented as part of the canonical contract.
 - **Type**: Open decision — the eval introduces an expectation that the skill does not formally codify. Whether `decision=skip` should be added to the contract is undecided.
 - **Evidence**:
-  - `evals/ultrabrain-evals.json` lines 87–88: expects "Considers `decision=skip` as a valid outcome"
+  - `skills/ultrabrain/evals/ultrabrain-evals.json` lines 87–88: expects "Considers `decision=skip` as a valid outcome"
   - `skills/ultrabrain/SKILL.md` lines 294–337: only defines `decision=rewrite-first`, `decision=create`, and `decision=update`
 
 ### Medium priority
 
 **Finding 4: Thin-card validation script does not catch all spec violations**
 
-- **Issue**: The validation script `evals/scripts/check_ultrabrain_thin_card.py` checks for thin-card detection and rewrite-first signals, but it does not catch cases where the response jumps to a final decision (like `decision=create`) without first signaling rewrite. The script does have a check for this (lines 53–58), but it does not validate that all required rewrite signals are present before any final decision appears.
+- **Issue**: The validation script `skills/ultrabrain/evals/check_ultrabrain_thin_card.py` checks for thin-card detection and rewrite-first signals, but it does not catch cases where the response jumps to a final decision (like `decision=create`) without first signaling rewrite. The script does have a check for this (lines 53–58), but it does not validate that all required rewrite signals are present before any final decision appears.
 - **Type**: Validation gap — the script exists but may miss subtle violations where rewrite-first is not explicitly stated but should have been.
 - **Evidence**:
-  - `evals/scripts/check_ultrabrain_thin_card.py` lines 27–30: checks for `decision=create` or `decision=update`
+  - `skills/ultrabrain/evals/check_ultrabrain_thin_card.py` lines 27–30: checks for `decision=create` or `decision=update`
   - `skills/ultrabrain/SKILL.md` lines 303–305: requires returning `decision=rewrite-first` before any create/update decision for thin cards
 
 **Finding 5: Groom command delegates detailed guidance to references/map-grooming.md**
@@ -61,6 +61,6 @@ PR #12 introduced several improvements to the `ultrabrain` skill, including stag
 ## Recommended Fix Order
 
 1. Clarify the canonical contract where it is still ambiguous.
-2. Update `evals/ultrabrain-evals.json` to match that contract.
+2. Update `skills/ultrabrain/evals/ultrabrain-evals.json` to match that contract.
 3. Update `commands/` files so invocation guidance matches the skill.
-4. Tighten machine checks such as `evals/scripts/check_ultrabrain_thin_card.py`.
+4. Tighten machine checks such as `skills/ultrabrain/evals/check_ultrabrain_thin_card.py`.

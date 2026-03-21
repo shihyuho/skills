@@ -52,7 +52,7 @@
       "files": [],
       "expectations": [
         "Identifies the card is too thin to meet self-contained standard",
-        "For thin-card prompts, clearly signals rewrite-first handling instead of jumping straight to final create/update output (machine check: `python3 evals/scripts/check_ultrabrain_thin_card.py <response-file>`)",
+        "For thin-card prompts, clearly signals rewrite-first handling instead of jumping straight to final create/update output (machine check: `python3 skills/ultrabrain/evals/check_ultrabrain_thin_card.py <response-file>`)",
         "Handles source-note need only after fixing card comprehensibility",
         "Keeps MOC grooming separate from the card capture result"
       ]
