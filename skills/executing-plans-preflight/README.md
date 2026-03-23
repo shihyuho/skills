@@ -1,86 +1,48 @@
 # Executing Plans Preflight
 
-Run a preflight gate before implementation with policy-driven execution.
+Run git preflight checks before implementation starts.
 
 ## Why this skill exists
 
-When implementation starts right after planning, it is easy to skip critical checks. This skill makes pre-execution validation explicit, repeatable, and policy-driven.
+When implementation starts right after planning, it is easy to skip branch, worktree, or remote-state checks. This skill turns those checks into a hard gate instead of a best-effort reminder.
 
-## What it does
+## What it checks
 
-Before implementation, AI evaluates gate policy in `references/preflight-gates.md` and executes gate details from `references/gates/*.md`.
+- **Branch Context** - block detached `HEAD` and default-branch execution.
+- **Worktree Clean** - block local changes until they are resolved.
+- **Remote Sync** - block stale, diverged, or deleted-upstream states.
 
-If the current directory is not a git repository, git-dependent gates are skipped by policy (`SKIP: not a git repository`) and do not block plan execution.
+If the current directory is not a git repository, the checks return `SKIP` rather than blocking by default.
 
-Current policy includes:
+Common triggers include `start implementation`, `implement this plan`, `execute plan`, `開始實作`, and `執行計劃`.
 
-```bash
-# G.1 branch context
-git branch --show-current
+## Execution order
 
-# G.2 worktree cleanliness
-git status --short
+- Run `executing-plans-preflight` first.
+- Continue to plan execution only when no check is `BLOCK`.
+- If any check is `BLOCK`, stop, show remediation, and wait for user confirmation.
 
-# G.3 remote sync (when upstream exists)
-git rev-parse --abbrev-ref --symbolic-full-name @{u}
-git status --short --branch
-```
+This skill is a precondition for `superpowers:executing-plans`, not a follow-up reminder.
 
-## Integration with Plan Execution
+Branch policy keeps a safety fallback: if remote default-branch detection is unavailable but the current branch is `main` or `master`, preflight still blocks.
 
-Use this ordering when a user asks to execute a plan:
-
-1. Run `executing-plans-preflight` first.
-2. If preflight passes, continue with `superpowers:executing-plans`.
-3. If preflight blocks, pause execution and resolve blockers first.
-
-This turns preflight into a hard precondition, not a best-effort reminder.
-
-## Example behavior
-
-### Case 1: On main
+## Example
 
 ```text
-Current branch: main
-Working tree: clean
+- [C1] Branch Context: BLOCK
+  Evidence: default branch is main; current branch is main
+  Remediation: git switch -c feat/my-change
 
-準備開始實作前，建議先建立功能分支，避免影響 main/master。要不要現在建立？（推薦）
+- [C2] Worktree Clean: PASS
+  Evidence: git status --porcelain returned no paths
+
+- [C3] Remote Sync: SKIP
+  Evidence: no upstream tracking branch
 ```
 
-### Case 2: On feature branch
+## Related file
 
-```text
-Current branch: feat/security-hardening
-Working tree: clean
-
-Branch context looks good. Proceeding with implementation.
-```
-
-### Case 3: Detached HEAD
-
-```text
-Current branch: (detached)
-
-Implementation is blocked until we switch to a named branch.
-```
-
-## Trigger phrases
-
-- "start implementation"
-- "implement this plan"
-- "start coding"
-- "開始實作"
-- "執行計劃"
-- "execute plan"
-- "run the implementation plan"
-
-## Related Files
-
-- [SKILL.md](./SKILL.md)
-- [references/preflight-gates.md](./references/preflight-gates.md)
-- [references/gates/g1-branch-context.md](./references/gates/g1-branch-context.md)
-- [references/gates/g2-worktree-clean.md](./references/gates/g2-worktree-clean.md)
-- [references/gates/g3-remote-sync.md](./references/gates/g3-remote-sync.md)
+- `skills/executing-plans-preflight/SKILL.md`
 
 ## License
 

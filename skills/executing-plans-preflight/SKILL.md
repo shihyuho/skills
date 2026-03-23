@@ -1,102 +1,158 @@
 ---
 name: executing-plans-preflight
-description: Use when starting implementation work or executing a plan to run preflight checks before superpowers:executing-plans. Trigger on plan execution kickoff, coding start, or implementation continuation.
-license: MIT
-metadata:
-  author: shihyuho
-  version: "1.0.0"
+description: Use when starting implementation or executing a plan so git preflight checks run before file edits or task execution.
 ---
-
 # Executing Plans Preflight
 
-Run a preflight gate before implementation so `superpowers:executing-plans` starts only after policy checks pass.
+Run preflight before plan execution or file edits. If any check returns `BLOCK`, stop, show remediation, and wait for the user to resolve it.
 
-## Overview
+## When to Use
 
-- Enforce a deterministic preflight gate before editing files or executing plan tasks.
-- Execute gate policy in `references/preflight-gates.md` and stop on blocking failures.
-- Read gate details from `references/gates/*.md` as directed by policy.
+Trigger when the user asks to start implementation, execute a plan, continue coding after planning, or similar.
 
-## Trigger Contract
+Common phrases:
 
-Trigger this skill when the user asks to:
+- `start implementation`
+- `implement this plan`
+- `start coding`
+- `execute plan`
+- `run the implementation plan`
+- `開始實作`
+- `執行計劃`
 
-- implement a plan
-- start coding
-- refactor/fix/add features
-- continue implementation after planning
+## Flow
 
-Common trigger phrases:
+```bash
+git rev-parse --is-inside-work-tree
+```
 
-- "start implementation"
-- "implement this plan"
-- "start coding"
-- "開始實作"
-- "執行計劃"
+```
+git repo? ── no ──► report all checks as SKIP
+    │
+   yes
+    ▼
+C1 Branch Context → C2 Worktree Clean → C3 Remote Sync
+```
 
-## Preflight Flow
+Run checks in order. Report evidence and one decision per check: `PASS`, `SKIP`, or `BLOCK`.
 
-Core model:
+## Check 1: Branch Context
 
-1. Read `references/preflight-gates.md`.
-2. Evaluate gates in listed order.
-3. For each gate, apply policy rules defined in `references/preflight-gates.md`.
-4. Collect evidence and decision (`PASS`/`BLOCK`/`SKIP`).
-5. If preflight decision is `BLOCK`, halt plan execution and propose concrete next actions.
-6. Ask the user to confirm which suggested action to take.
-7. Invoke `superpowers:executing-plans` only after preflight passes.
+```bash
+git remote get-url origin >/dev/null 2>&1 && DEFREMOTE=origin || DEFREMOTE=$(git remote | head -1)
+git symbolic-ref "refs/remotes/${DEFREMOTE:-origin}/HEAD" 2>/dev/null | sed "s|^refs/remotes/${DEFREMOTE:-origin}/||"
+git branch --show-current
+```
 
-## Integration with superpowers:executing-plans
+```
+Detached HEAD? ── yes ──► BLOCK
+    │
+   no
+    ▼
+No default branch detected? ── yes ──► Current branch is main/master?
+    │
+   no                                      │yes
+    ▼                                      ▼
+On default branch? ── yes ──► BLOCK      BLOCK
+    │                                      │
+   no                                      no
+    ▼
+PASS
+```
 
-**REQUIRED SUB-SKILL ORDER**:
+Detect the default branch from `origin`, or from the first available remote. If no remote exists or remote `HEAD` is unavailable, return `SKIP`.
 
-1. Invoke `executing-plans-preflight` first.
-2. Complete preflight decision.
-3. Invoke `superpowers:executing-plans` only after preflight passes.
+Fallback rule: if the default branch cannot be detected but the current branch is `main` or `master`, still return `BLOCK`.
 
-**BLOCKING GATE**:
+- `BLOCK` on detached `HEAD`; remediation: switch to a named branch.
+- `BLOCK` on the default branch; remediation: create or switch to a feature branch such as `feat/...` or `fix/...`.
 
-- Do NOT start Task 1 of `superpowers:executing-plans` when preflight decision is `BLOCK`.
-- Report every blocking reason before asking user to resolve it.
-- Provide suggested remediation actions (with commands when applicable), then require user confirmation for the chosen next step.
+## Check 2: Worktree Clean
 
-When user says "execute plan" or equivalent, run this skill as pre-step and report:
+```bash
+git status --porcelain
+```
 
-- executed gates
-- skipped gates and why
-- blocking reasons (if any)
-- whether plan execution is allowed or blocked
+```
+Any dirty paths? ── no ──► PASS
+    │
+   yes
+    ▼
+BLOCK until dirty paths are resolved
+```
 
-If blocked, also report:
+If any path is dirty, return `BLOCK`, report the dirty paths, and ask the user to resolve them before re-running preflight.
 
-- suggested remediation actions
-- recommended default action
-- explicit user confirmation prompt for next step
+Suggested remediations can include `git stash`, `git commit`, removing generated output, or otherwise clearing the dirty paths. Do not force `stash` vs `commit` as the only valid choices.
+
+## Check 3: Remote Sync
+
+```bash
+git fetch 2>/dev/null
+git rev-parse --abbrev-ref --symbolic-full-name @{u}
+git status --short --branch
+```
+
+```
+Tracking remote? ── no ──► SKIP
+    │
+   yes
+    ▼
+Upstream is [gone]? ── yes ──► BLOCK
+    │
+   no
+    ▼
+Behind or diverged? ── yes ──► BLOCK
+    │
+   no
+    ▼
+Ahead or up-to-date? ── yes ──► PASS
+    │
+   no
+    ▼
+BLOCK
+```
+
+Try `git fetch` first so remote refs are current.
+
+If `git fetch` fails, report that failure as evidence and continue with the currently available local upstream status. Do not claim remote refs are fresh when fetch failed.
+
+- `SKIP` if the branch has no upstream.
+- `BLOCK` if upstream is `[gone]`; remediation: recreate the upstream branch or clear/reset the upstream reference.
+- `BLOCK` if the branch is behind or diverged; remediation: sync first, typically with `git pull --rebase`.
+- `BLOCK` on any other unexpected status until the output is understood.
+
+## Decision Summary
+
+| Outcome | Meaning | Required action |
+| --- | --- | --- |
+| `SKIP` | Check does not apply in current repo state | Continue to the next check |
+| `PASS` | Check passed | Continue to the next check |
+| `BLOCK` | Check failed and stops implementation | Show remediation, then wait for user confirmation before proceeding |
+
+## Report Contract
+
+Use this report shape:
+
+```
+- [C1] Branch Context: PASS/BLOCK/SKIP
+- [C2] Worktree Clean: PASS/BLOCK/SKIP
+- [C3] Remote Sync:   PASS/BLOCK/SKIP
+```
+
+For each check, include the evidence used to make the decision.
+
+If any check is `BLOCK`:
+
+- list the blocking reason
+- propose exact remediation commands when possible
+- require explicit user confirmation before plan execution continues
 
 ## Guardrails
 
-- **MUST** run preflight before any plan execution or code edits.
-- **MUST** follow gate order and decision semantics in `references/preflight-gates.md`.
-- **MUST** read each gate's detail file before evaluating it.
-- **MUST** detect git context first and mark git-dependent gates as `SKIP` when not inside a git repository.
-- **MUST** report evidence and decision for every evaluated gate.
-- **MUST** explicitly gate `superpowers:executing-plans` on preflight result.
-- **MUST** propose concrete remediation actions whenever preflight decision is `BLOCK`.
-- **MUST** get user confirmation for the next action before resolving blockers.
-- **MUST NOT** ignore any listed gate unless its `skip_if` condition is met.
-- **MUST NOT** start Task 1 when policy returns blocking result.
-
-## Verification
-
-- Gate policy loaded from `references/preflight-gates.md`.
-- Gate commands/checks executed and output interpreted.
-- Preflight decision communicated clearly.
-- Implementation starts only after preflight passes.
-- `superpowers:executing-plans` is invoked only after preflight gate passes.
-
-## References
-
-- `references/preflight-gates.md` - Gate policy and decision semantics
-- `references/gates/g1-branch-context.md` - G.1 gate implementation details
-- `references/gates/g2-worktree-clean.md` - G.2 gate implementation details
-- `references/gates/g3-remote-sync.md` - G.3 gate implementation details
+- MUST run preflight before any plan execution or file edits.
+- MUST evaluate git context first.
+- MUST report evidence and a decision for every check.
+- MUST stop plan execution on any `BLOCK`.
+- MUST propose exact remediation commands when possible.
+- MUST wait for explicit user confirmation before continuing after a `BLOCK`.
