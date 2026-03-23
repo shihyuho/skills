@@ -4,11 +4,11 @@ description: Use when starting implementation or executing a plan so git preflig
 ---
 # Executing Plans Preflight
 
-Run preflight before plan execution or file edits. If any check returns `BLOCK`, stop, show remediation, and wait for the user to resolve it.
+Run preflight before plan execution or file edits. Any `BLOCK` stops execution until the user resolves it.
 
 ## When to Use
 
-Trigger when the user asks to start implementation, execute a plan, continue coding after planning, or similar.
+Trigger when the user asks to start implementation, execute a plan, or continue coding after planning.
 
 Common phrases:
 
@@ -60,9 +60,7 @@ On default branch? ── yes ──► BLOCK      BLOCK
 PASS
 ```
 
-Detect the default branch from `origin`, or from the first available remote. If no remote exists or remote `HEAD` is unavailable, return `SKIP`.
-
-Fallback rule: if the default branch cannot be detected but the current branch is `main` or `master`, still return `BLOCK`.
+Detect the default branch from `origin`, or from the first available remote. If default-branch detection fails and the current branch is `main` or `master`, return `BLOCK`. Otherwise, return `SKIP`.
 
 - `BLOCK` on detached `HEAD`; remediation: switch to a named branch.
 - `BLOCK` on the default branch; remediation: create or switch to a feature branch such as `feat/...` or `fix/...`.
@@ -83,7 +81,7 @@ BLOCK until dirty paths are resolved
 
 If any path is dirty, return `BLOCK`, report the dirty paths, and ask the user to resolve them before re-running preflight.
 
-Suggested remediations can include `git stash`, `git commit`, removing generated output, or otherwise clearing the dirty paths. Do not force `stash` vs `commit` as the only valid choices.
+Suggested remediations can include `git stash`, `git commit`, removing generated output, or otherwise clearing the dirty paths. Do not treat `stash` and `commit` as the only valid choices.
 
 ## Check 3: Remote Sync
 
@@ -113,22 +111,12 @@ Ahead or up-to-date? ── yes ──► PASS
 BLOCK
 ```
 
-Try `git fetch` first so remote refs are current.
-
-If `git fetch` fails, report that failure as evidence and continue with the currently available local upstream status. Do not claim remote refs are fresh when fetch failed.
+Try `git fetch` first. If it fails, report that failure as evidence and continue with the local upstream status. Do not claim remote refs are fresh when fetch failed.
 
 - `SKIP` if the branch has no upstream.
 - `BLOCK` if upstream is `[gone]`; remediation: recreate the upstream branch or clear/reset the upstream reference.
 - `BLOCK` if the branch is behind or diverged; remediation: sync first, typically with `git pull --rebase`.
 - `BLOCK` on any other unexpected status until the output is understood.
-
-## Decision Summary
-
-| Outcome | Meaning | Required action |
-| --- | --- | --- |
-| `SKIP` | Check does not apply in current repo state | Continue to the next check |
-| `PASS` | Check passed | Continue to the next check |
-| `BLOCK` | Check failed and stops implementation | Show remediation, then wait for user confirmation before proceeding |
 
 ## Report Contract
 
@@ -140,9 +128,7 @@ Use this report shape:
 - [C3] Remote Sync:   PASS/BLOCK/SKIP
 ```
 
-For each check, include the evidence used to make the decision.
-
-If any check is `BLOCK`:
+For each check, include the evidence used to make the decision. If any check is `BLOCK`:
 
 - list the blocking reason
 - propose exact remediation commands when possible

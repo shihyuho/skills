@@ -4,7 +4,7 @@ Run git preflight checks before implementation starts.
 
 ## Why this skill exists
 
-When implementation starts right after planning, it is easy to skip branch, worktree, or remote-state checks. This skill turns those checks into a hard gate instead of a best-effort reminder.
+When implementation starts right after planning, it is easy to skip branch, worktree, or remote-state checks. This skill makes them a hard gate.
 
 ## What it checks
 
@@ -12,19 +12,17 @@ When implementation starts right after planning, it is easy to skip branch, work
 - **Worktree Clean** - block local changes until they are resolved.
 - **Remote Sync** - block stale, diverged, or deleted-upstream states.
 
-If the current directory is not a git repository, the checks return `SKIP` rather than blocking by default.
+Outside a git repository, the checks return `SKIP`.
 
-Common triggers include `start implementation`, `implement this plan`, `execute plan`, `開始實作`, and `執行計劃`.
+Common triggers: `start implementation`, `implement this plan`, `execute plan`, `開始實作`, `執行計劃`.
 
 ## Execution order
 
-- Run `executing-plans-preflight` first.
+- Run the preflight checks first.
 - Continue to plan execution only when no check is `BLOCK`.
 - If any check is `BLOCK`, stop, show remediation, and wait for user confirmation.
 
-This skill is a precondition for `superpowers:executing-plans`, not a follow-up reminder.
-
-Branch policy keeps a safety fallback: if remote default-branch detection is unavailable but the current branch is `main` or `master`, preflight still blocks.
+Run this before plan execution starts. If default-branch detection fails, local `main` or `master` still blocks; otherwise that check skips.
 
 ## Example
 
