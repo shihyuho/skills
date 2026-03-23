@@ -4,7 +4,6 @@ Shihyu's curated collection of agent skills.
 
 ## Available Skills
 
-- **[agent-install-guide](skills/agent-install-guide/)** - Write installation guides that AI agents can reliably execute.
 - **[executing-plans-preflight](skills/executing-plans-preflight/)** - Run extensible preflight checks before superpowers:executing-plans, with branch safety as the default gate.
 - **[fanfuaji](skills/fanfuaji/)** - Chinese terminology conversion (Traditional ↔ Simplified) using [Fanhuaji](https://zhconvert.org/) API.
 - **[ultrabrain](skills/ultrabrain/)** [WIP] - Organize a linked-note knowledge base with MOCs, note-first capture, provenance-aware source notes, and manual MOC grooming.
