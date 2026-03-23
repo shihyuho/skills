@@ -38,10 +38,6 @@ Run this before plan execution starts. If default-branch detection fails, local 
   Evidence: no upstream tracking branch
 ```
 
-## Related file
-
-- `skills/executing-plans-preflight/SKILL.md`
-
 ## License
 
 MIT
