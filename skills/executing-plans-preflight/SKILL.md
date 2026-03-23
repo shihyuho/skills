@@ -1,7 +1,12 @@
 ---
 name: executing-plans-preflight
 description: Use when starting implementation or executing a plan so git preflight checks run before file edits or task execution.
+license: MIT
+metadata:
+  author: shihyuho
+  version: "2.0.0"
 ---
+
 # Executing Plans Preflight
 
 Run preflight before plan execution or file edits. Any `BLOCK` stops execution until the user resolves it.
