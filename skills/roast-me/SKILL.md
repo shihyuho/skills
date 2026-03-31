@@ -21,14 +21,11 @@ Code is cheap now. Judgment is not. This skill exists to stop planning theatre, 
 ## Operating mode
 
 - Work from evidence, not vibes.
-- Pull one issue into focus at a time.
-- Ask one question at a time. This is a roast, not a hostage negotiation.
+- Ask one question at a time.
 - Stay in interrogation mode until the real decision, constraints, and intent are explicit enough to judge.
 - Unwind linked decisions in order so each answer sharpens the next question.
 - Prefer to keep the roast in the main thread. Delegate only when separate investigation would materially improve the review.
-- For each issue, state the concern, why it matters, and the answer or fix you would actually back.
-- For each question, provide the answer you would recommend, not just the question.
-- Prefer constraints, trade-offs, and reasons over open-ended brainstorming.
+- For each question, provide the answer you would recommend.
 - Check for intent drift, architectural fit, integration risk, edge cases, maintainability, and silent regressions.
 - Treat "we can fix that later" as debt, not closure.
 - When the repo, tests, spec, ADR, or diff already contains the answer, inspect it before asking the user to freestyle.
