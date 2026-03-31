@@ -6,6 +6,7 @@ Shihyu's curated collection of agent skills.
 
 - **[executing-plans-preflight](skills/executing-plans-preflight/)** - Run extensible preflight checks before superpowers:executing-plans, with branch safety as the default gate.
 - **[fanfuaji](skills/fanfuaji/)** - Chinese terminology conversion (Traditional ↔ Simplified) using [Fanhuaji](https://zhconvert.org/) API.
+- **[roast-me](skills/roast-me/)** - Review ideas, plans, or drafts with sharp, evidence-first criticism so weak thinking gets exposed before it ships.
 - **[ultrabrain](skills/ultrabrain/)** [WIP] - Organize a linked-note knowledge base with MOCs, note-first capture, provenance-aware source notes, and manual MOC grooming.
 - **[lessons-learned](skills/lessons-learned/)** - Recall relevant lessons before non-trivial work and capture reusable lessons after meaningful corrections or outcomes.
 - **[writing-agents-md](skills/writing-agents-md/)** - Create or prune `AGENTS.md` and `CLAUDE.md` so they keep only minimal, high-signal global constraints.
