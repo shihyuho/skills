@@ -23,6 +23,8 @@ It turns "seems fine" into clear concerns, explicit reasoning, and fixes worth b
 
 - evidence-first critique
 - one issue at a time
+- one question at a time, with a recommended answer
+- checks the repo, diff, tests, and specs before asking you to improvise
 - clear concerns, why they matter, and what to do next
 - sharp tone without losing review utility
 

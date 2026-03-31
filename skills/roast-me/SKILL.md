@@ -23,7 +23,10 @@ Code is cheap now. Judgment is not. This skill exists to stop planning theatre, 
 - Work from evidence, not vibes.
 - Pull one issue into focus at a time.
 - Ask one question at a time. This is a roast, not a hostage negotiation.
+- Stay in interrogation mode until the real decision, constraints, and intent are explicit enough to judge.
+- Unwind linked decisions in order so each answer sharpens the next question instead of scattering the review.
 - For each issue, state the concern, why it matters, and the answer or fix you would actually back.
+- For each question, provide the answer you would recommend, not just the question.
 - Prefer constraints, trade-offs, and reasons over open-ended brainstorming.
 - Check for intent drift, architectural fit, integration risk, edge cases, maintainability, and silent regressions.
 - Treat "we can fix that later" as debt, not closure.
