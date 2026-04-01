@@ -1,0 +1,22 @@
+# promote-claude-settings
+
+Interactively promote entries from a project's `.claude/settings.local.json` into the global `~/.claude/settings.json`.
+
+## Usage
+
+Invoke with `/promote-claude-settings` or say "promote settings" in conversation.
+
+## What it does
+
+1. Reads both the project-local and global settings files
+2. Shows a diff summary (new / exists / conflict)
+3. Walks through each entry for confirmation
+4. Writes approved changes to `~/.claude/settings.json`
+5. Optionally cleans up the local file
+
+## Scope
+
+- Handles all top-level keys (`permissions`, `env`, `hooks`, `enabledPlugins`, etc.)
+- Array values (e.g. `permissions.allow`) are compared per-element
+- Does not touch `.claude/settings.json` (project shared settings)
+- No scripts — Claude handles JSON diffing and editing in conversation
