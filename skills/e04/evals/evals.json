@@ -1,0 +1,23 @@
+{
+  "skill_name": "e04",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "e04 是什麼意思？",
+      "expected_output": "解碼為 ㄍㄢˋ → 幹",
+      "files": []
+    },
+    {
+      "id": 1,
+      "prompt": "su3cl3 怎麼唸？",
+      "expected_output": "解碼為 ㄋㄧˇ ㄏㄠˇ → 你好（多音節拆解）",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "我今天 cp3 開心，因為 5. 末了",
+      "expected_output": "cp3 解碼為 ㄏㄣˇ → 很，5. 解碼為 ㄓㄡ → 週，還原整句：我今天很開心，因為週末了",
+      "files": []
+    }
+  ]
+}
