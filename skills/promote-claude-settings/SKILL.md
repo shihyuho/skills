@@ -1,6 +1,6 @@
 ---
 name: promote-claude-settings
-description: Promote entries from the current project's .claude/settings.local.json into the global ~/.claude/settings.json. Use when user says "promote settings", "升級 settings", "sync settings to global", "把 local settings 搬到全域", or wants to move project-local Claude Code settings to global scope.
+description: Promote entries from the current project's .claude/settings.local.json into the global ~/.claude/settings.json. Use when user says "promote settings", "upgrade settings", "sync settings to global", "move local settings to global", or wants to move project-local Claude Code settings to global scope.
 license: MIT
 metadata:
   author: shihyuho
@@ -67,7 +67,7 @@ Local settings are often written with project-specific context. Before promoting
 
 1. **Detect** whether the value contains project-specific narrowing
 2. **Suggest** a broader alternative with a brief rationale (or recommend skipping promotion if it doesn't make sense globally)
-3. **Ask** the user: "原始: `X` → 建議調整為: `Y` — 要使用建議的版本、保留原始、還是自訂？"
+3. **Ask** the user: "Original: `X` → Suggested: `Y` — Use suggested version / Keep original / Custom?"
 4. Use whichever version the user picks
 
 If the value is already generic, skip this step for that entry.
