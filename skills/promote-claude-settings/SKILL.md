@@ -78,7 +78,7 @@ Apply confirmed changes to `~/.claude/settings.json` with the Edit tool. If the 
 
 ### 5. Cleanup confirm
 
-If removing promoted entries would leave `settings.local.json` as `{}`, ask a single question: whether to delete the file entirely (which implies removing those entries). If the user declines, keep the file as-is (do not remove entries).
+If removing promoted entries would leave `settings.local.json` as `{}`, explain that the file is now effectively empty (`{}`) and ask whether to delete it entirely or keep the empty file. If the user chooses to keep it, leave the file as-is (do not remove entries).
 
 If removing promoted entries would still leave other entries in the file, ask whether to remove the promoted entries.
 
