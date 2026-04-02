@@ -42,13 +42,45 @@ Walk through every non-"Exists" entry and ask:
 
 Use the question tool for each prompt.
 
+#### 3a. Scope generalization (local → global)
+
+Local settings are often written with project-specific context. Before promoting **any** entry to global, evaluate whether it contains narrowing signals that won't make sense outside this project. If so, suggest a broader version.
+
+**Common narrowing signals:**
+
+- Relative paths (`./mvnw`, `./gradlew`, `./scripts/foo`)
+- Absolute paths (`/Users/matt/project-x/...`)
+- Project-specific directory or file names
+- Overly specific subcommand locks that only apply to one project's workflow
+
+**Examples:**
+
+| Local value | Why it's too narrow | Suggested generalization |
+|---|---|---|
+| `Bash(./mvnw test:*)` | Relative path + subcommand lock | `Bash(*mvnw*)` |
+| `Bash(./gradlew build:*)` | Relative path | `Bash(*gradlew*)` |
+| `Bash(npx vitest:*)` | Already generic | Keep as-is |
+| Hook command: `cd ./api && lint` | Relative path | Evaluate if hook makes sense globally |
+| Env: `PROJECT_ROOT=/Users/matt/foo` | Absolute path | Likely should not be promoted |
+
+**For each entry being promoted:**
+
+1. **Detect** whether the value contains project-specific narrowing
+2. **Suggest** a broader alternative with a brief rationale (or recommend skipping promotion if it doesn't make sense globally)
+3. **Ask** the user: "原始: `X` → 建議調整為: `Y` — 要使用建議的版本、保留原始、還是自訂？"
+4. Use whichever version the user picks
+
+If the value is already generic, skip this step for that entry.
+
 ### 4. Write to global
 
 Apply confirmed changes to `~/.claude/settings.json` with the Edit tool. If the file does not exist, create it.
 
 ### 5. Cleanup confirm
 
-Ask whether to remove promoted entries from `settings.local.json`. If the user agrees and the file becomes `{}`, ask whether to delete it entirely.
+If removing promoted entries would leave `settings.local.json` as `{}`, ask a single question: whether to delete the file entirely (which implies removing those entries). If the user declines, keep the file as-is (do not remove entries).
+
+If removing promoted entries would still leave other entries in the file, ask whether to remove the promoted entries.
 
 ## Edge cases
 
