@@ -39,7 +39,7 @@ Requires the [grill-me](https://github.com/mattpocock/skills) skill. See [refere
 ## How to start
 
 ```bash
-npx skills add shihyuho/skills/grill-spec
+npx skills add shihyuho/skills --skill grill-spec
 ```
 
 ## License
