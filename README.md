@@ -11,6 +11,7 @@ Shihyu's curated collection of agent skills.
 - **[e04](skills/e04/)** - Decode 注音文 (Zhuyin/Bopomofo text typed with English keyboard keys) into Chinese characters.
 - **[writing-agents-md](skills/writing-agents-md/)** - Create or prune `AGENTS.md` and `CLAUDE.md` so they keep only minimal, high-signal global constraints.
 - **[promote-claude-settings](skills/promote-claude-settings/)** - Interactively promote entries from a project's `.claude/settings.local.json` into the global `~/.claude/settings.json`.
+- **[grill-spec](skills/grill-spec/)** - Stress-test specs and design docs with grill-me before user review.
 
 ## Installation
 
