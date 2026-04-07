@@ -2,7 +2,7 @@
 name: cover-branches
 description: >
   Find branch coverage gaps in changed code and fix them by writing missing tests.
-  Two analysis layers: Src ↔ Test (logic branches vs test cases) and Spec ↔ Test
+  Two analysis layers: Source ↔ Test (logic branches vs test cases) and Spec ↔ Test
   (requirement scenarios vs test cases, when a spec file is provided).
   Use when verifying test completeness after implementing a feature or fixing a bug,
   when auditing whether tests match a spec, or when suspecting untested branches.
@@ -22,7 +22,7 @@ If no git changes exist, fall back to files the user mentioned or edited earlier
 
 Use the Agent tool to launch agents concurrently. Pass each agent the full diff for complete context.
 
-### Agent 1: Src ↔ Test Branch Coverage (always launched)
+### Agent 1: Source ↔ Test Branch Coverage (always launched)
 
 For each changed source file:
 
