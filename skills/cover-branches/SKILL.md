@@ -47,4 +47,4 @@ For each changed source file:
 4. When a spec contains contradictions, or when the correct test behavior cannot be inferred from the source code, ask the user before writing the test.
 5. Run the tests to verify they pass. Infer the test command from project configuration (`package.json`, `Makefile`, `pom.xml`, etc.); if unable to infer, ask the user.
 6. Summarize what was added, or confirm coverage is already complete.
-7. If no spec file was provided, remind the user they can re-run with a spec file path for scenario coverage analysis.
+7. If no spec file was provided, remind the user they can re-run with a spec file path for scenario coverage analysis. Otherwise, confirm both coverage layers have been addressed.
