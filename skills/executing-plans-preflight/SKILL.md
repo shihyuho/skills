@@ -1,19 +1,21 @@
 ---
 name: executing-plans-preflight
-description: Use when starting implementation or executing a plan so git preflight checks run before file edits or task execution.
+description: Use before superpowers:executing-plans or any implementation start — auto-detects and fixes git state issues (branch, dirty files, remote sync) with one confirmation per fix.
 license: MIT
 metadata:
   author: shihyuho
-  version: "2.0.0"
+  version: "3.0.0"
 ---
 
 # Executing Plans Preflight
 
-Run preflight before plan execution or file edits. Any `BLOCK` stops execution until the user resolves it.
+Semi-automatic git state gate. Detects issues, proposes fixes, executes on
+confirmation. Runs before plan execution or any implementation start.
 
 ## When to Use
 
-Trigger when the user asks to start implementation, execute a plan, or continue coding after planning.
+Trigger before `superpowers:executing-plans` or when the user starts coding.
+This skill runs first; `executing-plans` follows after preflight passes.
 
 Common phrases:
 
