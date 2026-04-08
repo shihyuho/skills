@@ -8,8 +8,8 @@ Review my git changes file by file. For each file, interrogate every aspect of t
 Determine changed files automatically:
 1. If there are staged changes, use those.
 2. Otherwise, if there are unstaged changes, use those.
-3. Otherwise, diff the current branch against the main branch.
-4. If the user specifies a target (e.g. "against develop"), use that instead.
+3. Otherwise, diff the current branch against the default branch.
+4. If the user specifies a target (e.g. "against develop", a PR URL), use that instead.
 
 Read through all changed files first to understand the full picture, then go through the files one at a time. Ask one question at a time.
 
