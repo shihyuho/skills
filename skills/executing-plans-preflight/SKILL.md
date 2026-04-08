@@ -75,6 +75,26 @@ When the user is on the default branch and needs to switch:
 
 Do not scan `docs/superpowers/plans/` to guess — stale plan files will mislead.
 
+## Check 2: Worktree Clean
+
+```bash
+git status --porcelain
+```
+
+All output counts as dirty: staged, unstaged modified, and untracked files.
+
+| Situation | Action |
+|-----------|--------|
+| Clean | Silent pass |
+| Dirty | List dirty paths, then ask: "There are uncommitted changes. Please resolve them and let me know when ready, or say 'continue' to proceed anyway." |
+
+If the user says "continue":
+- Record internally that dirty files were overridden (Check 3 needs this).
+- Proceed to Check 3.
+
+The skill does not assist with commit or stash — resolving dirty state is the
+user's responsibility.
+
 ## Flow
 
 ```bash
