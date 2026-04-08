@@ -11,6 +11,8 @@ Determine changed files automatically:
 3. Otherwise, diff the current branch against the default branch.
 4. If the user specifies a target (e.g. "against develop", a PR URL), use that instead.
 
-Read through all changed files first to understand the full picture, then go through the files one at a time. Ask one question at a time.
+Ask if there is a related spec or plan file to understand the goal of the changes. Read through all changed files to understand the full picture, then go through the files one at a time. Ask one question at a time.
 
 If a question can be answered by exploring the codebase, specs, or tests, explore them yourself instead of asking me.
+
+Flag any change that isn't required to achieve the stated goal. Probe: "What breaks if we revert this?"
