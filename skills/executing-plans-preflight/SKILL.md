@@ -27,6 +27,54 @@ Common phrases:
 - `開始實作`
 - `執行計劃`
 
+## Pre-check: Git Repository
+
+```bash
+git rev-parse --is-inside-work-tree
+```
+
+If not inside a git repository, output:
+
+```
+Not a git repository — skipping preflight.
+```
+
+Then proceed without further checks.
+
+## Check 1: Branch Context
+
+```bash
+git branch --show-current
+git remote get-url origin >/dev/null 2>&1 && DEFREMOTE=origin || DEFREMOTE=$(git remote | head -1)
+git symbolic-ref "refs/remotes/${DEFREMOTE:-origin}/HEAD" 2>/dev/null | sed "s|^refs/remotes/${DEFREMOTE:-origin}/||"
+```
+
+| Situation | Action |
+|-----------|--------|
+| Detached HEAD | Ask: "Detached HEAD — switch to which branch?" (cannot infer) |
+| On default branch | Infer branch name from conversation context, propose switch (see Branch Name Inference below) |
+| Otherwise | Silent pass |
+
+**Default branch detection fallback:** If `origin/HEAD` detection fails, treat
+`main` and `master` as default branches.
+
+### Branch Name Inference
+
+When the user is on the default branch and needs to switch:
+
+1. If the current conversation has a plan (just written or just read), derive
+   the branch name from the plan title.
+2. Infer the conventional commit type prefix from plan content:
+   `feat/`, `fix/`, `docs/`, `refactor/`, `perf/`, `test/`, `chore/`, `ci/`,
+   `build/`. Default to `feat/` if unclear.
+3. Propose: "You're on `main`. Switch to `<type>/<inferred-name>`? (or type a
+   different name)"
+4. On confirmation, execute `git switch -c <name>`.
+5. If no plan context exists in the conversation, ask the user directly for a
+   branch name.
+
+Do not scan `docs/superpowers/plans/` to guess — stale plan files will mislead.
+
 ## Flow
 
 ```bash
