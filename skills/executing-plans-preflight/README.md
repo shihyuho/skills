@@ -26,11 +26,6 @@ Outside a git repository, preflight is skipped entirely.
 - The user can override dirty worktree and proceed.
 - Preflight manages local state only — it never pushes.
 
-## Relationship to executing-plans
-
-This skill runs **before** `superpowers:executing-plans`. It ensures git state
-is ready, then `executing-plans` takes over for plan execution.
-
 ## Example
 
 ```text

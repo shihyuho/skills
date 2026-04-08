@@ -1,6 +1,6 @@
 ---
 name: executing-plans-preflight
-description: Use before superpowers:executing-plans or any implementation start — auto-detects and fixes git state issues (branch, dirty files, remote sync) with one confirmation per fix. Trigger on "start implementation", "implement this plan", "start coding", "execute plan", "開始實作", "執行計劃", or any signal that coding is about to begin.
+description: Use before any implementation start — auto-detects and fixes git state issues (branch, dirty files, remote sync) with one confirmation per fix. Trigger on "start implementation", "implement this plan", "start coding", "execute plan", "開始實作", "執行計劃", or any signal that coding is about to begin.
 license: MIT
 metadata:
   author: shihyuho
@@ -10,8 +10,8 @@ metadata:
 # Executing Plans Preflight
 
 Semi-automatic git state gate. Detects issues, proposes fixes, executes on
-confirmation. This skill runs **before** `superpowers:executing-plans` — it
-ensures git state is ready, then execution follows.
+confirmation. Run this before any implementation work begins — it ensures git
+state is ready so you start from a clean, correct baseline.
 
 Not in a git repo? Say `Not a git repository — skipping preflight.` and move on.
 
