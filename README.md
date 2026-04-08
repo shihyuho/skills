@@ -11,6 +11,7 @@ Shihyu's curated collection of agent skills.
 - **[writing-agents-md](skills/writing-agents-md/)** - Create or prune `AGENTS.md` and `CLAUDE.md` so they keep only minimal, high-signal global constraints.
 - **[promote-claude-settings](skills/promote-claude-settings/)** - Interactively promote entries from a project's `.claude/settings.local.json` into the global `~/.claude/settings.json`.
 - **[cover-branches](skills/cover-branches/)** - Find branch coverage gaps in changed code and write missing tests. Supports spec-based scenario coverage analysis.
+- **[grill-diff](skills/grill-diff/)** - Review git changed files one by one, asking probing questions until reaching shared understanding.
 
 ## Installation
 
