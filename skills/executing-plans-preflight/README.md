@@ -1,41 +1,44 @@
 # Executing Plans Preflight
 
-Run git preflight checks before implementation starts.
+Semi-automatic git state gate for implementation sessions.
 
 ## Why this skill exists
 
-When implementation starts right after planning, it is easy to skip branch, worktree, or remote-state checks. This skill makes them a hard gate.
+Starting implementation without checking git state leads to working on the
+wrong branch, committing to main, or diverging from remote. This skill
+catches those issues and fixes them with one confirmation per fix.
 
 ## What it checks
 
-- **Branch Context** - block detached `HEAD` and default-branch execution.
-- **Worktree Clean** - block local changes until they are resolved.
-- **Remote Sync** - block stale, diverged, or deleted-upstream states.
+1. **Branch Context** — detects detached HEAD or default branch, proposes
+   switching to a feature branch with a name inferred from the plan context.
+2. **Worktree Clean** — detects uncommitted changes, asks user to resolve or
+   override.
+3. **Remote Sync** — detects stale/diverged upstream, proposes pull with
+   awareness of dirty worktree state.
 
-Outside a git repository, the checks return `SKIP`.
+Outside a git repository, preflight is skipped entirely.
 
-Common triggers: `start implementation`, `implement this plan`, `execute plan`, `開始實作`, `執行計劃`.
+## How it works
 
-## Execution order
+- Detect → Propose fix → Wait for one confirmation → Execute → Next check.
+- Checks that pass get no output. Only issues and applied fixes are reported.
+- The user can override dirty worktree and proceed.
+- Preflight manages local state only — it never pushes.
 
-- Run the preflight checks first.
-- Continue to plan execution only when no check is `BLOCK`.
-- If any check is `BLOCK`, stop, show remediation, and wait for user confirmation.
+## Relationship to executing-plans
 
-Run this before plan execution starts. If default-branch detection fails, local `main` or `master` still blocks; otherwise that check skips.
+This skill runs **before** `superpowers:executing-plans`. It ensures git state
+is ready, then `executing-plans` takes over for plan execution.
 
 ## Example
 
 ```text
-- [C1] Branch Context: BLOCK
-  Evidence: default branch is main; current branch is main
-  Remediation: git switch -c feat/my-change
+You're on `main`. Switch to `feat/add-auth`? (or type a different name)
+> yes
 
-- [C2] Worktree Clean: PASS
-  Evidence: git status --porcelain returned no paths
-
-- [C3] Remote Sync: SKIP
-  Evidence: no upstream tracking branch
+Switched to `feat/add-auth` (was on main)
+Preflight passed. Ready to go.
 ```
 
 ## License
