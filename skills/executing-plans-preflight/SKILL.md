@@ -30,8 +30,7 @@ default if detection fails.
   (title → kebab-case, prefix with conventional commit type: `feat/`, `fix/`,
   `docs/`, `refactor/`, `perf/`, `test/`, `chore/`, `ci/`, `build/`; default
   `feat/`). Propose it, let user confirm or rename, then `git switch -c`.
-  No plan in conversation? Ask directly. Never scan `docs/superpowers/plans/`
-  — stale files mislead.
+  No plan in conversation? Ask directly — don't guess from filesystem.
 - **Otherwise** → silent pass.
 
 ### 2. Worktree Clean
