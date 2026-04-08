@@ -1,6 +1,6 @@
 ---
 name: executing-plans-preflight
-description: Use before superpowers:executing-plans or any implementation start — auto-detects and fixes git state issues (branch, dirty files, remote sync) with one confirmation per fix.
+description: Use before superpowers:executing-plans or any implementation start — auto-detects and fixes git state issues (branch, dirty files, remote sync) with one confirmation per fix. Trigger on "start implementation", "implement this plan", "start coding", "execute plan", "開始實作", "執行計劃", or any signal that coding is about to begin.
 license: MIT
 metadata:
   author: shihyuho
@@ -10,145 +10,70 @@ metadata:
 # Executing Plans Preflight
 
 Semi-automatic git state gate. Detects issues, proposes fixes, executes on
-confirmation. Runs before plan execution or any implementation start.
+confirmation. This skill runs **before** `superpowers:executing-plans` — it
+ensures git state is ready, then execution follows.
 
-## When to Use
+Not in a git repo? Say `Not a git repository — skipping preflight.` and move on.
 
-Trigger before `superpowers:executing-plans` or when the user starts coding.
-This skill runs first; `executing-plans` follows after preflight passes.
+## Checks
 
-Common phrases:
+Run in order. Pass silently when nothing is wrong — only speak up when there is
+something to fix.
 
-- `start implementation`
-- `implement this plan`
-- `start coding`
-- `execute plan`
-- `run the implementation plan`
-- `開始實作`
-- `執行計劃`
+### 1. Branch Context
 
-## Pre-check: Git Repository
+Detect default branch via `origin/HEAD`. Fallback: treat `main`/`master` as
+default if detection fails.
 
-```bash
-git rev-parse --is-inside-work-tree
-```
+- **Detached HEAD** → ask which branch to switch to (cannot infer).
+- **On default branch** → infer a branch name from the plan in conversation
+  (title → kebab-case, prefix with conventional commit type: `feat/`, `fix/`,
+  `docs/`, `refactor/`, `perf/`, `test/`, `chore/`, `ci/`, `build/`; default
+  `feat/`). Propose it, let user confirm or rename, then `git switch -c`.
+  No plan in conversation? Ask directly. Never scan `docs/superpowers/plans/`
+  — stale files mislead.
+- **Otherwise** → silent pass.
 
-If not inside a git repository, output:
+### 2. Worktree Clean
 
-```
-Not a git repository — skipping preflight.
-```
+Run `git status --porcelain`. Everything counts as dirty (staged, unstaged,
+untracked).
 
-Then proceed without further checks.
+- **Clean** → silent pass.
+- **Dirty** → list paths, ask user to resolve or say "continue" to override.
+  Record the override — Check 3 needs to know. Don't help with commit/stash;
+  that's the user's call, because commit scope and message are conscious
+  decisions that shouldn't be buried inside preflight.
 
-## Check 1: Branch Context
+### 3. Remote Sync
 
-```bash
-git branch --show-current
-git remote get-url origin >/dev/null 2>&1 && DEFREMOTE=origin || DEFREMOTE=$(git remote | head -1)
-git symbolic-ref "refs/remotes/${DEFREMOTE:-origin}/HEAD" 2>/dev/null | sed "s|^refs/remotes/${DEFREMOTE:-origin}/||"
-```
+Run `git fetch`. If fetch fails, warn and continue with local info — don't
+claim remote state is fresh when it isn't.
 
-| Situation | Action |
-|-----------|--------|
-| Detached HEAD | Ask: "Detached HEAD — switch to which branch?" (cannot infer) |
-| On default branch | Infer branch name from conversation context, propose switch (see Branch Name Inference below) |
-| Otherwise | Silent pass |
+- **No upstream / ahead / up-to-date** → silent pass.
+- **Upstream gone** → ask: clear tracking or recreate?
+- **Behind/diverged** → propose `git pull --rebase`. If dirty files were
+  overridden in Check 2, warn that pull may conflict and offer to skip sync.
 
-**Default branch detection fallback:** If `origin/HEAD` detection fails, treat
-`main` and `master` as default branches.
+New branches from Check 1 have no upstream — that's expected, don't push.
 
-### Branch Name Inference
+## Report
 
-When the user is on the default branch and needs to switch:
-
-1. If the current conversation has a plan (just written or just read), derive
-   the branch name from the plan title.
-2. Infer the conventional commit type prefix from plan content:
-   `feat/`, `fix/`, `docs/`, `refactor/`, `perf/`, `test/`, `chore/`, `ci/`,
-   `build/`. Default to `feat/` if unclear.
-3. Propose: "You're on `main`. Switch to `<type>/<inferred-name>`? (or type a
-   different name)"
-4. On confirmation, execute `git switch -c <name>`.
-5. If no plan context exists in the conversation, ask the user directly for a
-   branch name.
-
-Do not scan `docs/superpowers/plans/` to guess — stale plan files will mislead.
-
-## Check 2: Worktree Clean
-
-```bash
-git status --porcelain
-```
-
-All output counts as dirty: staged, unstaged modified, and untracked files.
-
-| Situation | Action |
-|-----------|--------|
-| Clean | Silent pass |
-| Dirty | List dirty paths, then ask: "There are uncommitted changes. Please resolve them and let me know when ready, or say 'continue' to proceed anyway." |
-
-If the user says "continue":
-- Record internally that dirty files were overridden (Check 3 needs this).
-- Proceed to Check 3.
-
-The skill does not assist with commit or stash — resolving dirty state is the
-user's responsibility.
-
-## Check 3: Remote Sync
-
-```bash
-git fetch 2>/dev/null
-git rev-parse --abbrev-ref --symbolic-full-name @{u}
-git status --short --branch
-```
-
-If `git fetch` fails, warn: "Fetch failed — remote state may be outdated."
-Then continue with local upstream information.
-
-| Situation | Action |
-|-----------|--------|
-| No upstream | Silent pass |
-| Upstream gone | Ask: "Upstream deleted. Clear tracking or recreate?" → execute chosen action |
-| Behind/diverged, no dirty override | Ask: "Behind remote by N commits. `git pull --rebase`?" → execute on confirm |
-| Behind/diverged, dirty override active | Ask: "Behind remote by N commits, but there are uncommitted changes — `git pull --rebase` may fail or conflict. Pull anyway, or skip sync?" |
-| Ahead or up-to-date | Silent pass |
-
-If Check 1 just created a new branch, it has no upstream. Check 3 sees
-"no upstream" and passes silently. This is expected — preflight does not push.
-
-## Report Format
-
-No C1/C2/C3 table. Each applied fix gets one line. The final line is always a
-conclusion reflecting the true state.
-
-**All checks pass silently:**
-
-```
-Preflight passed — on `feat/xxx`, clean, synced. Ready to go.
-```
-
-**Fixes were applied:**
+One-line conclusion after all checks. Each fix gets its own line before it.
 
 ```
 Switched to `feat/add-auth` (was on main)
-Pulled 3 commits from origin
 Preflight passed. Ready to go.
 ```
 
-**Dirty files overridden:**
+If dirty files were overridden, end with `Proceeding with uncommitted changes.`
+instead of `Ready to go.`
 
-```
-Switched to `feat/add-auth` (was on main)
-Preflight passed. Proceeding with uncommitted changes.
-```
+## Why these guardrails exist
 
-## Guardrails
-
-- MUST run preflight before any plan execution or file edits.
-- MUST NOT execute a fix without user confirmation first.
-- MUST allow user to override dirty worktree and proceed.
-- MUST warn if `git fetch` fails, then continue with local state.
-- MUST NOT push branches — preflight manages local state only.
-- MUST NOT help with commit or stash — resolving dirty state is the user's
-  responsibility.
+- **Confirm before executing** — git operations are hard to undo; one wrong
+  `switch -c` or `pull --rebase` on the wrong branch can cost real work.
+- **Allow dirty override** — blocking unconditionally was v2's biggest friction
+  point. The user knows their working state better than preflight does.
+- **Never push** — preflight manages local state only. Publishing is a separate,
+  deliberate step.
