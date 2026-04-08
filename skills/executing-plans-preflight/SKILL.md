@@ -117,125 +117,38 @@ Then continue with local upstream information.
 If Check 1 just created a new branch, it has no upstream. Check 3 sees
 "no upstream" and passes silently. This is expected — preflight does not push.
 
-## Flow
+## Report Format
 
-```bash
-git rev-parse --is-inside-work-tree
-```
+No C1/C2/C3 table. Each applied fix gets one line. The final line is always a
+conclusion reflecting the true state.
 
-```
-git repo? ── no ──► report all checks as SKIP
-    │
-   yes
-    ▼
-C1 Branch Context → C2 Worktree Clean → C3 Remote Sync
-```
-
-Run checks in order. Report evidence and one decision per check: `PASS`, `SKIP`, or `BLOCK`.
-
-## Check 1: Branch Context
-
-```bash
-git remote get-url origin >/dev/null 2>&1 && DEFREMOTE=origin || DEFREMOTE=$(git remote | head -1)
-git symbolic-ref "refs/remotes/${DEFREMOTE:-origin}/HEAD" 2>/dev/null | sed "s|^refs/remotes/${DEFREMOTE:-origin}/||"
-git branch --show-current
-```
+**All checks pass silently:**
 
 ```
-Detached HEAD? ── yes ──► BLOCK
-    │
-   no
-    ▼
-No default branch detected? ── yes ──► Current branch is main/master?
-    │
-   no                                      │yes
-    ▼                                      ▼
-On default branch? ── yes ──► BLOCK      BLOCK
-    │                                      │
-   no                                      no
-    ▼
-PASS
+Preflight passed — on `feat/xxx`, clean, synced. Ready to go.
 ```
 
-Detect the default branch from `origin`, or from the first available remote. If default-branch detection fails and the current branch is `main` or `master`, return `BLOCK`. Otherwise, return `SKIP`.
-
-- `BLOCK` on detached `HEAD`; remediation: switch to a named branch.
-- `BLOCK` on the default branch; remediation: create or switch to a feature branch such as `feat/...` or `fix/...`.
-
-## Check 2: Worktree Clean
-
-```bash
-git status --porcelain
-```
+**Fixes were applied:**
 
 ```
-Any dirty paths? ── no ──► PASS
-    │
-   yes
-    ▼
-BLOCK until dirty paths are resolved
+Switched to `feat/add-auth` (was on main)
+Pulled 3 commits from origin
+Preflight passed. Ready to go.
 ```
 
-If any path is dirty, return `BLOCK`, report the dirty paths, and ask the user to resolve them before re-running preflight.
-
-Suggested remediations can include `git stash`, `git commit`, removing generated output, or otherwise clearing the dirty paths. Do not treat `stash` and `commit` as the only valid choices.
-
-## Check 3: Remote Sync
-
-```bash
-git fetch 2>/dev/null
-git rev-parse --abbrev-ref --symbolic-full-name @{u}
-git status --short --branch
-```
+**Dirty files overridden:**
 
 ```
-Tracking remote? ── no ──► SKIP
-    │
-   yes
-    ▼
-Upstream is [gone]? ── yes ──► BLOCK
-    │
-   no
-    ▼
-Behind or diverged? ── yes ──► BLOCK
-    │
-   no
-    ▼
-Ahead or up-to-date? ── yes ──► PASS
-    │
-   no
-    ▼
-BLOCK
+Switched to `feat/add-auth` (was on main)
+Preflight passed. Proceeding with uncommitted changes.
 ```
-
-Try `git fetch` first. If it fails, report that failure as evidence and continue with the local upstream status. Do not claim remote refs are fresh when fetch failed.
-
-- `SKIP` if the branch has no upstream.
-- `BLOCK` if upstream is `[gone]`; remediation: recreate the upstream branch or clear/reset the upstream reference.
-- `BLOCK` if the branch is behind or diverged; remediation: sync first, typically with `git pull --rebase`.
-- `BLOCK` on any other unexpected status until the output is understood.
-
-## Report Contract
-
-Use this report shape:
-
-```
-- [C1] Branch Context: PASS/BLOCK/SKIP
-- [C2] Worktree Clean: PASS/BLOCK/SKIP
-- [C3] Remote Sync:   PASS/BLOCK/SKIP
-```
-
-For each check, include the evidence used to make the decision. If any check is `BLOCK`:
-
-- list the blocking reason
-- propose exact remediation commands when possible
-- require explicit user confirmation before plan execution continues
 
 ## Guardrails
 
 - MUST run preflight before any plan execution or file edits.
-- MUST evaluate git context first.
-- MUST report evidence and a decision for every check.
-- MUST stop plan execution on any `BLOCK`.
-- MUST propose exact remediation commands when possible.
-- MUST wait for explicit user confirmation before continuing after a `BLOCK`.
+- MUST NOT execute a fix without user confirmation first.
+- MUST allow user to override dirty worktree and proceed.
+- MUST warn if `git fetch` fails, then continue with local state.
+- MUST NOT push branches — preflight manages local state only.
+- MUST NOT help with commit or stash — resolving dirty state is the user's
+  responsibility.
