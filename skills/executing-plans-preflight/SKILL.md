@@ -95,6 +95,28 @@ If the user says "continue":
 The skill does not assist with commit or stash — resolving dirty state is the
 user's responsibility.
 
+## Check 3: Remote Sync
+
+```bash
+git fetch 2>/dev/null
+git rev-parse --abbrev-ref --symbolic-full-name @{u}
+git status --short --branch
+```
+
+If `git fetch` fails, warn: "Fetch failed — remote state may be outdated."
+Then continue with local upstream information.
+
+| Situation | Action |
+|-----------|--------|
+| No upstream | Silent pass |
+| Upstream gone | Ask: "Upstream deleted. Clear tracking or recreate?" → execute chosen action |
+| Behind/diverged, no dirty override | Ask: "Behind remote by N commits. `git pull --rebase`?" → execute on confirm |
+| Behind/diverged, dirty override active | Ask: "Behind remote by N commits, but there are uncommitted changes — `git pull --rebase` may fail or conflict. Pull anyway, or skip sync?" |
+| Ahead or up-to-date | Silent pass |
+
+If Check 1 just created a new branch, it has no upstream. Check 3 sees
+"no upstream" and passes silently. This is expected — preflight does not push.
+
 ## Flow
 
 ```bash
