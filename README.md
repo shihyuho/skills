@@ -12,6 +12,7 @@ Shihyu's curated collection of agent skills.
 - **[promote-claude-settings](skills/promote-claude-settings/)** - Interactively promote entries from a project's `.claude/settings.local.json` into the global `~/.claude/settings.json`.
 - **[cover-branches](skills/cover-branches/)** - Find branch coverage gaps in changed code and write missing tests. Supports spec-based scenario coverage analysis.
 - **[grill-diff](skills/grill-diff/)** - Review git changes using deep interactive grilling or fast multi-strategy self-review.
+- **[tldr](skills/tldr/)** - Produce a tldr.tech-style digest of a file, directory, git ref, URL, or GitHub PR/issue so the reader grasps the whole picture in roughly two minutes.
 
 ## Installation
 
