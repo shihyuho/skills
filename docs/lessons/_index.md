@@ -4,5 +4,7 @@
 
 | Card | Scope | Tags | Date |
 |---|---|---|---|
+| `skill-md-carries-runtime-rules-not-rationale` | project | `skill-writing`, `skill-md`, `runtime-rules`, `rationale`, `separation-of-concerns` | 2026-04-09 |
+| `right-size-review-rigor-to-task-complexity` | project | `skill-writing`, `subagent-driven-development`, `process`, `review-rigor` | 2026-04-09 |
 | `eval-coverage-and-discrimination-are-different` | project | `skill-writing`, `evals`, `benchmarking`, `agents-md` | 2026-03-21 |
 | `agent-rule-discoverability-needs-costly-mistake-exception` | project | `skill-writing`, `agents-md`, `heuristics`, `prompting` | 2026-03-21 |
