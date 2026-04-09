@@ -23,7 +23,7 @@ If a question can be answered by exploring the codebase, specs, or tests, explor
 **When you spot a finding:**
 
 - **Deep mode:** discuss with the user, one question at a time, until shared understanding.
-- **Fast mode:** pick 3+ specialists relevant to the finding. Consult sequentially — each sees earlier opinions, then gives opinion + confidence (high / medium / low). Classify:
+- **Fast mode:** only high-value findings reach the user. Pick 3+ specialists relevant to the finding. Consult sequentially — each sees earlier opinions, then gives opinion + confidence (high / medium / low). Classify:
   - Any specialist rated **high** → present to user
   - Highest is **medium**, or specialists disagree → present to user as "uncertain"
   - All rated **low** → drop silently
