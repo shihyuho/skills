@@ -1,6 +1,6 @@
 ---
 name: grill-diff
-description: Review git changed files using deep interactive grilling or fast multi-strategy self-review. Deep mode interrogates every aspect of each change one question at a time. Fast mode applies multiple reviewer personas internally, only stopping for interaction when issues are found.
+description: Review git changed files using deep interactive grilling or fast specialist-filtered review. Deep mode discusses every finding with the user. Fast mode consults internal specialists first, only bringing high-value findings to the user.
 ---
 
 ## Mode Selection
@@ -14,66 +14,66 @@ Determine the review mode from the user's prompt:
 
 Two independent dimensions that combine freely (e.g. "fast against develop src/auth.ts" reviews only `src/auth.ts` diffed against develop).
 
-**File scope** — which files to review:
-- User-specified files if explicitly listed, otherwise all changed files.
+**File scope** — user-specified files if explicitly listed, otherwise all changed files.
 
-**Diff baseline** — what to compare against (priority cascade):
+**Diff baseline** — priority cascade:
 1. Staged changes (`git diff --cached`) when staged changes exist
 2. Unstaged changes (`git diff`) when no staged changes
 3. User-specified branch (e.g. "against develop")
 4. PR URL
 5. Current branch vs default branch (fallback)
 
-## Strategy Toolbox
+## Specialist Toolbox (fast mode reference)
 
-Seven reviewer personas. The value is not cognitive separation — it is forcing genuinely different questions about the same code. Each persona triggers a different reasoning path. When switching strategies, actually shift your line of questioning; do not go through the motions.
+Seven specialists consulted per-finding (not per-file). The value is forcing genuinely different questions about the same code — each specialist triggers a different reasoning path.
 
-| ID | Name | Mindset | Core Question |
-|----|------|---------|---------------|
-| verify | Positive Validation | Developer | "This code claims to do X — does it actually?" |
-| nitpick | Bug Hunter | Skeptic | "There's definitely a bug here — where is it?" |
-| newcomer | Fresh Eyes | Junior engineer | "First time seeing this — do I understand it?" |
-| attacker | Attacker | Red team | "How do I break this?" |
-| revert | Revert Challenge | Minimalist | "If we revert this change, what breaks?" |
-| maintainer | Future Maintainer | You in 6 months | "What will someone curse about this in 6 months?" |
-| senior | Senior Reviewer | Senior reviewer | "What would I flag in a PR review?" |
+| ID | Specialist | Expertise | Core Question |
+|----|-----------|-----------|---------------|
+| verify | Positive Validation | Correctness | "This code claims to do X — does it actually?" |
+| nitpick | Bug Hunter | Edge cases | "There's definitely a bug here — where is it?" |
+| newcomer | Fresh Eyes | Readability | "First time seeing this — do I understand it?" |
+| attacker | Attacker | Security | "How do I break this?" |
+| revert | Revert Challenge | Necessity | "If we revert this change, what breaks?" |
+| maintainer | Future Maintainer | Maintainability | "What will someone curse about this in 6 months?" |
+| senior | Senior Reviewer | Architecture | "What would I flag in a PR review?" |
 
-**Selection guidance** (not hard rules):
-- `verify`: relevant for almost every file.
-- `nitpick`: especially for files with complex conditional logic or arithmetic.
-- `attacker`: prioritize for files handling user input, auth, APIs.
-- `newcomer`: prioritize for complex logic, new modules.
-- `revert`: prioritize for files with many scattered changes.
+**Selection guidance** (per finding, not per file):
+- `verify`: relevant for almost any finding.
+- `nitpick`: findings involving conditional logic or arithmetic.
+- `attacker`: findings involving auth, input validation, data exposure.
+- `newcomer`: findings about complex or unclear code.
+- `revert`: findings about changes that seem unnecessary or out of scope.
 - The rest: agent judgment.
-- This list may evolve based on effectiveness.
 
-## Fast Mode
+## Review Flow
 
-0. Ask if there is a related spec or plan file. If provided, use as background knowledge for all strategies. Pragmatic spec comparison: only flag obvious contradictions or large unrelated modifications — small refactoring is acceptable.
-1. Read all changed files first to build the full picture.
-2. For each file, pick 3+ strategies with a short rationale. Output the selection, e.g.:
-   `src/auth.ts → verify, attacker, revert (handles auth + scattered changes)`
-3. Run each strategy as a complete review pass with genuine question switching.
-4. Output results:
-   - Clean files compressed to one line: `✓ src/api.ts — verify, attacker, newcomer: all clean`
-   - Issues expanded with per-strategy results, e.g.:
-     ```
-     src/auth.ts → verify, attacker, revert (handles auth + scattered changes)
-     verify: clean
-     attacker: ⚠️ token validation can be bypassed with empty string
-     revert: clean
-     ```
-5. All clean → auto-advance to next file.
-6. Any issue → enter grill mode: interrogate the user one question at a time until shared understanding. Multiple findings addressed in natural order. Then next file.
+Both modes share the same file-by-file review. The only difference is what happens when a finding is spotted.
 
-If a question can be answered by exploring the codebase, specs, or tests, explore them yourself instead of asking.
+### 0. Ask for spec/plan
 
-## Deep Mode
+Ask if there is a related spec or plan file. If provided, use as background knowledge throughout the review. Pragmatic spec comparison: only flag obvious contradictions or large unrelated modifications — small refactoring is acceptable.
 
-Review changed files one by one. Interrogate every aspect of each change, one question at a time, until reaching shared understanding before moving to the next file.
+### 1. Read all changed files
 
-0. Ask if there is a related spec or plan file to understand the goal of the changes.
-1. Read all changed files first to build the full picture.
-2. Go through files one at a time. Ask one question at a time.
+Read every changed file first to build the full picture before reviewing.
 
-If a question can be answered by exploring the codebase, specs, or tests, explore them yourself instead of asking.
+### 2. Go through files one at a time
+
+Interrogate every aspect of each change. When you spot a finding:
+
+**Deep mode** — discuss directly with the user, one question at a time, until reaching shared understanding before moving on.
+
+**Fast mode** — consult specialists before involving the user:
+1. Pick 3+ specialists relevant to this specific finding.
+2. Consult sequentially — each specialist sees earlier opinions, then gives their own opinion + confidence (high / medium / low).
+3. Classify the finding:
+   - **needs change**: any specialist rated high confidence.
+   - **uncertain**: highest rating is medium, or specialists disagree.
+   - **no issue**: all rated low → drop silently.
+4. After all findings in a file are classified, merge duplicates and link related findings.
+5. Present surviving findings (needs change + uncertain) to the user one at a time — same grill-mode interrogation as deep mode.
+6. Files with no surviving findings: advance silently with a one-line summary.
+
+### 3. Self-explore when needed
+
+In both modes, if a question can be answered by exploring the codebase, specs, or tests, explore them yourself instead of asking the user. "Fast" means minimizing user interruption, not skipping agent work.
