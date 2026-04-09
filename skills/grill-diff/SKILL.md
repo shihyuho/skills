@@ -40,6 +40,7 @@ Seven reviewer personas. The value is not cognitive separation — it is forcing
 
 **Selection guidance** (not hard rules):
 - `verify`: relevant for almost every file.
+- `nitpick`: especially for files with complex conditional logic or arithmetic.
 - `attacker`: prioritize for files handling user input, auth, APIs.
 - `newcomer`: prioritize for complex logic, new modules.
 - `revert`: prioritize for files with many scattered changes.
@@ -55,7 +56,13 @@ Seven reviewer personas. The value is not cognitive separation — it is forcing
 3. Run each strategy as a complete review pass with genuine question switching.
 4. Output results:
    - Clean files compressed to one line: `✓ src/api.ts — verify, attacker, newcomer: all clean`
-   - Issues expanded with per-strategy results.
+   - Issues expanded with per-strategy results, e.g.:
+     ```
+     src/auth.ts → verify, attacker, revert (handles auth + scattered changes)
+     verify: clean
+     attacker: ⚠️ token validation can be bypassed with empty string
+     revert: clean
+     ```
 5. All clean → auto-advance to next file.
 6. Any issue → enter grill mode: interrogate the user one question at a time until shared understanding. Multiple findings addressed in natural order. Then next file.
 
