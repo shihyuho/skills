@@ -30,13 +30,13 @@ Seven reviewer personas. The value is not cognitive separation — it is forcing
 
 | ID | Name | Mindset | Core Question |
 |----|------|---------|---------------|
-| verify | 正向驗證 | Developer | 「這段 code 說要做 X，它真的做到了嗎？」 |
-| nitpick | 挑毛病 | Skeptic | 「這裡一定有 bug，在哪？」 |
-| newcomer | 新人視角 | Junior engineer | 「我第一次看這段，我看得懂嗎？」 |
-| attacker | 攻擊者 | Red team | 「我要怎麼讓這段 code 壞掉？」 |
-| revert | 刪除挑戰 | Minimalist | 「把這個改動 revert 掉，什麼會壞？」 |
-| maintainer | 維護者未來視角 | You in 6 months | 「半年後改這段的人會罵什麼？」 |
-| senior | Review 老手 | Senior reviewer | 「PR review 我會問什麼？」 |
+| verify | Positive Validation | Developer | "This code claims to do X — does it actually?" |
+| nitpick | Bug Hunter | Skeptic | "There's definitely a bug here — where is it?" |
+| newcomer | Fresh Eyes | Junior engineer | "First time seeing this — do I understand it?" |
+| attacker | Attacker | Red team | "How do I break this?" |
+| revert | Revert Challenge | Minimalist | "If we revert this change, what breaks?" |
+| maintainer | Future Maintainer | You in 6 months | "What will someone curse about this in 6 months?" |
+| senior | Senior Reviewer | Senior reviewer | "What would I flag in a PR review?" |
 
 **Selection guidance** (not hard rules):
 - `verify`: relevant for almost every file.
@@ -68,8 +68,6 @@ Seven reviewer personas. The value is not cognitive separation — it is forcing
 
 If a question can be answered by exploring the codebase, specs, or tests, explore them yourself instead of asking.
 
-Flag any change not required for the stated goal. Probe: "What breaks if we revert this?"
-
 ## Deep Mode
 
 Review changed files one by one. Interrogate every aspect of each change, one question at a time, until reaching shared understanding before moving to the next file.
@@ -79,5 +77,3 @@ Review changed files one by one. Interrogate every aspect of each change, one qu
 2. Go through files one at a time. Ask one question at a time.
 
 If a question can be answered by exploring the codebase, specs, or tests, explore them yourself instead of asking.
-
-Flag any change not required for the stated goal. Probe: "What breaks if we revert this?"
