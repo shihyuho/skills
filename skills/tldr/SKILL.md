@@ -26,12 +26,16 @@ Everything passed in one `/tldr` invocation is one aggregate target. Describe th
 
 - **Title** identifies the target (file name, PR title, URL slug, etc.).
 - **Subtitle**: 1-3 italic highlights separated by commas. Don't pad to three.
-- **Sections** use `##` H2, forming a natural `# TLDR:` / `## Section` hierarchy in any Markdown renderer. No emoji, no horizontal rules. Section names describe logical parts of the input ("What it does", "How it works", "Gotchas"), not newsletter-style topic categories. **Sections are optional** — skip them entirely when items don't cluster, and list items directly under the subtitle. When items cluster, use 2-5 sections.
-- **Items are conceptual units, not physical ones.** Slice by what changed in the reader's mental model, not by file, commit, section, or paragraph. Three commits for one feature become one item. Three unrelated files in one PR become three items. Without this rule agents default to mechanical one-per-file slicing that preserves the format but loses the spirit.
-- **Item headline** is a single bold line. No reading-time annotation (see Budget).
-- **Item body** is a single prose paragraph: **1-3 sentences typical, 4 maximum**. No bullets within the body. No sub-headings. Rule taken verbatim from tldr.tech: "1-3 sentence description" and "2-4 sentences maximum". Language-agnostic.
-- **Typical item count**: roughly 6-10. Fewer when the source is shorter than the budget. No fixed numeric ceiling; err on fewer-and-tighter over more-and-bloated.
-- **When the source has more logical units than the budget allows** (e.g., a PR touching 15 subsystems), group related units into fewer items rather than dropping units. Each item can cover multiple related subsystems so every part gets mentioned at least in aggregate. Drop only as a last resort, and only when grouping would merge things so disparate that the resulting item becomes incoherent.
+- **Sections** use `##` H2, forming a natural `# TLDR:` / `## Section` hierarchy in any Markdown renderer. No emoji, no horizontal rules. Section names describe logical parts of the input ("What it does", "How it works", "Gotchas"), not newsletter-style topic categories. **Sections are optional** — skip them entirely when items don't cluster naturally, and list items directly under the subtitle.
+- **Item headline** is a single bold line. **Item body** is a single prose paragraph of **1-3 sentences, 4 maximum**. No bullets within the body. No sub-headings. No reading-time annotation anywhere.
+
+## Items
+
+**Items are conceptual units, not physical ones.** Slice by what changed in the reader's mental model, not by file, commit, section, or paragraph. Three commits for one feature become one item. Three unrelated files in one PR become three items.
+
+Typical count: 6-10 items. Fewer when the source is shorter than the budget. Err on fewer-and-tighter over more-and-bloated.
+
+**When the source has more logical units than the budget allows** (e.g., a PR touching 15 subsystems), group related units into fewer items rather than dropping units. Each item can cover multiple related subsystems so every part gets mentioned at least in aggregate. Drop only as a last resort.
 
 ## Voice
 
