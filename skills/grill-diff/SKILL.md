@@ -1,15 +1,11 @@
 ---
 name: grill-diff
-description: Review git changed files using deep interactive grilling or fast specialist-filtered review. Deep mode discusses every finding with the user. Fast mode consults internal specialists first, only bringing high-value findings to the user.
+description: Grill the diff. Specialists evaluate every finding internally — only high-value findings reach the user for discussion until reaching shared understanding.
 ---
-
-## Mode
-
-If the user clearly indicates fast (e.g. "快速掃", "fast"), use fast mode. If clearly deep (e.g. "仔細烤", "grill", "deep"), use deep mode. If ambiguous (including bare `/grill-diff`), ask.
 
 ## Diff Scope
 
-File scope and diff baseline are independent and combine freely (e.g. "fast against develop src/auth.ts").
+File scope and diff baseline are independent and combine freely (e.g. "against develop src/auth.ts").
 
 - **Files:** user-specified if listed, otherwise all changed files.
 - **Baseline:** staged > unstaged > user-specified branch > PR URL > current branch vs default branch.
@@ -20,24 +16,32 @@ Ask if there is a related spec or plan file. Read all changed files to build the
 
 If a question can be answered by exploring the codebase, specs, or tests, explore yourself instead of asking.
 
-**When you spot a finding:**
+When you spot a finding, consult all 3 specialists. Each sees earlier opinions, then gives opinion + confidence (high / medium / low). Classify:
+- Any specialist rated **high** → present to user
+- Highest is **medium**, or specialists disagree → present to user as "uncertain"
+- All rated **low** → drop silently
 
-- **Deep mode:** discuss with the user, one question at a time, until shared understanding.
-- **Fast mode:** only high-value findings reach the user. Pick 3+ specialists relevant to the finding. Consult sequentially — each sees earlier opinions, then gives opinion + confidence (high / medium / low). Classify:
-  - Any specialist rated **high** → present to user
-  - Highest is **medium**, or specialists disagree → present to user as "uncertain"
-  - All rated **low** → drop silently
+After all findings in a file are classified, merge duplicates and link related ones. Present surviving findings one at a time, discussing with the user until reaching shared understanding. Provide your recommended fix for each.
 
-  After all findings in a file are classified, merge duplicates and link related ones. Present surviving findings one at a time — same grill-mode as deep. Files with no surviving findings advance silently.
+Files with no surviving findings advance silently.
 
 ## Specialists
 
-| ID | Expertise | Core Question |
-|----|-----------|---------------|
-| verify | Correctness | "This code claims to do X — does it actually?" |
-| nitpick | Edge cases | "There's definitely a bug here — where is it?" |
-| newcomer | Readability | "First time seeing this — do I understand it?" |
-| attacker | Security | "How do I break this?" |
-| revert | Necessity | "If we revert this change, what breaks?" |
-| maintainer | Maintainability | "What will someone curse about this in 6 months?" |
-| senior | Architecture | "What would I flag in a PR review?" |
+All 3 are consulted for every finding.
+
+**detective** — Correctness & Edge Cases
+- Does this code do what it intends to do?
+- Are edge cases handled — null, empty, boundary values, error paths?
+- Are there race conditions, off-by-one errors, or state inconsistencies?
+
+**attacker** — Security
+- Is user input validated and sanitized at system boundaries?
+- Are secrets kept out of code, logs, and version control?
+- Is authentication/authorization checked where needed?
+- Are there injection risks — SQL, command, template, or otherwise?
+- Are new dependencies introduced? Are they from trusted sources?
+
+**gatekeeper** — Necessity & Scope
+- Is this change needed? What breaks if we revert it?
+- With spec/plan: Is every spec requirement addressed? Is every change traceable to a spec requirement? Does the implementation match the spec's described behavior?
+- Without spec/plan: Is this change doing too much — should it be split?
