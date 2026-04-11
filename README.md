@@ -16,25 +16,21 @@ Shihyu's curated collection of agent skills.
 
 ## Installation
 
-### 1. Install Skills (Required)
-
-First, install the skills collection:
+### Claude Code Plugin
 
 ```bash
-npx skills add shihyuho/skills --skill='*'
+claude plugin add --from shihyuho/skills
+```
+
+### Skills CLI
+
+```bash
+npx skills add -g shihyuho/skills --skill='*'
 ```
 
 ## Usage
 
 Skills are automatically available once installed. AI will use them when relevant tasks are detected. If you installed the OpenCode plugins, the AI will also proactively remind you to use them.
-
-## Included Commands
-
-This repository includes reusable command templates in [`commands/`](commands/).
-
-- `lessons-learned-init`: Initialize lessons-learned setup for AGENTS.md or CLAUDE.md.
-- `lessons-learned-recall`: Recall relevant lessons before work with lessons-learned.
-- `lessons-learned-capture`: Capture reusable lessons during corrections or at task end with lessons-learned.
 
 ## Naming Rule
 

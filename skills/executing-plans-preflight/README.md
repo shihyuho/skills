@@ -36,6 +36,12 @@ Switched to `feat/add-auth` (was on main)
 Preflight passed. Ready to go.
 ```
 
+## Installation
+
+```bash
+npx skills add -g shihyuho/skills --skill=executing-plans-preflight
+```
+
 ## License
 
 MIT

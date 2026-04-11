@@ -4,7 +4,7 @@ description: Use before any implementation start — auto-detects and fixes git 
 license: MIT
 metadata:
   author: shihyuho
-  version: "3.0.0"
+  version: "1.0.0"
 ---
 
 # Executing Plans Preflight

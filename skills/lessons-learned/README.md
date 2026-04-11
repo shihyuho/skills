@@ -52,6 +52,12 @@ Typical prompts:
 
 Detailed execution rules live in `SKILL.md`.
 
+## Installation
+
+```bash
+npx skills add -g shihyuho/skills --skill=lessons-learned
+```
+
 ## What Counts as Worth Capturing
 
 - Hidden relationships between files or modules

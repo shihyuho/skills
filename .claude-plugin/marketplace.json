@@ -1,0 +1,76 @@
+{
+  "name": "shihyuho-skills",
+  "owner": {
+    "name": "Shihyu Ho"
+  },
+  "metadata": {
+    "description": "Shihyu's curated collection of agent skills",
+    "version": "1.0.0"
+  },
+  "pluginRoot": "../skills",
+  "plugins": [
+    {
+      "name": "cover-branches",
+      "source": "./skills/cover-branches",
+      "description": "Find branch coverage gaps in changed code and write missing tests",
+      "version": "1.0.0",
+      "keywords": ["testing", "coverage", "branches", "tdd"]
+    },
+    {
+      "name": "e04",
+      "source": "./skills/e04",
+      "description": "Decode Zhuyin/Bopomofo text typed with English keyboard keys into Chinese characters",
+      "version": "1.0.0",
+      "keywords": ["zhuyin", "bopomofo", "chinese", "input"]
+    },
+    {
+      "name": "executing-plans-preflight",
+      "source": "./skills/executing-plans-preflight",
+      "description": "Semi-automatic git state gate for implementation sessions",
+      "version": "1.0.0",
+      "keywords": ["git", "preflight", "branch", "implementation"]
+    },
+    {
+      "name": "fanfuaji",
+      "source": "./skills/fanfuaji",
+      "description": "Chinese terminology conversion (Traditional / Simplified) using Fanhuaji API",
+      "version": "1.0.0",
+      "keywords": ["chinese", "traditional", "simplified", "conversion", "fanhuaji"]
+    },
+    {
+      "name": "grill-diff",
+      "source": "./skills/grill-diff",
+      "description": "Grill the diff with specialist-filtered code review",
+      "version": "1.0.0",
+      "keywords": ["code-review", "diff", "review"]
+    },
+    {
+      "name": "lessons-learned",
+      "source": "./skills/lessons-learned",
+      "description": "Recall and capture reusable lessons as Zettelkasten cards",
+      "version": "1.0.0",
+      "keywords": ["lessons", "memory", "zettelkasten", "learning"]
+    },
+    {
+      "name": "promote-claude-settings",
+      "source": "./skills/promote-claude-settings",
+      "description": "Promote entries from project settings.local.json into global settings.json",
+      "version": "1.0.0",
+      "keywords": ["settings", "config", "promote", "global"]
+    },
+    {
+      "name": "tldr",
+      "source": "./skills/tldr",
+      "description": "Produce a TL;DR digest of any target in roughly two minutes",
+      "version": "1.0.0",
+      "keywords": ["summary", "tldr", "digest"]
+    },
+    {
+      "name": "writing-agents-md",
+      "source": "./skills/writing-agents-md",
+      "description": "Create or prune AGENTS.md and CLAUDE.md for minimal high-signal constraints",
+      "version": "1.0.0",
+      "keywords": ["agents-md", "claude-md", "config", "constraints"]
+    }
+  ]
+}

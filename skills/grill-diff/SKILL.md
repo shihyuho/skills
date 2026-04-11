@@ -1,6 +1,10 @@
 ---
 name: grill-diff
 description: Grill the diff. Specialists evaluate every finding internally — only high-value findings reach the user for discussion until reaching shared understanding.
+license: MIT
+metadata:
+  author: shihyuho
+  version: "1.0.0"
 ---
 
 ## Diff Scope

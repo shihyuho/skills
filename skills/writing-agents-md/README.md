@@ -26,6 +26,12 @@ If not, delete it, narrow it, or move it into a task-specific skill.
 
 If a repo has no real global constraints yet, a tiny file or no file is acceptable.
 
+## Installation
+
+```bash
+npx skills add -g shihyuho/skills --skill=writing-agents-md
+```
+
 ## References
 
 - Addy Osmani, "Stop Using /init for AGENTS.md"  

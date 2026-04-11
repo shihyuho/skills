@@ -120,7 +120,7 @@ AI：檢測到 Big5 編碼
 
 1. **安裝技能**
    ```bash
-   npx skills add shihyuho/skills --skill=fanfuaji
+   npx skills add -g shihyuho/skills --skill=fanfuaji
    ```
 
 2. **直接使用**

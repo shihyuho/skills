@@ -15,6 +15,12 @@ Invoke with `/promote-claude-settings` or say "promote settings" in conversation
 5. Writes approved changes to `~/.claude/settings.json`
 5. Optionally cleans up the local file
 
+## Installation
+
+```bash
+npx skills add -g shihyuho/skills --skill=promote-claude-settings
+```
+
 ## Scope
 
 - Handles all top-level keys (`permissions`, `env`, `hooks`, `enabledPlugins`, etc.)
