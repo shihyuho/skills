@@ -29,19 +29,19 @@ Files with no surviving findings advance silently.
 
 All 3 are consulted for every finding.
 
-**detective** — Correctness & Edge Cases
+**correctness** — Correctness & Edge Cases
 - Does this code do what it intends to do?
 - Are edge cases handled — null, empty, boundary values, error paths?
 - Are there race conditions, off-by-one errors, or state inconsistencies?
 
-**attacker** — Security
+**security** — Security
 - Is user input validated and sanitized at system boundaries?
 - Are secrets kept out of code, logs, and version control?
 - Is authentication/authorization checked where needed?
 - Are there injection risks — SQL, command, template, or otherwise?
 - Are new dependencies introduced? Are they from trusted sources?
 
-**gatekeeper** — Necessity & Scope
+**scope** — Scope & Necessity
 - Is this change needed? What breaks if we revert it?
 - With spec/plan: Is every spec requirement addressed? Is every change traceable to a spec requirement? Does the implementation match the spec's described behavior?
 - Without spec/plan: Is this change doing too much — should it be split?
