@@ -18,7 +18,7 @@ Invoke with `/promote-claude-settings` or say "promote settings" in conversation
 ## Installation
 
 ```bash
-npx skills add -g shihyuho/skills --skill=promote-claude-settings
+npx skills add -g shihyuho/skills --skill promote-claude-settings
 ```
 
 ## Scope

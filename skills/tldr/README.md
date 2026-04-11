@@ -9,5 +9,5 @@ Format is LLM's call — tailored to the specific source.
 ## Installation
 
 ```bash
-npx skills add -g shihyuho/skills --skill=tldr
+npx skills add -g shihyuho/skills --skill tldr
 ```

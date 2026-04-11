@@ -29,7 +29,7 @@ If a repo has no real global constraints yet, a tiny file or no file is acceptab
 ## Installation
 
 ```bash
-npx skills add -g shihyuho/skills --skill=writing-agents-md
+npx skills add -g shihyuho/skills --skill writing-agents-md
 ```
 
 ## References

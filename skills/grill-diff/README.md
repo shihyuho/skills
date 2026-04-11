@@ -39,5 +39,5 @@ Review a pull request:
 ## Installation
 
 ```bash
-npx skills add -g shihyuho/skills --skill=grill-diff
+npx skills add -g shihyuho/skills --skill grill-diff
 ```
