@@ -12,7 +12,7 @@ metadata:
   version: "1.0.0"
 ---
 
-# cover-branches: Branch Coverage Gap Analysis & Fix
+# Branch Coverage Gap Analysis & Fix
 
 Find branch coverage gaps in changed code and write missing tests to fill them.
 

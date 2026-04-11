@@ -7,6 +7,8 @@ metadata:
   version: "1.0.0"
 ---
 
+# Grill Diff
+
 ## Diff Scope
 
 File scope and diff baseline are independent and combine freely (e.g. "against develop src/auth.ts").

@@ -7,6 +7,8 @@ metadata:
   version: "1.0.0"
 ---
 
+# TL;DR
+
 Write for rapid scanning — let the user keep up in roughly **two minutes**, or any user-specified duration.
 Tailor the digest to the target — format is your call.
 
