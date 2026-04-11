@@ -39,7 +39,7 @@ Preflight passed. Ready to go.
 ## Installation
 
 ```bash
-npx skills add -g shihyuho/skills --skill executing-plans-preflight
+npx skills add shihyuho/skills --skill executing-plans-preflight -g
 ```
 
 ## License

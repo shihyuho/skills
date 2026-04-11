@@ -26,5 +26,5 @@ With a spec file for scenario coverage:
 ## Installation
 
 ```bash
-npx skills add -g shihyuho/skills --skill cover-branches
+npx skills add shihyuho/skills --skill cover-branches -g
 ```

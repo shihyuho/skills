@@ -25,7 +25,7 @@ claude plugin add --from shihyuho/skills
 ### Skills CLI
 
 ```bash
-npx skills add -g shihyuho/skills --skill '*'
+npx skills add shihyuho/skills --skill '*' -g
 ```
 
 ## License

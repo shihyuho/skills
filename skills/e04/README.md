@@ -13,7 +13,7 @@ AI：「ㄕㄨㄛ ㄇ」→ 說明
 ## 安裝
 
 ```bash
-npx skills add -g shihyuho/skills --skill e04
+npx skills add shihyuho/skills --skill e04 -g
 ```
 
 安裝後自動生效，不需要額外指令。

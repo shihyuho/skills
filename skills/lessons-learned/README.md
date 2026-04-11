@@ -55,7 +55,7 @@ Detailed execution rules live in `SKILL.md`.
 ## Installation
 
 ```bash
-npx skills add -g shihyuho/skills --skill lessons-learned
+npx skills add shihyuho/skills --skill lessons-learned -g
 ```
 
 ## What Counts as Worth Capturing
