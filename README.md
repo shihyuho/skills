@@ -28,14 +28,6 @@ claude plugin add --from shihyuho/skills
 npx skills add -g shihyuho/skills --skill='*'
 ```
 
-## Usage
-
-Skills are automatically available once installed. AI will use them when relevant tasks are detected. If you installed the OpenCode plugins, the AI will also proactively remind you to use them.
-
-## Naming Rule
-
-- Under `skills/`, do not use `_`-prefixed subdirectories. Prefer `.`-prefixed names (for example, `.templates`).
-
 ## License
 
 MIT
