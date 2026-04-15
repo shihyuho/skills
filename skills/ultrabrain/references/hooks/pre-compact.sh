@@ -19,9 +19,6 @@ VAULT="$HOME/.ultrabrain"
 
 cat <<'HOOK_JSON'
 {
-  "hookSpecificOutput": {
-    "hookEventName": "PreCompact",
-    "additionalContext": "Context compaction is imminent. If this session contains decisions, patterns, or facts worth keeping beyond compaction, say 'capture X' to file them into ~/.ultrabrain/raw/ before detail is lost."
-  }
+  "systemMessage": "Context compaction is imminent. If this session contains decisions, patterns, or facts worth keeping beyond compaction, say 'capture X' to file them into ~/.ultrabrain/raw/ before detail is lost."
 }
 HOOK_JSON

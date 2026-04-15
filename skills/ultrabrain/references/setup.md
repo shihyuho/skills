@@ -33,10 +33,7 @@ Fires before Claude Code compacts context. Injects a reminder that the user shou
 
 ```json
 {
-  "hookSpecificOutput": {
-    "hookEventName": "PreCompact",
-    "additionalContext": "Context compaction is imminent. If this session contains decisions, patterns, or facts worth keeping beyond compaction, say 'capture X' to file them into ~/.ultrabrain/raw/ before detail is lost."
-  }
+  "systemMessage": "Context compaction is imminent. If this session contains decisions, patterns, or facts worth keeping beyond compaction, say 'capture X' to file them into ~/.ultrabrain/raw/ before detail is lost."
 }
 ```
 

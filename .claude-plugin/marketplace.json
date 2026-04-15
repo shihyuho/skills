@@ -76,7 +76,7 @@
       "name": "ultrabrain",
       "source": "./skills/ultrabrain",
       "description": "Personal LLM-maintained wiki at ~/.ultrabrain/ that compounds knowledge across sessions",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "keywords": ["knowledge-base", "wiki", "second-brain", "karpathy", "pkm"]
     },
     {
