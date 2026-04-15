@@ -116,6 +116,22 @@ Fires before Claude Code compacts context. Injects a reminder that the user shou
 
 3. **Confirm**: tell the user both hooks are installed. `SessionStart` fires at the start of each new Claude Code session; `PreCompact` fires whenever Claude Code is about to compact context.
 
+## Vault permissions (optional)
+
+To let ultrabrain operations (`bootstrap`, `capture`, `ingest`, `query`, `lint`) read and write the vault without per-session permission prompts, add these three entries to `~/.claude/settings.json` under `permissions.allow`:
+
+```json
+"Read(~/.ultrabrain/**)",
+"Write(~/.ultrabrain/**)",
+"Edit(~/.ultrabrain/**)"
+```
+
+Use the same Read → diff → confirm → Edit discipline as the hook merge: load the file, show the proposed additions as a diff, wait for confirmation, then Edit with anchored `old_string` / `new_string` pairs.
+
+Without these, the first vault touch each session — a raw write during `capture`, a wiki edit during `ingest`, or a page update during `lint` — will trigger a permission prompt.
+
+To remove them, delete the three entries with the same Read → diff → confirm → Edit flow.
+
 ## Uninstall
 
 1. **Remove both scripts**:
