@@ -59,6 +59,13 @@
       "keywords": ["settings", "config", "promote", "global"]
     },
     {
+      "name": "sdkman",
+      "source": "./skills/sdkman",
+      "description": "Switch JDK (or any SDKMAN-managed candidate) correctly on machines configured with SDKMAN",
+      "version": "1.0.0",
+      "keywords": ["java", "jdk", "sdkman", "version", "gradle", "maven", "kotlin"]
+    },
+    {
       "name": "tldr",
       "source": "./skills/tldr",
       "description": "Produce a TL;DR digest of any target in roughly two minutes",

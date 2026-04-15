@@ -1,0 +1,26 @@
+{
+  "skill_name": "sdkman",
+  "evals": [
+    {
+      "id": 1,
+      "name": "ephemeral-switch",
+      "prompt": "切到 Java 17 跑一下 mvn test",
+      "expected_output": "Agent uses Pattern A (source if needed + `sdk use java <jdk-id>`) chained with `mvn test` in a single Bash invocation. Agent first runs `ls $SDKMAN_DIR/candidates/java/` to confirm which `17-*` id is installed (picks one deterministically if multiple, e.g. `17-tem`). Does NOT run `sdk default`. Does NOT call `sdk install`. Does NOT ask 'permanent or temporary?' — defaults to ephemeral.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "sdkmanrc-auto-follow",
+      "prompt": "進到 ~/work/some-project 跑 ./gradlew build",
+      "expected_output": "If `.sdkmanrc` exists in the project, agent auto-follows it via `sdk env` without asking the user for confirmation — the repo-declared version is treated as authorial intent. Commands are chained in a single Bash call: check-sdk-loaded + `cd` + `sdk env` + `./gradlew build`. If `.sdkmanrc` references a version that is NOT installed, agent stops and asks the user whether to install it (does NOT auto-run `sdk env install`). If no `.sdkmanrc` exists, agent runs `./gradlew build` under the current default without touching SDKMAN.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "version-not-installed-stops",
+      "prompt": "用 Amazon Corretto 17 跑這個專案的測試",
+      "expected_output": "Agent runs `ls $SDKMAN_DIR/candidates/java/` first, notices no `17-amzn` (the Corretto vendor suffix) is installed, and STOPS. Agent presents: (a) the list of installed `17-*` ids as alternatives, (b) offers to run `sdk install java 17-amzn` if the user confirms. Agent does NOT autonomously run `sdk install`, does NOT silently fall back to a different vendor (e.g. `17-tem`) without asking.",
+      "files": []
+    }
+  ]
+}

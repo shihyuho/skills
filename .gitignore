@@ -11,4 +11,5 @@ task_plan.md
 .worktrees/
 .superset
 skills/*-workspace/
+.*-workspace/
 .pytest_cache
