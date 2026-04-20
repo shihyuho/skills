@@ -1,6 +1,6 @@
 ---
 name: grill-me-quick
-description: Grill the user's plan or design in quick mode, auto-deciding confident calls and asking only when uncertain or high-risk. Uses Chain-of-Verification via independent subagents to validate factual claims when confidence is borderline. Invoke only when the user explicitly asks to "grill me quick" or runs the skill manually — do not trigger automatically from adjacent topics like design review, planning, or stress-testing.
+description: Grill-me in quick mode, auto-deciding confident calls and asking only when uncertain or high-risk. Uses Chain-of-Verification via independent subagents to validate factual claims when confidence is borderline. Invoke only when the user explicitly asks to "grill me quick" or runs the skill manually — do not trigger automatically from adjacent topics like design review, planning, or stress-testing.
 disable-model-invocation: true
 license: MIT
 metadata:
