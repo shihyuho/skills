@@ -45,13 +45,6 @@
       "keywords": ["code-review", "diff", "review"]
     },
     {
-      "name": "grill-me-quick",
-      "source": "./skills/grill-me-quick",
-      "description": "Grill a plan or design, auto-deciding confident calls; borderline decisions trigger Chain-of-Verification via independent subagents",
-      "version": "1.0.0",
-      "keywords": ["grill", "design-review", "chain-of-verification", "cove", "decision"]
-    },
-    {
       "name": "lessons-learned",
       "source": "./skills/lessons-learned",
       "description": "Recall and capture reusable lessons as Zettelkasten cards",
