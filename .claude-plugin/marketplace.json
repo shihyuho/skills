@@ -73,6 +73,13 @@
       "keywords": ["summary", "tldr", "digest"]
     },
     {
+      "name": "tutor",
+      "source": "./skills/tutor",
+      "description": "Turn Claude into a learning onramp accelerator — consultative diagnosis, custom syllabus, unit-by-unit guided lessons, dynamic adjustment",
+      "version": "1.0.0",
+      "keywords": ["learning", "tutor", "syllabus", "education", "study", "curriculum"]
+    },
+    {
       "name": "ultrabrain",
       "source": "./skills/ultrabrain",
       "description": "Personal LLM-maintained wiki at ~/.ultrabrain/ that compounds knowledge across sessions",
