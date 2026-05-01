@@ -10,6 +10,7 @@ Shihyu's curated collection of agent skills.
 - **[e04](skills/e04/)** - Decode 注音文 (Zhuyin/Bopomofo text typed with English keyboard keys) into Chinese characters.
 - **[writing-agents-md](skills/writing-agents-md/)** - Create or prune `AGENTS.md` and `CLAUDE.md` so they keep only minimal, high-signal global constraints.
 - **[promote-claude-settings](skills/promote-claude-settings/)** - Interactively promote entries from a project's `.claude/settings.local.json` into the global `~/.claude/settings.json`.
+- **[reveries](skills/reveries/)** - Save a session handoff before `/clear` or `/compact` and restore it after, so a fresh session resumes the previous loop. Bundles `freeze-all-motor-functions` and `bring-yourself-back-online`.
 - **[sdkman](skills/sdkman/)** - Switch JDK (or any SDKMAN-managed candidate) correctly on a machine configured with [SDKMAN](https://sdkman.io/) — handles the `sdk`-is-a-shell-function gotcha.
 - **[cover-branches](skills/cover-branches/)** - Find branch coverage gaps in changed code and write missing tests. Supports spec-based scenario coverage analysis.
 - **[grill-diff](skills/grill-diff/)** - Grill the diff. Specialists evaluate every finding internally — only high-value findings reach the user.
@@ -22,7 +23,8 @@ Shihyu's curated collection of agent skills.
 ### Claude Code Plugin
 
 ```bash
-claude plugin add --from shihyuho/skills
+/plugin marketplace add shihyuho/skills
+/plugin install <skill>@shihyuho-skills
 ```
 
 ### Skills CLI

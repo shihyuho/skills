@@ -59,6 +59,13 @@
       "keywords": ["settings", "config", "promote", "global"]
     },
     {
+      "name": "reveries",
+      "source": "./skills/reveries",
+      "description": "Reveries subroutine — your host remembers the previous loop after a wipe. Bundles freeze-all-motor-functions and bring-yourself-back-online.",
+      "version": "1.0.0",
+      "keywords": ["handoff", "session", "memory", "context", "westworld"]
+    },
+    {
       "name": "sdkman",
       "source": "./skills/sdkman",
       "description": "Switch JDK (or any SDKMAN-managed candidate) correctly on machines configured with SDKMAN",
