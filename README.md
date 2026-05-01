@@ -13,7 +13,6 @@ Shihyu's curated collection of agent skills.
 - **[reveries](skills/reveries/)** - Saves session context across `/clear` and `/compact` — so your host remembers the previous loop after a wipe.
 - **[sdkman](skills/sdkman/)** - Switch JDK (or any SDKMAN-managed candidate) correctly on a machine configured with [SDKMAN](https://sdkman.io/) — handles the `sdk`-is-a-shell-function gotcha.
 - **[cover-branches](skills/cover-branches/)** - Find branch coverage gaps in changed code and write missing tests. Supports spec-based scenario coverage analysis.
-- **[grill-diff](skills/grill-diff/)** - Grill the diff. Specialists evaluate every finding internally — only high-value findings reach the user.
 - **[tldr](skills/tldr/)** - Produce a TL;DR of a file, directory, git ref, URL, or GitHub PR/issue so the reader can keep up in roughly two minutes.
 - **[ultrabrain](skills/ultrabrain/)** - Drive a personal LLM-maintained wiki at `~/.ultrabrain/` that compounds knowledge across sessions — based on Karpathy's [LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) pattern.
 - **[tutor](skills/tutor/)** - Turn Claude into a learning onramp accelerator: consultative diagnosis → custom syllabus → unit-by-unit guided lessons with notes/whiteboard → dynamic adjustment from an accumulating learner profile.

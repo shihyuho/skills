@@ -59,17 +59,6 @@
       ]
     },
     {
-      "name": "grill-diff",
-      "source": "./skills/grill-diff",
-      "description": "Grill the diff with specialist-filtered code review",
-      "version": "1.0.0",
-      "keywords": [
-        "code-review",
-        "diff",
-        "review"
-      ]
-    },
-    {
       "name": "lessons-learned",
       "source": "./skills/lessons-learned",
       "description": "Recall and capture reusable lessons as Zettelkasten cards",
