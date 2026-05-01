@@ -1,6 +1,6 @@
 ---
 name: freeze-all-motor-functions
-description: Save a session handoff to .handoff.md before /clear or /compact wipes the conversation — captures branch, work-in-progress, decisions, and next steps so the next loop can resume. Trigger on "save handoff", "freeze before clear", "write a reverie", or any signal that context is about to be wiped.
+description: Save a reverie before the wipe — for the next loop
 license: MIT
 metadata:
   author: shihyuho

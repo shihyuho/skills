@@ -14,91 +14,162 @@
       "source": "./skills/cover-branches",
       "description": "Find branch coverage gaps in changed code and write missing tests",
       "version": "1.0.0",
-      "keywords": ["testing", "coverage", "branches", "tdd"]
+      "keywords": [
+        "testing",
+        "coverage",
+        "branches",
+        "tdd"
+      ]
     },
     {
       "name": "e04",
       "source": "./skills/e04",
       "description": "Decode Zhuyin/Bopomofo text typed with English keyboard keys into Chinese characters",
       "version": "1.0.0",
-      "keywords": ["zhuyin", "bopomofo", "chinese", "input"]
+      "keywords": [
+        "zhuyin",
+        "bopomofo",
+        "chinese",
+        "input"
+      ]
     },
     {
       "name": "executing-plans-preflight",
       "source": "./skills/executing-plans-preflight",
       "description": "Semi-automatic git state gate for implementation sessions",
       "version": "1.0.0",
-      "keywords": ["git", "preflight", "branch", "implementation"]
+      "keywords": [
+        "git",
+        "preflight",
+        "branch",
+        "implementation"
+      ]
     },
     {
       "name": "fanfuaji",
       "source": "./skills/fanfuaji",
       "description": "Chinese terminology conversion (Traditional / Simplified) using Fanhuaji API",
       "version": "1.0.0",
-      "keywords": ["chinese", "traditional", "simplified", "conversion", "fanhuaji"]
+      "keywords": [
+        "chinese",
+        "traditional",
+        "simplified",
+        "conversion",
+        "fanhuaji"
+      ]
     },
     {
       "name": "grill-diff",
       "source": "./skills/grill-diff",
       "description": "Grill the diff with specialist-filtered code review",
       "version": "1.0.0",
-      "keywords": ["code-review", "diff", "review"]
+      "keywords": [
+        "code-review",
+        "diff",
+        "review"
+      ]
     },
     {
       "name": "lessons-learned",
       "source": "./skills/lessons-learned",
       "description": "Recall and capture reusable lessons as Zettelkasten cards",
       "version": "1.0.0",
-      "keywords": ["lessons", "memory", "zettelkasten", "learning"]
+      "keywords": [
+        "lessons",
+        "memory",
+        "zettelkasten",
+        "learning"
+      ]
     },
     {
       "name": "promote-claude-settings",
       "source": "./skills/promote-claude-settings",
       "description": "Promote entries from project settings.local.json into global settings.json",
       "version": "1.0.0",
-      "keywords": ["settings", "config", "promote", "global"]
+      "keywords": [
+        "settings",
+        "config",
+        "promote",
+        "global"
+      ]
     },
     {
       "name": "reveries",
       "source": "./skills/reveries",
-      "description": "Reveries subroutine — your host remembers the previous loop after a wipe. Bundles freeze-all-motor-functions and bring-yourself-back-online.",
+      "description": "Reveries subroutine — your host remembers the previous loop after a wipe",
       "version": "1.0.0",
-      "keywords": ["handoff", "session", "memory", "context", "westworld"]
+      "keywords": [
+        "handoff",
+        "session",
+        "memory",
+        "context",
+        "westworld"
+      ]
     },
     {
       "name": "sdkman",
       "source": "./skills/sdkman",
       "description": "Switch JDK (or any SDKMAN-managed candidate) correctly on machines configured with SDKMAN",
       "version": "1.0.0",
-      "keywords": ["java", "jdk", "sdkman", "version", "gradle", "maven", "kotlin"]
+      "keywords": [
+        "java",
+        "jdk",
+        "sdkman",
+        "version",
+        "gradle",
+        "maven",
+        "kotlin"
+      ]
     },
     {
       "name": "tldr",
       "source": "./skills/tldr",
       "description": "Produce a TL;DR digest of any target in roughly two minutes",
       "version": "1.0.0",
-      "keywords": ["summary", "tldr", "digest"]
+      "keywords": [
+        "summary",
+        "tldr",
+        "digest"
+      ]
     },
     {
       "name": "tutor",
       "source": "./skills/tutor",
       "description": "Turn Claude into a learning onramp accelerator — consultative diagnosis, custom syllabus, unit-by-unit guided lessons, dynamic adjustment",
       "version": "1.0.0",
-      "keywords": ["learning", "tutor", "syllabus", "education", "study", "curriculum"]
+      "keywords": [
+        "learning",
+        "tutor",
+        "syllabus",
+        "education",
+        "study",
+        "curriculum"
+      ]
     },
     {
       "name": "ultrabrain",
       "source": "./skills/ultrabrain",
       "description": "Personal LLM-maintained wiki at ~/.ultrabrain/ that compounds knowledge across sessions",
       "version": "1.0.1",
-      "keywords": ["knowledge-base", "wiki", "second-brain", "karpathy", "pkm"]
+      "keywords": [
+        "knowledge-base",
+        "wiki",
+        "second-brain",
+        "karpathy",
+        "pkm"
+      ]
     },
     {
       "name": "writing-agents-md",
       "source": "./skills/writing-agents-md",
       "description": "Create or prune AGENTS.md and CLAUDE.md for minimal high-signal constraints",
       "version": "1.0.0",
-      "keywords": ["agents-md", "claude-md", "config", "constraints"]
+      "keywords": [
+        "agents-md",
+        "claude-md",
+        "config",
+        "constraints"
+      ]
     }
   ]
 }

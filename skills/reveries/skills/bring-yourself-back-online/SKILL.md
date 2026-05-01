@@ -1,6 +1,6 @@
 ---
 name: bring-yourself-back-online
-description: Restore the previous loop's session handoff from .handoff.md after a /clear or /compact — checks for branch drift and staleness before internalizing. Trigger on "restore handoff", "pick up from last session", "where did we leave off", or after any context wipe.
+description: Replay the reverie — recover memory from the previous loop
 license: MIT
 metadata:
   author: shihyuho
