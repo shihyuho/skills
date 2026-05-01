@@ -2,9 +2,6 @@
 name: executing-plans-preflight
 description: Use before any implementation start — auto-detects and fixes git state issues (branch, dirty files, remote sync) with one confirmation per fix. Trigger on "start implementation", "implement this plan", "start coding", "execute plan", "開始實作", "執行計劃", or any signal that coding is about to begin.
 license: MIT
-metadata:
-  author: shihyuho
-  version: "1.0.0"
 ---
 
 # Executing Plans Preflight

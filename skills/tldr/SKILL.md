@@ -2,9 +2,6 @@
 name: tldr
 description: Produce a TL;DR of a given target. Use when the user asks for a tldr, tl;dr, or quick summary of anything.
 license: MIT
-metadata:
-  author: shihyuho
-  version: "1.0.0"
 ---
 
 # TL;DR

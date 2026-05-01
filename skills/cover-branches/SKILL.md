@@ -7,9 +7,6 @@ description: >
   Use when verifying test completeness after implementing a feature or fixing a bug,
   when auditing whether tests match a spec, or when suspecting untested branches.
 license: MIT
-metadata:
-  author: shihyuho
-  version: "1.0.0"
 ---
 
 # Branch Coverage Gap Analysis & Fix

@@ -2,9 +2,6 @@
 name: sdkman
 description: Switch JDK, Kotlin, Gradle, Maven, or any SDKMAN-managed candidate when the user or runtime explicitly demands a different version. Use when the user says "switch to Java 17", "run with JDK 21", "use Gradle 8.x", asks about JAVA_HOME, a build fails with UnsupportedClassVersionError or "class file has wrong version", or the repo contains a `.sdkmanrc`. Operates on machines configured with SDKMAN (`$SDKMAN_DIR`, default `~/.sdkman`).
 license: MIT
-metadata:
-  author: shihyuho
-  version: "1.0.0"
 ---
 
 # SDKMAN Version Switching

@@ -2,9 +2,6 @@
 name: lessons-learned
 description: Use when starting, executing, or finishing non-trivial implementation tasks where reusable constraints may matter. Recall relevant lessons before work, capture reusable corrections or discoveries during and after work, and keep project memory in `docs/lessons/`.
 license: MIT
-metadata:
-  author: shihyuho
-  version: "1.0.0"
 ---
 
 # Lessons Learned

@@ -2,9 +2,6 @@
 name: writing-agents-md
 description: Use when creating, rewriting, pruning, or reviewing `AGENTS.md` or `CLAUDE.md`, especially to remove repo summaries, stale rules, and other low-signal global instructions. Trigger when deciding what belongs in always-on agent files versus a task-specific skill.
 license: MIT
-metadata:
-  author: shihyuho
-  version: "1.0.0"
 ---
 
 # Writing Agents MD

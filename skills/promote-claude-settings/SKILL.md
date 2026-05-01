@@ -2,9 +2,6 @@
 name: promote-claude-settings
 description: Promote entries from the current project's .claude/settings.local.json into the global ~/.claude/settings.json. Use when user says "promote settings", "upgrade settings", "sync settings to global", "move local settings to global", or wants to move project-local Claude Code settings to global scope.
 license: MIT
-metadata:
-  author: shihyuho
-  version: "1.0.0"
 ---
 
 # promote-claude-settings

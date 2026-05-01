@@ -2,9 +2,6 @@
 name: tutor
 description: Drive a structured tutoring workflow that turns Claude into a learning onramp accelerator — consultative diagnosis → custom syllabus → unit-by-unit guided lessons with notes/whiteboard → dynamic adjustment from an accumulating learner profile. Use when the user states a learning goal ("I want to systematically learn X", "teach me Y", "help me prep for Z exam"), uploads study materials and asks for a course plan, or signals sustained guided study (mentions tutor, syllabus, course, lessons, study plan, curriculum, 家教, 學習路徑). Skip for one-shot factual Q&A or quick code-context explanations.
 license: MIT
-metadata:
-  author: shihyuho
-  version: "1.0.0"
 ---
 
 # Tutor

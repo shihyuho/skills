@@ -2,9 +2,6 @@
 name: bring-yourself-back-online
 description: Replay the reverie — recover memory from the previous loop
 license: MIT
-metadata:
-  author: shihyuho
-  version: "1.0.0"
 ---
 
 # Bring Yourself Back Online

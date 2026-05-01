@@ -2,9 +2,6 @@
 name: ultrabrain
 description: Personal wiki at ~/.ultrabrain/ that accumulates knowledge across sessions using an LLM-maintained-wiki pattern. Use when the user asks factual, technical, or decision-oriented questions that may have been previously captured (check index.md before answering), or explicitly asks to capture/記下來/save session content, ingest/整合 raw entries into the wiki, lint/檢查 the vault, or bootstrap a new vault. Skip for small talk, current-file questions, or code-execution requests.
 license: MIT
-metadata:
-  author: shihyuho
-  version: "1.0.1"
 ---
 
 # Ultrabrain

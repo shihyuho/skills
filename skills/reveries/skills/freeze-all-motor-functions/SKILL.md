@@ -2,9 +2,6 @@
 name: freeze-all-motor-functions
 description: Save a reverie before the wipe — for the next loop
 license: MIT
-metadata:
-  author: shihyuho
-  version: "1.0.0"
 ---
 
 # Freeze All Motor Functions
