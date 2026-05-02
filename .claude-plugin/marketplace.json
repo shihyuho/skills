@@ -33,31 +33,6 @@
       ]
     },
     {
-      "name": "executing-plans-preflight",
-      "description": "Semi-automatic git state gate for implementation sessions",
-      "version": "1.0.0",
-      "source": "./plugins/executing-plans-preflight",
-      "keywords": [
-        "git",
-        "preflight",
-        "branch",
-        "implementation"
-      ]
-    },
-    {
-      "name": "fanfuaji",
-      "description": "Chinese terminology conversion (Traditional / Simplified) using Fanhuaji API",
-      "version": "1.0.0",
-      "source": "./plugins/fanfuaji",
-      "keywords": [
-        "chinese",
-        "traditional",
-        "simplified",
-        "conversion",
-        "fanhuaji"
-      ]
-    },
-    {
       "name": "lessons-learned",
       "description": "Recall and capture reusable lessons as Zettelkasten cards",
       "version": "1.0.0",
