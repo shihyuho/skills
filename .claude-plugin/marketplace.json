@@ -12,7 +12,7 @@
       "name": "cover-branches",
       "description": "Find branch coverage gaps in changed code and write missing tests",
       "version": "1.0.0",
-      "source": "./skills/cover-branches",
+      "source": "./plugins/cover-branches",
       "keywords": [
         "testing",
         "coverage",
@@ -24,7 +24,7 @@
       "name": "e04",
       "description": "Decode Zhuyin/Bopomofo text typed with English keyboard keys into Chinese characters",
       "version": "1.0.0",
-      "source": "./skills/e04",
+      "source": "./plugins/e04",
       "keywords": [
         "zhuyin",
         "bopomofo",
@@ -36,7 +36,7 @@
       "name": "executing-plans-preflight",
       "description": "Semi-automatic git state gate for implementation sessions",
       "version": "1.0.0",
-      "source": "./skills/executing-plans-preflight",
+      "source": "./plugins/executing-plans-preflight",
       "keywords": [
         "git",
         "preflight",
@@ -48,7 +48,7 @@
       "name": "fanfuaji",
       "description": "Chinese terminology conversion (Traditional / Simplified) using Fanhuaji API",
       "version": "1.0.0",
-      "source": "./skills/fanfuaji",
+      "source": "./plugins/fanfuaji",
       "keywords": [
         "chinese",
         "traditional",
@@ -61,7 +61,7 @@
       "name": "lessons-learned",
       "description": "Recall and capture reusable lessons as Zettelkasten cards",
       "version": "1.0.0",
-      "source": "./skills/lessons-learned",
+      "source": "./plugins/lessons-learned",
       "keywords": [
         "lessons",
         "memory",
@@ -73,7 +73,7 @@
       "name": "promote-claude-settings",
       "description": "Promote entries from project settings.local.json into global settings.json",
       "version": "1.0.0",
-      "source": "./skills/promote-claude-settings",
+      "source": "./plugins/promote-claude-settings",
       "keywords": [
         "settings",
         "config",
@@ -85,7 +85,7 @@
       "name": "reveries",
       "description": "Reveries subroutine — your host remembers the previous loop after a wipe",
       "version": "1.1.1",
-      "source": "./skills/reveries",
+      "source": "./plugins/reveries",
       "keywords": [
         "handoff",
         "session",
@@ -98,7 +98,7 @@
       "name": "sdkman",
       "description": "Switch JDK (or any SDKMAN-managed candidate) correctly on machines configured with SDKMAN",
       "version": "1.0.0",
-      "source": "./skills/sdkman",
+      "source": "./plugins/sdkman",
       "keywords": [
         "java",
         "jdk",
@@ -113,7 +113,7 @@
       "name": "tldr",
       "description": "Produce a TL;DR digest of any target in roughly two minutes",
       "version": "1.0.0",
-      "source": "./skills/tldr",
+      "source": "./plugins/tldr",
       "keywords": [
         "summary",
         "tldr",
@@ -124,7 +124,7 @@
       "name": "tutor",
       "description": "Turn Claude into a learning onramp accelerator — consultative diagnosis, custom syllabus, unit-by-unit guided lessons, dynamic adjustment",
       "version": "1.0.0",
-      "source": "./skills/tutor",
+      "source": "./plugins/tutor",
       "keywords": [
         "learning",
         "tutor",
@@ -138,7 +138,7 @@
       "name": "ultrabrain",
       "description": "Personal LLM-maintained wiki at ~/.ultrabrain/ that compounds knowledge across sessions",
       "version": "1.0.1",
-      "source": "./skills/ultrabrain",
+      "source": "./plugins/ultrabrain",
       "keywords": [
         "knowledge-base",
         "wiki",
@@ -151,7 +151,7 @@
       "name": "writing-agents-md",
       "description": "Create or prune AGENTS.md and CLAUDE.md for minimal high-signal constraints",
       "version": "1.0.0",
-      "source": "./skills/writing-agents-md",
+      "source": "./plugins/writing-agents-md",
       "keywords": [
         "agents-md",
         "claude-md",
