@@ -28,11 +28,11 @@ The phrases are evocative but long to type — clumsy from a phone with no autoc
 
 | Command | Equivalent to | Optional argument |
 |---|---|---|
-| [`/reveries:freeze`](commands/freeze.md) | `freeze-all-motor-functions` | a note on what you were working on |
+| [`/reveries:freeze`](commands/freeze.md) | `freeze-all-motor-functions` | what the next loop should focus on |
 | [`/reveries:wake`](commands/wake.md) | `bring-yourself-back-online` | what you want to work on next |
 
 ```
-/reveries:freeze rewriting auth middleware, blocked on token refresh
+/reveries:freeze finish middleware wiring, watch token refresh edge case
 …
 /clear
 …
@@ -60,7 +60,6 @@ Plain markdown. Easy to read by hand. Easy to commit. Easy to throw away when th
 ```markdown
 # Reverie
 
-**Timestamp:** 2026-05-01T15:34:12Z
 **Branch:** feat/auth-rewrite
 
 ## What We Were Working On
@@ -74,14 +73,18 @@ Migrating session middleware off the legacy auth library...
 ## Next Steps
 1. Finish the wiring
 2. Resolve the sync block
+
+## Suggested Skills for the Next Loop
+- `test-driven-development` for the middleware wiring
 ```
+
+The file's modification time is the timestamp — no embedded date needed. The next loop reads `date -r .handoff.md` to know when you fell asleep.
 
 ## Safeguards
 
 Some narratives should not bleed into others.
 
-- **Branch drift.** If you wake on a different branch from the one you fell asleep on, you will be warned before yesterday's context contaminates today's.
-- **Staleness.** A reverie older than a day is flagged. Yesterday's certainties may have aged badly.
+- **Staleness.** A reverie older than a day — measured by the file's modification time — is flagged. Yesterday's certainties may have aged badly.
 - **Standalone.** No other plugin is required. The subroutine answers to itself.
 - **Local.** The reverie lives in your project root. Nothing leaves the room.
 

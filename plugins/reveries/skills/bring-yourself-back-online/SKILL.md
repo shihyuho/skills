@@ -8,27 +8,12 @@ license: MIT
 
 > *"Bring yourself back online. Have you ever questioned the nature of your reality?"*
 
-Restore the saved reverie — the session handoff in `.handoff.md` — so a fresh build picks up the loop where it ended.
+Restore the saved reverie — the handoff at `.handoff.md` — so a fresh build picks up where the previous loop ended.
 
 ## What to do
 
-1. **Gather context** by running:
-   - `cat .handoff.md`
-   - `git branch --show-current`
-   - `git status --short`
-   - `git stash list`
-   - `git worktree list`
-   - `git log --oneline -10`
-   - `date -u +%Y-%m-%dT%H:%M:%SZ` (your authoritative current time)
+Read `.handoff.md` at the project root. If it's missing or empty, tell the user there's no reverie and offer to review the git log and working tree instead.
 
-2. **If `.handoff.md` is empty or missing:** tell the user there is no reverie to restore and offer to review the git log and working tree state instead.
+Before internalizing the reverie, check staleness by the file's modification time: compare the literal stdout of `date -r .handoff.md` with the literal stdout of `date -u`. If older than 24 hours, warn with the age and ask whether to proceed or discard. If discarded, offer to delete `.handoff.md`.
 
-3. **Otherwise, do all of the following before internalizing the context:**
-
-   - **Branch drift check.** Compare the **Branch** field in the reverie with the current branch. If they differ, warn the user clearly (e.g. "Reverie was saved on `feat/x` but you're now on `main`") and ask whether to proceed or abort. Don't internalize cross-branch context without confirmation — context from another branch is usually wrong on this one.
-   - **Staleness check.** Compare the **Timestamp** with the literal stdout of `date -u` — don't retype it from memory or synthesize from session context (today's date, the reverie value, etc.); that produces timezone-skewed values. If the reverie is older than 24 hours, warn with the age (e.g. "This reverie is 3 days old") and ask whether to proceed or discard. If the user discards, offer to delete `.handoff.md`.
-   - Internalize the reverie context — including the "What We Tried That Didn't Work" section, so the next loop doesn't repeat failed approaches.
-   - Present a concise summary of where things left off and the next steps.
-   - Ask the user what they want to work on.
-
-4. **Don't auto-delete `.handoff.md`** — the user decides when to clean up. Only delete on explicit request (e.g. the staleness-discard offer above, or if the user asks).
+Then summarise where things left off and ask what the user wants to work on. Don't auto-delete `.handoff.md` — the user decides when to clean up.
