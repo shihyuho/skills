@@ -24,7 +24,7 @@ Two phrases. The first you say before the wipe. The second after.
 
 ### Short commands
 
-The phrases are evocative but long to type — clumsy from a phone with no autocomplete. Each has a short slash-command shortcut that also takes an optional one-liner to steer the handoff.
+The phrases are evocative but long to type — clumsy from a phone with no autocomplete. Each has a short slash-command shortcut that also takes an optional one-liner — the narrative thread to carry forward.
 
 | Command | Equivalent to | Optional argument |
 |---|---|---|
