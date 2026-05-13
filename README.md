@@ -8,7 +8,7 @@ Shihyu's curated collection of agent skills.
 - **[e04](plugins/e04/)** - Decode 注音文 (Zhuyin/Bopomofo text typed with English keyboard keys) into Chinese characters.
 - **[writing-agents-md](plugins/writing-agents-md/)** - Create or prune `AGENTS.md` and `CLAUDE.md` so they keep only minimal, high-signal global constraints.
 - **[promote-claude-settings](plugins/promote-claude-settings/)** - Interactively promote entries from a project's `.claude/settings.local.json` into the global `~/.claude/settings.json`.
-- **[reveries](plugins/reveries/)** - Saves session context across `/clear` and `/compact` — so your host remembers the previous loop after a wipe.
+- **[reveries](plugins/reveries/)** - Saves session context across `/clear` and `/compact` — so your host remembers the previous loop after a wipe. `/reveries:freeze` before the wipe, `/reveries:wake` after.
 - **[sdkman](plugins/sdkman/)** - Switch JDK (or any SDKMAN-managed candidate) correctly on a machine configured with [SDKMAN](https://sdkman.io/) — handles the `sdk`-is-a-shell-function gotcha.
 - **[cover-branches](plugins/cover-branches/)** - Find branch coverage gaps in changed code and write missing tests. Supports spec-based scenario coverage analysis.
 - **[tldr](plugins/tldr/)** - Produce a TL;DR of a file, directory, git ref, URL, or GitHub PR/issue so the reader can keep up in roughly two minutes.

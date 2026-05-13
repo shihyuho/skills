@@ -22,6 +22,23 @@ Two phrases. The first you say before the wipe. The second after.
 | [`freeze-all-motor-functions`](skills/freeze-all-motor-functions/) | Save a reverie before the wipe — for the next loop |
 | [`bring-yourself-back-online`](skills/bring-yourself-back-online/) | Replay the reverie — recover memory from the previous loop |
 
+### Short commands
+
+The phrases are evocative but long to type — clumsy from a phone with no autocomplete. Each has a short slash-command shortcut that also takes an optional one-liner to steer the handoff.
+
+| Command | Equivalent to | Optional argument |
+|---|---|---|
+| [`/reveries:freeze`](commands/freeze.md) | `freeze-all-motor-functions` | a note on what you were working on |
+| [`/reveries:wake`](commands/wake.md) | `bring-yourself-back-online` | what you want to work on next |
+
+```
+/reveries:freeze rewriting auth middleware, blocked on token refresh
+…
+/clear
+…
+/reveries:wake finish the middleware wiring
+```
+
 ## A day in the loop
 
 > *"Time to write my own fucking story."*
