@@ -111,7 +111,7 @@
     {
       "name": "tutor",
       "description": "Turn Claude into a learning on-ramp — explain opens up one subject from the whole picture down, course runs a sustained guided syllabus with unit-by-unit lessons and saved progress",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "source": "./plugins/tutor",
       "keywords": [
         "learning",

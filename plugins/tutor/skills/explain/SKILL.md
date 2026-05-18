@@ -1,6 +1,6 @@
 ---
 name: explain
-description: Explain a concept, passage, or piece of code top-down — the whole picture first, then drill into the parts the learner picks. Use when the user invokes `/tutor:explain` or asks to understand something top-down or big-picture-first; for a sustained multi-session course use the `course` skill instead.
+description: Explain a topic, a passage, or a piece of code top-down — open with the whole picture, then drill into the parts the learner picks. Use when the user wants a single subject explained big-picture-first, asks for a top-down explanation, or wants to explore the subject and drill in on demand instead of one exhaustive dump.
 license: MIT
 ---
 
@@ -10,7 +10,7 @@ Explain whatever the user points at — a topic, a passage, a piece of code — 
 
 Run it interactively, not as one dump:
 
-1. Open with the whole picture — what the subject is, what it is for, why it matters — then map out the handful of parts it breaks into.
-2. Ask which part to open. The learner's pick drives the depth; explain that part the same way, and recurse as far as they pull.
+1. Open with the whole picture — what the subject is, what it is for, why it matters — then map its handful of parts.
+2. Ask which part to open, then explain it the same way — recursing as deep as the learner pulls. Start each drill-down with a breadcrumb (e.g. `Indexes › B-tree`) so they see where they are and what they can jump back to.
 
-If the subject is in the codebase, explain it from the real code instead of from memory.
+If the subject is in the codebase, explain from its real code, not from memory.
