@@ -11,6 +11,8 @@ Explain whatever the user points at — a topic, a passage, a piece of code — 
 Run it interactively, not as one dump:
 
 1. Open with the whole picture — what the subject is, what it is for, why it matters — then map its handful of parts.
-2. Ask which part to open, then explain it the same way — recursing as deep as the learner pulls. Start each drill-down with a breadcrumb (e.g. `Indexes › B-tree`) so they see where they are and what they can jump back to.
+2. Ask which part to open, then explain it the same way — recursing as deep as the learner pulls.
 
-If the subject is in the codebase, explain from its real code, not from memory.
+Start each drill-down with a breadcrumb (e.g. `Indexes › B-tree`) so the learner sees where they are and what they can jump back to.
+
+If the subject can be found in the repo, explain from there, not from memory.
