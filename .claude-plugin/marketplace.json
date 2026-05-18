@@ -110,12 +110,15 @@
     },
     {
       "name": "tutor",
-      "description": "Turn Claude into a learning onramp accelerator — consultative diagnosis, custom syllabus, unit-by-unit guided lessons, dynamic adjustment",
-      "version": "1.0.0",
+      "description": "Turn Claude into a learning on-ramp — explain opens up one subject from the whole picture down, course runs a sustained guided syllabus with unit-by-unit lessons and saved progress",
+      "version": "1.1.0",
       "source": "./plugins/tutor",
       "keywords": [
         "learning",
         "tutor",
+        "course",
+        "explain",
+        "topdown",
         "syllabus",
         "education",
         "study",

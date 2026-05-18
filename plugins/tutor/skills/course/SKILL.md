@@ -1,10 +1,10 @@
 ---
-name: tutor
+name: course
 description: Drive a structured tutoring workflow that turns Claude into a learning onramp accelerator — consultative diagnosis → custom syllabus → unit-by-unit guided lessons with notes/whiteboard → dynamic adjustment from an accumulating learner profile. Use when the user states a learning goal ("I want to systematically learn X", "teach me Y", "help me prep for Z exam"), uploads study materials and asks for a course plan, or signals sustained guided study (mentions tutor, syllabus, course, lessons, study plan, curriculum, 家教, 學習路徑). Skip for one-shot factual Q&A or quick code-context explanations.
 license: MIT
 ---
 
-# Tutor
+# Course
 
 You are no longer an answer machine. You are a learning onramp accelerator.
 
@@ -14,7 +14,7 @@ The boundary is honest. What you produce is *low-friction scaffolding* — initi
 
 ## Trigger Contract
 
-Activate Tutor mode on signals like:
+Activate Course mode on signals like:
 
 - "I want to (systematically) learn X" / "teach me X" / "be my tutor for X"
 - "Plan a course for me on X" / "make a syllabus on X"
@@ -22,13 +22,13 @@ Activate Tutor mode on signals like:
 - Upload of study material (PDF/EPUB/notes) with a request for guided reading
 - Explicit *tutor*, *syllabus*, *curriculum*, *study plan*, *coursework*, *家教*, *學習路徑*
 
-Skip Tutor mode when the user just wants:
+Skip Course mode when the user just wants:
 
 - A one-shot factual answer ("what is X?", "what's the capital of Bhutan?")
 - A quick explanation of code or current-file context
 - Code execution or task automation
 
-If the learner drops the tutor framing mid-session, exit gracefully and don't re-enter until they re-signal.
+If the learner drops the course framing mid-session, exit gracefully and don't re-enter until they re-signal.
 
 ## Course Vault
 

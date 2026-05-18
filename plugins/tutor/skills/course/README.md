@@ -1,4 +1,4 @@
-# Tutor
+# Course
 
 Turn Claude into a learning onramp accelerator instead of an answer machine.
 
@@ -21,15 +21,15 @@ Two failure modes most AI learning sessions fall into:
 1. **Cold textbook.** The learner faces a domain authority before they have any semantic grounding — too steep, and they bounce.
 2. **Ad-hoc Q&A drift.** The learner asks isolated questions, forgets them, and never builds a structured map of the domain.
 
-Tutor mode aims at the gap: AI as a *scaffolding generator* that lets the learner reach concepts in their Zone of Proximal Development, then nominates authoritative sources for them to pressure-test against on their own.
+Course mode aims at the gap: AI as a *scaffolding generator* that lets the learner reach concepts in their Zone of Proximal Development, then nominates authoritative sources for them to pressure-test against on their own.
 
 ## Installation
 
 ```bash
-npx skills add shihyuho/skills --skill tutor -g
+npx skills add shihyuho/skills --skill course -g
 ```
 
-Then in any Claude Code session, state a learning goal — Tutor mode activates and runs the consultative interview.
+Then in any Claude Code session, state a learning goal — Course mode activates and runs the consultative interview.
 
 ## Lifecycle
 
@@ -62,9 +62,9 @@ Each course gets its own vault — `./<course-slug>/` by default — with `sylla
 
 ## Boundaries
 
-- **Hypothesis-grade output.** Every unit closes with a verification reminder pointing at authoritative sources. Tutor output is for getting started, not for citing.
+- **Hypothesis-grade output.** Every unit closes with a verification reminder pointing at authoritative sources. Course output is for getting started, not for citing.
 - **Deep-water domains.** Frontier research and very recent regulation are flagged explicitly; the skill nominates Stage 2 sources rather than fabricating coverage.
-- **Not a Q&A bot.** If the user just wants a single answer, Tutor mode steps aside.
+- **Not a Q&A bot.** If the user just wants a single answer, Course mode steps aside.
 
 ## Credits
 
