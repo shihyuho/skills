@@ -12,9 +12,11 @@ The user just reviewed a SPEC or PLAN and handed it to you to build. Build from 
 
 **1. Re-read the spec.** Read the SPEC/PLAN in full from disk before touching code — the user likely edited it during review, so your context is stale. If you can't tell which document, or there are several, ask. If none exists, say so — kickoff assumes a reviewed plan.
 
-**2. Open the notes file.** Unless the user already picked a format, ask: Markdown or HTML. Create `implementation-notes.md` (or `.html`) beside the spec — repo root if the spec lives there. Structure it however reads best; no fixed template — just keep the four kinds of note below distinct. If it already exists for this work, append rather than overwrite.
+**2. Pick the notes format.** Unless the user already picked one, ask: Markdown or HTML. Don't create the file yet — nothing to write until the build diverges.
 
 **3. Build, logging divergences as they happen.** Implement with whatever workflow fits. The moment the build departs from or interprets the spec, log an entry — then and there, not batched for the end, when the alternatives you weighed are forgotten.
+
+That first entry creates the file — `implementation-notes.md` (or `.html`) beside the spec, repo root if the spec lives there. Structure it however reads best; no fixed template — just keep the four kinds of note below distinct. If a notes file already exists for this work, append rather than overwrite. A build that never departs from the spec produces no file — don't create an empty one.
 
 ## What to log
 
