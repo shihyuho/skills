@@ -33,6 +33,22 @@
       ]
     },
     {
+      "name": "kickoff",
+      "description": "Two go-signals for handing reviewed work back to Claude — lgtm re-reads files from disk before the next step, kickoff re-reads a SPEC/PLAN then builds it while keeping a running implementation-notes file",
+      "version": "1.0.0",
+      "source": "./plugins/kickoff",
+      "keywords": [
+        "lgtm",
+        "approve",
+        "review",
+        "spec",
+        "plan",
+        "implementation",
+        "handoff",
+        "notes"
+      ]
+    },
+    {
       "name": "lessons-learned",
       "description": "Recall and capture reusable lessons as Zettelkasten cards",
       "version": "1.0.0",

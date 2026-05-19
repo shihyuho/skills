@@ -15,6 +15,7 @@ Shihyu's curated collection of agent skills.
 - **[ultrabrain](plugins/ultrabrain/)** - Drive a personal LLM-maintained wiki at `~/.ultrabrain/` that compounds knowledge across sessions — based on Karpathy's [LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) pattern.
 - **[tutor](plugins/tutor/)** - Turn Claude into a learning on-ramp, with two skills. `explain` opens up a single subject whole-picture-first, then drills into the parts you pick; `course` runs a full guided curriculum — consultative diagnosis → custom syllabus → unit-by-unit guided lessons → dynamic adjustment from an accumulating learner profile.
 - **[rephrase](plugins/rephrase/)** - Re-express verbose text more tightly. `tighten` rewrites it shorter with every point kept; `distil` cuts it down to its core message. Both act only on a passage you ask them to.
+- **[kickoff](plugins/kickoff/)** - Two go-signals for handing reviewed work back to Claude. `lgtm` re-reads from disk every file you had under review before Claude takes the next step — so your mid-review edits are never silently dropped. `kickoff` re-reads a reviewed SPEC/PLAN, then builds it while keeping a running implementation-notes file of design decisions, deviations, tradeoffs, and open questions.
 
 ## Installation
 
