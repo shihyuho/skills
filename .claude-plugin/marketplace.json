@@ -74,15 +74,17 @@
     },
     {
       "name": "rephrase",
-      "description": "Re-express verbose text more tightly — tighten it losslessly, or distil it down to its core message",
-      "version": "1.0.0",
+      "description": "Re-express a passage from scratch — tighten it losslessly, distil it to its core, humanize away AI tics, or put it in plain language",
+      "version": "1.1.0",
       "source": "./plugins/rephrase",
       "keywords": [
         "writing",
         "editing",
         "rewrite",
         "tighten",
-        "distil"
+        "distil",
+        "humanize",
+        "plain"
       ]
     },
     {
