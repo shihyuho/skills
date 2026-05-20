@@ -103,7 +103,7 @@
     {
       "name": "sdkman",
       "description": "Switch JDK (or any SDKMAN-managed candidate) correctly on machines configured with SDKMAN",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "source": "./plugins/sdkman",
       "keywords": [
         "java",

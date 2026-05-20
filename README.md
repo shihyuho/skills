@@ -9,7 +9,7 @@ Shihyu's curated collection of agent skills.
 - **[writing-agents-md](plugins/writing-agents-md/)** - Create or prune `AGENTS.md` and `CLAUDE.md` so they keep only minimal, high-signal global constraints.
 - **[promote-claude-settings](plugins/promote-claude-settings/)** - Interactively promote entries from a project's `.claude/settings.local.json` into the global `~/.claude/settings.json`.
 - **[reveries](plugins/reveries/)** - Saves session context across `/clear` and `/compact` — so your host remembers the previous loop after a wipe. `/reveries:freeze` before the wipe, `/reveries:wake` after.
-- **[sdkman](plugins/sdkman/)** - Switch JDK (or any SDKMAN-managed candidate) correctly on a machine configured with [SDKMAN](https://sdkman.io/) — handles the `sdk`-is-a-shell-function gotcha.
+- **[sdkman](plugins/sdkman/)** - Switch JDK (or any SDKMAN-managed candidate) correctly on a machine configured with [SDKMAN](https://sdkman.io/) — handles the `sdk`-is-a-shell-function gotcha, and ships hooks that nudge toward the project's default JDK and flag Java version-mismatch build failures.
 - **[cover-branches](plugins/cover-branches/)** - Find branch coverage gaps in changed code and write missing tests. Supports spec-based scenario coverage analysis.
 - **[tldr](plugins/tldr/)** - Produce a TL;DR of a file, directory, git ref, URL, or GitHub PR/issue so the reader can keep up in roughly two minutes.
 - **[ultrabrain](plugins/ultrabrain/)** - Drive a personal LLM-maintained wiki at `~/.ultrabrain/` that compounds knowledge across sessions — based on Karpathy's [LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) pattern.

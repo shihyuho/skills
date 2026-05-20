@@ -1,0 +1,27 @@
+{
+  "description": "SDKMAN helpers for JVM projects. SessionStart: an advisory nudge to prefer `sdk` for version changes and to treat project-declared Java versions as defaults the user can override. PostToolUse: a wrapper-agnostic catch-all that detects Java version-mismatch errors in any build output (make/just/npm/script included) and prompts a switch + retry.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/skills/sdkman/references/hooks/session-start.py\""
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/skills/sdkman/references/hooks/post-build-version-check.py\""
+          }
+        ]
+      }
+    ]
+  }
+}

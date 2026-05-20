@@ -1,6 +1,6 @@
 ---
 name: sdkman
-description: Switch JDK, Kotlin, Gradle, Maven, or any SDKMAN-managed candidate when the user or runtime explicitly demands a different version. Use when the user says "switch to Java 17", "run with JDK 21", "use Gradle 8.x", asks about JAVA_HOME, a build fails with UnsupportedClassVersionError or "class file has wrong version", or the repo contains a `.sdkmanrc`. Operates on machines configured with SDKMAN (`$SDKMAN_DIR`, default `~/.sdkman`).
+description: Switch JDK, Kotlin, Gradle, Maven, or any SDKMAN-managed candidate when the user or a project demands a different version. Use when the user says "switch to Java 17", "run with JDK 21", "use Gradle 8.x", asks about JAVA_HOME, a build fails with UnsupportedClassVersionError or "class file has wrong version", or the repo has a `.sdkmanrc`. Also consult this proactively before compiling or running a Maven/Gradle/Kotlin project: check that the current `java -version` matches the JDK the project declares as its default (pom.xml `maven.compiler.release`, a Gradle toolchain, `.sdkmanrc`, `.java-version`) and align to it before building — while honoring any version the user explicitly asks for over that default. Operates on machines configured with SDKMAN (`$SDKMAN_DIR`, default `~/.sdkman`).
 license: MIT
 ---
 
@@ -9,14 +9,6 @@ license: MIT
 [SDKMAN](https://sdkman.io/) manages parallel installs of JDKs and related tools under `$SDKMAN_DIR/candidates/<tool>/<version>/` (default `$SDKMAN_DIR` is `~/.sdkman`). This skill explains how to switch versions **correctly** from Bash tool calls — the naive approach silently does nothing.
 
 > Throughout this document `$SDKMAN_DIR` means `${SDKMAN_DIR:-$HOME/.sdkman}`. Users may relocate the install via that env var; never hard-code `~/.sdkman`.
-
-## Default Policy
-
-Unless the user **explicitly** asks otherwise:
-
-- **Ephemeral, not persistent.** Use Pattern A (preferred) or B. They affect only the current Bash invocation. Never run `sdk default` (Pattern C) just because a user said "switch to Java 17" — that changes every future shell the user opens.
-- **Install with confirmation only.** If a version isn't installed, stop and ask — do not auto-run `sdk install`. JDK downloads are hundreds of MB, persistent, and vendor-specific.
-- **Follow `.sdkmanrc` without asking.** A `.sdkmanrc` is the repo author's explicit intent for anyone entering the repo. Honor it via Pattern D; only pause to ask if the declared version is missing.
 
 ## Precondition
 
@@ -28,6 +20,55 @@ SDKMAN_DIR="${SDKMAN_DIR:-$HOME/.sdkman}"
 ```
 
 If absent, say so and stop — don't invent paths. The machine may use system packages (`apt`, `brew`), `asdf`, `mise`, `jenv`, or a manual `JAVA_HOME` instead; ask the user which. SDKMAN itself runs on macOS, Linux, WSL, and POSIX shells on Windows (Git Bash, Cygwin, MSYS) — **not** native `cmd`/PowerShell.
+
+## Quick Decision Guide
+
+| Situation | Pattern |
+|---|---|
+| About to build/run a project — verify the JDK matches first | Check Before Building → A/D |
+| Run one build/test under a specific JDK | A |
+| Repo has `.sdkmanrc` | D (auto-follow) |
+| Tool reads `JAVA_HOME` in a detached process | B |
+| User asked for a permanent default change | C |
+| Target version isn't installed | Stop, list options, ask |
+
+## Default Policy
+
+Unless the user **explicitly** asks otherwise:
+
+- **Ephemeral, not persistent.** Use Pattern A (preferred) or B. They affect only the current Bash invocation. Never run `sdk default` (Pattern C) just because a user said "switch to Java 17" — that changes every future shell the user opens.
+- **Check, don't blindly switch.** Before building, compare the project's target JDK with the current `java` (see *Check Before Building*); switch only on a real mismatch. If they already match, do nothing.
+- **Install with confirmation only.** If a version isn't installed, stop and ask — do not auto-run `sdk install`. JDK downloads are hundreds of MB, persistent, and vendor-specific.
+- **Follow `.sdkmanrc` without asking.** A `.sdkmanrc` is the repo author's explicit intent for anyone entering the repo. Honor it via Pattern D; only pause to ask if the declared version is missing.
+
+## Aligning to the Project's Default JDK
+
+A project's declared JDK is a **default, not a mandate**. When the user hasn't asked for a specific version, align the active `java` to that default before building so an unfamiliar repo builds as its author intended. But an explicit user request always wins — if the user says "test this under 21" while the project declares 17, run 21. Never force the project default over a version the user asked for.
+
+To find the default, see what the build would use right now and compare it against what the project declares:
+
+```bash
+type sdk >/dev/null 2>&1 || source "${SDKMAN_DIR:-$HOME/.sdkman}/bin/sdkman-init.sh"
+java -version    # the JDK the build would launch with
+```
+
+Where the project states its target JDK:
+
+- **`.sdkmanrc`** — authoritative; follow it (Pattern D) and skip the rest.
+- **`pom.xml`** — `<maven.compiler.release>`, `<maven.compiler.source>`/`<target>`, or a `<java.version>` property.
+- **`build.gradle[.kts]`** — `languageVersion = JavaLanguageVersion.of(N)` (toolchain) or `sourceCompatibility`.
+- **`.java-version`** — a bare version line (jenv/asdf convention).
+
+If the current `java` already satisfies the default (or the user asked for the version that's active), **do nothing** — switching adds no value. Only when they differ and the user hasn't chosen otherwise, switch for that build via Pattern A (or D when a `.sdkmanrc` exists). Note a Gradle toolchain can locate or provision its own JDK, so a shell switch is only needed when that toolchain version isn't otherwise available to Gradle.
+
+## Hooks (optional)
+
+This skill ships two hooks. **Neither enforces a version** — a project default is overridable, so blocking a build would be wrong:
+
+- **SessionStart (advisory nudge)** — in a JVM project on an SDKMAN machine, injects a one-line reminder to prefer `sdk` for version changes and to treat project-declared versions as defaults the user can override. Pure preference, never coercive.
+- **PostToolUse (reactive, catch-all)** — scans build output for Java version-mismatch errors (`UnsupportedClassVersionError`, `invalid target release`, …) and prompts a switch + retry. Because it keys off the error, it covers builds wrapped in `make`, `just`, npm scripts, or custom shell scripts too — and only fires on a genuine failure, so it never second-guesses an intentional version choice.
+
+If you installed the `sdkman` **plugin** in Claude Code, these hooks are already active (bundled in `hooks/hooks.json`). Otherwise — an `npx skills add` style install, or running under **Codex** (whose hook schema is the same) — follow [references/setup.md](references/setup.md) to wire them in. The same two scripts work unchanged on both runtimes.
 
 ## The One Thing That Trips Agents Up
 
@@ -108,16 +149,6 @@ If the target version isn't under `$SDKMAN_DIR/candidates/<tool>/`:
 1. List what IS installed (the `ls` above).
 2. If the user wants to see remote options: `sdk list java` (requires network).
 3. **Stop and ask.** Either pick a compatible installed version, or confirm `sdk install java <jdk-id>` with the user — specifying vendor, since the user may have a policy (`-tem`, `-amzn`, `-graalce`, …). Do not run `sdk install` autonomously.
-
-## Quick Decision Guide
-
-| Situation | Pattern |
-|---|---|
-| Run one build/test under a specific JDK | A |
-| Repo has `.sdkmanrc` | D (auto-follow) |
-| Tool reads `JAVA_HOME` in a detached process | B |
-| User asked for a permanent default change | C |
-| Target version isn't installed | Stop, list options, ask |
 
 ## Other Candidates
 
