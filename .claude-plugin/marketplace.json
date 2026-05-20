@@ -144,19 +144,6 @@
       ]
     },
     {
-      "name": "ultrabrain",
-      "description": "Personal LLM-maintained wiki at ~/.ultrabrain/ that compounds knowledge across sessions",
-      "version": "1.0.1",
-      "source": "./plugins/ultrabrain",
-      "keywords": [
-        "knowledge-base",
-        "wiki",
-        "second-brain",
-        "karpathy",
-        "pkm"
-      ]
-    },
-    {
       "name": "writing-agents-md",
       "description": "Create or prune AGENTS.md and CLAUDE.md for minimal high-signal constraints",
       "version": "1.0.0",
