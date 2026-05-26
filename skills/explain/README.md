@@ -4,7 +4,7 @@ Explain any subject top-down — the whole picture first, then drill into the pa
 
 A learning explainer, not an answer dump. It opens with what the subject is and why it matters, hands over one concrete model to hold onto, and maps the subject into a handful of parts — then lets the learner choose what to open and how deep to go. Detail arrives on demand, never front-loaded.
 
-For a sustained, multi-unit course with a syllabus and saved progress, see the sibling [`course`](../course/) skill.
+For a sustained, multi-unit course with a syllabus and saved progress, see the sibling [`tutor`](../tutor/) skill.
 
 ## Usage
 
