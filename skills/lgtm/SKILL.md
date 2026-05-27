@@ -1,6 +1,6 @@
 ---
 name: lgtm
-description: Before acting on an approval, re-read from disk every file that was under review — the user may have edited them while reviewing, leaving your in-context copy stale. Use when the user signals go-ahead on something you put up for review — "lgtm", "looks good", "looks good to me", "approved", "go ahead" — before you start the next step. Applies to any reviewed artifact: spec, plan, diff, edited code, proposal.
+description: Before acting on an approval, re-read from disk every file that was under review — the user may have edited them while reviewing, leaving your in-context copy stale. Use when the user signals go-ahead on something you put up for review — "lgtm", "looks good", "looks good to me", "approved", "go ahead" — before you start the next step. Applies to any reviewed artifact — spec, plan, diff, edited code, proposal.
 license: MIT
 ---
 
