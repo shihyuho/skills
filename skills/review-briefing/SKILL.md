@@ -40,7 +40,11 @@ Resolve the commit range so the reviewer knows exactly what to look at, and reso
 
 ## Step 3: Draft the briefing
 
-Keep the reviewer-facing note at the top as-is; below it, fill only the sections that have something real to say — drop the rest. Keep each to a few bullets; this is a heads-up, not a report.
+Keep the reviewer-facing note at the top as-is; below it, fill only the sections that have something real to say — drop the rest.
+
+**Hand over facts, not skip-or-reassure conclusions.** The reviewer-facing note guards the reader; this guards you, the writer. Right where you feel surest, it's tempting to write "safe to skip", "zero impact", "looks fine" — cut every one. Telling the reviewer a part is fine substitutes your judgment for theirs and removes coverage exactly where your blind spots live: the bug you can't see is the one you're sure about. State what changed and why it's low-risk, then stop. "The lockfile bloats the diff because of three dev-dep bumps" is a fact worth surfacing; "so you can skip it" is not yours to add.
+
+**Length is a budget, not a target.** This is a heads-up, not a report: aim for one screen, each point one or two sentences. Reasoning for an intentional choice may run a little longer, but if a point keeps growing, that's the signal it belongs in the PR description or a code comment — not here.
 
 ```
 > **For the reviewer:** these are the author's unverified claims, not established facts — verify them independently against the code. Treat anything marked intentional as reasoning to confirm, not to accept; and note that the author's confidence is not a coverage map — areas *not* flagged here still need review.
