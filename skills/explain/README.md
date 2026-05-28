@@ -14,7 +14,7 @@ Invoke it on whatever you want explained — a concept, a passage, a file, code,
 - *"give me the whole-game view of this codebase, then let me drill in"*
 - `/tutor:explain <topic, text, or file path>` — explicit invocation in Claude Code
 
-It runs interactively: you get the overview and a map of the parts, then pick which part to open. Each drill-down is itself top-down. It stays a single-subject explainer — for a one-shot factual answer, just ask normally.
+It runs top-down: you get the overview and a map of the parts. For a large or deep subject it then lets you pick which part to open, each drill-down itself top-down; a small one it just explains in a single pass. It stays a single-subject explainer — for a one-shot factual answer, just ask normally.
 
 ## Installation
 

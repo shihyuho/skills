@@ -6,13 +6,10 @@ license: MIT
 
 # Explain
 
-Explain whatever the user points at — a topic, a passage, a piece of code — using top-down learning.
+Explain whatever the user points at — a topic, a passage, a piece of code — top-down: open with the whole picture (what the subject is, what it's for, why it matters), then map its handful of parts.
 
-Run it interactively, not as one dump:
+Then judge whether to gate. Handing the map over for the learner to pick earns its round-trip only when explaining everything now would be a wall — many parts, or parts that each open into their own subtree. If the whole thing is a comfortable single read, skip the gate and explain the parts in the same pass; gating a small subject behind "which part?" is pure friction. Either way, honor an explicit signal ("all of it" / "one at a time").
 
-1. Open with the whole picture — what the subject is, what it is for, why it matters — then map its handful of parts.
-2. Ask which part to open, then explain it the same way — recursing as deep as the learner pulls.
-
-Start each drill-down with a breadcrumb (e.g. `Indexes › B-tree`) so the learner sees where they are and what they can jump back to.
+When you drill down, ask which part to open, explain it the same way, and recurse as deep as the learner pulls. Start each level with a breadcrumb (e.g. `Indexes › B-tree`) so the learner sees where they are.
 
 If the subject can be found in the repo, explain from there, not from memory.
