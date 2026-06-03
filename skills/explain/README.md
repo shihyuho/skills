@@ -1,8 +1,8 @@
 # Explain
 
-Explain any subject top-down — the whole picture first, then drill into the parts the learner picks.
+Explain any subject top-down so you actually understand it — the whole picture first, then drill into the parts you pick.
 
-A learning explainer, not an answer dump. It opens with what the subject is and why it matters, hands over one concrete model to hold onto, and maps the subject into a handful of parts — then lets the learner choose what to open and how deep to go. Detail arrives on demand, never front-loaded.
+A learning explainer, not an answer dump. The aim is that you come away understanding — holding a working mental model — not that a polished explanation gets delivered. It starts from what you already know, opens with what the subject is and why it matters, and anchors each new idea to something familiar — then maps the subject into a handful of parts and lets you choose what to open and how deep to go. Detail arrives on demand, never front-loaded; and if a part doesn't land, it comes at it from another angle rather than repeating itself.
 
 For a sustained, multi-unit course with a syllabus and saved progress, see the sibling [`tutor`](../tutor/) skill.
 
