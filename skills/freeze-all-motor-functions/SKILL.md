@@ -12,7 +12,7 @@ Compact the current conversation into a reverie â€” a handoff at `.handoff.md` â
 
 ## What to do
 
-Write a handoff document summarising the current conversation so a fresh agent can continue the work. Save it to `.handoff.md` at the project root (read the file before you write to it).
+Write a handoff summarising the conversation to `.handoff.md` at the project root so a fresh agent can resume. If one exists, `rm -f .handoff.md` and write a fresh file.
 
 Suggest the skills to be used, if any, by the next session.
 
