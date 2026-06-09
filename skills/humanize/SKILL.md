@@ -39,6 +39,7 @@ This list is a guide, not a checklist to satisfy. The goal is prose a person wou
 - **Every point.** Humanizing is lossless: each claim, fact, and qualification survives — only voice and cadence change. If a point only existed to pad, that is a length problem; say so and point to the tighten skill rather than dropping it silently.
 - **Meaning.** Assert nothing the original did not.
 - **The author's intended register.** Formal-but-human stays formal; casual stays casual. You are breaking the machine cadence, not making everything chatty.
+- **A professional voice.** Sounding human is not sounding careless. Breaking the cadence must not drag in slang, in-jokes, or throwaway flippancy to seem more relatable — even a casual register stays credible. Lose the AI tics without losing the author's authority.
 - **Code, quotes, numbers, names, technical terms.** Reproduce verbatim.
 
 ## Output
