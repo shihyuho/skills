@@ -5,18 +5,19 @@
   },
   "metadata": {
     "description": "Shihyu's curated collection of agent skills",
-    "version": "2.2.0"
+    "version": "2.3.0"
   },
   "plugins": [
     {
       "name": "skills",
-      "description": "Shihyu's curated collection of agent skills — adr, cover-branches, e04, kickoff/lgtm, promote-claude-settings, rephrase (tighten/distil/humanize/plain), review-briefing, reveries, sdkman, tldr, explain, tutor, writing-agents-md",
-      "version": "2.2.0",
+      "description": "Shihyu's curated collection of agent skills — adr, artifact-anatomy, cover-branches, e04, kickoff/lgtm, promote-claude-settings, rephrase (tighten/distil/humanize/plain), review-briefing, reveries, sdkman, tldr, explain, tutor, writing-agents-md",
+      "version": "2.3.0",
       "source": "./",
       "keywords": [
         "skills",
         "agent-skills",
         "adr",
+        "artifact-anatomy",
         "tldr",
         "tutor",
         "rephrase",
