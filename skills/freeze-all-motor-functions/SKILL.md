@@ -12,7 +12,9 @@ Compact the current conversation into a reverie — a handoff at `.handoff.md` �
 
 ## What to do
 
-Write a handoff summarising the conversation to `.handoff.md` at the project root so a fresh agent can resume. If one exists, `rm -f .handoff.md` and write a fresh file.
+Write a handoff summarising the conversation to `.handoff.md` at the root of the current working tree (`git rev-parse --show-toplevel`) so a fresh agent can resume. If one exists, `rm -f .handoff.md` and write a fresh file.
+
+The current working tree may be a linked git worktree rather than the main checkout. Writing the reverie there is deliberate — it keeps each worktree's handoff isolated so parallel tasks don't clobber each other's. But a fresh session after `/clear` loses all knowledge of which worktree it was in, so stamp the reverie's opening with its coordinates — the branch (`git branch --show-current`) and the absolute worktree root — so the reader can re-enter the right tree before resuming.
 
 Suggest the skills to be used, if any, by the next session.
 
