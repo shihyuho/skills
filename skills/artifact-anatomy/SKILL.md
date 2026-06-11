@@ -1,6 +1,6 @@
 ---
 name: artifact-anatomy
-description: Defines where spec-driven working artifacts (the spec, plan, and task list) live on disk and how they are numbered, scoped, and resolved, so multiple specs can run in parallel without overwriting one another. Use when a spec/plan/build workflow needs to create, locate, or update these artifacts, when more than one spec or feature is in progress at once, or when a draft spec gets an issue number assigned. Governs only where artifacts live and how they are addressed, not what goes in them.
+description: Defines where spec-driven working artifacts — the spec (e.g. `SPEC.md`), the plan, and the task list (e.g. `tasks/plan.md`, `tasks/todo.md`) — live on disk under `docs/specs/<id>-<slug>/`, and how those directories are numbered, scoped, and resolved so multiple specs can run in parallel without overwriting one another. Use this BEFORE creating, locating, or updating any spec, plan, or task/todo file: whenever a spec/plan/build workflow writes these artifacts, whenever you need to find the right feature directory to act on, when more than one spec or feature is in progress at once, or when a draft spec gets a tracker issue number assigned. Trigger even if only one spec exists and even if the user never mentions where the file should go. Governs only where artifacts live and how they are addressed, not what content goes in them.
 license: MIT
 ---
 
