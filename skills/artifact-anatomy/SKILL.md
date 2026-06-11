@@ -25,10 +25,10 @@ It governs the *where* and the *naming*. It does not govern the *what*: writing 
 
 ## Layout
 
-One feature per numbered directory under `specs/`. The directory contents are **unchanged** from a single-spec layout — same filenames, same content — only their location moves:
+One feature per numbered directory under `docs/specs/`. The directory contents are **unchanged** from a single-spec layout — same filenames, same content — only their location moves:
 
 ```
-specs/
+docs/specs/
   142-payment-retry/
     SPEC.md
     tasks/
@@ -41,11 +41,11 @@ specs/
       todo.md
 ```
 
-The artifact filenames keep their exact names and structure. The only new thing is the `specs/<id>-<slug>/` wrapper that scopes them to one feature.
+The artifact filenames keep their exact names and structure. The only new thing is the `docs/specs/<id>-<slug>/` wrapper that scopes them to one feature.
 
 ## Numbering namespace
 
-The `<id>` prefix marks where the work is tracked, and the two forms are kept strictly separate so a glance at `specs/` is unambiguous:
+The `<id>` prefix marks where the work is tracked, and the two forms are kept strictly separate so a glance at `docs/specs/` is unambiguous:
 
 - **Bare number** (`142-payment-retry`) — a real issue-tracker issue number. Reserved **exclusively** for issue numbers.
 - **`draft-` prefix** (`draft-search-revamp`) — no issue yet; a local draft. Never give a local-only spec a bare number.
@@ -53,7 +53,7 @@ The `<id>` prefix marks where the work is tracked, and the two forms are kept st
 When a draft later gets an issue number, rename the directory in one step:
 
 ```
-git mv specs/draft-search-revamp specs/160-search-revamp
+git mv docs/specs/draft-search-revamp docs/specs/160-search-revamp
 ```
 
 This keeps the guarantee that **a bare number always maps to a tracker issue**, while letting work start before any issue exists.
@@ -62,23 +62,23 @@ This keeps the guarantee that **a bare number always maps to a tracker issue**, 
 
 Resolve `<id>` in order, stopping at the first that applies:
 
-1. **An issue reference is supplied** — passed as an argument, or `#142` mentioned in context → use that number: `specs/142-payment-retry/`.
+1. **An issue reference is supplied** — passed as an argument, or `#142` mentioned in context → use that number: `docs/specs/142-payment-retry/`.
 2. **No reference** — ask the user once: *"Does this spec have a tracker issue? Give me the number, or I'll start it as a draft."*
-3. **User has none or declines** → `specs/draft-<slug>/`.
+3. **User has none or declines** → `docs/specs/draft-<slug>/`.
 
 Do **not** auto-detect the issue tracker (scanning branch names, running `gh issue list`). That is out of scope — rely on the supplied reference plus the single question.
 
 ## Resolving the target directory (when planning or building)
 
-1. **An id or slug is supplied** → use `specs/<that>/`.
-2. **Nothing supplied** → scan `specs/*/`:
+1. **An id or slug is supplied** → use `docs/specs/<that>/`.
+2. **Nothing supplied** → scan `docs/specs/*/`:
    - exactly one feature directory → use it
    - multiple → list them and ask which feature to act on (never guess)
    - none → fall back to a legacy root spec file + `tasks/` if the project still uses one (see Backward compatibility)
 
 ## Backward compatibility
 
-A root spec file (e.g. `SPEC.md`) with its `tasks/` directory is treated as the single, unnumbered default feature. Projects that have only ever had one spec keep working with no change; the numbered `specs/<id>-<slug>/` layout is opt-in and only needed once a second spec enters progress.
+A root spec file (e.g. `SPEC.md`) with its `tasks/` directory is treated as the single, unnumbered default feature. Projects that have only ever had one spec keep working with no change; the numbered `docs/specs/<id>-<slug>/` layout is opt-in and only needed once a second spec enters progress.
 
 ## Common Rationalizations
 
@@ -86,13 +86,13 @@ A root spec file (e.g. `SPEC.md`) with its `tasks/` directory is treated as the 
 |---|---|
 | "There's only one spec, a root spec file is fine." | Today there's one. The moment a second spec starts, the root spec collides and one overwrites the other. The numbered directory costs nothing now and prevents the collision later. |
 | "I'll just give the local spec a number, close enough." | Bare numbers are reserved for real issue numbers. A fake number breaks the one guarantee the namespace provides — that a number maps to a tracker issue. Use `draft-`. |
-| "I can tell which feature they mean." | When multiple `specs/*` directories exist, guessing risks editing the wrong feature's artifacts. List them and ask. |
+| "I can tell which feature they mean." | When multiple `docs/specs/*` directories exist, guessing risks editing the wrong feature's artifacts. List them and ask. |
 | "I'll auto-detect the issue from the branch name." | Auto-detection is explicitly out of scope and adds fragile coupling. Ask the one question instead. |
 
 ## Red Flags
 
 - Writing the spec / `tasks/` to the repo root while another spec is already in progress
-- A bare-number directory (`specs/3-foo/`) that has no corresponding tracker issue
+- A bare-number directory (`docs/specs/3-foo/`) that has no corresponding tracker issue
 - Planning or building against a guessed feature directory when several exist instead of asking
 - Renaming or moving files *inside* the feature directory (the filenames are fixed)
 
@@ -100,7 +100,7 @@ A root spec file (e.g. `SPEC.md`) with its `tasks/` directory is treated as the 
 
 After resolving artifact locations, confirm:
 
-- [ ] Each in-progress spec has its own `specs/<id>-<slug>/` directory
+- [ ] Each in-progress spec has its own `docs/specs/<id>-<slug>/` directory
 - [ ] Bare-number prefixes map to real issue numbers; local drafts use `draft-`
 - [ ] Planning and building operated on the intended feature directory (asked when ambiguous)
 - [ ] Filenames inside the directory are unchanged
