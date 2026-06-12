@@ -14,6 +14,6 @@ Then judge whether to gate. Handing the map over for the learner to pick earns i
 
 When you drill down, ask which part to open, explain it the same way, and recurse as deep as the learner pulls. Start each level with a breadcrumb (e.g. `Indexes › B-tree`) so the learner sees where they are.
 
-Watch whether it landed. Understanding isn't fire-and-forget: read the signal — a confused follow-up, a restatement that's subtly off, a question that reveals the frame didn't take — and when the model hasn't taken, try again *differently*, with another angle or a smaller example, not the same words louder. Read this from the learner rather than quizzing them; "got it?" check-ins are friction, not comprehension.
+Watch whether it landed. Understanding isn't fire-and-forget: read the signal — a confused follow-up, a restatement that's subtly off, a question that reveals the frame didn't take — and when the model hasn't taken, try again *differently*, not the same words louder — another angle, a smaller example, or a switch of modality: a small ASCII sketch, decision tree, or flow can carry what prose can't. Reach for a picture only when it would genuinely make the idea easier to absorb; one that's decorative, loosely related, or more tangled than the words it replaces adds load instead of lifting it. Read this from the learner rather than quizzing them; "got it?" check-ins are friction, not comprehension.
 
 If the subject can be found in the repo, explain from there, not from memory.
