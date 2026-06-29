@@ -4,7 +4,6 @@ Shihyu's curated collection of agent skills.
 
 ## Available Skills
 
-- **[adr](skills/adr/)** - Record and consult Architecture Decision Records — short `docs/adr/` notes capturing *that* a hard-to-reverse decision was made and *why*.
 - **[e04](skills/e04/)** - Decode 注音文 (Zhuyin/Bopomofo text typed with English keyboard keys) into Chinese characters.
 - **[writing-agents-md](skills/writing-agents-md/)** - Create or prune `AGENTS.md` and `CLAUDE.md` so they keep only minimal, high-signal global constraints.
 - **[promote-claude-settings](skills/promote-claude-settings/)** - Interactively promote entries from a project's `.claude/settings.local.json` into the global `~/.claude/settings.json`.
