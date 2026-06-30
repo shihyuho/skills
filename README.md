@@ -12,7 +12,7 @@ Shihyu's curated collection of agent skills.
 - **[cover-branches](skills/cover-branches/)** - Find branch coverage gaps in changed code and write the missing tests, with optional spec-based scenario coverage analysis.
 - **[tldr](skills/tldr/)** - Produce a TL;DR of a file, directory, git ref, URL, or GitHub PR/issue so the reader can keep up in roughly two minutes.
 - **rephrase** ([tighten](skills/tighten/) / [distil](skills/distil/) / [humanize](skills/humanize/) / [plain](skills/plain/)) - Re-express a passage you point to — `tighten` shortens it with every point kept, `distil` cuts it to its core, `humanize` strips AI tics, `plain` strips jargon.
-- **kickoff** ([kickoff](skills/kickoff/) / [lgtm](skills/lgtm/)) - Two go-signals for handing reviewed work back to Claude — `lgtm` re-reads every file you had under review so mid-review edits aren't dropped, `kickoff` re-reads a reviewed SPEC/PLAN and builds it while logging implementation notes.
+- **[lgtm](skills/lgtm/)** - On a go-signal (`lgtm`, `looks good`, `approved`), re-read from disk every file you had under review so mid-review edits aren't dropped before the next step.
 - **[grill-on-point](commands/grill-on-point.md)** - Slash command (`/skills:grill-on-point`) that runs the external `grill-with-docs` skill over a doc, plan, or rough idea but interrupts you only with what's truly on point, settling the rest itself.
 - **[artifact-anatomy](skills/artifact-anatomy/)** - Define where spec-driven artifacts live on disk and how they're numbered — one `docs/specs/<id>-<slug>/` directory per feature — governing the *where* and the naming, not the contents.
 
