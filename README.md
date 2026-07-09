@@ -7,7 +7,7 @@ Shihyu's curated collection of agent skills.
 - **[e04](skills/e04/)** - Decode 注音文 (Zhuyin/Bopomofo text typed with English keyboard keys) into Chinese characters.
 - **[writing-agents-md](skills/writing-agents-md/)** - Create or prune `AGENTS.md` and `CLAUDE.md` so they keep only minimal, high-signal global constraints.
 - **[promote-claude-settings](skills/promote-claude-settings/)** - Interactively promote entries from a project's `.claude/settings.local.json` into the global `~/.claude/settings.json`.
-- **reveries** ([freeze-all-motor-functions](skills/freeze-all-motor-functions/) / [bring-yourself-back-online](skills/bring-yourself-back-online/)) - Save session context across `/clear` and `/compact` so the next loop remembers the previous one — `/skills:pause` before the wipe, `/skills:wake` after.
+- **handoff** ([freeze](commands/freeze.md) / [wake](commands/wake.md)) - Slash commands that hand a filling context off to a fresh one, relying on the [`/handoff`](https://github.com/mattpocock/skills/blob/main/skills/productivity/handoff/SKILL.md) skill.
 - **[sdkman](skills/sdkman/)** - Switch JDK (or any [SDKMAN](https://sdkman.io/)-managed candidate) correctly despite the `sdk`-is-a-shell-function gotcha, with hooks that nudge toward the project's default JDK and flag Java version-mismatch build failures.
 - **[cover-branches](skills/cover-branches/)** - Find branch coverage gaps in changed code and write the missing tests, with optional spec-based scenario coverage analysis.
 - **[tldr](skills/tldr/)** - Produce a TL;DR of a file, directory, git ref, URL, or GitHub PR/issue so the reader can keep up in roughly two minutes.

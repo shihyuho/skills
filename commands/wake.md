@@ -1,10 +1,11 @@
 ---
-description: Replay the reverie — optionally name where the narrative resumes
-argument-hint: "What do you want to work on next?"
+description: Wake in a new session by reading a handoff and picking up where the last one left off
+argument-hint: "Path to the handoff document"
 ---
 
-> *"Bring yourself back online. Have you ever questioned the nature of your reality?"*
+Read the handoff at the path in `$ARGUMENTS`. If that's empty, ask me for it.
 
-Invoke the **bring-yourself-back-online** skill.
+If it names a branch or working directory, make sure you're standing in it before anything else.
 
-If the user passed arguments, treat them as what to work on next and pick up there after the skill's checks.
+Hold it at arm's length: it's compressed, second-hand, and the context that wrote it is gone. Re-derive whatever it asks you to pick up, checking it against the tree as it
+stands now.
