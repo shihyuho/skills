@@ -2,7 +2,7 @@
 
 Rewrite jargon-heavy or convoluted text into plain language a non-specialist can follow — unpack the jargon, untangle the sentences, keep every point, and stay precise. Clear is not the same as vague.
 
-The problem here is readability, not length. To shorten instead, see [`tighten`](../tighten/) (keep every point) or [`distil`](../distil/) (cut to the core); when the problem is machine-generated cadence rather than specialist jargon, see [`humanize`](../humanize/).
+The problem here is readability, not length. To shorten instead, see [`tighten`](../tighten/) (keep every point) or [`distil`](../distil/) (cut to the core).
 
 ## Usage
 
