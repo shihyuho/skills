@@ -14,7 +14,6 @@ Shihyu's curated collection of agent skills.
 - **[lgtm](skills/lgtm/)** - On a go-signal (`lgtm`, `looks good`, `approved`), re-read from disk every file you had under review so mid-review edits aren't dropped before the next step.
 - **[grill-on-point](commands/grill-on-point.md)** - Slash command (`/skills:grill-on-point`) that runs the external `grill-with-docs` skill over a doc, plan, or rough idea but interrupts you only with what's truly on point, settling the rest itself.
 - **[artifact-anatomy](skills/artifact-anatomy/)** - Define where spec-driven artifacts live on disk and how they're numbered — one `docs/specs/<id>-<slug>/` directory per feature — governing the *where* and the naming, not the contents.
-- **[catchup](commands/catchup.md)** - Slash command (`/skills:catchup`) that gets you quickly back up to speed on where a session stands — for picking up after a break or while juggling several sessions.
 
 ## Installation
 
