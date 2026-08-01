@@ -2,6 +2,7 @@
 name: tldr
 description: Produce a TL;DR of a given target. Use when the user asks for a tldr, tl;dr, or quick summary of anything.
 license: MIT
+disable-model-invocation: true
 ---
 
 # TL;DR

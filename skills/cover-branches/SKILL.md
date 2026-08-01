@@ -7,6 +7,7 @@ description: >
   Use when verifying test completeness after implementing a feature or fixing a bug,
   when auditing whether tests match a spec, or when suspecting untested branches.
 license: MIT
+disable-model-invocation: true
 ---
 
 # Branch Coverage Gap Analysis & Fix

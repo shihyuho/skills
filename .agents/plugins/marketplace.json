@@ -1,0 +1,22 @@
+{
+  "name": "shihyuho-skills",
+  "interface": {
+    "displayName": "Shihyu's Skills"
+  },
+  "plugins": [
+    {
+      "name": "skills",
+      "displayName": "Shihyu's Skills",
+      "description": "Reusable workflows for coding, Git, and writing tasks.",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

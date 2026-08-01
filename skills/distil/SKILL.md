@@ -2,6 +2,7 @@
 name: distil
 description: Rewrite a piece of text down to its core message, dropping whatever is peripheral to it — the result is the text itself rewritten shorter, not a summary written about it. Use when the user explicitly asks to distil, cut to the essentials, trim the fat, or strip a passage, document, or draft down to what matters, and is willing to lose secondary detail. Do not trigger as unprompted cleanup of text the user has not asked to change; when the user wants the text shorter but every point kept, use the tighten skill instead.
 license: MIT
+disable-model-invocation: true
 ---
 
 # Distil

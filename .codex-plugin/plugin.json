@@ -1,0 +1,35 @@
+{
+  "name": "skills",
+  "version": "1.0.0",
+  "description": "Shihyu's curated collection of reusable agent skills.",
+  "author": {
+    "name": "Shihyu Ho",
+    "url": "https://github.com/shihyuho"
+  },
+  "repository": "https://github.com/shihyuho/skills",
+  "license": "MIT",
+  "keywords": [
+    "agent-skills",
+    "productivity",
+    "git",
+    "writing",
+    "java"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Shihyu's Skills",
+    "shortDescription": "Reusable workflows for coding, Git, and writing tasks.",
+    "longDescription": "A curated collection of reusable skills for coding workflows, Git operations, document work, and developer tooling.",
+    "developerName": "Shihyu Ho",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Create and push a commit, then open a pull request.",
+      "Turn the approaches in this conversation into a decision brief.",
+      "Check whether this change has untested branches."
+    ]
+  }
+}

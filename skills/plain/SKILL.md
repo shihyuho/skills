@@ -2,6 +2,7 @@
 name: plain
 description: Rewrite a piece of jargon-heavy or convoluted text into plain language a non-specialist can follow — unpack the jargon, break up tangled sentences, and cut academese and business-speak while keeping every point and staying precise. Use when the user explicitly asks to put something in plain language, simplify the wording, make a passage accessible, explain it like a human, or strip jargon from a document or draft they point to, including text just produced in the conversation. Do not trigger as unprompted cleanup of text the user has not asked to change; when the problem is length use the tighten or distil skill.
 license: MIT
+disable-model-invocation: true
 ---
 
 # Plain

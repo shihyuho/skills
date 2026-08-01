@@ -2,6 +2,7 @@
 name: tighten
 description: Rewrite a piece of verbose text so it conveys exactly the same meaning in fewer words — every point in the original survives, and the result replaces the text rather than summarising it. Use when the user explicitly asks to tighten, shorten, condense, or compress a passage, document, message, or draft they point to, including text just produced in the conversation, and wants nothing dropped. Do not trigger as unprompted cleanup of text the user has not asked to change; when the user is willing to drop peripheral content to reach a core message, use the distil skill instead.
 license: MIT
+disable-model-invocation: true
 ---
 
 # Tighten
