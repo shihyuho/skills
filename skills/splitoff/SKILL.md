@@ -1,6 +1,6 @@
 ---
 name: splitoff
-description: "Hand the current conversation to a named background agent using a generated handoff summary."
+description: "Hand the current conversation to a fresh background agent using a self-contained handoff summary; use a named Claude Code agent or a native Codex subagent."
 license: MIT
 disable-model-invocation: true
 ---
@@ -9,13 +9,20 @@ disable-model-invocation: true
 
 `$ARGUMENTS` below means the arguments supplied with the user's explicit invocation. In inherited `Context` blocks, run each `!` command to collect the named value; those expressions are not expanded automatically in a skill.
 
+Create a self-contained handoff prompt for a fresh agent. Include the goal, completed work, decisions, relevant paths and repository state, validation performed, outstanding work, and constraints. Preserve the user's explicit request and any model preference. Do not make the user read or assemble the handoff.
 
-Follow the `/handoff` skill to write a summary of the current conversation so a fresh agent can continue the work. It is user-invoked (`disable-model-invocation`), so the Skill tool won't fire it — read its `SKILL.md` instead and follow it directly. The summary is not for the user to read — it is the fresh agent's prompt.
+## Claude Code
 
-Launch the agent with the file `/handoff` wrote: `claude --bg --name "<descriptive name>" --model "<model>" -- "$(cat <handoff-file>)"`. Pass it as a path — quoting the summary inline breaks on the backticks, `$`, and quotes a handoff normally contains. Keep the `--`: without it a summary that opens with `-` (a YAML frontmatter fence, a bullet) is parsed as a flag and the launch dies. The command returns immediately; the agent runs in the current working directory and the user manages it with `claude agents`. Once the launch succeeds, delete the handoff file (`rm <handoff-file>`) — the summary was expanded into the command at launch time, so nothing reads it afterwards. If the launch fails, keep the file so the launch can be retried.
+Write the handoff prompt to a temporary file. Launch a named background agent with `claude --bg --name "<descriptive name>" --model "<model>" -- "$(cat <handoff-file>)"`. Keep `--` so a handoff beginning with `-` is not parsed as a flag. On successful launch, delete the temporary file; keep it on failure for retry. The user manages the agent with `claude agents`.
 
-Always pass `-n`/`--name` with a short descriptive name: derive it from `ARGUMENTS` when the user gave one, otherwise from the handed-off work (e.g. `--name "Fix login bug"`). It sets the display name shown in the job list, session picker, and terminal title.
+Always pass `--name`: derive a short descriptive name from `ARGUMENTS`, or from the handed-off work. Always pass `--model`: use the model named in `ARGUMENTS`, otherwise the current session model. Do not silently fall back to a default model.
 
-Always pass `--model`: the model the user named in `ARGUMENTS` if they named one, otherwise the model **this** session is running (either an alias for the latest model, e.g. `--model opus`, or the exact name, e.g. `--model claude-opus-4-8`). Never let the fresh agent fall back to the default.
+## Codex
+
+Delegate the complete handoff prompt to one fresh native Codex subagent in the current project. Start it as background delegated work; do not create a user-owned chat/task and do not invoke `codex exec` as a fallback. If the current Codex host supports subagent naming, use the descriptive name; otherwise preserve it in the subagent prompt.
+
+Honor a user-specified model or reasoning setting only when the current host exposes a compatible override. Otherwise inherit the parent configuration and state that limitation when reporting the launch. Do not invent CLI flags or host tool names.
+
+After delegation, report that the subagent owns the handed-off work and where the current host exposes its progress. Do not duplicate its work. Wait for and synthesize its result only when the user asks to continue or report the delegated outcome.
 
 ARGUMENTS: $ARGUMENTS
