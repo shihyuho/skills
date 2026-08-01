@@ -7,7 +7,6 @@ Shihyu's curated collection of agent skills.
 ### Model-invoke
 
 - **[e04](skills/e04/)** - Decode 注音文 (Zhuyin/Bopomofo text typed with English keyboard keys) into Chinese characters.
-- **[lgtm](skills/lgtm/)** - On a go-signal (`lgtm`, `looks good`, `approved`), re-read from disk every file you had under review so mid-review edits aren't dropped before the next step.
 - **[sdkman](skills/sdkman/)** - Switch JDK (or any [SDKMAN](https://sdkman.io/)-managed candidate) correctly despite the `sdk`-is-a-shell-function gotcha, with hooks that nudge toward the project's default JDK and flag Java version-mismatch build failures.
 - **[writing-agents-md](skills/writing-agents-md/)** - Create or prune `AGENTS.md` and `CLAUDE.md` so they keep only minimal, high-signal global constraints.
 
