@@ -10,9 +10,7 @@ disable-model-invocation: true
 `$ARGUMENTS` below means the arguments supplied with the user's explicit invocation. In inherited `Context` blocks, run each `!` command to collect the named value; those expressions are not expanded automatically in a skill.
 
 
-Review the skill in `$ARGUMENTS` using `/writing-great-skills` and `/skill-creator:skill-creator` as the guiding rubric. If no skill is given, ask which one first.
-
-`/writing-great-skills` is user-invoked (`disable-model-invocation`) — if the Skill tool won't fire it, read its `SKILL.md` and apply that instead.
+Invoke `/writing-for-agents` and `/skill-creator:skill-creator`, then use both as the guiding rubric to review the skill in `$ARGUMENTS`. If no skill is given, ask which one first.
 
 Read the target's `SKILL.md` and supporting files, then evaluate against them.
 
