@@ -4,7 +4,7 @@ description: Switch JDK, Kotlin, Gradle, Maven, or any SDKMAN-managed candidate 
 license: MIT
 ---
 
-# SDKMAN Version Switching
+# sdkman
 
 [SDKMAN](https://sdkman.io/) manages parallel installs of JDKs and related tools under `$SDKMAN_DIR/candidates/<tool>/<version>/` (default `$SDKMAN_DIR` is `~/.sdkman`). This skill explains how to switch versions **correctly** from Bash tool calls — the naive approach silently does nothing.
 

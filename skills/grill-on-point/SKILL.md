@@ -5,7 +5,7 @@ license: MIT
 disable-model-invocation: true
 ---
 
-# Grill on Point
+# grill-on-point
 
 Invoke the `grill-with-docs` skill on the user-supplied document, plan, or rough idea.
 

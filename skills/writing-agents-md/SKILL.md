@@ -4,7 +4,7 @@ description: Use when creating, rewriting, pruning, or reviewing `AGENTS.md` or 
 license: MIT
 ---
 
-# Writing Agents MD
+# writing-agents-md
 
 ## Overview
 

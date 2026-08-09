@@ -5,7 +5,7 @@ license: MIT
 disable-model-invocation: true
 ---
 
-# Distil
+# distil
 
 Re-examine a passage and rewrite it down to its core message. Peripheral content is dropped on purpose — distilling is lossy by design.
 

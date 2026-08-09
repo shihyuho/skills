@@ -10,7 +10,7 @@ license: MIT
 disable-model-invocation: true
 ---
 
-# Branch Coverage Gap Analysis & Fix
+# cover-branches
 
 Find branch coverage gaps in changed code and write missing tests to fill them.
 

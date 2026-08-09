@@ -5,7 +5,7 @@ license: MIT
 disable-model-invocation: true
 ---
 
-# Plain
+# plain
 
 Re-examine a passage that is hard to follow and rewrite it in plain language a non-specialist can read. Every point stays; what goes is the jargon, the abstraction, and the tangled syntax that hid the meaning. Plain language is meaning-preserving, not meaning-losing — clear is not the same as vague.
 

@@ -1,4 +1,4 @@
 interface:
-  display_name: "Resolving Skills"
+  display_name: "resolving-skills"
   short_description: "Resolve named installed skills portably"
   default_prompt: "Use $resolving-skills to resolve this named installed skill to one active source."

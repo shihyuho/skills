@@ -5,7 +5,7 @@ license: MIT
 disable-model-invocation: true
 ---
 
-# Scope It
+# scope-it
 
 Turn settled work into a published spec and executable ticket scope, preferring one ticket while delegating multi-ticket structure to the ticket source.
 

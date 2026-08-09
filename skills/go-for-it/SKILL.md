@@ -5,7 +5,7 @@ license: MIT
 disable-model-invocation: true
 ---
 
-# Go For It
+# go-for-it
 
 Run the delivery chain from its first incomplete checkpoint while keeping each phase's installed skill as its source of truth.
 

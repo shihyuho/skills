@@ -4,7 +4,7 @@ description: Decode Zhuyin (Bopomofo) text typed with English keyboard keys into
 license: MIT
 ---
 
-# e04 - 注音文解碼器
+# e04
 
 Decode "注音文" — Chinese text typed as English keyboard keys using the standard Zhuyin (Bopomofo) input method layout.
 

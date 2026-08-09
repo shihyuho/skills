@@ -1,5 +1,5 @@
 interface:
-  display_name: "Scope It"
+  display_name: "scope-it"
   short_description: "Turn settled discussion into ready tickets"
   default_prompt: "Use $scope-it to turn this settled discussion into a published spec and ready ticket."
 policy:

@@ -5,6 +5,8 @@ license: MIT
 disable-model-invocation: true
 ---
 
+# create-worktree
+
 ## Invocation input
 
 `$ARGUMENTS` below means the arguments supplied with the user's explicit invocation. In inherited `Context` blocks, run each `!` command to collect the named value; those expressions are not expanded automatically in a skill.

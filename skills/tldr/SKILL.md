@@ -5,7 +5,7 @@ license: MIT
 disable-model-invocation: true
 ---
 
-# TL;DR
+# tldr
 
 Write for rapid scanning — let the user keep up in roughly **two minutes**, or any user-specified duration.
 Tailor the digest to the target — format is your call.

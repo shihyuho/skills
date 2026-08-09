@@ -4,7 +4,7 @@ description: "Resolve a named installed skill to one active SKILL.md when anothe
 license: MIT
 ---
 
-# Resolving Skills
+# resolving-skills
 
 Resolve one authorized skill name to a single active instruction source. Return a pinned source receipt; leave execution of the resolved skill to the caller.
 

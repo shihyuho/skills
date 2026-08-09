@@ -5,7 +5,7 @@ license: MIT
 disable-model-invocation: true
 ---
 
-# Tighten
+# tighten
 
 Re-examine a passage and rewrite it to carry the same meaning in fewer words. Nothing is dropped — tightening is lossless.
 
