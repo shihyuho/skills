@@ -7,6 +7,7 @@ Shihyu's curated collection of agent skills.
 ### Model-invoke
 
 - **[e04](skills/e04/)** - Decode 注音文 (Zhuyin/Bopomofo text typed with English keyboard keys) into Chinese characters.
+- **[resolving-skills](skills/resolving-skills/)** - Resolve an exact named installed skill to one active, pinned instruction source across agent environments.
 - **[sdkman](skills/sdkman/)** - Switch JDK (or any [SDKMAN](https://sdkman.io/)-managed candidate) correctly despite the `sdk`-is-a-shell-function gotcha, with hooks that nudge toward the project's default JDK and flag Java version-mismatch build failures.
 - **[writing-agents-md](skills/writing-agents-md/)** - Create or prune `AGENTS.md` and `CLAUDE.md` so they keep only minimal, high-signal global constraints.
 
@@ -28,7 +29,8 @@ Shihyu's curated collection of agent skills.
 - **[push](skills/push/)** - Push the current branch to origin with a safety gate for direct default-branch pushes.
 - **[skill-review](skills/skill-review/)** - Review a skill against the available skill-authoring rubrics and optionally apply fixes.
 - **[splitoff](skills/splitoff/)** - Hand the current conversation to a Claude Code background agent or a native Codex subagent using a generated handoff summary.
-- **[go-for-it](skills/go-for-it/)** - Run or resume a settled design from spec through pull request while loading the installed skill for each phase as its source of truth.
+- **[go-for-it](skills/go-for-it/)** - Run or resume a settled design through scoping, implementation, and pull request while loading the installed skill for each phase as its source of truth.
+- **[scope-it](skills/scope-it/)** - Turn a settled conversation or issue into a published spec and ready-for-agent ticket scope, preferring one ticket while delegating multi-ticket structure to the ticket source.
 - **[tighten](skills/tighten/)** - Re-express a passage in fewer words while keeping every point.
 - **[tldr](skills/tldr/)** - Produce a TL;DR of a file, directory, git ref, URL, or GitHub PR/issue so the reader can keep up in roughly two minutes.
 - **[tradeoffs](skills/tradeoffs/)** - Turn discussed approaches into a Traditional Chinese decision brief with a recommendation.

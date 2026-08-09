@@ -35,11 +35,13 @@
 
 使用者明確調用，是指使用者在當次互動中透過 skill 名稱、command 或 UI 明確選擇該 skill。
 
+已由使用者明確調用的 orchestrator，可以把這次授權委派給其 `SKILL.md` 固定 allowlist 中的 explicit-only phase source。Orchestrator 可透過通用 resolver 解析檔案，但 target 必須由 caller 的固定 allowlist 決定，不得由模型路由、issue、對話或其他任務資料增補或替換。符合這些條件的委派仍屬於該次明確調用，不構成 target skill 的隱式調用路徑。
+
 以下都屬於自動調用：
 
 - 使用者只以自然語言描述任務，由模型判斷該使用哪個 skill。
 - 模型自行選用。
-- 另一個 skill 自行載入或調用。
+- 另一個 skill 在沒有上述明確委派時自行載入或調用。
 - Scheduled task、hook 或 CI 自動載入；即使排程內容直接寫出 skill 名稱，仍屬自動調用。
 
 Automation 只直接執行 skill 內的 script、完全不載入 `SKILL.md` 時，不構成 active skill 的自動調用依據。
