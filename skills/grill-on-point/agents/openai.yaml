@@ -1,2 +1,6 @@
+interface:
+  display_name: "grill-on-point"
+  short_description: "Stress-test ideas and surface key decisions"
+  default_prompt: "Use $grill-on-point to stress-test this idea and surface only decisions that need my input."
 policy:
   allow_implicit_invocation: false

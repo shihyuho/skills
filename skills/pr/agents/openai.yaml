@@ -1,2 +1,6 @@
+interface:
+  display_name: "pr"
+  short_description: "Push a feature branch and open a pull request"
+  default_prompt: "Use $pr to push the current feature branch and open a pull request."
 policy:
   allow_implicit_invocation: false

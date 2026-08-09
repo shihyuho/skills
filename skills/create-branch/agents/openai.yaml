@@ -1,2 +1,6 @@
+interface:
+  display_name: "create-branch"
+  short_description: "Create a descriptive branch without duplicates"
+  default_prompt: "Use $create-branch to create a descriptive branch for the current work."
 policy:
   allow_implicit_invocation: false

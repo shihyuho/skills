@@ -1,2 +1,6 @@
+interface:
+  display_name: "push"
+  short_description: "Push the current branch with safety checks"
+  default_prompt: "Use $push to push the current branch to origin with the default-branch safety check."
 policy:
   allow_implicit_invocation: false

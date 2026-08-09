@@ -1,2 +1,6 @@
+interface:
+  display_name: "tighten"
+  short_description: "Shorten text without losing any meaning"
+  default_prompt: "Use $tighten to shorten this text without dropping any meaning."
 policy:
   allow_implicit_invocation: false

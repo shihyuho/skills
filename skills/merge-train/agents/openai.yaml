@@ -1,2 +1,6 @@
+interface:
+  display_name: "merge-train"
+  short_description: "Merge approved pull requests through a safe queue"
+  default_prompt: "Use $merge-train to merge the approved pull requests through the update-branch queue."
 policy:
   allow_implicit_invocation: false

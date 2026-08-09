@@ -1,2 +1,6 @@
+interface:
+  display_name: "plain"
+  short_description: "Rewrite complex text in clear, plain language"
+  default_prompt: "Use $plain to rewrite this text in clear language a non-specialist can follow."
 policy:
   allow_implicit_invocation: false

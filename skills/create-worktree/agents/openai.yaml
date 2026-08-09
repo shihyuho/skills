@@ -1,2 +1,6 @@
+interface:
+  display_name: "create-worktree"
+  short_description: "Create an isolated Git worktree for the task"
+  default_prompt: "Use $create-worktree to create an isolated worktree for this task and continue there."
 policy:
   allow_implicit_invocation: false

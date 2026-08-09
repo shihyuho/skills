@@ -1,2 +1,6 @@
+interface:
+  display_name: "promote-claude-settings"
+  short_description: "Promote local Claude settings to global scope"
+  default_prompt: "Use $promote-claude-settings to promote this project's local Claude settings to global scope."
 policy:
   allow_implicit_invocation: false

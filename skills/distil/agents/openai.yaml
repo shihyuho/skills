@@ -1,2 +1,6 @@
+interface:
+  display_name: "distil"
+  short_description: "Rewrite text down to its essential message"
+  default_prompt: "Use $distil to rewrite this text down to its essential message."
 policy:
   allow_implicit_invocation: false

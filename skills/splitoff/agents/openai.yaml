@@ -1,2 +1,6 @@
+interface:
+  display_name: "splitoff"
+  short_description: "Hand work to a fresh background agent"
+  default_prompt: "Use $splitoff to hand this work to a fresh background agent with full context."
 policy:
   allow_implicit_invocation: false

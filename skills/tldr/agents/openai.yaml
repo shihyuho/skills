@@ -1,2 +1,6 @@
+interface:
+  display_name: "tldr"
+  short_description: "Create a concise digest for rapid scanning"
+  default_prompt: "Use $tldr to create a concise digest of this material for rapid scanning."
 policy:
   allow_implicit_invocation: false
