@@ -12,14 +12,12 @@ Use `--ready` to load the fixed `get-pr-ready` phase after the pull request exis
 go-for-it --ready [--review-session <handle>] [--max-fix-rounds N]
 ```
 
-The readiness options are invalid without `--ready`.
+The `--review-session` and `--max-fix-rounds` options are invalid without `--ready`.
 
-The optional phase requires the external [`get-pr-ready`](https://github.com/softleader/agent-skills/tree/main/plugins/wip/skills/get-pr-ready) skill from SoftLeader's `wip` plugin and its `engineering:pr-review` dependency from the `engineering` plugin.
+The optional loop requires `get-pr-ready` and its required dependencies to be installed in the active agent environment.
 
 ## Installation
 
 ```bash
 npx skills add shihyuho/skills --skill go-for-it -g
 ```
-
-To use `--ready`, also install the SoftLeader plugins documented by `get-pr-ready`.
