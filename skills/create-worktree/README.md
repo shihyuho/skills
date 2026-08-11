@@ -1,6 +1,6 @@
 # create-worktree
 
-Create and continue work in an isolated, descriptively named Git worktree.
+Create or resume isolated work in a descriptive Git worktree, including an existing Planning Baseline branch.
 
 This skill must be invoked explicitly.
 

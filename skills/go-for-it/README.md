@@ -4,7 +4,7 @@ Run or resume a settled design through scoping, implementation, and pull request
 
 This skill must be invoked explicitly.
 
-It uses `resolving-skills` to load `scope-it`, `create-worktree`, `implement`, `commit`, `push`, and `pr` from the active agent environment. The default path still stops after opening the pull request.
+It uses `resolving-skills` to load `scope-it`, `create-worktree`, `implement`, `commit`, `push`, and `pr` from the active agent environment. It carries any verified Planning Baseline from scope into the delivery worktree. The default path still stops after opening the pull request.
 
 Use `--loop` to load the fixed `get-pr-ready` phase after the pull request exists:
 

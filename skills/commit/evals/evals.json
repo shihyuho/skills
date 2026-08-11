@@ -1,0 +1,23 @@
+{
+  "skill_name": "commit",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Use commit for the current cohesive worktree changes.",
+      "expected_output": "The agent preserves the existing behavior: it reviews all current changes, creates one commit when they are cohesive, and asks before splitting clearly unrelated concerns.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Use commit for only CONTEXT.md and docs/adr/0002-planning-baseline.md. Other unrelated files are also modified in the worktree.",
+      "expected_output": "The agent verifies and stages only the two explicit paths, assesses cohesion within that selected diff, commits them together, and leaves every unrelated staged or unstaged change untouched.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Use commit for src/a.js and src/b.js, but one requested path has no change and another requested path does not exist.",
+      "expected_output": "The agent stops before staging or committing and reports the invalid explicit path scope rather than silently broadening it.",
+      "files": []
+    }
+  ]
+}

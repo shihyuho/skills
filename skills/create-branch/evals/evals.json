@@ -1,0 +1,23 @@
+{
+  "skill_name": "create-branch",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Use create-branch for issue #42, create it remotely, and base it on the latest remote main branch.",
+      "expected_output": "The agent fetches remote state, validates collisions, and creates and checks out one issue-linked branch with main passed explicitly as the remote base.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Resume create-branch for issue #42 after its title changed. Exactly one issue-linked remote branch already exists, no explicit name is supplied, and its pinned base SHA is valid.",
+      "expected_output": "The agent reuses the one linked branch name rather than deriving a new name from the changed title, verifies its pinned base before any commit, and checks it out only when safe.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Use create-branch for issue #42, but the intended branch name already exists and is linked to a different issue.",
+      "expected_output": "The agent stops on the conflicting collision and does not reuse, rename, recreate, or push the branch.",
+      "files": []
+    }
+  ]
+}

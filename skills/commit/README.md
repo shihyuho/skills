@@ -1,6 +1,6 @@
 # commit
 
-Create one cohesive commit, or ask before splitting clearly unrelated changes into atomic commits.
+Create one cohesive commit from all or explicitly selected changes, or ask before splitting clearly unrelated concerns.
 
 This skill must be invoked explicitly.
 
