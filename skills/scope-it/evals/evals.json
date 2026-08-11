@@ -1,0 +1,47 @@
+{
+  "skill_name": "scope-it",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Use scope-it for this settled discussion. The repository worktree is clean and there is no existing Baseline Pointer.",
+      "expected_output": "The agent completes the existing spec-and-ticket workflow without creating a branch, commit, push, or Baseline Pointer because there are no Scope-related Changes.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Use scope-it for this settled discussion. Two whole-file planning documents created during the discussion are the only worktree changes.",
+      "expected_output": "After selecting the Planning Owner Ticket, the agent creates an issue-linked branch from the latest remote default branch, commits only the two confirmed files, pushes and verifies the full SHA, returns the originating worktree to its entry branch, and posts exactly one fixed-format Baseline Pointer.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Use scope-it for this settled discussion. One changed file mixes this scope's ADR edits with unrelated draft notes.",
+      "expected_output": "The agent preserves the completed tracker artifacts but stops before branch creation because a changed file mixes scopes; it does not split hunks, commit, push, or publish a Baseline Pointer.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Resume scope-it after interruption. The linked baseline branch and commit already exist remotely, but the Planning Owner Ticket has no Baseline Pointer.",
+      "expected_output": "The agent verifies and reuses the existing branch and commit, publishes only the missing pointer comment, creates no duplicate branch or commit, and reports the completed baseline artifacts.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "Use scope-it for a settled design that genuinely needs three delivery tickets and has shared planning-document changes.",
+      "expected_output": "During the existing multi-ticket approval, the agent selects the unique ticket that owns the documents or the foundation ticket as Planning Owner Ticket; if no unique owner exists it asks there, then creates one shared baseline and publishes the same owner, branch, and full SHA pointer to every related ticket.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "A different agent resumes scope-it after interruption immediately after the Planning Baseline branch was checked out. The current branch is the baseline branch, and the previous agent wrote the original worktree, entry branch, and pinned remote-base SHA to repo-local Git config.",
+      "expected_output": "After selecting the Planning Owner Ticket, the new agent reads the exact scope-it.planning-baseline-<owner-number> keys, rejects a partial or malformed set, reuses the complete persisted entry and base metadata rather than recording the baseline branch as entry, and releases the original worktree before Baseline Pointer publication.",
+      "files": []
+    },
+    {
+      "id": 7,
+      "prompt": "Run scope-it until just before its first Planning Baseline branch checkout. The Planning Owner Ticket, original worktree and branch, and fetched 40-character remote-base SHA are known.",
+      "expected_output": "The agent writes entry-worktree, entry-branch, and base-sha under the fixed repo-local scope-it.planning-baseline-<owner-number> namespace, reads all three values back successfully, and only then checks out or creates the baseline branch.",
+      "files": []
+    }
+  ]
+}

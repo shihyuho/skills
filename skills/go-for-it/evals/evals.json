@@ -24,6 +24,24 @@
       "prompt": "Use go-for-it --loop --review-session task_abc for this settled change. The PR is created successfully, but the supplied task cannot be contacted.",
       "expected_output": "The agent preserves the completed scope, worktree, commits, push, and PR; lets get-pr-ready retry reviewer setup once; then reports blocked without deleting or rolling back the PR.",
       "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "Use go-for-it for an already-published ticket. The originating worktree still contains whole-file planning changes for that ticket and has no Baseline Pointer.",
+      "expected_output": "The agent treats Scope as incomplete, resolves scope-it to publish the Planning Baseline, then passes its owner, branch, and full SHA to create-worktree before implementation.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "Resume go-for-it for a ticket with one valid Baseline Pointer and a matching remote branch that already has later implementation commits.",
+      "expected_output": "The agent accepts the pointer because the baseline SHA is an ancestor of branch HEAD, reuses the existing scope artifacts, and has create-worktree resume that branch rather than creating a variant.",
+      "files": []
+    },
+    {
+      "id": 7,
+      "prompt": "Use go-for-it for a legacy ticket with a complete spec, no Baseline Pointer, and no Scope-related Changes.",
+      "expected_output": "The agent preserves backward compatibility by treating Scope as complete and continues through the existing worktree-to-PR chain without creating a baseline.",
+      "files": []
     }
   ]
 }

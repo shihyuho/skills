@@ -1,6 +1,6 @@
 # create-branch
 
-Create a descriptive local or issue-linked remote branch while guarding against duplicate branches.
+Create or safely resume a descriptive local or issue-linked remote branch without duplicate branches.
 
 This skill must be invoked explicitly.
 
