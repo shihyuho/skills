@@ -1,6 +1,0 @@
-interface:
-  display_name: "get-pr-ready"
-  short_description: "Raise a completed PR to the review quality bar"
-  default_prompt: "Use $get-pr-ready on this self-authored pull request and run its bounded peer review-and-fix loop without merging."
-policy:
-  allow_implicit_invocation: false

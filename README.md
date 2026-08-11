@@ -20,7 +20,6 @@ Shihyu's curated collection of agent skills.
 - **[create-branch](skills/create-branch/)** - Create a descriptive local or issue-linked remote branch while guarding against duplicate branches.
 - **[create-worktree](skills/create-worktree/)** - Create and continue work in an isolated, descriptively named Git worktree.
 - **[distil](skills/distil/)** - Re-express a passage by dropping peripheral detail and keeping its core message.
-- **[get-pr-ready](skills/get-pr-ready/)** - Raise one completed, self-authored pull request to the `engineering:pr-review` quality bar through a bounded peer review-and-fix loop without merging it.
 - **[go-for-it](skills/go-for-it/)** - Run or resume a settled design through scoping, implementation, and pull request, with an optional bounded peer review-and-fix loop.
 - **[grill-on-point](skills/grill-on-point/)** - Run the external `grill-with-docs` skill over a doc, plan, or rough idea while surfacing only findings that truly need your input.
 - **[merge-train](skills/merge-train/)** - Merge approved pull requests one at a time through an auto-merge update-branch queue.
