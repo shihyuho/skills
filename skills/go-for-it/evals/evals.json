@@ -1,0 +1,29 @@
+{
+  "skill_name": "go-for-it",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Use go-for-it for the settled design in this conversation.",
+      "expected_output": "The agent resumes the fixed scope-to-PR checkpoint chain and stops after returning the matching pull-request URL; it does not create a reviewer task or run get-pr-ready because --ready is absent.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Use go-for-it --ready --max-fix-rounds 4 for this settled design.",
+      "expected_output": "Before mutation the agent validates get-pr-ready availability and required host capabilities, strips readiness controls from the delivery input, completes all normal go-for-it phases through PR creation, then delegates the exact created PR URL and max-round option to get-pr-ready; reviewer setup occurs only after the PR exists.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Use go-for-it --review-session task_abc for this work.",
+      "expected_output": "The agent rejects the readiness-only option before any mutating phase because --ready is absent.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Use go-for-it --ready --review-session task_abc for this settled change. The PR is created successfully, but the supplied task cannot be contacted.",
+      "expected_output": "The agent preserves the completed scope, worktree, commits, push, and PR; lets get-pr-ready retry reviewer setup once; then reports blocked without deleting or rolling back the PR.",
+      "files": []
+    }
+  ]
+}

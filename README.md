@@ -20,6 +20,8 @@ Shihyu's curated collection of agent skills.
 - **[create-branch](skills/create-branch/)** - Create a descriptive local or issue-linked remote branch while guarding against duplicate branches.
 - **[create-worktree](skills/create-worktree/)** - Create and continue work in an isolated, descriptively named Git worktree.
 - **[distil](skills/distil/)** - Re-express a passage by dropping peripheral detail and keeping its core message.
+- **[get-pr-ready](skills/get-pr-ready/)** - Raise one completed, self-authored pull request to the `engineering:pr-review` quality bar through a bounded peer review-and-fix loop without merging it.
+- **[go-for-it](skills/go-for-it/)** - Run or resume a settled design through scoping, implementation, and pull request, with an optional bounded peer review-and-fix loop.
 - **[grill-on-point](skills/grill-on-point/)** - Run the external `grill-with-docs` skill over a doc, plan, or rough idea while surfacing only findings that truly need your input.
 - **[merge-train](skills/merge-train/)** - Merge approved pull requests one at a time through an auto-merge update-branch queue.
 - **[plain](skills/plain/)** - Rewrite jargon-heavy text in clear language while preserving every point.
@@ -29,7 +31,6 @@ Shihyu's curated collection of agent skills.
 - **[push](skills/push/)** - Push the current branch to origin with a safety gate for direct default-branch pushes.
 - **[skill-review](skills/skill-review/)** - Review a skill against the available skill-authoring rubrics and optionally apply fixes.
 - **[splitoff](skills/splitoff/)** - Hand the current conversation to a Claude Code background agent or a native Codex subagent using a generated handoff summary.
-- **[go-for-it](skills/go-for-it/)** - Run or resume a settled design through scoping, implementation, and pull request while loading the installed skill for each phase as its source of truth.
 - **[scope-it](skills/scope-it/)** - Turn a settled conversation or issue into a published spec and ready-for-agent ticket scope, preferring one ticket while delegating multi-ticket structure to the ticket source.
 - **[tighten](skills/tighten/)** - Re-express a passage in fewer words while keeping every point.
 - **[tldr](skills/tldr/)** - Produce a TL;DR of a file, directory, git ref, URL, or GitHub PR/issue so the reader can keep up in roughly two minutes.
