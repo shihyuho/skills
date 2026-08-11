@@ -13,12 +13,12 @@ Run the delivery chain from its first incomplete checkpoint while keeping each p
 
 ```text
 go-for-it
-go-for-it --ready [--review-session <handle>] [--max-fix-rounds N]
+go-for-it --loop [--review-session <handle>] [--max-fix-rounds N]
 ```
 
 `$ARGUMENTS` means the raw scope, delivery constraints, and options supplied with the user's explicit invocation. It supplements the current conversation.
 
-Parse `$ARGUMENTS` into delivery input and review-loop options before any mutating phase. Remove `--ready`, `--review-session` plus its value, and `--max-fix-rounds` plus its value from the delivery input. `--review-session` and `--max-fix-rounds` are valid only with `--ready`; reject them otherwise. Reject duplicate review-loop options or missing values, and require a positive integer for `--max-fix-rounds`. Keep the default path unchanged when `--ready` is absent.
+Parse `$ARGUMENTS` into delivery input and review-loop options before any mutating phase. Remove `--loop`, `--review-session` plus its value, and `--max-fix-rounds` plus its value from the delivery input. `--review-session` and `--max-fix-rounds` are valid only with `--loop`; reject them otherwise. Reject duplicate review-loop options or missing values, and require a positive integer for `--max-fix-rounds`. Keep the default path unchanged when `--loop` is absent.
 
 Explicit invocation authorizes the scoped issue, worktree, commit, push, and pull-request operations in this chain. It also authorizes reading the fixed phase sources below as runtime instructions, even when those sources are user-invoked skills. The authorization excludes unrelated changes and direct default-branch pushes.
 
@@ -51,8 +51,8 @@ Audit checkpoints in order. Reuse an artifact only when it matches the current s
 3. **Implementation and commits** — `Done when`: the selected acceptance criteria are satisfied, source-required verification and review are complete, intended changes are recorded in atomic commits, and no unintended changes remain. Resolve both sources: `implement` owns implementation; `commit` owns each commit. Pass the requirement that each commit be cohesive and independently reversible, using one commit for one slice and multiple commits only for multiple slices. Continue from valid existing code and commits.
 4. **Push** — `Done when`: the remote feature branch contains the intended commits. Otherwise resolve and execute `push` in the selected worktree.
 5. **Pull request** — `Done when`: one matching pull request exists, follows repository conventions, and links the selected ticket using the repository's closing-reference convention. Otherwise resolve and execute `pr` in the selected worktree.
-6. **Optional review-and-fix loop** — selected only by `--ready`. Before the first selected checkpoint mutates state, confirm that `get-pr-ready` resolves from the fixed allowlist and that the host provides the durable peer-task capabilities required by that skill. Do not create or contact a reviewer task yet. After checkpoint 5 produces the exact PR URL, execute `get-pr-ready <PR URL>` and forward only the supplied `--review-session` and `--max-fix-rounds` options. That skill owns reviewer setup, reviews, fixes, commits, pushes, labels, cancellation, and terminal state. A post-PR setup failure preserves the PR and follows its one-retry-then-blocked rule.
+6. **Optional review-and-fix loop** — selected only by `--loop`. Before the first selected checkpoint mutates state, confirm that `get-pr-ready` resolves from the fixed allowlist and that the host provides the durable peer-task capabilities required by that skill. Do not create or contact a reviewer task yet. After checkpoint 5 produces the exact PR URL, execute `get-pr-ready <PR URL>` and forward only the supplied `--review-session` and `--max-fix-rounds` options. That skill owns reviewer setup, reviews, fixes, commits, pushes, labels, cancellation, and terminal state. A post-PR setup failure preserves the PR and follows its one-retry-then-blocked rule.
 
-Return the scope artifacts from `scope-it`, worktree path, commit list, and pull-request URL. When `--ready` was selected, also return the loop's terminal state and final head SHA. Keep phase-source receipts internal.
+Return the scope artifacts from `scope-it`, worktree path, commit list, and pull-request URL. When `--loop` was selected, also return the loop's terminal state and final head SHA. Keep phase-source receipts internal.
 
 $ARGUMENTS

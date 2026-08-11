@@ -6,13 +6,13 @@ This skill must be invoked explicitly.
 
 It uses `resolving-skills` to load `scope-it`, `create-worktree`, `implement`, `commit`, `push`, and `pr` from the active agent environment. The default path still stops after opening the pull request.
 
-Use `--ready` to load the fixed `get-pr-ready` phase after the pull request exists:
+Use `--loop` to load the fixed `get-pr-ready` phase after the pull request exists:
 
 ```text
-go-for-it --ready [--review-session <handle>] [--max-fix-rounds N]
+go-for-it --loop [--review-session <handle>] [--max-fix-rounds N]
 ```
 
-The `--review-session` and `--max-fix-rounds` options are invalid without `--ready`.
+The `--review-session` and `--max-fix-rounds` options are invalid without `--loop`.
 
 The optional loop requires `get-pr-ready` and its required dependencies to be installed in the active agent environment.
 
