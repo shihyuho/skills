@@ -1,62 +1,40 @@
-# Writing Agents MD Checklist
+# Writing Agents MD Audit Checklist
 
-Use this checklist when reviewing `AGENTS.md` or `CLAUDE.md` content.
+Use this checklist for a line-by-line review after discovering the active instruction chain.
 
-## Keep / Delete / Move Decision
+## Evidence
 
-For each line or section, ask:
+For each rule, record:
 
-1. **Discoverability**
-   - Can the model learn this easily and reliably by reading `package.json`, README, config files, or source code?
-   - If yes, usually delete it from the global file.
-   - Keep it only if missing it would likely cause a costly mistake and the correct choice is still easy for the model to miss.
+1. **Authority** — Is it user or organization policy, checked-in configuration, current implementation, or an unsupported claim?
+2. **Behavior delta** — What costly mistake, repeated correction, or wrong default does it prevent? If target models behave the same without it, it is a no-op.
+3. **Currentness** — Does current code, CI, documentation, or recent operational evidence support it?
+4. **Conflict** — Does another active instruction disagree? Resolve by scope and authority; do not silently choose the most convenient source.
 
-2. **Global relevance**
-   - Does this matter across most tasks in the repo?
-   - If it only matters for frontend, backend, docs, release, or one workflow, move it to a skill.
+Treat an existing instruction file as a contract under review. Repository evidence can reveal stale implementation facts, but it cannot reconstruct every safety, release, compliance, or external-system policy.
 
-3. **Stability**
-   - Will this still be true after the next refactor, file move, or dependency swap?
-   - If not, narrow it or delete it.
+## Routing
 
-4. **Anchoring risk**
-   - Could this make the model reach for an outdated or legacy pattern?
-   - If yes, delete it or mark it explicitly as `legacy`, `deprecated`, or `do not extend`.
+Apply the [Routing Interface](../SKILL.md#routing-interface). Record exactly one action and its destination for each rule so no candidate disappears between review and rewrite.
 
-5. **Operational impact**
-   - If omitted, is the model likely to make a costly mistake?
-   - If yes, it is a strong keep candidate.
+## Content Quality
 
-## Strong Keep Candidates
+Retained instructions should be:
 
-- unusual package manager or task runner choices
-- environment quirks not obvious from the repo
-- test or cache traps that cause misleading results
-- deprecated or dangerous directories that still matter in production
-- rules about irreversible damage in sensitive areas
+- **scope-correct** — loaded only where they apply
+- **decision-changing** — meaningfully alter behavior from the target model's default
+- **specific** — name the action, condition, or safe path
+- **verifiable** — allow the agent or reviewer to determine compliance
+- **stable enough** — unlikely to rot faster than maintainers can update it
+- **single-source** — not a cache of easy repository lookups or another instruction file
 
-## Strong Delete Candidates
+Discoverability lowers the value of repetition but does not decide by itself. Keep a concise canonical command when it prevents repeated wrong validation; defer a branched protocol to a skill. A one- or two-sentence repository purpose can orient the agent; a directory tour does not earn always-on load.
 
-- script lists copied from `package.json`
-- "this project uses React / Vite / TypeScript"
-- directory structure summaries
-- architecture paragraphs that restate code organization
-- long style guides that only apply to some work
+## Completion
 
-## Move-To-Skill Candidates
-
-- feature implementation workflows
-- review or verification protocols
-- frontend or backend design preferences
-- domain-specific modeling rules
-- release, deployment, or incident procedures
-
-## Final Review
-
-Before finishing, check:
-
-- Is every remaining line non-discoverable, global, and stable?
-- For lines that are technically discoverable, is there a strong operational reason to keep them anyway?
-- Is the file short enough that every line earns its token cost?
-- Would the model still understand the repo without this file? It should.
-- Does the file steer away from landmines rather than explain the whole codebase?
+- The target host, directory scope, and requested mutation mode are explicit.
+- Ancestor, override, nested, imported, and path-scoped instructions relevant to the target are accounted for.
+- Every candidate has one routing action and supporting evidence.
+- Unresolved safety, production, release, legal, or external-system rules remain visible for owner confirmation.
+- Retained rules do not conflict or duplicate another active source.
+- Changed files validate, and review-only or output-only boundaries were honored.

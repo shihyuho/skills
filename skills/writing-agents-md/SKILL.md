@@ -1,102 +1,41 @@
 ---
 name: writing-agents-md
-description: Use when creating, rewriting, pruning, or reviewing `AGENTS.md` or `CLAUDE.md`, especially to remove repo summaries, stale rules, and other low-signal global instructions. Trigger when deciding what belongs in always-on agent files versus a task-specific skill.
+description: Create, rewrite, prune, or review `AGENTS.md` and `CLAUDE.md` by routing standing guidance to the smallest correct scope and mechanism. Use for stale or conflicting instructions, nested or path-scoped rules, task-specific skill boundaries, or deterministic enforcement.
 license: MIT
 ---
 
 # writing-agents-md
 
-## Overview
-
-`AGENTS.md` and `CLAUDE.md` should be minimal guardrails, not repo handbooks.
-
-Do not assume more global instructions improve outcomes; extra always-on guidance often slows or misdirects work.
-
-Keep only information that is all three:
-
-- hard to discover from the repo itself
-- globally relevant across most tasks
-- stable enough not to rot quickly
-
-If a detail fails any of those tests, delete it, narrow it, or move it into a skill.
-
-## When to Use
-
-- Creating a new `AGENTS.md` or `CLAUDE.md`
-- Reviewing, pruning, or rewriting an existing `AGENTS.md` or `CLAUDE.md`
-- Removing repo summaries, stale rules, or handbook-style guidance from a global agent file
-- Deciding whether guidance belongs in a global rule file or a skill
+Design a small instruction interface, not a repository handbook. First remove repetition and conflicts; then place each surviving rule at its smallest correct scope. Add strong constraints only for costly mistakes, durable policy, or capability gaps demonstrated by target-host evaluation.
 
 ## Workflow
 
-1. Identify the target file and whether the task is create, rewrite, or review.
-2. Analyze the repo for high-value, non-obvious, global constraints.
-3. If `AGENTS.md` or `CLAUDE.md` already exists, read it only after that analysis as historical input, not as the source of truth. If it conflicts with what the repo shows, trust the repo.
-4. Classify each item as `keep`, `rewrite`, `delete`, `move-to-skill`, or `stale`.
-5. Keep only rules that are non-discoverable, global, and stable.
-6. Rewrite the file into a short, high-signal document.
-7. Briefly explain what was removed or marked stale and why, so the file does not bloat again.
+1. **Bound the task.** Identify the target host, file, directory scope, and requested mode: `create`, `update`, `rewrite`, or `review`. A review stays read-only unless the user also asks for changes. Preserve output-only requests.
+2. **Discover the active chain.** Locate applicable ancestor, target, override, nested, imported, and path-scoped instruction files before editing. Read [host-semantics.md](references/host-semantics.md) when host discovery or precedence affects the result.
+3. **Establish authority.** Read the existing instruction file as a standing contract, then check repository code, config, CI, documentation, and recent evidence for drift. Observable implementation can disprove stale implementation claims; it does not automatically override human safety, release, compliance, or operational policy. Mark unresolved conflicts for owner confirmation.
+4. **Route every candidate.** Use the routing interface below. When reviewing or revising an existing instruction chain, read [checklist.md](references/checklist.md) for a line-by-line audit.
+5. **Rewrite only the selected destinations.** Edit only destinations authorized by the request; report recommended moves outside that scope and leave those files unchanged. Keep one source of truth, use concrete and verifiable wording, and preserve unrelated valid rules during an update. State the desired behavior positively; reserve prohibitions for real guardrails and pair them with the safe path.
+6. **Verify completion.** Account for the full active chain, resolve or report conflicts, validate changed files, and explain moves or deletions unless the user requested only the resulting file.
 
-## Core Filter
+## Routing Interface
 
-Before keeping any line, ask:
+For each rule, choose one action:
 
-1. Can the model discover this easily and reliably by reading the repo?
-2. Does this matter for most tasks, not just some tasks?
-3. Is this likely to remain true as files, paths, and architecture evolve?
+- **Keep** — Retain it here when it changes decisions across this file's scope and is concise, specific, verifiable, and stable enough to justify always-on load.
+- **Narrow** — Move standing guidance to the nearest nested `AGENTS.md`, nested `CLAUDE.md`, or path-scoped rule when only a subtree or file class needs it.
+- **Defer** — Move conditional, reference-heavy, or multi-step work to a skill or documentation. Leave a short pointer only when agents must know what material exists and the condition for loading it.
+- **Enforce** — Put deterministic requirements in code, config, tests, CI, permissions, or hooks. Keep only the non-obvious rationale or fallback in instructions when it still changes decisions.
+- **Delete** — Remove repetition, stale claims, generic defaults, behavioral no-ops, directory tours, and cheap one-file or one-command lookups.
+- **Verify** — Preserve or clearly flag an unresolved rule when authority is uncertain, especially for safety, production, release, legal, or external-system constraints.
 
-If the answer is `yes / no / no`, it does not belong in a global rule file.
+Discoverability is evidence, not an automatic deletion rule. A short canonical command or repository-purpose sentence may stay when it prevents repeated wrong choices or costly exploration. Move branched verification protocols to a skill instead of expanding always-on context.
 
-Even if something is technically discoverable, keep it only when omitting it is likely to cause a costly mistake and the model is unlikely to infer the right choice reliably.
+## Writing Standard
 
-## Keep
+- Spend most always-on tokens on gotchas, decision-changing conventions, and safe paths.
+- Match the rule's scope to its loading scope; repository-wide does not mean globally applicable outside the repository, and subtree-wide does not mean task-specific.
+- Prefer pointers that name both the material and its trigger over copied reference content.
+- Treat examples as optional reference, not rules to imitate mechanically. Read [examples.md](references/examples.md) only when a routing decision remains ambiguous.
+- Prefer a tiny file—or propose no file—when no standing instruction earns its load. When the user explicitly requested creation, explain that conclusion rather than silently skipping the deliverable.
 
-Good candidates for `AGENTS.md` or `CLAUDE.md`:
-
-- non-obvious tool choices like `uv`, not `pip`
-- environment-specific constraints like WSL path behavior
-- expensive landmines like false-positive cache behavior
-- legacy areas that still have production imports and must not be removed casually
-
-Keep constraints that redirect the agent away from costly wrong defaults. Be cautious with instructions that add new standing requirements the agent would not otherwise follow.
-
-## Delete Or Move Out
-
-Usually remove these from global files:
-
-- package scripts copied from `package.json`
-- directory tours and architecture summaries
-- tech stack summaries the repo already makes obvious
-- file-path-heavy instructions that will rot quickly
-- task-specific workflows, style preferences, or domain guidance
-
-Move workflow or domain guidance into a skill instead of keeping it globally.
-
-Every standing instruction is a potential landmine. Prefer a smaller file over a more prescriptive one.
-
-## Guardrails
-
-- Do not generate repo overviews, directory tours, or handbook-style summaries in global agent files.
-- Do not repeat information the model can discover from code, docs, or config.
-- Do not mention legacy technologies without clearly labeling them as legacy or avoid-using.
-- Do not keep broad instructions in the global file if they only matter for some tasks.
-- If the repo has little truly global guidance, prefer a very short file over a padded one.
-- If unsure whether a line earns its keep, cut it.
-
-## Output Shape
-
-Aim for a short file that may include sections like:
-
-- environment or tooling constraints
-- important landmines
-- minimal routing notes to existing skills
-
-Avoid turning the file into a setup guide, architecture document, or coding standards manual.
-
-If the repo has almost no truly global, non-obvious constraints, a tiny file is acceptable and no file is sometimes acceptable too.
-
-## References
-
-- See `references/checklist.md` for the full keep/delete decision list.
-- See `references/examples.md` for bad, better, and good examples.
-- See `references/principles.md` for the underlying rationale.
+For the rationale behind this interface and model-relative pruning, read [principles.md](references/principles.md).

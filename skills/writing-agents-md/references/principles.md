@@ -1,27 +1,34 @@
 # Writing Agents MD Principles
 
-This skill is based on three recurring ideas:
+## 1. Context is scarce and model-relative
 
-## 0. Empirical results are mixed
+Always-loaded instructions spend tokens and attention on every task in their scope. Their value depends on whether they change the target model's behavior, so settle suspected no-ops with target-host evaluation rather than intuition alone.
 
-Evidence is mixed: concise context can help bounded tasks, but extra always-on instructions can hurt broader work. Default to minimalism.
+Anthropic reports removing more than 80% of Claude Code's system prompt for Claude 5 generation models without measurable loss on its coding evaluations. That result supports aggressive simplification for those models, but it does not prove the same defaults for every Codex or third-party model.
 
-## 1. Global context is expensive
+## 2. Scope is part of correctness
 
-Everything in `AGENTS.md` or `CLAUDE.md` competes with the actual task for attention and tokens. A short high-signal file is better than a long accurate one.
+Root, nested, imported, and path-scoped instructions are different loading interfaces. Place a standing rule at the smallest scope where it always applies. Task-specific guidance belongs behind an on-demand pointer, not in a broader file merely because the rule is important.
 
-## 2. Redundant context is noise
+## 3. The environment is a source, not the only authority
 
-If the model can rediscover something by reading the repo, putting the same fact into a global rule file usually adds noise rather than value.
+Code, config, CI, and repository layout are authoritative for observable implementation. Repeating cheap lookups creates a stale cache. Human-written instructions can also encode policy or external constraints that the repository cannot reveal, so verify conflicts instead of assuming either source always wins.
 
-## 3. Anchoring is real
+## 4. Progressive disclosure needs a strong pointer
 
-Mentioning a technology, pattern, or path makes the model more likely to reach for it. This is especially risky for legacy systems and partial migrations.
+Move conditional workflows and reference-heavy material into skills or documentation. Keep a pointer only when agents need to know the material exists; name both what to load and the condition that triggers it. Imports that load unconditionally organize content but do not reduce context load.
 
-## 4. Friction should drive edits
+## 5. Deterministic requirements need deterministic mechanisms
 
-Use global rule files to capture repeated agent mistakes or hidden landmines that have not yet been solved in code, tooling, or tests. Do not treat them as permanent architecture documentation.
+Instructions guide model judgment; they do not enforce behavior. Put mandatory formatting, validation, permissions, and lifecycle actions in formatters, tests, CI, settings, or hooks where practical. Instructions may retain the non-obvious rationale or safe fallback.
 
-## 5. Skills should absorb task-specific guidance
+## 6. Friction and evaluation drive edits
 
-When the guidance is conditional, workflow-heavy, or domain-specific, it belongs in a skill that can be loaded on demand rather than in always-on global instructions.
+Add standing instructions after repeated mistakes, review findings, costly landmines, or explicit durable policy reveal a behavior gap. Remove rules that are stale, conflicting, duplicated, or empirically unnecessary. Strong constraints earn their cost in high-impact areas; general work benefits from model judgment and surrounding context.
+
+## Primary Sources
+
+- [OpenAI Codex: Custom instructions with AGENTS.md](https://developers.openai.com/codex/guides/agents-md)
+- [AGENTS.md format](https://agents.md/)
+- [Claude Code: How Claude remembers your project](https://code.claude.com/docs/en/memory)
+- [Claude: The new rules of context engineering for Claude 5 generation models](https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models)

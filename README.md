@@ -9,7 +9,7 @@ Shihyu's curated collection of agent skills.
 - **[e04](skills/e04/)** - Decode 注音文 (Zhuyin/Bopomofo text typed with English keyboard keys) into Chinese characters.
 - **[resolve-user-invoke-skill](skills/resolve-user-invoke-skill/)** - Resolve an authorized user-invoke skill dependency to one active, pinned instruction source across agent environments.
 - **[sdkman](skills/sdkman/)** - Run commands under requested or project-selected [SDKMAN](https://sdkman.io/) candidates while preserving project wrappers, build toolchains, and the user's persistent SDK settings.
-- **[writing-agents-md](skills/writing-agents-md/)** - Create or prune `AGENTS.md` and `CLAUDE.md` so they keep only minimal, high-signal global constraints.
+- **[writing-agents-md](skills/writing-agents-md/)** - Create, update, prune, or review `AGENTS.md` and `CLAUDE.md` by routing standing guidance to the smallest correct scope and mechanism.
 
 ### User-invoke
 

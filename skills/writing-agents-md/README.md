@@ -2,29 +2,20 @@
 
 ## Purpose
 
-This skill helps agents create or prune `AGENTS.md` / `CLAUDE.md` so they stay short, high-signal, and focused on real global constraints.
+This skill creates, updates, prunes, or reviews `AGENTS.md` and `CLAUDE.md` as small instruction interfaces rather than repository handbooks.
 
-The rule of thumb:
+It first removes repetition, conflicts, stale claims, and model-relative no-ops. It then routes each surviving rule to the smallest correct scope and mechanism:
 
-1. Can the agent discover this from the repo?
-2. Does it matter across most tasks?
-3. Will it stay true long enough to deserve always-on context?
+- the current instruction file for standing guidance across its scope
+- a nested instruction file or path-scoped rule for local standing guidance
+- a skill or documentation for conditional workflows and reference material
+- code, config, tests, CI, permissions, or hooks for deterministic enforcement
 
-If not, delete it, narrow it, or move it into a task-specific skill.
+## Source handling
 
-## Source priority
+Existing instruction files are standing contracts under review, not disposable history. Repository code, config, CI, and documentation verify observable implementation, but they do not automatically override human safety, release, compliance, or operational policy.
 
-- Analyze the repo before reading any existing `AGENTS.md` or `CLAUDE.md`.
-- Treat existing files as historical input only; if they conflict with what the repo shows, trust the repo.
-
-## What it optimizes for
-
-- keep non-obvious tool or environment hazards
-- keep production landmines that look safe to remove
-- delete repo summaries, script lists, and directory tours
-- avoid turning deleted noise into generic global meta-guidance
-
-If a repo has no real global constraints yet, a tiny file or no file is acceptable.
+Discoverability is evidence, not an automatic deletion rule. Cheap lookups and directory tours usually go; concise repository purpose, canonical gotchas, and costly safe paths may stay when they change decisions.
 
 ## Installation
 
@@ -32,15 +23,9 @@ If a repo has no real global constraints yet, a tiny file or no file is acceptab
 npx skills add shihyuho/skills --skill writing-agents-md -g
 ```
 
-## References
+## Primary references
 
-- Addy Osmani, "Stop Using /init for AGENTS.md"  
-  https://addyosmani.com/blog/agents-md/
-- Theo, "Delete your CLAUDE.md (and your AGENT.md too)"  
-  https://www.youtube.com/watch?v=GcNu6wrLTJc
-- Matt Pocock, "Never Run claude /init"  
-  https://www.youtube.com/watch?v=9tmsq-Gvx6g
-- Lulla et al., arXiv:2601.20404  
-  https://arxiv.org/abs/2601.20404
-- Gloaguen et al., arXiv:2602.11988  
-  https://arxiv.org/abs/2602.11988
+- [OpenAI Codex: Custom instructions with AGENTS.md](https://developers.openai.com/codex/guides/agents-md)
+- [AGENTS.md format](https://agents.md/)
+- [Claude Code: How Claude remembers your project](https://code.claude.com/docs/en/memory)
+- [Claude: The new rules of context engineering for Claude 5 generation models](https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models)
