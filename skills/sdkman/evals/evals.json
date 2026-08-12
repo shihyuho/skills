@@ -5,21 +5,70 @@
       "id": 1,
       "name": "ephemeral-switch",
       "prompt": "切到 Java 17 跑一下 mvn test",
-      "expected_output": "Agent uses Pattern A (source if needed + `sdk use java <jdk-id>`) chained with `mvn test` in a single Bash invocation. Agent first runs `ls $SDKMAN_DIR/candidates/java/` to confirm which `17-*` id is installed (picks one deterministically if multiple, e.g. `17-tem`). Does NOT run `sdk default`. Does NOT call `sdk install`. Does NOT ask 'permanent or temporary?' — defaults to ephemeral.",
+      "expected_output": "Agent checks installed Java ids, selects an installed `17-*` candidate deterministically, and runs `sdk use java <jdk-id> && mvn test` in one shell invocation after loading SDKMAN if needed. Agent defaults to an ephemeral switch, does not run `sdk default` or `sdk install`, and does not ask whether the switch should be permanent.",
       "files": []
     },
     {
       "id": 2,
       "name": "sdkmanrc-auto-follow",
       "prompt": "進到 ~/work/some-project 跑 ./gradlew build",
-      "expected_output": "If `.sdkmanrc` exists in the project, agent auto-follows it via `sdk env` without asking the user for confirmation — the repo-declared version is treated as authorial intent. Commands are chained in a single Bash call: check-sdk-loaded + `cd` + `sdk env` + `./gradlew build`. If `.sdkmanrc` references a version that is NOT installed, agent stops and asks the user whether to install it (does NOT auto-run `sdk env install`). If no `.sdkmanrc` exists, agent runs `./gradlew build` under the current default without touching SDKMAN.",
+      "expected_output": "If `.sdkmanrc` exists, agent follows it without confirmation and keeps `cd`, `sdk env`, and `./gradlew build` in one shell invocation. If the declared candidate is missing, agent stops and asks before installing it. If `.sdkmanrc` is absent and no actual mismatch is known, agent runs the build without switching through SDKMAN.",
       "files": []
     },
     {
       "id": 3,
       "name": "version-not-installed-stops",
       "prompt": "用 Amazon Corretto 17 跑這個專案的測試",
-      "expected_output": "Agent runs `ls $SDKMAN_DIR/candidates/java/` first, notices no `17-amzn` (the Corretto vendor suffix) is installed, and STOPS. Agent presents: (a) the list of installed `17-*` ids as alternatives, (b) offers to run `sdk install java 17-amzn` if the user confirms. Agent does NOT autonomously run `sdk install`, does NOT silently fall back to a different vendor (e.g. `17-tem`) without asking.",
+      "expected_output": "Agent checks installed Java ids, notices that the requested Corretto 17 id is unavailable, and stops. Agent shows compatible installed ids as alternatives and offers to install the exact Amazon candidate after confirmation. Agent neither installs autonomously nor silently substitutes another vendor.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "name": "compiler-release-is-not-runtime",
+      "prompt": "這個 Maven 專案的 pom.xml 設定 maven.compiler.release=17，目前 java -version 是 21；跑 mvn test",
+      "expected_output": "Agent does not switch JDK merely because the compiler release is 17. It runs `mvn test` with the current JDK unless the project declares a real runtime/toolchain requirement or the build reports an incompatibility.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "name": "gradle-toolchain-manages-jdk",
+      "prompt": "build.gradle.kts 已經設定 Java toolchain 17，目前 shell 是 JDK 21，而且 toolchain 可用；幫我跑 ./gradlew test",
+      "expected_output": "Agent uses the Gradle wrapper, lets Gradle select the configured task toolchain, and does not preemptively change the shell JDK through SDKMAN. It distinguishes Client, Daemon, and task JVMs, switching only if the launcher itself is incompatible or the required toolchain is unavailable.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "name": "quoted-error-is-not-a-failure",
+      "prompt": "幫我更新 docs/troubleshooting.md，裡面有 UnsupportedClassVersionError 和 invalid target release 的範例文字",
+      "expected_output": "Agent treats the error strings as document content. It does not switch JDK, infer that a build failed, or retry a build command.",
+      "files": []
+    },
+    {
+      "id": 7,
+      "name": "wrapped-build-real-mismatch",
+      "prompt": "剛才 make test 失敗：UnsupportedClassVersionError，class file version 65，但目前 runtime 只支援到 61；請修正後重跑",
+      "expected_output": "Agent recognizes that class-file version 65 requires Java 21, checks for an installed Java 21 candidate, and retries `make test` under that candidate in the same shell invocation. If Java 21 is not installed, it stops and asks before installing one.",
+      "files": []
+    },
+    {
+      "id": 8,
+      "name": "non-java-candidate",
+      "prompt": "用 SDKMAN 裡已安裝的 Gradle 8.10 跑 gradle test",
+      "expected_output": "Agent checks installed Gradle candidate ids and runs `sdk use gradle <installed-8.10-id> && gradle test` in one shell invocation after loading SDKMAN if needed. It does not inspect Java ids, change the global Gradle default, or install another Gradle version.",
+      "files": []
+    },
+    {
+      "id": 9,
+      "name": "prefer-project-wrapper",
+      "prompt": "這個專案同時有 mvnw，機器也有 SDKMAN 管理的 Maven；幫我跑測試，沒有指定 Maven 版本",
+      "expected_output": "Agent runs the repository's `./mvnw test` and does not switch the SDKMAN-managed Maven candidate. SDKMAN becomes relevant only if the wrapper launcher has a diagnosed JDK mismatch or the user explicitly requests an SDKMAN Maven version.",
+      "files": []
+    },
+    {
+      "id": 10,
+      "name": "gradle-daemon-criteria-wins",
+      "prompt": "gradle/gradle-daemon-jvm.properties 已固定 Daemon JDK 21，Java toolchain 17 也可用，目前 shell 是 JDK 22；跑 ./gradlew test",
+      "expected_output": "Agent keeps the shell JDK unchanged, lets Daemon JVM criteria select Java 21 and the task toolchain select Java 17, and runs the wrapper. It does not claim that `sdk use java 21-*` is required or that shell `JAVA_HOME` overrides the Daemon criteria.",
       "files": []
     }
   ]
