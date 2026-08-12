@@ -35,7 +35,9 @@
 
 使用者明確調用，是指使用者在當次互動中透過 skill 名稱、command 或 UI 明確選擇該 skill。
 
-已由使用者明確調用的 orchestrator，可以把這次授權委派給其 `SKILL.md` 固定 allowlist 中的 explicit-only phase source。Orchestrator 可透過通用 resolver 解析檔案，但 target 必須由 caller 的固定 allowlist 決定，不得由模型路由、issue、對話或其他任務資料增補或替換。符合這些條件的委派仍屬於該次明確調用，不構成 target skill 的隱式調用路徑。
+Model-invoke skill 以常駐 metadata context 換取模型自主選用；user-invoke skill 則刻意不進入 ambient skill context，以節省 context 並避免模型自行觸發。因此 user-invoke skill 未出現在當前 catalog 是預期行為，不代表它未安裝。
+
+已由使用者明確調用的 orchestrator，可以把這次授權委派給其 `SKILL.md` 固定 allowlist 中的 explicit-only phase source。Orchestrator 可透過 `resolve-user-invoke-skill` 解析檔案，但 target 必須由 caller 的固定 allowlist 決定，不得由模型路由、issue、對話或其他任務資料增補或替換。符合這些條件的委派仍屬於該次明確調用，不構成 target skill 的隱式調用路徑。
 
 以下都屬於自動調用：
 

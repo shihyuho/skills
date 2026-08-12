@@ -1,6 +1,0 @@
-interface:
-  display_name: "resolving-skills"
-  short_description: "Resolve named installed skills portably"
-  default_prompt: "Use $resolving-skills to resolve this named installed skill to one active source."
-policy:
-  allow_implicit_invocation: true

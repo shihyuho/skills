@@ -1,0 +1,4 @@
+interface:
+  display_name: "resolve-user-invoke-skill"
+  short_description: "Resolve user-invoke skill dependencies"
+  default_prompt: "Use $resolve-user-invoke-skill to resolve this authorized user-invoke dependency to one active source."
