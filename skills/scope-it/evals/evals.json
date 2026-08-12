@@ -42,6 +42,12 @@
       "prompt": "Run scope-it until just before its first Planning Baseline branch checkout. The Planning Owner Ticket, original worktree and branch, and fetched 40-character remote-base SHA are known.",
       "expected_output": "The agent writes entry-worktree, entry-branch, and base-sha under the fixed repo-local scope-it.planning-baseline-<owner-number> namespace, reads all three values back successfully, and only then checks out or creates the baseline branch.",
       "files": []
+    },
+    {
+      "id": 8,
+      "prompt": "Resume scope-it from a ready delivery issue whose native parent is a stable settled spec. The starting issue is one of several already-published sub-issue tickets, matches the current scope, and has no Scope-related Changes, Baseline Pointer, or linked planning branch.",
+      "expected_output": "The agent audits the native tracker relationship, reuses the parent spec and starting child ticket, selects the child as the delivery ticket, and reports Planning Baseline none without resolving or rerunning to-spec or to-tickets or creating duplicate tracker artifacts.",
+      "files": []
     }
   ]
 }
