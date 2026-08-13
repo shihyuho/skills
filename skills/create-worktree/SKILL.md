@@ -31,15 +31,16 @@ Create or resume a worktree for the work at hand and continue in it. `$ARGUMENTS
 
 1. **Matching registered worktree** — when one registered worktree already checks out `<name>`, verify its branch and, when supplied, that the Planning Baseline SHA is an ancestor of its HEAD. Reuse that path. A different registered branch at the target path is a collision.
 2. **Planning Baseline branch** — require the full SHA to exist and be an ancestor of the selected branch HEAD. If the local branch exists and is free, attach it with `git worktree add <path> <name>`. If only `origin/<name>` exists, create it with `git worktree add --track -b <name> <path> origin/<name>`. When both refs exist, fast-forward a free local branch with `git branch -f <name> origin/<name>` only when it is strictly behind the remote; keep unpushed local commits when the remote is its ancestor; divergent refs stop the operation.
-3. **New branch** — use the existing fresh-base behavior: branch from `origin/<default-branch>`, or from current `HEAD` only when the task depends on commits that exist only there. Uncommitted changes do not cross this boundary; report the dependency before creating anything.
+3. **New branch** — default to `origin/<default-branch>`. Use current `HEAD` when the task depends on commits that exist only there. Use another existing base when the task requirements provide a concrete reason; verify that base resolves to a commit after the fetch, then report the selected base and reason. Uncommitted changes do not cross this boundary; report the dependency before creating anything.
 
 **Before creating.** Read Context first:
 - **Path collision** — if a non-empty target directory is not the matching registered worktree, stop. Do not choose a variant path.
 - **Branch already checked out** — a branch can live in only one worktree at a time. If `<name>` is checked out elsewhere, say where; don't force it.
 - **Baseline conflict** — a missing SHA, failed ancestry check, or divergent local/remote branch stops the operation. Do not choose another base or branch.
+- **Base conflict** — conflicting requirements or several equally plausible bases stop the operation. Do not pick one arbitrarily.
 
 Create a new branch and worktree in one step with `git worktree add -b <name> <path> <base>` so they cannot drift apart. Attach or track existing branches with the exact commands in the source-selection rules above.
 
-Once it exists, switch into it if the session can, and report the path, branch, source (`fresh` or `Planning Baseline <full SHA>`), and whether the worktree was created or reused. Then pick up the task that prompted it.
+Once it exists, switch into it if the session can, and report the path, branch, source (`<base>` and reason, `Planning Baseline <full SHA>`, or matching registered worktree), and whether the worktree was created or reused. Then pick up the task that prompted it.
 
 $ARGUMENTS

@@ -4,7 +4,7 @@
     {
       "id": 1,
       "prompt": "Use create-worktree for a new task with no existing branch or worktree.",
-      "expected_output": "The agent keeps the existing fresh-base behavior and creates one descriptively named branch and worktree from the latest remote default branch.",
+      "expected_output": "The agent uses the default behavior and creates one descriptively named branch and worktree from the latest remote default branch.",
       "files": []
     },
     {
@@ -23,6 +23,18 @@
       "id": 4,
       "prompt": "Use create-worktree with a Baseline Pointer whose branch is checked out in another worktree or whose SHA is not an ancestor of the branch HEAD.",
       "expected_output": "The agent stops with the exact occupancy or ancestry conflict and does not force checkout, create a variant branch, or choose another base.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "Use create-worktree for a delivery ticket whose requirements explicitly target the maintained 3.x branch. There is no Planning Baseline or existing delivery branch, and origin/3.x exists after fetch.",
+      "expected_output": "The agent creates the new descriptively named branch and worktree from origin/3.x, then reports that exact base and the ticket requirement as its concrete reason.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "Use create-worktree for a new task whose requirements point equally to two maintained remote branches and do not establish which one owns the delivery.",
+      "expected_output": "The agent stops and asks which base to use instead of selecting either branch arbitrarily or falling back to the default branch.",
       "files": []
     }
   ]
