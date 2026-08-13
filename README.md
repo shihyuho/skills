@@ -7,7 +7,6 @@ Shihyu's curated collection of agent skills.
 ### Model-invoke
 
 - **[e04](skills/e04/)** - Decode 注音文 (Zhuyin/Bopomofo text typed with English keyboard keys) into Chinese characters.
-- **[resolve-user-invoke-skill](skills/resolve-user-invoke-skill/)** - Resolve an authorized user-invoke skill dependency to one active, pinned instruction source across agent environments.
 - **[sdkman](skills/sdkman/)** - Run commands under requested or project-selected [SDKMAN](https://sdkman.io/) candidates while preserving project wrappers, build toolchains, and the user's persistent SDK settings.
 - **[writing-agents-md](skills/writing-agents-md/)** - Create, update, prune, or review `AGENTS.md` and `CLAUDE.md` by routing standing guidance to the smallest correct scope and mechanism.
 
@@ -20,7 +19,6 @@ Shihyu's curated collection of agent skills.
 - **[create-branch](skills/create-branch/)** - Create or safely resume a descriptive local or issue-linked remote branch without duplicate branches.
 - **[create-worktree](skills/create-worktree/)** - Create or resume isolated work in a descriptive Git worktree, including an existing Planning Baseline branch.
 - **[distil](skills/distil/)** - Re-express a passage by dropping peripheral detail and keeping its core message.
-- **[go-for-it](skills/go-for-it/)** - Run or resume a settled design through scoping, implementation, and pull request, with an optional bounded peer review-and-fix loop.
 - **[grill-on-point](skills/grill-on-point/)** - Run the external `grill-with-docs` skill over a doc, plan, or rough idea while surfacing only findings that truly need your input.
 - **[merge-train](skills/merge-train/)** - Merge approved pull requests one at a time through an auto-merge update-branch queue.
 - **[plain](skills/plain/)** - Rewrite jargon-heavy text in clear language while preserving every point.
