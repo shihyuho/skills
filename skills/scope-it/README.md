@@ -4,7 +4,7 @@ Publish settled work as a durable spec, minimal ready-for-agent ticket scope, an
 
 This skill must be invoked explicitly.
 
-It uses `resolve-user-invoke-skill` to load `to-spec`, `to-tickets`, `create-branch`, `create-worktree`, `commit`, and `push` from the active agent environment. Their source files must be installed and visible to the agent.
+It uses `to-spec`, `to-tickets`, `create-branch`, `create-worktree`, `commit`, and `push`; their source files must be installed and visible to the agent.
 
 ## Installation
 

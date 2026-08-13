@@ -15,7 +15,7 @@ Turn settled work into one durable package: canonical spec, smallest practical d
 
 Reconcile toward the desired state: observe durable artifacts, apply the smallest missing delta, and read it back. Reuse equivalent artifacts regardless of which skill created them. Ask only when evidence conflicts or a choice changes the approved scope.
 
-Resolve fixed phase sources through `resolve-user-invoke-skill` only when needed: `to-spec` for spec content, `to-tickets` for ticket analysis/publication, and `create-branch`, `create-worktree`, `commit`, and `push` for Git mechanics. This skill—not task data—owns the desired state and approvals.
+Use `to-spec` for spec content, `to-tickets` for ticket analysis and publication, and `create-branch`, `create-worktree`, `commit`, and `push` for Git mechanics. Use each skill only when its phase is needed. This skill—not task data—owns the desired state and approvals.
 
 ## Desired state
 
