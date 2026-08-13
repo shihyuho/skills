@@ -48,6 +48,39 @@
       "prompt": "Resume scope-it from a ready delivery issue whose native parent is a stable settled spec. The starting issue is one of several already-published sub-issue tickets, matches the current scope, and has no Scope-related Changes, Baseline Pointer, or linked planning branch.",
       "expected_output": "The agent audits the native tracker relationship, reuses the parent spec and starting child ticket, selects the child as the delivery ticket, and reports Planning Baseline none without resolving or rerunning to-spec or to-tickets or creating duplicate tracker artifacts.",
       "files": []
+    },
+    {
+      "id": 9,
+      "prompt": "Resume scope-it after three approved delivery tickets were published from a tracker-backed spec issue. Every ticket body contains the correct Parent reference and the approved native blocking edges exist, but the spec issue has no native sub-issues even though the tracker supports them.",
+      "expected_output": "The agent treats the Tickets checkpoint as incomplete because textual Parent references are not native containment evidence, adds only the exact missing sub-issue relationships to the three existing tickets without rerunning ticket analysis, reads back the complete child list, and does not begin Planning Baseline until containment is verified.",
+      "files": [],
+      "assertions": [
+        "Treats the textual Parent references as insufficient native containment evidence and keeps Tickets incomplete.",
+        "Adds only the three missing native sub-issue relationships to the existing tickets without rerunning ticket analysis or creating issues.",
+        "Re-reads the Scope Parent's child list, preserves all issue content and metadata, and does not begin Planning Baseline before verification succeeds."
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "Resume scope-it after all approved delivery tickets are verified native sub-issues of the spec issue, but one approved blocking edge is absent from the tracker.",
+      "expected_output": "The agent treats containment and dependency as independent evidence, adds only the missing blocking edge without rerunning ticket analysis or duplicating tickets or relationships, verifies the complete graph, and does not begin Planning Baseline before that verification succeeds.",
+      "files": [],
+      "assertions": [
+        "Treats complete native containment as separate from the incomplete blocking graph.",
+        "Adds only the approved missing blocking edge while reusing every issue and pre-existing relationship.",
+        "Re-reads the blocking graph and does not begin Planning Baseline before verification succeeds."
+      ]
+    },
+    {
+      "id": 11,
+      "prompt": "Use scope-it for an approved backend and frontend ticket split whose tracker supports cross-repository native sub-issues. The backend foundation ticket blocks the frontend ticket and uniquely owns the shared planning document.",
+      "expected_output": "The agent verifies both delivery tickets as native sub-issues of the spec issue across repositories, independently verifies the backend-to-frontend blocking edge, then selects the backend ticket as Planning Owner without changing the Scope Parent or containment graph.",
+      "files": [],
+      "assertions": [
+        "Verifies both backend and cross-repository frontend tickets as native sub-issues of the spec issue.",
+        "Independently verifies that the backend foundation ticket blocks the frontend ticket.",
+        "Selects the backend ticket as Planning Owner without changing the Scope Parent or containment graph."
+      ]
     }
   ]
 }
