@@ -99,6 +99,17 @@
         "Applies and commits only the carry patch in the isolated baseline worktree after proving it is independent.",
         "After baseline verification, removes only the carried patch from the entry worktree and verifies every unrelated byte remains unchanged."
       ]
+    },
+    {
+      "id": 10,
+      "prompt": "A release-planning skill delegates its settled scope publication to scope-it. Use scope-it to publish the durable scope package.",
+      "expected_output": "The agent accepts delegation from the other skill as authorization for scope-it's bounded tracker and repository mutations without requiring a direct user invocation or a specific delegating skill.",
+      "files": [],
+      "assertions": [
+        "Accepts delegation from any other skill rather than requiring a named orchestrator.",
+        "Keeps authorization limited to scope-it's package mutations and existing safety boundaries.",
+        "Does not require a second direct invocation before beginning the authorized scope workflow."
+      ]
     }
   ]
 }

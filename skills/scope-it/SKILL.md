@@ -11,7 +11,7 @@ Turn settled work into one durable package: canonical spec, smallest practical d
 
 ## Contract
 
-`$ARGUMENTS` supplements the conversation. Invocation, or delegation from an explicitly invoked `go-for-it`, authorizes only this package's tracker and repository mutations, including exact cleanup of its confirmed worktree changes. Never alter unrelated changes, close the starting issue, or commit or push the default branch.
+`$ARGUMENTS` supplements the conversation. Direct invocation or delegation from another skill authorizes only this package's tracker and repository mutations, including exact cleanup of its confirmed worktree changes. Never alter unrelated changes, close the starting issue, or commit or push the default branch.
 
 Reconcile toward the desired state: observe durable artifacts, apply the smallest missing delta, and read it back. Reuse equivalent artifacts regardless of which skill created them. Ask only when evidence conflicts or a choice changes the approved scope.
 
