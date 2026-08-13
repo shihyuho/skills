@@ -2,7 +2,7 @@
 
 Teach an agent to run commands under an explicitly requested or project-selected [SDKMAN](https://sdkman.io/) candidate without leaking shell-local state across tool calls.
 
-The skill keeps `sdk use` or `sdk env` and the workload in one shell invocation, prefers project wrappers and build toolchains, preserves an explicitly requested vendor, and asks before installing a candidate or changing the user's default.
+The skill keeps `sdk use` or a worktree-local `sdk env` and the workload in one shell invocation, preserves the workload directory, prefers project wrappers and build toolchains, preserves an explicitly requested vendor, and asks before installing a candidate or changing the user's default.
 
 It distinguishes launcher, build toolchain, compile／test, and application runtime failures: Maven `release`／`source`／`target` and Gradle `options.release`／compatibility settings do not by themselves require changing the shell JDK.
 
