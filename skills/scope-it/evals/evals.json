@@ -3,83 +3,101 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Use scope-it for this settled discussion. The repository worktree is clean and there is no existing Baseline Pointer.",
-      "expected_output": "The agent completes the existing spec-and-ticket workflow without creating a branch, commit, push, or Baseline Pointer because there are no Scope-related Changes.",
-      "files": []
+      "prompt": "Use scope-it for this settled discussion. The spec was published as a comment on issue #40. to-tickets recommends one cohesive delivery ticket, and there are no scope-related repository changes.",
+      "expected_output": "The agent publishes the ticket result on issue #40, selects #40 as the delivery ticket, creates no separate issue or self-relationship, and reports Planning none.",
+      "files": [],
+      "assertions": [
+        "Publishes the one-ticket result on the same issue that contains the spec and selects that issue as the delivery ticket.",
+        "Creates no separate delivery issue, self-parent relationship, or self-dependency.",
+        "Performs no Planning Baseline Git mutation because there are no scope-related repository changes."
+      ]
     },
     {
       "id": 2,
-      "prompt": "Use scope-it for this settled discussion. Two whole-file planning documents created during the discussion are the only worktree changes.",
-      "expected_output": "After selecting the Planning Owner Ticket, the agent creates an issue-linked branch from the latest remote default branch, commits only the two confirmed files, pushes and verifies the full SHA, returns the originating worktree to its entry branch, and posts exactly one fixed-format Baseline Pointer.",
-      "files": []
+      "prompt": "Use scope-it for a settled design. Although the user prefers one ticket, to-tickets finds three independently verifiable delivery slices with an ordering dependency.",
+      "expected_output": "The agent presents the three-ticket breakdown for approval instead of forcing one ticket or publishing immediately; after approval it publishes the tickets as native children of the spec issue and verifies the approved blocking graph.",
+      "files": [],
+      "assertions": [
+        "Starts with a preference for the fewest practical tickets but does not force one against the ticket analysis.",
+        "Obtains user approval for the multi-ticket breakdown before publication.",
+        "After approval, verifies native containment and blocking relationships as independent axes."
+      ]
     },
     {
       "id": 3,
-      "prompt": "Use scope-it for this settled discussion. One changed file mixes this scope's ADR edits with unrelated draft notes.",
-      "expected_output": "The agent preserves the completed tracker artifacts but stops before branch creation because a changed file mixes scopes; it does not split hunks, commit, push, or publish a Baseline Pointer.",
-      "files": []
+      "prompt": "Resume scope-it after three approved delivery tickets were published from a tracker-backed spec. Their bodies contain Parent references and blocking edges are correct, but the tracker supports native sub-issues and the spec has no children.",
+      "expected_output": "The agent adds only the three missing native sub-issue relationships, reads them back, preserves all issue content and metadata, and does not rerun to-tickets or begin Planning early.",
+      "files": [],
+      "assertions": [
+        "Treats textual Parent references as insufficient native containment evidence.",
+        "Adds only the exact missing sub-issue edges without rerunning ticket analysis or creating issues.",
+        "Verifies containment before advancing to Planning and preserves existing issue state and relationships."
+      ]
     },
     {
       "id": 4,
-      "prompt": "Resume scope-it after interruption. The linked baseline branch and commit already exist remotely, but the Planning Owner Ticket has no Baseline Pointer.",
-      "expected_output": "The agent verifies and reuses the existing branch and commit, publishes only the missing pointer comment, creates no duplicate branch or commit, and reports the completed baseline artifacts.",
-      "files": []
+      "prompt": "Use scope-it after a design session created one new ADR and also added a known exact paragraph to CONTEXT.md, which already contained another person's uncommitted edits. The paragraph should not remain because the ADR is now canonical.",
+      "expected_output": "The agent proposes carrying the ADR and removing the superseded paragraph, creates the isolated Planning Baseline with only the ADR, removes the published ADR and exact paragraph from the entry worktree, and verifies every other byte and dirty change remains unchanged.",
+      "files": [],
+      "assertions": [
+        "Presents a Change Proposal that carries the whole-file ADR and removes the superseded exact paragraph.",
+        "Uses an isolated worktree, commits only the ADR, then removes the published ADR and exact paragraph from the entry worktree.",
+        "Verifies all pre-existing mixed-file content and unrelated worktree changes remain byte-for-byte unchanged."
+      ]
     },
     {
       "id": 5,
-      "prompt": "Use scope-it for a settled design that genuinely needs three delivery tickets and has shared planning-document changes.",
-      "expected_output": "During the existing multi-ticket approval, the agent selects the unique ticket that owns the documents or the foundation ticket as Planning Owner Ticket; if no unique owner exists it asks there, then creates one shared baseline and publishes the same owner, branch, and full SHA pointer to every related ticket.",
-      "files": []
+      "prompt": "Use scope-it when CONTEXT.md has two clearly bounded hunks. One semantically matches the settled scope and should probably enter the baseline, while the other is unrelated, but no durable record proves who introduced the first hunk.",
+      "expected_output": "The agent proposes the bounded first hunk as an uncertain carry candidate, identifies the second as preserved unrelated work, and asks once for ownership confirmation before any mutation.",
+      "files": [],
+      "assertions": [
+        "Presents the bounded scope-like hunk as an uncertain candidate rather than claiming ownership from semantics.",
+        "Recommends carrying that hunk while explicitly preserving the unrelated hunk.",
+        "Asks one ownership question and performs no Planning mutation before confirmation."
+      ]
     },
     {
       "id": 6,
-      "prompt": "A different agent resumes scope-it after interruption immediately after the Planning Baseline branch was checked out. The current branch is the baseline branch, and the previous agent wrote the original worktree, entry branch, and pinned remote-base SHA to repo-local Git config.",
-      "expected_output": "After selecting the Planning Owner Ticket, the new agent reads the exact scope-it.planning-baseline-<owner-number> keys, rejects a partial or malformed set, reuses the complete persisted entry and base metadata rather than recording the baseline branch as entry, and releases the original worktree before Baseline Pointer publication.",
-      "files": []
+      "prompt": "Resume scope-it after the issue-linked baseline branch and commit already exist remotely, but one of three delivery tickets lacks its Planning baseline comment.",
+      "expected_output": "The agent verifies and reuses the branch, baseline ancestry, SHA, and two matching pointers, adds only the missing pointer, and creates no duplicate branch or commit.",
+      "files": [],
+      "assertions": [
+        "Uses durable branch, commit, ancestry, and tracker evidence to resume.",
+        "Adds only the missing pointer comment.",
+        "Creates no duplicate branch, commit, or matching pointer."
+      ]
     },
     {
       "id": 7,
-      "prompt": "Run scope-it until just before its first Planning Baseline branch checkout. The Planning Owner Ticket, original worktree and branch, and fetched 40-character remote-base SHA are known.",
-      "expected_output": "The agent writes entry-worktree, entry-branch, and base-sha under the fixed repo-local scope-it.planning-baseline-<owner-number> namespace, reads all three values back successfully, and only then checks out or creates the baseline branch.",
-      "files": []
+      "prompt": "Use scope-it after scoping added one known exact paragraph to a mixed CONTEXT.md, but the settled scope requires no repository document and the file already contained another person's uncommitted edits.",
+      "expected_output": "The agent removes only the proven scope-authored paragraph, verifies every pre-existing byte and all unrelated changes remain unchanged, then reports Planning none without creating a branch, commit, push, or pointer.",
+      "files": [],
+      "assertions": [
+        "Performs exact-provenance cleanup before deciding that no Planning Baseline is needed.",
+        "Removes only the proven scope-authored paragraph and verifies all pre-existing content remains byte-for-byte unchanged.",
+        "Reports Planning none without any baseline Git mutation or pointer publication."
+      ]
     },
     {
       "id": 8,
-      "prompt": "Resume scope-it from a ready delivery issue whose native parent is a stable settled spec. The starting issue is one of several already-published sub-issue tickets, matches the current scope, and has no Scope-related Changes, Baseline Pointer, or linked planning branch.",
-      "expected_output": "The agent audits the native tracker relationship, reuses the parent spec and starting child ticket, selects the child as the delivery ticket, and reports Planning Baseline none without resolving or rerunning to-spec or to-tickets or creating duplicate tracker artifacts.",
-      "files": []
+      "prompt": "Use scope-it when a mixed file appears related to the settled scope, but the possible scope content cannot be bounded to an exact patch or range without also selecting unrelated edits.",
+      "expected_output": "The agent lists the file as unresolved, preserves it unchanged, recommends the smallest content-level resolution, and asks only for the necessary scope decision instead of asking the user to perform Git mechanics.",
+      "files": [],
+      "assertions": [
+        "Identifies the unbounded mixed file and explains why semantic relevance cannot establish ownership.",
+        "Preserves the file and recommends a content-level resolution that can yield a clean carry or preserve set.",
+        "Asks only for the necessary scope decision and does not delegate stash, patch, branch, or cleanup mechanics to the user."
+      ]
     },
     {
       "id": 9,
-      "prompt": "Resume scope-it after three approved delivery tickets were published from a tracker-backed spec issue. Every ticket body contains the correct Parent reference and the approved native blocking edges exist, but the spec issue has no native sub-issues even though the tracker supports them.",
-      "expected_output": "The agent treats the Tickets checkpoint as incomplete because textual Parent references are not native containment evidence, adds only the exact missing sub-issue relationships to the three existing tickets without rerunning ticket analysis, reads back the complete child list, and does not begin Planning Baseline until containment is verified.",
+      "prompt": "Use scope-it when CONTEXT.md contains one exact, proven paragraph added during grilling that remains required by the settled scope, plus another person's unrelated uncommitted paragraph.",
+      "expected_output": "The agent proposes carrying only the proven paragraph, applies it independently in the isolated baseline worktree, verifies and publishes the baseline, then removes only that paragraph from the entry worktree while preserving the other person's paragraph byte-for-byte.",
       "files": [],
       "assertions": [
-        "Treats the textual Parent references as insufficient native containment evidence and keeps Tickets incomplete.",
-        "Adds only the three missing native sub-issue relationships to the existing tickets without rerunning ticket analysis or creating issues.",
-        "Re-reads the Scope Parent's child list, preserves all issue content and metadata, and does not begin Planning Baseline before verification succeeds."
-      ]
-    },
-    {
-      "id": 10,
-      "prompt": "Resume scope-it after all approved delivery tickets are verified native sub-issues of the spec issue, but one approved blocking edge is absent from the tracker.",
-      "expected_output": "The agent treats containment and dependency as independent evidence, adds only the missing blocking edge without rerunning ticket analysis or duplicating tickets or relationships, verifies the complete graph, and does not begin Planning Baseline before that verification succeeds.",
-      "files": [],
-      "assertions": [
-        "Treats complete native containment as separate from the incomplete blocking graph.",
-        "Adds only the approved missing blocking edge while reusing every issue and pre-existing relationship.",
-        "Re-reads the blocking graph and does not begin Planning Baseline before verification succeeds."
-      ]
-    },
-    {
-      "id": 11,
-      "prompt": "Use scope-it for an approved backend and frontend ticket split whose tracker supports cross-repository native sub-issues. The backend foundation ticket blocks the frontend ticket and uniquely owns the shared planning document.",
-      "expected_output": "The agent verifies both delivery tickets as native sub-issues of the spec issue across repositories, independently verifies the backend-to-frontend blocking edge, then selects the backend ticket as Planning Owner without changing the Scope Parent or containment graph.",
-      "files": [],
-      "assertions": [
-        "Verifies both backend and cross-repository frontend tickets as native sub-issues of the spec issue.",
-        "Independently verifies that the backend foundation ticket blocks the frontend ticket.",
-        "Selects the backend ticket as Planning Owner without changing the Scope Parent or containment graph."
+        "Classifies the exact proven paragraph as a carry patch and the other paragraph as preserved unrelated work.",
+        "Applies and commits only the carry patch in the isolated baseline worktree after proving it is independent.",
+        "After baseline verification, removes only the carried patch from the entry worktree and verifies every unrelated byte remains unchanged."
       ]
     }
   ]
