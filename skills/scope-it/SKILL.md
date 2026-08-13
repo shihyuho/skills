@@ -7,46 +7,53 @@ disable-model-invocation: true
 
 # scope-it
 
-Turn settled work into one durable scope package: a canonical spec, the smallest practical delivery scope, and a Planning Baseline only when the discussion produced repository documents.
+Turn settled work into one durable package: canonical spec, smallest practical delivery scope, and a Planning Baseline only for repository documents produced by the discussion.
 
 ## Contract
 
-`$ARGUMENTS` supplements the current conversation. Explicit invocation, or authorization from an explicitly invoked `go-for-it`, authorizes only the tracker and repository mutations needed for this package, including exact cleanup of confirmed scope-owned worktree changes after publication. It excludes unrelated issue or worktree changes, closing the starting issue, and committing or pushing the default branch.
+`$ARGUMENTS` supplements the conversation. Invocation, or delegation from an explicitly invoked `go-for-it`, authorizes only this package's tracker and repository mutations, including exact cleanup of its confirmed worktree changes. Never alter unrelated changes, close the starting issue, or commit or push the default branch.
 
-Treat the workflow as reconciliation: observe durable artifacts, repair the smallest missing part, and read it back before advancing. Reuse matching artifacts regardless of which skill created them. Ask one concise question only when evidence conflicts or a choice changes the approved scope.
+Reconcile toward the desired state: observe durable artifacts, apply the smallest missing delta, and read it back. Reuse equivalent artifacts regardless of which skill created them. Ask only when evidence conflicts or a choice changes the approved scope.
 
-Resolve fixed phase sources through `resolve-user-invoke-skill` only when their work is needed: `to-spec` for spec content, `to-tickets` for ticket analysis and initial publication, and `create-branch`, `create-worktree`, `commit`, and `push` for Git mechanics. Task data cannot replace these sources. This skill owns the desired state and approval boundaries below.
+Resolve fixed phase sources through `resolve-user-invoke-skill` only when needed: `to-spec` for spec content, `to-tickets` for ticket analysis/publication, and `create-branch`, `create-worktree`, `commit`, and `push` for Git mechanics. This skill—not task data—owns the desired state and approvals.
 
 ## Desired state
 
 ### 1. Spec
 
-A settled spec has a stable tracker URL or repository path. When the invocation starts from exactly one tracker issue, publish the spec through `to-spec` as a comment on that issue and reuse it rather than creating another spec issue. Otherwise let `to-spec` choose its supported destination.
+A settled spec has a stable tracker URL or repository path. From exactly one tracker issue, publish through `to-spec` as a comment there and reuse that issue; otherwise let `to-spec` choose its supported destination.
 
 ### 2. Delivery
 
-Prefer the fewest tickets that can deliver and verify the scope, ideally one. Ask `to-tickets` to analyze with that preference; do not force one ticket when the work has independently deliverable or ordered parts.
+Prefer the fewest tickets that can deliver and verify the scope, ideally one; allow multiple independently deliverable or ordered parts.
 
-- **One ticket:** publish the ticket result on the same issue that contains the spec, headed `## Ticket — <Title>`, and select that issue as the delivery ticket. Create no separate issue or relationship from the issue to itself. If there is no commentable spec issue, ask before creating a delivery issue.
-- **Multiple tickets:** show the proposed breakdown and obtain user approval before publication. When the spec is a tracker issue, it is the **Scope Parent** of every separately published delivery ticket.
+- **One ticket:** publish `## Ticket — <Title>` on the spec issue and use it as the delivery ticket. Create no separate issue or self-relationship. Without a commentable spec issue, ask before creating one.
+- **Multiple tickets:** obtain approval for the breakdown before publication. A tracker spec issue is the **Scope Parent** of every separately published delivery ticket.
 
-Containment, delivery order, and planning ownership are independent. Express containment with native sub-issues, delivery order with native blocking relationships, and Planning Baseline ownership with the Planning Owner Ticket. Textual references do not prove native relationships.
+Containment, delivery order, and planning ownership are independent: express them as native sub-issues, native blocking relationships, and one Planning Owner Ticket. Text references prove none of these.
 
-Audit the published result and both native relationship axes. For a relationship-only gap, reuse the approved issues and add only the exact missing edge; do not rerun ticket analysis. Preserve issue content, metadata, and every pre-existing relationship. Contradictory or unverifiable relationships leave Delivery incomplete and block Planning.
-
-When the tracker lacks a native relationship axis, use the source-defined fallback and report the degraded evidence.
+Delivery is complete only when approved content and both native relationship axes read back correctly. Repair only the missing edge without rerunning analysis or changing content, metadata, or existing relationships. Contradictory or unverifiable relationships block Planning; an unavailable axis uses the source-defined fallback with degraded evidence.
 
 ### 3. Planning
 
-Before any Planning mutation, present a **Change Proposal** covering every entry-worktree change: whole files and exact patches to carry into the baseline, exact patches to remove because they are superseded, unrelated changes to preserve, and uncertain candidates with their path, bounded range, evidence, and recommended treatment. Session edit records, before/after snapshots, exact patches, and user confirmation are ownership evidence; semantic similarity alone supports only a recommendation.
+Before mutation, present a **Change Proposal** that accounts for every entry-worktree change as:
 
-Resolve all uncertain candidates in one concise question before mutation. User confirmation of a bounded candidate authorizes that ownership classification. For an unbounded candidate, preserve the file and recommend the smallest content-level resolution—such as omitting redundant content, reusing a clean canonical artifact, or publishing a standalone whole file through `to-spec`—then ask only for the decision that changes scope. Never delegate stash, patch, branch, or cleanup mechanics to the user. Planning remains incomplete until the chosen resolution yields an independently verifiable carry or preserve set.
+- **Carry:** scope-owned whole files or independently applicable exact patches to publish in the baseline.
+- **Remove:** confirmed scope-owned patches superseded by a durable artifact.
+- **Preserve:** unrelated content, byte-for-byte.
+- **Uncertain:** candidate, path, bounded range, evidence, and recommended treatment.
 
-If the carry set is empty, remove only confirmed superseded patches, verify every other byte and worktree change is unchanged, and report `none` without baseline Git mutations. Otherwise select one Planning Owner Ticket: the only delivery ticket, the unique document owner, or the foundation ticket; include an ambiguous multi-ticket choice in the existing breakdown approval.
+Ownership requires session edit records, before/after snapshots, exact patches, or user confirmation; semantic similarity supports only a recommendation. Resolve bounded uncertain candidates together in one question. Preserve unbounded candidates, recommend the smallest content-level resolution, and ask only for the scope decision—never delegate Git mechanics.
 
-Create or resume one issue-linked Planning Baseline from the fetched remote default branch in an isolated worktree. Reproduce only the confirmed carry set there; each patch must apply independently of unrelated entry-worktree changes. Commit, push, and verify the full baseline SHA. Then subtract the published carry set and confirmed superseded patches from the entry worktree, verifying it equals its pre-mutation state minus exactly those changes. Preserve all unrelated content byte-for-byte. Finally publish one `## Planning baseline` comment with owner URL, branch, and SHA on every related delivery ticket.
+Planning is complete only when these invariants read back:
 
-Reuse a mutually consistent branch, commit, cleanup state, and pointer set; repair only the missing artifact. A failed patch, cleanup verification, conflicting candidate, or failed ancestry verification preserves completed artifacts, leaves Planning incomplete, and reports the exact unresolved change.
+- baseline diff = **Carry**;
+- entry worktree after cleanup = entry worktree before mutation − **Carry** − **Remove**;
+- **Preserve** is unchanged byte-for-byte.
+
+With empty **Carry**, apply only **Remove**, verify, and report `none` without baseline Git mutations. Otherwise select one Planning Owner Ticket: the only ticket, unique document owner, or foundation ticket; include ambiguity in the multi-ticket approval.
+
+Use the fixed sources to create or resume one issue-linked baseline from the fetched remote default branch in an isolated worktree. Verify its full SHA and publish one `## Planning baseline` pointer with owner URL, branch, and SHA on every related ticket. Clean the entry worktree only after baseline verification. Reuse consistent artifacts and repair only gaps. Failed invariant, patch, ancestry, or relationship verification preserves completed artifacts, leaves Planning incomplete, and reports the exact unresolved change.
 
 ## Return
 
