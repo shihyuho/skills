@@ -14,11 +14,11 @@
     },
     {
       "id": 2,
-      "prompt": "Use scope-it for a settled design. Although the user prefers one ticket, to-tickets finds three independently verifiable delivery slices with an ordering dependency.",
-      "expected_output": "The agent presents the three-ticket breakdown for approval instead of forcing one ticket or publishing immediately; after approval it publishes the tickets as native children of the spec issue and verifies the approved blocking graph.",
+      "prompt": "Use scope-it for a settled design. to-tickets finds three independently verifiable delivery slices with an ordering dependency.",
+      "expected_output": "The agent presents the three-ticket breakdown for approval before publication; after approval it publishes the tickets as native children of the spec issue and verifies the approved blocking graph.",
       "files": [],
       "assertions": [
-        "Starts with a preference for the fewest practical tickets but does not force one against the ticket analysis.",
+        "Follows the ticket breakdown produced by to-tickets without applying a ticket-count preference.",
         "Obtains user approval for the multi-ticket breakdown before publication.",
         "After approval, verifies native containment and blocking relationships as independent axes."
       ]

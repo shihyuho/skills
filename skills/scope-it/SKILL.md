@@ -1,13 +1,13 @@
 ---
 name: scope-it
-description: "Publish settled work as a durable spec, minimal ready-for-agent ticket scope, and an optional Planning Baseline."
+description: "Publish settled work as a durable spec, ready-for-agent ticket scope, and an optional Planning Baseline."
 license: MIT
 disable-model-invocation: true
 ---
 
 # scope-it
 
-Turn settled work into one durable package: canonical spec, smallest practical delivery scope, and a Planning Baseline only for repository documents produced by the discussion.
+Turn settled work into one durable package: canonical spec, ready-for-agent delivery scope, and a Planning Baseline only for repository documents produced by the discussion.
 
 ## Contract
 
@@ -25,7 +25,7 @@ A settled spec has a stable tracker URL or repository path. From exactly one tra
 
 ### 2. Delivery
 
-Prefer the fewest tickets that can deliver and verify the scope, ideally one; allow multiple independently deliverable or ordered parts.
+Follow the ticket breakdown produced by `to-tickets`:
 
 - **One ticket:** publish `## Ticket — <Title>` on the spec issue and use it as the delivery ticket. Create no separate issue or self-relationship. Without a commentable spec issue, ask before creating one.
 - **Multiple tickets:** obtain approval for the breakdown before publication. A tracker spec issue is the **Scope Parent** of every separately published delivery ticket.

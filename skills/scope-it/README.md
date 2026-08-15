@@ -1,6 +1,6 @@
 # scope-it
 
-Publish settled work as a durable spec, minimal ready-for-agent ticket scope, and an optional Planning Baseline.
+Publish settled work as a durable spec, ready-for-agent ticket scope, and an optional Planning Baseline.
 
 This skill must be invoked explicitly.
 

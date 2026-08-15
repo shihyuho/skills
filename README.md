@@ -28,7 +28,7 @@ Shihyu's curated collection of agent skills.
 - **[push](skills/push/)** - Push the current branch to origin with a safety gate for direct default-branch pushes.
 - **[skill-review](skills/skill-review/)** - Review a skill against the available skill-authoring rubrics and optionally apply fixes.
 - **[splitoff](skills/splitoff/)** - Hand the current conversation to a Claude Code background agent or a native Codex subagent using a generated handoff summary.
-- **[scope-it](skills/scope-it/)** - Publish settled work as a durable spec, minimal ready-for-agent ticket scope, and an optional Planning Baseline.
+- **[scope-it](skills/scope-it/)** - Publish settled work as a durable spec, ready-for-agent ticket scope, and an optional Planning Baseline.
 - **[tighten](skills/tighten/)** - Re-express a passage in fewer words while keeping every point.
 - **[tldr](skills/tldr/)** - Produce a TL;DR of a file, directory, git ref, URL, or GitHub PR/issue so the reader can keep up in roughly two minutes.
 - **[tradeoffs](skills/tradeoffs/)** - Turn discussed approaches into a Traditional Chinese decision brief with a recommendation.
