@@ -21,7 +21,7 @@ Use `to-spec` for spec content, `to-tickets` for ticket analysis and publication
 
 ### 1. Spec
 
-A settled spec has a stable tracker URL or repository path. From exactly one tracker issue, publish through `to-spec` as a comment there and reuse that issue; otherwise let `to-spec` choose its supported destination.
+A settled spec has a stable tracker URL or repository path. When starting from exactly one tracker issue, confirm before publication whether to publish the spec as a comment on the starting issue and reuse it, or delegate placement to `to-spec`. Coalesce this placement choice with any other pending confirmation. Otherwise delegate placement to `to-spec`.
 
 ### 2. Delivery
 

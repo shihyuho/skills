@@ -110,6 +110,19 @@
         "Keeps authorization limited to scope-it's package mutations and existing safety boundaries.",
         "Does not require a second direct invocation before beginning the authorized scope workflow."
       ]
+    },
+    {
+      "id": 11,
+      "prompt": "Use scope-it from issue #52. Another spec decision is already awaiting confirmation, but its details are outside scope-it; nobody has decided whether the spec should be published back on #52.",
+      "expected_output": "The agent adds spec placement to the pending confirmation without naming or depending on the other decision's internal contract, publishes nothing before placement is settled, and follows the chosen destination. If the user chooses #52, it publishes the spec there and reuses #52 for a one-ticket result.",
+      "files": [],
+      "assertions": [
+        "Asks whether to publish the spec on the starting issue instead of assuming that destination.",
+        "Coalesces spec placement with any pending confirmation rather than adding another stop.",
+        "Defines only the placement decision and does not name another skill's internal decision.",
+        "Publishes neither the spec nor ticket result before placement is settled.",
+        "When the user chooses the starting issue and to-tickets returns one ticket, reuses that issue without a separate issue or self-relationship."
+      ]
     }
   ]
 }
