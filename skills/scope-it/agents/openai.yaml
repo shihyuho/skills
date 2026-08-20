@@ -1,6 +1,6 @@
 interface:
   display_name: "scope-it"
-  short_description: "Publish settled scope and a Planning Baseline"
-  default_prompt: "Use $scope-it to publish this settled discussion as a spec and ready-for-agent ticket scope, including a Planning Baseline when repository files were produced."
+  short_description: "Publish settled scope, Planning Baseline, and optional Integration Delivery Lane."
+  default_prompt: "Use $scope-it to publish this settled discussion as a spec and ready-for-agent ticket scope, including optional Planning Baseline and Integration Delivery Lane artifacts."
 policy:
   allow_implicit_invocation: false
