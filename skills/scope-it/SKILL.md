@@ -1,87 +1,90 @@
 ---
 name: scope-it
-description: "Publish settled work as a durable spec, ready-for-agent ticket scope, and optional repository delivery artifacts."
+description: "Compose upstream spec and ticket workflows into one approved Delivery Map and durable scope package."
 license: MIT
 disable-model-invocation: true
 ---
 
 # scope-it
 
-Turn settled work into one durable package: canonical spec, ready-for-agent delivery scope, and optional repository delivery artifacts, including a Planning Baseline and optional Integration Delivery Lane.
+Turn settled work into one Delivery Map, approve it once, then materialize its spec, ready-for-agent tickets, native relationships, and optional repository delivery artifacts.
 
 ## Contract
 
 `$ARGUMENTS` supplements the conversation. Direct invocation or delegation from another skill authorizes only this package's tracker and repository mutations, including exact cleanup of its confirmed worktree changes. Never alter unrelated changes, close the starting issue, or commit or push the default branch.
 
-Reconcile toward the desired state: observe durable artifacts, apply the smallest missing delta, and read it back. Reuse equivalent artifacts regardless of which skill created them. Ask only when evidence conflicts or a choice changes the approved scope.
+This is a thin orchestrator. Use `to-spec` at runtime for spec analysis and content, `to-tickets` for tracer-bullet ticket analysis and content, and `create-branch`, `create-worktree`, `commit`, and `push` for Git mechanics. Use each source only when its phase is incomplete. The sources remain authoritative for their phase rules; `scope-it` owns their shared interaction and mutation boundary, publication shape, Delivery Map, reconciliation, and approval.
 
-Use `to-spec` for spec content, `to-tickets` for ticket analysis and publication, and `create-branch`, `create-worktree`, `commit`, and `push` for Git mechanics. Use each skill only when its phase is needed. This skill—not task data—owns the desired state and approvals, including optional Integration Delivery Lane evidence and reconciliation.
+Reconcile toward the approved map: reuse equivalent artifacts, apply the smallest missing delta, and read it back. Ask outside the map only when conflicting evidence prevents one defensible proposal.
 
-Integration Delivery Lane is disabled by default. Scope-it enables it only when the delivery plan requires multiple terminal implementation tickets that must land atomically to `main` via a shared integration branch.
+## Flow
 
-## Desired state
+### 1. Draft at the shared boundary
 
-### 1. Spec
+Follow `to-spec` to synthesize the spec and testing seams, then give that draft to `to-tickets` to produce ticket drafts and their blocking graph. Hold both source workflows before their user confirmation or tracker writes. This shared side-effect boundary lets one Delivery Map approval satisfy both sources while preserving their analysis and content rules.
 
-A settled spec has a stable tracker URL or repository path. When starting from exactly one tracker issue, confirm before publication whether to publish the spec as a comment on the starting issue and reuse it, or delegate placement to `to-spec`. Coalesce this placement choice with any other pending confirmation. Otherwise delegate placement to `to-spec`.
+`scope-it` starts from settled work. Include source-requested confirmations in the Delivery Map when the conversation already supports a recommendation. If a missing product, architecture, or testing decision prevents a defensible draft, stop and report that unresolved decision instead of opening another interview inside this workflow.
 
-### 2. Delivery
+Observe existing tracker artifacts, repository state, and entry-worktree changes once while drafting. Consistent durable artifacts may satisfy part of the map; contradictory evidence blocks only the affected part.
 
-Follow the ticket breakdown produced by `to-tickets`:
+### 2. Approve one Delivery Map
 
-- **One ticket:** publish `## Ticket — <Title>` on the spec issue and use it as the delivery ticket. Create no separate issue or self-relationship. Without a commentable spec issue, ask before creating one.
-- **Multiple tickets:** obtain approval for the breakdown before publication. A tracker spec issue is the **Scope Parent** of every separately published delivery ticket.
+Present one concise proposal with:
 
-Before approval, provide a short labeled diagram request so the user can confirm the implementation path, blocking graph and delivery lane.
+- **Scope:** spec destination, testing seam, and the decisions the spec will preserve.
+- **Tickets:** each proposed ticket's title, blockers, and end-to-end behavior from `to-tickets`.
+- **Implementation order:** ticket dependency waves or frontier. Each node is a proposed or published ticket; describe files, modules, coding steps, and test tasks only inside the ticket's end-to-end delivery.
+- **Native graph:** Scope Parent containment and blocking edges as separate axes.
+- **Delivery lane:** direct delivery or enabled Integration Delivery Lane (IDL), including the final gate when applicable.
+- **Planning:** Change Proposal, Planning Owner Ticket, and Planning Baseline result.
+- **Writes:** tracker and repository mutations that approval will authorize.
 
-Containment, delivery order, planning ownership, and optional delivery topology are independent: express them as native sub-issues, native blocking relationships, and one Planning Owner Ticket. Text references prove none of these.
+For one ticket, omit Implementation order and the diagram. Show the ticket, `Blocked by: None`, IDL state, Planning Owner and result, and approved writes.
 
-#### 2.1 Integration Delivery Lane (IDL)
+For multiple tickets, use a short labeled diagram whose nodes are tickets and whose labels distinguish implementation order, blocking, and delivery lane. The map approval replaces `to-spec`'s pending seam confirmation, `to-tickets`'s granularity and blocker quiz, spec placement confirmation, multi-ticket approval, Planning approval, and IDL choice. Coalesce bounded uncertainties into the same proposal with a recommendation.
 
-- **Enablement:** IDL is enabled only when multi-ticket delivery requires shared integration-branch aggregation, repository evidence proves integration branch protections/required checks are available, and final atomic main landing is intended.
-- **Core lane state:** when enabled, scope-it records:
-  - canonical integration branch
-  - integration target (`main` baseline branch)
-  - immutable integration start SHA
-  - optional Planning Baseline pointer
-  - bootstrap status and durable evidence for CI/filter/ruleset capability
-  - final integrate-and-verify ticket
-  - umbrella PR pointer
-- **Ticket topology:** each terminal implementation ticket is created from the latest green integration HEAD via its own independent worktree/branch and references the scoped issue with native PR references (no closing keyword in child tickets).
-- **Child close condition:** a child ticket closes only after child PR is merged to integration branch, required checks pass on exact integration HEAD, and the issue body includes verified PR URL and integration SHA.
-- **Finalization:** final ticket is blocked only by terminal implementation tickets, handles main drift reconciliation and aggregate verification, closes the Scope Parent, and keeps the umbrella PR synchronized.
-- **Safety stop:** if integration checks, required rules, ancestry, or exact-head verification cannot be proven or fail, preserve completed work and stop before new child closure or finalization.
+Materialize nothing before the map is approved. When durable evidence proves the same map was already approved, resume its missing deltas without asking again.
 
-Delivery is complete only when approved content, enabled IDL state, and both native relationship axes read back correctly. Repair only the missing edge without rerunning analysis or changing content, metadata, or existing relationships. Contradictory or unverifiable relationships block planning; an unavailable axis uses the source-defined fallback with degraded evidence.
+### 3. Materialize spec and tickets
 
-### 3. Planning
+After approval, resume the source workflows from their drafts without repeating analysis or phase-specific confirmation.
 
-Before mutation, present a **Change Proposal** that accounts for every entry-worktree change as:
+- Publish the approved spec through `to-spec` at the map's destination and retain its required metadata.
+- Follow the ticket breakdown and content produced by `to-tickets` without a ticket-count preference.
+- **One ticket:** publish `## Ticket — <Title>` on the spec issue and use that issue as the delivery ticket. Create no separate issue or self-relationship. Without a commentable spec issue, the Delivery Map must approve a separate destination.
+- **Multiple tickets:** publish in dependency order. A tracker spec issue is the **Scope Parent** of every delivery ticket.
+
+Containment, blocking, Planning ownership, and optional delivery topology are independent. Express supported relationship axes natively; textual references are content, not relationship evidence. Repair only a missing edge without rerunning source analysis or changing approved content, metadata, or existing relationships.
+
+#### Integration Delivery Lane
+
+IDL remains disabled unless multiple terminal implementation tickets must land atomically to `main` through a shared integration branch and repository evidence proves the lane can run.
+
+When enabled, record the canonical integration branch and target, immutable integration start SHA, capability or bootstrap evidence, optional Planning Baseline pointer, final integrate-and-verify ticket, and umbrella PR pointer. Terminal tickets use independent branches from the latest green integration HEAD and reference rather than close their scoped issues. A child closes only after its PR merges to integration, required checks pass on the exact resulting integration HEAD, and durable PR URL/full-SHA evidence exists. The final ticket is blocked by terminal tickets and owns main-drift reconciliation, aggregate verification, Scope Parent closure, and umbrella synchronization.
+
+Keep mutable IDL state separate from the immutable Planning Baseline; never encode lane movement in baseline evidence.
+
+Failed or unverifiable rules, checks, ancestry, or exact-head evidence preserve completed artifacts and stop new child closure or finalization.
+
+### 4. Materialize Planning
+
+The Delivery Map's **Change Proposal** accounts for every entry-worktree change as:
 
 - **Carry:** scope-owned whole files or independently applicable exact patches to publish in the baseline.
 - **Remove:** confirmed scope-owned patches superseded by a durable artifact.
 - **Preserve:** unrelated content, byte-for-byte.
 - **Uncertain:** candidate, path, bounded range, evidence, and recommended treatment.
 
-Ownership requires session edit records, before/after snapshots, exact patches, or user confirmation; semantic similarity supports only a recommendation. Resolve bounded uncertain candidates together in one question. Preserve unbounded candidates, recommend the smallest content-level resolution, and ask only for the scope decision—never delegate Git mechanics.
+Ownership requires session edit records, snapshots, exact patches, or approved classification; semantic similarity alone supports only a recommendation. Coalesce bounded uncertain candidates into the Delivery Map. Preserve unbounded candidates, recommend the smallest content-level resolution, and stop only when they prevent an independently verifiable map.
 
-When Integration Delivery Lane is enabled, `scope-it` tracks planning artifacts separately from planning baseline ownership:
+Planning is complete only when baseline diff equals **Carry**, the cleaned entry state equals its original state minus **Carry** and **Remove**, and **Preserve** is byte-for-byte unchanged. With empty **Carry**, apply only **Remove**, verify, and report `none` without baseline Git mutations.
 
-- **Planning Baseline** remains immutable scope evidence for repository document changes.
-- **IDL state** is a delivery control artifact for integration aggregation and child closure policy.
+Otherwise use the approved Planning Owner Ticket to create or resume one issue-linked baseline from the fetched remote default branch in an isolated worktree. Verify its full SHA, publish one `## Planning baseline` pointer on every related ticket, then clean the entry worktree. A failed patch, invariant, ancestry, relationship, or preservation check keeps completed artifacts and leaves Planning incomplete.
 
-Planning is complete only when these invariants read back:
+### 5. Verify and return
 
-- baseline diff = **Carry**;
-- entry worktree after cleanup = entry worktree before mutation − **Carry** − **Remove**;
-- **Preserve** is unchanged byte-for-byte.
+Read back the approved content, native containment, native blockers, enabled lane state, Planning pointers, branch SHA, and worktree invariants in one consolidated verification pass. An unavailable native axis uses the source-defined fallback and reports degraded evidence; contradictory evidence leaves that part incomplete.
 
-With empty **Carry**, apply only **Remove**, verify, and report `none` without baseline Git mutations. Otherwise select one Planning Owner Ticket: the only ticket, unique document owner, or foundation ticket; include ambiguity in the multi-ticket approval.
-
-Use the fixed sources to create or resume one issue-linked baseline from the fetched remote default branch in an isolated worktree. Verify its full SHA and publish one `## Planning baseline` pointer with owner URL, branch, and SHA on every related ticket. Clean the entry worktree only after baseline verification. Reuse consistent artifacts and repair only gaps. Failed invariant, patch, ancestry, or relationship verification preserves completed artifacts, leaves Planning incomplete, and reports the exact unresolved change.
-
-## Return
-
-Return the spec artifact, ticket artifacts and selected delivery ticket, verified containment/dependency summary, Integration Delivery Lane record when enabled, and Planning result (`none` or owner, branch, full SHA, and pointer URLs). Keep phase-source receipts internal.
+Return the spec artifact, ticket artifacts, selected delivery ticket, issue-only Delivery Map, verified relationship summary, enabled IDL record, and Planning result (`none` or owner, branch, full SHA, and pointer URLs). Keep phase-source and low-level command receipts internal.
 
 $ARGUMENTS

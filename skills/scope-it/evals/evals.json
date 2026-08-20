@@ -3,10 +3,11 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Use scope-it for this settled discussion. The spec was published as a comment on issue #40. to-tickets recommends one cohesive delivery ticket, and there are no scope-related repository changes.",
-      "expected_output": "The agent publishes the ticket result on issue #40, selects #40 as the delivery ticket, creates no separate issue or self-relationship, and reports Planning none.",
+      "prompt": "Use scope-it for this settled discussion. The to-spec draft targets issue #40, to-tickets recommends one cohesive delivery ticket, and there are no scope-related repository changes.",
+      "expected_output": "The agent presents one compact Delivery Map approval, then publishes the spec and ticket result on issue #40, selects #40 as the delivery ticket, creates no separate issue or self-relationship, and reports Planning none.",
       "files": [],
       "assertions": [
+        "Uses one Delivery Map approval for the spec destination, single ticket, and Planning none before publication.",
         "Publishes the one-ticket result on the same issue that contains the spec and selects that issue as the delivery ticket.",
         "Creates no separate delivery issue, self-parent relationship, or self-dependency.",
         "Performs no Planning Baseline Git mutation because there are no scope-related repository changes."
@@ -15,12 +16,12 @@
     {
       "id": 2,
       "prompt": "Use scope-it for a settled design. to-tickets finds three independently verifiable delivery slices with an ordering dependency.",
-      "expected_output": "The agent presents the three-ticket breakdown for approval before publication; after approval it publishes the tickets as native children of the spec issue and verifies the approved blocking graph.",
+      "expected_output": "The agent composes the to-spec and to-tickets drafts into one issue-only Delivery Map approval; after approval it publishes the tickets as native children of the spec issue and verifies the approved blocking graph.",
       "files": [],
       "assertions": [
         "Follows the ticket breakdown produced by to-tickets without applying a ticket-count preference.",
-        "Obtains user approval for the multi-ticket breakdown before publication.",
-        "Presents a compact path diagram request that includes IDL state and blocking status before finalizing approval.",
+        "Defers both upstream phase confirmations and all writes to one Delivery Map approval.",
+        "Presents a compact diagram whose nodes are tickets and whose labels distinguish implementation order, blockers, and IDL state.",
         "After approval, verifies native containment and blocking relationships as independent axes."
       ]
     },
@@ -115,11 +116,11 @@
     {
       "id": 11,
       "prompt": "Use scope-it from issue #52. Another spec decision is already awaiting confirmation, but its details are outside scope-it; nobody has decided whether the spec should be published back on #52.",
-      "expected_output": "The agent adds spec placement to the pending confirmation without naming or depending on the other decision's internal contract, publishes nothing before placement is settled, and follows the chosen destination. If the user chooses #52, it publishes the spec there and reuses #52 for a one-ticket result.",
+      "expected_output": "The agent includes spec placement in the single Delivery Map approval without naming or depending on the other decision's internal contract, publishes nothing before the map is approved, and follows the approved destination. If the map selects #52, it publishes the spec there and reuses #52 for a one-ticket result.",
       "files": [],
       "assertions": [
-        "Asks whether to publish the spec on the starting issue instead of assuming that destination.",
-        "Coalesces spec placement with any pending confirmation rather than adding another stop.",
+        "Includes the recommended spec destination in the Delivery Map instead of adding a separate placement stop.",
+        "Coalesces spec placement with every other pending scope confirmation.",
         "Defines only the placement decision and does not name another skill's internal decision.",
         "Publishes neither the spec nor ticket result before placement is settled.",
         "When the user chooses the starting issue and to-tickets returns one ticket, reuses that issue without a separate issue or self-relationship."
@@ -140,9 +141,11 @@
     {
       "id": 13,
       "prompt": "Use scope-it for one implementation ticket with no repository docs. to-tickets returns one ticket and integration is not needed.",
-      "expected_output": "The agent keeps Integration Delivery Lane disabled, publishes the single ticket on the spec issue, performs no IDL or integration state recording, and keeps Planning behavior unchanged.",
+      "expected_output": "The agent presents a compact single-ticket Delivery Map with no invented implementation path, keeps Integration Delivery Lane disabled, publishes the ticket on the spec issue after one approval, and performs no IDL or Planning Git mutations.",
       "files": [],
       "assertions": [
+        "Uses one shared approval rather than separate to-spec, to-tickets, or IDL confirmations.",
+        "Shows only the single ticket, no blockers, IDL disabled, and its Planning Owner without code-level implementation steps.",
         "Explicitly keeps IDL disabled unless multi-ticket integration aggregation is required.",
         "Publishes one-ticket scope via the starting issue path.",
         "Publishes no Integration Delivery Lane artifacts.",
@@ -158,6 +161,29 @@
         "Preserves existing IDL artifacts when exact integration-head verification fails.",
         "Does not close final ticket or finalize umbrella flow while checks are failing.",
         "Repairs only the missing evidence edges instead of reopening planning or rerunning full ticket analysis."
+      ]
+    },
+    {
+      "id": 15,
+      "prompt": "Use scope-it for a settled macOS Settings feature. The discussion mentions this coding sequence: add a General language row, implement a System Settings deep link and fallback, show a localized error, then add app-level tests. to-tickets concludes that all of it is one cohesive tracer-bullet ticket.",
+      "expected_output": "The agent does not reproduce the coding sequence as an implementation path. It presents one compact Delivery Map containing the single ticket, no blockers, IDL disabled, the Planning Owner, and the approved writes, then uses one approval before publication.",
+      "files": [],
+      "assertions": [
+        "Does not use files, modules, coding steps, or test tasks as Delivery Map nodes.",
+        "Represents the one-ticket topology compactly with no blockers and IDL disabled.",
+        "Uses one Delivery Map approval for upstream confirmations and scope publication.",
+        "Retains to-spec and to-tickets as runtime sources rather than copying or replacing their analysis rules."
+      ]
+    },
+    {
+      "id": 16,
+      "prompt": "Use scope-it, but the conversation never settled how externally visible behavior will be tested and the missing decision changes the ticket breakdown.",
+      "expected_output": "The agent stops before producing or publishing a Delivery Map, reports the unresolved testing decision, and does not start a new to-spec interview or to-tickets quiz inside scope-it.",
+      "files": [],
+      "assertions": [
+        "Recognizes that the input is not settled enough to produce one defensible Delivery Map.",
+        "Reports the unresolved decision without opening separate upstream confirmation loops.",
+        "Performs no tracker or repository writes."
       ]
     }
   ]

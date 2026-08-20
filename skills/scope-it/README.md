@@ -1,10 +1,10 @@
 # scope-it
 
-Publish settled work as a durable spec, ready-for-agent ticket scope, optional Planning Baseline, and optional Integration Delivery Lane.
+Compose `to-spec` and `to-tickets` into one approved Delivery Map, then publish its durable scope package with an optional Planning Baseline and Integration Delivery Lane.
 
 This skill must be invoked explicitly.
 
-It uses `to-spec`, `to-tickets`, `create-branch`, `create-worktree`, `commit`, and `push`; their source files must be installed and visible to the agent.
+It uses the installed `to-spec` and `to-tickets` skills as runtime sources while applying one shared approval and publication policy; Git phases use `create-branch`, `create-worktree`, `commit`, and `push` only when needed.
 
 ## Installation
 
