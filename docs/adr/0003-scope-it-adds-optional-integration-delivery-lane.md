@@ -14,6 +14,7 @@ When a single planning session produces multiple implementation tickets that mus
 - Keep child tickets tied to terminal implementation work only and native blocker release semantics from integration closure evidence.
 - Keep the final ticket as the single owner for aggregate verification, main drift reconciliation, and umbrella PR finalization.
 - Keep Planning Baseline immutable and independent; never encode evolving integration state into Planning Baseline artifacts.
+- Require explicit user confirmation before IDL enablement, even when conditions/capability checks are already satisfied, to avoid unintended delivery-mode activation.
 
 ## Consequences
 

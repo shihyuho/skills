@@ -17,7 +17,7 @@ Reconcile toward the desired state: observe durable artifacts, apply the smalles
 
 Use `to-spec` for spec content, `to-tickets` for ticket analysis and publication, and `create-branch`, `create-worktree`, `commit`, and `push` for Git mechanics. Use each skill only when its phase is needed. This skill—not task data—owns the desired state and approvals, including optional Integration Delivery Lane evidence and reconciliation.
 
-Integration Delivery Lane is disabled by default. Scope-it enables it only when the delivery plan requires multiple terminal implementation tickets that must land atomically to `main` via a shared integration branch.
+Integration Delivery Lane is disabled by default. When conditions are met, Scope-it asks for explicit user confirmation before enabling it. Scope-it enables it only when the delivery plan requires multiple terminal implementation tickets that must land atomically to `main` via a shared integration branch.
 
 ## Desired state
 
@@ -36,7 +36,7 @@ Containment, delivery order, planning ownership, and optional delivery topology 
 
 #### 2.1 Integration Delivery Lane (IDL)
 
-- **Enablement:** IDL is enabled only when multi-ticket delivery requires shared integration-branch aggregation, repository evidence proves integration branch protections/required checks are available, and final atomic main landing is intended.
+- **Enablement:** IDL is enabled only when multi-ticket delivery requires shared integration-branch aggregation, repository evidence proves integration branch protections/required checks are available, final atomic main landing is intended, and the user explicitly confirms enablement.
 - **Core lane state:** when enabled, scope-it records:
   - canonical integration branch
   - integration target (`main` baseline branch)

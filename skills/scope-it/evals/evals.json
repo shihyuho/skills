@@ -127,9 +127,10 @@
     {
       "id": 12,
       "prompt": "Use scope-it on an issue where to-tickets produced three implementation tickets and repository evidence confirms a protected integration branch and required checks on the integration branch base. The integration topology is enabled.",
-      "expected_output": "The agent publishes all three child tickets, records the Integration Delivery Lane state (integration branch, start SHA, bootstrap state, final ticket, umbrella PR pointer), and verifies terminal child blockers and completion rules without adding a closing keyword to child tickets.",
+      "expected_output": "The agent asks for explicit user confirmation to enable Integration Delivery Lane, then publishes all three child tickets, records the Integration Delivery Lane state (integration branch, start SHA, bootstrap state, final ticket, umbrella PR pointer), and verifies terminal child blockers and completion rules without adding a closing keyword to child tickets.",
       "files": [],
       "assertions": [
+        "Asks for explicit confirmation before enabling IDL even after capability proof and multi-ticket requirement are established.",
         "Enables IDL only after multi-ticket and capability proof are confirmed.",
         "Records core lane artifacts, including integration branch, start SHA, bootstrap evidence, final ticket, and umbrella PR.",
         "Publishes terminal implementation tickets as integration-based children and ensures they are referenced, not closing-language dependent.",
