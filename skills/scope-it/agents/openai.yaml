@@ -1,6 +1,6 @@
 interface:
   display_name: "scope-it"
   short_description: "Compose one approved Delivery Map from settled work."
-  default_prompt: "Use $scope-it to compose this settled discussion through to-spec and to-tickets, approve one Delivery Map, and publish its durable scope package."
+  default_prompt: "Use $scope-it to compose this settled discussion through to-spec and to-tickets, approve one Delivery Map, and publish its durable scope package with one Planning Carrier for any planning changes."
 policy:
   allow_implicit_invocation: false

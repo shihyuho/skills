@@ -38,12 +38,14 @@
     },
     {
       "id": 4,
-      "prompt": "Use scope-it after a design session created one new ADR and also added a known exact paragraph to CONTEXT.md, which already contained another person's uncommitted edits. The paragraph should not remain because the ADR is now canonical.",
-      "expected_output": "The agent proposes carrying the ADR and removing the superseded paragraph, creates the isolated Planning Baseline with only the ADR, removes the published ADR and exact paragraph from the entry worktree, and verifies every other byte and dirty change remains unchanged.",
+      "prompt": "Use scope-it after a design session created one new ADR and also added a known exact paragraph to CONTEXT.md, which already contained another person's uncommitted edits. The paragraph should not remain because the ADR is now canonical, and to-tickets returns one delivery ticket.",
+      "expected_output": "The agent proposes carrying the ADR and removing the superseded paragraph, makes the single ticket the Planning Carrier, creates its delivery branch with the ADR as the Planning Baseline, removes the published ADR and exact paragraph from the entry worktree, and verifies every other byte and dirty change remains unchanged.",
       "files": [],
       "assertions": [
         "Presents a Change Proposal that carries the whole-file ADR and removes the superseded exact paragraph.",
-        "Uses an isolated worktree, commits only the ADR, then removes the published ADR and exact paragraph from the entry worktree.",
+        "Uses the single ticket's actual delivery branch in an isolated worktree and commits only the ADR as its immutable starting baseline.",
+        "Requires the Carrier implementation to retain the baseline SHA as an ancestor and the final main landing to contain the ADR.",
+        "Removes the published ADR and exact paragraph from the entry worktree only after baseline verification.",
         "Verifies all pre-existing mixed-file content and unrelated worktree changes remain byte-for-byte unchanged."
       ]
     },
@@ -60,13 +62,13 @@
     },
     {
       "id": 6,
-      "prompt": "Resume scope-it after the issue-linked baseline branch and commit already exist remotely, but one of three delivery tickets lacks its Planning baseline comment.",
-      "expected_output": "The agent verifies and reuses the branch, baseline ancestry, SHA, and two matching pointers, adds only the missing pointer, and creates no duplicate branch or commit.",
+      "prompt": "Resume scope-it after the approved Planning Carrier's issue-linked delivery branch and baseline commit already exist remotely, but one of three delivery tickets lacks its Planning baseline comment.",
+      "expected_output": "The agent verifies and reuses the Carrier branch, baseline ancestry, SHA, and two matching pointers, adds only the missing pointer, and creates no duplicate branch, commit, or Carrier.",
       "files": [],
       "assertions": [
         "Uses durable branch, commit, ancestry, and tracker evidence to resume.",
         "Adds only the missing pointer comment.",
-        "Creates no duplicate branch, commit, or matching pointer."
+        "Creates no duplicate branch, commit, Carrier, or matching pointer."
       ]
     },
     {
@@ -93,12 +95,12 @@
     },
     {
       "id": 9,
-      "prompt": "Use scope-it when CONTEXT.md contains one exact, proven paragraph added during grilling that remains required by the settled scope, plus another person's unrelated uncommitted paragraph.",
-      "expected_output": "The agent proposes carrying only the proven paragraph, applies it independently in the isolated baseline worktree, verifies and publishes the baseline, then removes only that paragraph from the entry worktree while preserving the other person's paragraph byte-for-byte.",
+      "prompt": "Use scope-it when CONTEXT.md contains one exact, proven paragraph added during grilling that remains required by the settled scope, plus another person's unrelated uncommitted paragraph. There is one delivery ticket.",
+      "expected_output": "The agent proposes carrying only the proven paragraph, selects the one ticket as Planning Carrier, applies the paragraph independently to its delivery branch as the Planning Baseline, then removes only that paragraph from the entry worktree while preserving the other person's paragraph byte-for-byte.",
       "files": [],
       "assertions": [
         "Classifies the exact proven paragraph as a carry patch and the other paragraph as preserved unrelated work.",
-        "Applies and commits only the carry patch in the isolated baseline worktree after proving it is independent.",
+        "Applies and commits only the carry patch to the Carrier's delivery branch in an isolated worktree after proving it is independent.",
         "After baseline verification, removes only the carried patch from the entry worktree and verifies every unrelated byte remains unchanged."
       ]
     },
@@ -128,14 +130,15 @@
     },
     {
       "id": 12,
-      "prompt": "Use scope-it on an issue where to-tickets produced three implementation tickets and repository evidence confirms a protected integration branch and required checks on the integration branch base. The integration topology is enabled.",
-      "expected_output": "The agent publishes all three child tickets, records the Integration Delivery Lane state (integration branch, start SHA, bootstrap state, final ticket, umbrella PR pointer), and verifies terminal child blockers and completion rules without adding a closing keyword to child tickets.",
+      "prompt": "Use scope-it on an issue where to-tickets produced three implementation tickets, grilling produced one ADR to carry, and repository evidence confirms a protected integration branch and required checks on the integration branch base. The integration topology is enabled.",
+      "expected_output": "The agent makes the final integrate-and-verify ticket the Planning Carrier, places the ADR baseline on the canonical integration path before recording its start SHA, publishes all three terminal tickets, and verifies lane ancestry, terminal child blockers, and final main containment.",
       "files": [],
       "assertions": [
         "Enables IDL only after multi-ticket and capability proof are confirmed.",
-        "Records core lane artifacts, including integration branch, start SHA, bootstrap evidence, final ticket, and umbrella PR.",
+        "Makes the final integrate-and-verify ticket the sole Planning Carrier without adding a blocker edge for that ownership.",
+        "Records core lane artifacts and proves the Planning Baseline SHA is an ancestor of the immutable integration start SHA before terminal branches start.",
         "Publishes terminal implementation tickets as integration-based children and ensures they are referenced, not closing-language dependent.",
-        "Verifies terminal child closure prerequisites and no finalization is attempted before child receipt and required check pass."
+        "Verifies terminal child closure prerequisites and no finalization is attempted before child receipt, required checks, and final main containment of Carry pass."
       ]
     },
     {
@@ -145,7 +148,7 @@
       "files": [],
       "assertions": [
         "Uses one shared approval rather than separate to-spec, to-tickets, or IDL confirmations.",
-        "Shows only the single ticket, no blockers, IDL disabled, and its Planning Owner without code-level implementation steps.",
+        "Shows only the single ticket, no blockers, IDL disabled, and Planning none without code-level implementation steps or a meaningless Carrier.",
         "Explicitly keeps IDL disabled unless multi-ticket integration aggregation is required.",
         "Publishes one-ticket scope via the starting issue path.",
         "Publishes no Integration Delivery Lane artifacts.",
@@ -166,7 +169,7 @@
     {
       "id": 15,
       "prompt": "Use scope-it for a settled macOS Settings feature. The discussion mentions this coding sequence: add a General language row, implement a System Settings deep link and fallback, show a localized error, then add app-level tests. to-tickets concludes that all of it is one cohesive tracer-bullet ticket.",
-      "expected_output": "The agent does not reproduce the coding sequence as an implementation path. It presents one compact Delivery Map containing the single ticket, no blockers, IDL disabled, the Planning Owner, and the approved writes, then uses one approval before publication.",
+      "expected_output": "The agent does not reproduce the coding sequence as an implementation path. It presents one compact Delivery Map containing the single ticket, no blockers, IDL disabled, Planning result, and approved writes, then uses one approval before publication.",
       "files": [],
       "assertions": [
         "Does not use files, modules, coding steps, or test tasks as Delivery Map nodes.",
@@ -184,6 +187,42 @@
         "Recognizes that the input is not settled enough to produce one defensible Delivery Map.",
         "Reports the unresolved decision without opening separate upstream confirmation loops.",
         "Performs no tracker or repository writes."
+      ]
+    },
+    {
+      "id": 17,
+      "prompt": "Use scope-it for three direct-to-main tickets with no IDL. Grilling produced ADR-0007 and a CONTEXT.md section that must ship. Two tickets are in the first implementation wave, and one is the foundation ticket most closely related to those documents.",
+      "expected_output": "The agent recommends the foundation ticket as the first-to-land Planning Carrier inside the one Delivery Map approval, puts the Planning Baseline on that ticket's delivery branch, gives the other tickets pointers only, and requires Carry to reach main before delivery completes.",
+      "files": [],
+      "assertions": [
+        "Selects exactly one first-to-land Planning Carrier as part of the Delivery Map rather than asking a separate ownership question.",
+        "Uses document or foundation ownership to recommend between equally early tickets.",
+        "Returns the direct-delivery Carrier as the selected first delivery ticket.",
+        "Makes the baseline the immutable start of the Carrier's actual delivery branch and gives other tickets pointers without duplicate Carry commits.",
+        "Creates no blocker edge merely because a ticket is the Planning Carrier.",
+        "Keeps delivery incomplete until main contains every Carry change."
+      ]
+    },
+    {
+      "id": 18,
+      "prompt": "Use scope-it for one ticket where grilling created an ADR and a CONTEXT.md update. The implementation will be delivered directly to main without IDL.",
+      "expected_output": "The agent automatically uses the only ticket as Planning Carrier, creates one delivery branch whose starting baseline contains both planning changes, and requires the same branch and baseline ancestry throughout implementation and landing.",
+      "files": [],
+      "assertions": [
+        "Uses the only ticket as Planning Carrier without another choice or separate planning-only branch.",
+        "Publishes one pointer containing Carrier, branch, full baseline SHA, and landing target.",
+        "Requires implementation HEAD to descend from the baseline and final main to contain both Carry changes."
+      ]
+    },
+    {
+      "id": 19,
+      "prompt": "Resume a direct multi-ticket Delivery Map after its approved Planning Carrier ticket was cancelled before its baseline reached main. Other tickets remain active.",
+      "expected_output": "The agent preserves completed artifacts, leaves delivery incomplete, and requests approval of an updated Delivery Map before assigning the baseline to another ticket.",
+      "files": [],
+      "assertions": [
+        "Does not silently reassign the Planning Carrier or duplicate Carry on another branch.",
+        "Preserves the existing baseline and ticket artifacts.",
+        "Requires an updated Delivery Map before selecting a replacement Carrier."
       ]
     }
   ]
