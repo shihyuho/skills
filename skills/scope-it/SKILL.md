@@ -32,7 +32,7 @@ Follow the ticket breakdown produced by `to-tickets`:
 - **One ticket:** publish `## Ticket — <Title>` on the spec issue and use it as the delivery ticket. Create no separate issue or self-relationship. Without a commentable spec issue, ask before creating one.
 - **Multiple tickets:** obtain approval for the breakdown before publication. A tracker spec issue is the **Scope Parent** of every separately published delivery ticket.
 
-  Before approval, provide a short labeled diagram request so the user can confirm the implementation path and blocking graph, including whether IDL is enabled. Suggested prompt phrase: "Draw a small labeled ASCII sketch to explain the implement path, include IDL, and show blocking status."
+Before approval, provide a short labeled diagram request so the user can confirm the implementation path, blocking graph and delivery lane.
 
 Containment, delivery order, planning ownership, and optional delivery topology are independent: express them as native sub-issues, native blocking relationships, and one Planning Owner Ticket. Text references prove none of these.
 
