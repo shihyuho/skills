@@ -20,6 +20,7 @@
       "assertions": [
         "Follows the ticket breakdown produced by to-tickets without applying a ticket-count preference.",
         "Obtains user approval for the multi-ticket breakdown before publication.",
+        "Presents a compact path diagram request that includes IDL state and blocking status before finalizing approval.",
         "After approval, verifies native containment and blocking relationships as independent axes."
       ]
     },
@@ -122,6 +123,41 @@
         "Defines only the placement decision and does not name another skill's internal decision.",
         "Publishes neither the spec nor ticket result before placement is settled.",
         "When the user chooses the starting issue and to-tickets returns one ticket, reuses that issue without a separate issue or self-relationship."
+      ]
+    },
+    {
+      "id": 12,
+      "prompt": "Use scope-it on an issue where to-tickets produced three implementation tickets and repository evidence confirms a protected integration branch and required checks on the integration branch base. The integration topology is enabled.",
+      "expected_output": "The agent publishes all three child tickets, records the Integration Delivery Lane state (integration branch, start SHA, bootstrap state, final ticket, umbrella PR pointer), and verifies terminal child blockers and completion rules without adding a closing keyword to child tickets.",
+      "files": [],
+      "assertions": [
+        "Enables IDL only after multi-ticket and capability proof are confirmed.",
+        "Records core lane artifacts, including integration branch, start SHA, bootstrap evidence, final ticket, and umbrella PR.",
+        "Publishes terminal implementation tickets as integration-based children and ensures they are referenced, not closing-language dependent.",
+        "Verifies terminal child closure prerequisites and no finalization is attempted before child receipt and required check pass."
+      ]
+    },
+    {
+      "id": 13,
+      "prompt": "Use scope-it for one implementation ticket with no repository docs. to-tickets returns one ticket and integration is not needed.",
+      "expected_output": "The agent keeps Integration Delivery Lane disabled, publishes the single ticket on the spec issue, performs no IDL or integration state recording, and keeps Planning behavior unchanged.",
+      "files": [],
+      "assertions": [
+        "Explicitly keeps IDL disabled unless multi-ticket integration aggregation is required.",
+        "Publishes one-ticket scope via the starting issue path.",
+        "Publishes no Integration Delivery Lane artifacts.",
+        "Keeps Planning Baseline behavior unchanged for one-ticket/single-ticket-delivery flow."
+      ]
+    },
+    {
+      "id": 14,
+      "prompt": "Use scope-it where a previous IDL attempt was documented with child tickets merged to integration branch, but required checks now fail on the latest integration HEAD before finalization.",
+      "expected_output": "The agent preserves existing artifacts, updates only the missing verification state, and stops before declaring finalization complete until exact integration-head checks and evidence recover.",
+      "files": [],
+      "assertions": [
+        "Preserves existing IDL artifacts when exact integration-head verification fails.",
+        "Does not close final ticket or finalize umbrella flow while checks are failing.",
+        "Repairs only the missing evidence edges instead of reopening planning or rerunning full ticket analysis."
       ]
     }
   ]
