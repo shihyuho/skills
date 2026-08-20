@@ -20,6 +20,7 @@
       "assertions": [
         "Follows the ticket breakdown produced by to-tickets without applying a ticket-count preference.",
         "Obtains user approval for the multi-ticket breakdown before publication.",
+        "Presents a compact path diagram request that includes IDL state and blocking status before finalizing approval.",
         "After approval, verifies native containment and blocking relationships as independent axes."
       ]
     },
