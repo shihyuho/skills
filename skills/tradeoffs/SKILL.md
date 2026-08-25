@@ -1,6 +1,6 @@
 ---
 name: tradeoffs
-description: "Turn discussed approaches into a Traditional Chinese decision brief with a recommendation."
+description: "Judge which discussed option is most worth choosing by comparing its incremental value with its incremental cost, risk, and complexity."
 license: MIT
 disable-model-invocation: true
 ---
@@ -11,25 +11,40 @@ disable-model-invocation: true
 
 `$ARGUMENTS` below means the arguments supplied with the user's explicit invocation. In inherited `Context` blocks, run each `!` command to collect the named value; those expressions are not expanded automatically in a skill.
 
-
-Turn the approaches discussed in **this conversation** into a decision brief.
+Turn the options in **this conversation** into a recommendation about which is most worth choosing.
 
 `$ARGUMENTS`: a focus hint (`focus on caching`) or a save path. Empty = whole discussion, print to chat.
 
+## Decision method
+
+1. State the goal, success boundary, and baseline. The baseline is usually the simplest viable option or not making the proposed change.
+2. Compare every option against that same baseline:
+   - **Incremental value** — what outcome it improves or harm it prevents; consider severity, exposure conditions, blast radius, and recoverability.
+   - **Incremental burden** — implementation and long-term cognitive, testing, operational, and migration costs, plus new failure modes the option creates.
+   - **Sufficiency and reversibility** — whether a cheaper option already meets the success boundary and how difficult the choice is to revise.
+   - **Best fit** — when several options are viable, identify what distinguishes them and show what each optimizes, sacrifices, and assumes relative to the user's priorities.
+3. Mark decision-relevant claims as **known**, **inferred**, or **unknown**. Keep only unknowns that could change the recommendation, and use qualitative comparisons unless the available evidence grounds numeric probabilities, costs, or scores.
+4. Verify a decisive unknown when a small, safe, read-only check within scope can resolve it. Limit verification to evidence that could change the recommendation. If verification needs new authority, writes, or material scope expansion, recommend under explicit assumptions.
+5. Choose the option whose incremental value best justifies its incremental burden. Make a recommendation under imperfect evidence; when uncertainty dominates, prefer the simplest sufficient, reversible choice or the smallest validation step that preserves optionality.
+6. State the evidence or threshold that would reverse the recommendation.
+
 ## Rules
 
-- Source is the conversation. Don't fabricate options. A clearly-missed option may be added, labelled **(新提,討論中未談)**.
-- If no real alternatives were discussed, say so and ask for the options instead of padding.
-- 證據薄弱、或屬經驗推測而非對話中驗證過的,明講。
+- Ground options and evidence in the conversation and supplied artifacts. A clearly missed lower-cost option may be added, labelled **(new, not previously discussed)**.
+- Treat the existence of a bug, race, risk, or safeguard as evidence to weigh; justify action through the actual value and burden.
+- Prefer the simplest option when it is sufficient, and choose broader coverage only when its additional value earns the burden.
+- When alternatives are implicit, compare the proposed change with the baseline. When no real choice exists, ask for the decision question.
+- Include only implementation detail and tradeoffs that distinguish the decision.
 
-## Output (繁體中文, 盤古之白; keep code / paths / `file:line` verbatim)
+## Output
 
-1. **決策主題** — 在解什麼問題、有哪些約束 / 成功標準。
-2. **候選方案** — 每案:名稱 + 一句話描述 + 運作方式 + 適用情境。
-3. **權衡比較表** — 列＝方案,欄＝這次真正重要的維度(依討論挑,不套固定清單;不適用標 —)。
-4. **各案優缺點** — 表格塞不下的細節 / 風險。
-5. **建議** — 選哪個、為什麼、什麼假設下成立、什麼條件會翻盤、信心(高 / 中 / 低)。不要打太極。
-6. **未決問題 / 下一步**。
+Keep code, paths, and `file:line` verbatim.
+
+- Lead with the recommended option and the decisive reason.
+- Show the smallest useful comparison of incremental value versus incremental burden; use a table only when it improves the decision.
+- Identify the assumptions and weak evidence on which the recommendation depends.
+- End with the flip conditions and the next action, if one is needed.
+- Use only the headings the decision needs.
 
 ## Save
 

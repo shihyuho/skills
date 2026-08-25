@@ -1,6 +1,6 @@
 # tradeoffs
 
-Turn discussed approaches into a Traditional Chinese decision brief with a recommendation.
+Judge which discussed option is most worth choosing by comparing its incremental value with its incremental cost, risk, and complexity.
 
 This skill must be invoked explicitly.
 

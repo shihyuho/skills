@@ -1,6 +1,6 @@
 interface:
   display_name: "tradeoffs"
-  short_description: "Compare approaches and recommend a decision"
-  default_prompt: "Use $tradeoffs to compare the approaches discussed here and recommend a decision."
+  short_description: "Judge which option is worth its added burden"
+  default_prompt: "Use $tradeoffs to decide which discussed option is most worth choosing and what evidence would reverse that recommendation."
 policy:
   allow_implicit_invocation: false

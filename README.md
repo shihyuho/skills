@@ -31,7 +31,7 @@ Shihyu's curated collection of agent skills.
 - **[scope-it](skills/scope-it/)** - Compose upstream spec and ticket workflows into one approved Delivery Map with a single carrier for durable planning changes.
 - **[tighten](skills/tighten/)** - Re-express a passage in fewer words while keeping every point.
 - **[tldr](skills/tldr/)** - Produce a TL;DR of a file, directory, git ref, URL, or GitHub PR/issue so the reader can keep up in roughly two minutes.
-- **[tradeoffs](skills/tradeoffs/)** - Turn discussed approaches into a Traditional Chinese decision brief with a recommendation.
+- **[tradeoffs](skills/tradeoffs/)** - Judge which discussed option is most worth choosing by comparing its incremental value with its incremental cost, risk, and complexity.
 
 ## Installation
 
