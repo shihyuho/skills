@@ -1,6 +1,6 @@
 # Planning sources
 
-`scope-it-remake` owns the Delivery Map, frontier order, mutation boundary, reconciliation, and readback. An active **source** produces new scope or ticket content. A completed **artifact** may satisfy a frontier without its producer being installed or invocable.
+`scope-it-remake` owns the Delivery Map, planning order, publication layout, final checkpoint, reconciliation, and readback. An active **source** produces new scope or ticket content. A completed **artifact** may satisfy a frontier without its producer being installed or invocable.
 
 ## Selection
 
@@ -9,9 +9,8 @@ When new content is required, resolve an active source in this order:
 1. A valid `--scope-source` or `--ticket-source` flag from the current invocation.
 2. The source already recorded on the current Delivery Map.
 3. A compatible source explicitly invoked by the user in the current request.
-4. The repository's stored source preference.
-5. The stored global source preference.
-6. A compatible model-invoked source required by repository guidance.
+4. The stored source preference, shared across all repositories.
+5. A compatible model-invoked source required by repository guidance.
 
 After exhausting this order, stop the current frontier. Report whether no compatible source was found or the selected source is unavailable, recommend one compatible source when evidence supports it, and ask the user which skill should produce the missing artifact. Do not draft the missing Scope or Tickets, update the map, or write source preferences before the user answers.
 
@@ -27,29 +26,25 @@ Source selection changes future behavior and cannot be reconstructed without use
 ~/.config/softleader/agent-skills/scope-it-remake/sources.json
 ```
 
-Use this minimal schema and preserve unknown fields:
+Use this single global schema and preserve unrelated fields:
 
 ```json
 {
-  "schema_version": 1,
-  "global": {
-    "scope": "<canonical-name>",
-    "tickets": "<canonical-name>"
-  },
-  "repositories": {
-    "<repository-identity>": {
-      "scope": "<canonical-name>",
-      "tickets": "<canonical-name>"
-    }
-  }
+  "schema_version": 2,
+  "scope": "<canonical-name>",
+  "tickets": "<canonical-name>"
 }
 ```
 
-Store only roles whose source the user has selected; omit an unresolved `scope` or `tickets` key until its frontier resolves it. Treat `global` as the reusable default and `repositories` as sparse overrides.
+Store only selected roles; omit unresolved keys. Every repository uses these same preferences, with no repository identity lookup or override layer. Do not store credentials, prompts, tracker choices, or artifact content.
 
-Prefer the normalized `origin` repository identity so worktrees share one preference: retain only host and repository path, removing scheme, user info, query, fragment, and a trailing `.git`. When no remote identity exists, use the absolute repository root. Do not store credentials, prompts, or artifact content.
+Reuse available compatible preferences without another selection question. A valid source flag replaces that role on the current draft Map and proposes replacing the shared preference; a partial flag preserves the other role. First selections and user-approved replacements also update this one store. Queue the exact preference changes for the final publication checkpoint and save only after its approval. Make their cross-repository effect clear in that checkpoint.
 
-When a role has no repository or global preference, include writing the user's first approved selection to `global` in the frontier's **Writes**. On later invocations, reuse the map, repository override, or global preference without asking. A valid source flag overrides the corresponding role for the current map and writes a repository override after approval; a partial override preserves the other role and the global defaults. Update `global` instead only when the user explicitly changes the default for future repositories. A configured repository preference shadows `global`; when the selected repository or global source is unavailable or incompatible, report it, show one replacement recommendation, and wait for the user's answer rather than silently falling through. After approval, update the map and the applicable preference level. An unusable config root is an error rather than a reason to fall back to another path.
+When a selected source is unavailable or incompatible, report it, recommend a replacement when evidence supports one, and wait for the user's answer rather than silently substituting another. An unusable config root is an error rather than a reason to fall back to another path.
+
+For a legacy `schema_version: 1` file, propose a one-time conversion: honor a current source flag or replacement choice first; otherwise use each role's `global` value, or a unanimous value across legacy `repositories` entries when absent. Conflicting legacy values require one user choice only for a role not already resolved by that explicit choice, never a current-repository override. Queue conversion for the final checkpoint, remove the retired `global` and `repositories` containers only after approval, and preserve unrelated fields. An unrecognized schema version requires clarification before rewriting the file.
+
+At final publication, reread the preference file and apply only the approved role changes or conversion. Preserve changes to other roles and unrelated fields. If an affected value changed since the preview, show the conflict and obtain an updated choice before overwriting it. Read back the saved values; a failed save remains a pending publication write, not a reason to recreate tracker artifacts.
 
 Accepting a completed artifact does not replace the stored producer preference. Preference state chooses how to make future content; artifact state records what this map actually consumed. Apply [artifacts.md](artifacts.md) when completed planning material is present.
 
@@ -57,14 +52,17 @@ Accepting a completed artifact does not replace the stored producer preference. 
 
 A compatible source can:
 
-- produce a draft without tracker or repository mutation;
+- produce a draft without tracker or canonical repository mutation, using optional temporary staging when needed;
+- pass a confirmed draft to the next planning source without requiring prior publication;
 - declare the publication environment and tracker capabilities when it owns that choice;
 - separate unresolved decisions from its recommended content;
 - name every write it proposes before performing it;
 - resume after approval without repeating settled analysis; and
 - return stable artifact pointers plus enough readback evidence to verify publication.
 
-The source retains every content-approval gate in its own workflow. `scope-it-remake` owns mutation approval for the exact writes shown in the current checkpoint. Classify its outputs and complete the frontier through [artifacts.md](artifacts.md).
+Invoke sources in draft-only mode during planning and resume their publication path only after the final bundle approval. Include the approved upstream draft revision, proposed Map home, publication layout from SKILL.md, and deferred write list in the handoff. The source retains its content-approval gates; the orchestrator advances after draft content approval without marking the source's publication workflow complete. Classify outputs through [artifacts.md](artifacts.md).
+
+If a source insists on creating tracker items or publishing a canonical spec before downstream drafting, treat it as incompatible with this flow. Ask for a compatible source or completed artifact rather than running its full publication path early or inventing the missing content.
 
 A tracker choice declared by a source belongs to that source's publication contract; it is not a `scope-it-remake` default. Reconcile it with any starting item and repository guidance. When applicable sources disagree, keep the Map home unresolved, surface the contradiction, and recommend one home rather than creating parallel planning roots.
 
@@ -74,9 +72,9 @@ Input:
 
 - Destination and settled decisions;
 - relevant repository or product evidence;
-- the Map home or its approved proposed identity;
-- whether the Scope belongs in a Map-home section or remains in its own artifact with a Map pointer; and
-- the intended publication environment.
+- the existing or proposed Map home, with unresolved tracker choices identified;
+- the combined Scope/Map planning post, or a Scope link there when its full content belongs to an external artifact; and
+- the known publication environment and the instruction to defer publication.
 
 Draft output:
 
@@ -99,8 +97,8 @@ If one production run returns artifacts in several roles, classify and record ea
 
 Input:
 
-- the approved scope artifact;
-- the Map home or its approved proposed identity;
+- the confirmed scope draft and revision, or an approved published scope artifact;
+- the existing or proposed Map home and the layout rule for one-ticket versus multi-ticket publication;
 - tracker context already fixed by a starting item or repository guidance; and
 - delivery constraints already settled on the map.
 
@@ -110,13 +108,13 @@ Draft output for every ticket:
 - title;
 - end-to-end outcome;
 - acceptance evidence;
-- native blockers; and
+- blockers by proposed ticket reference or existing identity; and
 - whether it is independently executable and verifiable.
 
 Publication output:
 
 - linked ticket titles;
-- stable identities; and
-- readback of their approved content and Map-home containment.
+- stable item identities and comment permalinks when applicable; and
+- readback of their approved content, placement, containment, and blockers as applicable.
 
-Ticket count follows the source's end-to-end slicing judgment. One cohesive ticket stays on the Delivery Map home; multiple tickets become children of the Map home when the tracker supports native containment.
+Ticket count follows the source's end-to-end slicing judgment; publication follows SKILL.md's layout. If a source cannot honor the approved placement, resolve that incompatibility before writes rather than merging ticket content into the planning post.

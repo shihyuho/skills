@@ -1,6 +1,6 @@
 interface:
   display_name: "scope-it-remake"
-  short_description: "Advance a lightweight Delivery Map one frontier at a time."
-  default_prompt: "Use $scope-it-remake to chart this settled work into a lightweight Delivery Map, recommend the current frontier, and wait before its proposed writes."
+  short_description: "Confirm scope and tickets, then publish one Delivery Map."
+  default_prompt: "Use $scope-it-remake to discuss scope, tickets, and delivery in sequence, continue after each content confirmation, and publish only after I approve the complete bundle's writes."
 policy:
   allow_implicit_invocation: false
