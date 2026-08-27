@@ -1,98 +1,82 @@
-# Conditional delivery planning
+# Conditional delivery
 
-Read the relevant branch for entry changes (including unclassified or Uncertain content), existing or pending Carry/Carrier/baseline evidence, or a proposed or enabled shared integration lane. This applies at delivery planning, before conditional publication or repair even with a clean entry worktree, and when the user asks to verify delivery resume or finalization. Queue mutations for final bundle approval; a delivery-verification request alone authorizes readback, not implementation, merges, closure, or repairs.
+Use only for entry changes, saved/proposed Planning evidence, shared integration delivery, or an explicit delivery-verification request. Coordinate these contracts across sources; implementation, merges and closure remain the executor's work under its own authorization.
 
-## Scope-owned worktree changes
+## Ownership and cleanup
 
-Record the entry state and account for every change in the Change Proposal before moving any planning content:
+Account for every entry change in a Change Proposal:
 
-- **Carry:** a proven scope-owned whole file or independently applicable exact patch that delivery must retain.
-- **Remove:** a proven scope-owned patch superseded by a durable artifact.
-- **Preserve:** unrelated content kept byte-for-byte.
-- **Uncertain:** candidate, path, bounded range, ownership evidence, and recommended treatment.
+| Treatment | Evidence and effect |
+| --- | --- |
+| Carry | Proven scope-owned whole file or independently applicable exact patch that delivery must retain. |
+| Remove | Proven scope-owned patch superseded by a durable artifact. |
+| Preserve | Unrelated bytes kept unchanged. |
+| Uncertain | Candidate path/range, ownership evidence gap and recommended treatment. |
 
-Session records, snapshots, exact patches, or user confirmation establish ownership. Semantic similarity supports a recommendation, not ownership. Bring bounded uncertainties into the current proposal with a recommendation. Preserve unbounded candidates; ask for the smallest content decision only when they prevent an independently verifiable proposal. Temporary drafting snapshots are not Carry unless the user separately selects exact content for delivery.
+Use session records, snapshots, exact patches or explicit user confirmation; semantic similarity only supports a recommendation. Include bounded uncertainties in the proposal. Preserve unbounded candidates; ask the smallest ownership question only when they prevent a verifiable proposal. Draft snapshots are not Carry without separate selection.
 
-If no Carry or existing baseline needs delivery, record Planning `none`. Queue only exact Remove patches and verify the cleanup gate below; select no Carrier and perform no baseline branch, worktree, commit, push, or pointer writes. Independently approved lane bootstrap is a separate operation. A clean entry worktree does not erase previously approved Carry or baseline evidence.
+If no Carry or saved baseline needs delivery, use Planning `none`: only approved Remove cleanup, no Carrier, baseline branch/worktree/commit/push or pointer. An independently approved lane bootstrap remains possible.
 
-For non-empty Carry, recommend exactly one **Planning Carrier**:
+For non-empty Carry, select one Carrier: the only ticket; an earliest executable-frontier ticket for independent multi-ticket delivery (document/foundation ownership breaks ties, no foundation-only restriction); or the final integrate-and-verify ticket for a shared lane. Direct delivery starts with its Carrier, replacing a provisional first choice; shared delivery starts with terminal tickets, not the final Carrier. Bundle approval fixes selection without another confirmation.
 
-- the only ticket for one-ticket delivery;
-- one ticket from the earliest executable frontier for independent multi-ticket landing, using document or foundation ownership to break ties; a foundation ticket is not required; or
-- the final integrate-and-verify ticket for shared integration branch delivery.
+Apply exact approved Carry/Remove cleanup and verify:
 
-For independent landing with Carry, set the selected first delivery ticket to the Carrier, replacing any earlier provisional choice. For a shared integration lane, keep the approved executable terminal-ticket frontier; the final Carrier is not the first implementation ticket. Carrier selection transports content and creates no containment or blocking edge. Approval of the final bundle fixes the choice without another confirmation.
+- baseline diff = Carry, when a baseline exists;
+- entry after = entry before minus Carry and Remove;
+- Preserve byte-for-byte unchanged.
 
-## Publish or reconcile a Planning Baseline
+Retain recoverable evidence. Share only approved Carry/Remove payloads and non-disclosing Preserve hashes/receipts; full entry snapshots stay local or in explicitly approved controlled storage with access/retention recorded. Missing evidence, entry drift or a leftover patch prevents claiming the affected cleanup complete: recover/reconcile first, approve changed writes, and preserve successful results and new unrelated work.
 
-Resolve the Git mechanics through [sources.md](sources.md#git-mechanics) only for required Git writes. After final approval, create the baseline from the fetched remote default branch in an isolated worktree on the Carrier's actual delivery path. For independent landing, use the Carrier-linked delivery branch; for a shared lane, initialize its canonical integration path as described below. Commit only Carry and publish the approved branch/baseline, retaining its full SHA and approved base.
+## Baseline handoff
 
-On resume, recover the approved Change Proposal, Carrier, branch, baseline SHA, target, and existing pointers before planning new writes. Verify that the branch and commit exist, the baseline diff matches Carry, and the recorded baseline is an ancestor of the current delivery-path HEAD. Reuse matching evidence and fill only missing approved pointers or cleanup. Missing or contradictory evidence requires recovery; a clean entry or missing comment is not a reason to recreate a branch, baseline commit, or Carrier.
+Perform only missing approved Git operations using available tools under repository/host rules. Bind each operation to the approved Carrier, exact branch/path, base or baseline SHA, isolated worktree, Carry scope and remote-publication choice. Verify branch/worktree ownership and collisions before mutation; an unrelated branch is not available for reuse, forcing or an unapproved alternate path. Optional skill assistance follows the environment's invocation rules; no Git skill is a prerequisite of this workflow. Missing tools, permissions or safety evidence pause the affected operation, not successful prior work. Read-only or pointer-only repairs introduce no Git mutation.
 
-Publish and read back the following durable pointer on every related ticket before cleaning the entry worktree, and link it from the Map's Planning result:
+Initialize the Carrier's actual delivery path from the fetched remote default branch in an isolated worktree. Direct delivery uses its ticket-linked branch; shared delivery uses the canonical integration path. Commit only Carry as the immutable baseline before other path commits and retain its full SHA.
 
-```markdown
-## Planning baseline
+Persist this complete pointer on every related ticket, linked from the Map:
 
-- Carrier: <linked delivery ticket>
-- Branch: <repository and exact delivery branch/path>
-- Commit: <full baseline SHA>
-- Landing target: <target branch>
-- Carry: <durable approved Change Proposal with exact paths/patches and base SHA>
-- Landing gate: Carry must be present in the target and, after final landing, main.
-- Continue: Resume this exact delivery path with the baseline SHA as an ancestor of its HEAD. Other tickets consume this pointer; they do not duplicate Carry or create parallel baseline commits.
-```
+- Carrier URL; repository and exact branch/path; full baseline SHA; landing target;
+- link to the approved Carry manifest with exact paths/patches and base SHA;
+- executor must resume that same path with baseline ancestry; other tickets consume pointers, never duplicate Carry or parallel baselines;
+- target must contain Carry, and after final landing so must main.
 
-Then apply only the approved Carry and Remove cleanup. Verify all three conditions, including on partial retries:
+Read all pointers back before entry cleanup. On an interrupted publication, recover the approved manifest and bindings, verify existing branch/commit, baseline diff and same-path ancestry, then fill only missing approved pointers or cleanup. A clean entry or missing comment never warrants recreating existing Git work. For already completed landing, use the historical-evidence rule below.
 
-1. Baseline diff equals approved Carry, when a baseline exists.
-2. Entry state after cleanup equals entry state before cleanup minus approved Carry and Remove.
-3. Every Preserve byte is unchanged.
+## Shared lane
 
-Keep recoverable verification evidence without publishing unrelated worktree content. Shared records may retain approved Carry/Remove payloads and exact patch boundaries, plus non-disclosing Preserve hashes or verification receipts. A full entry snapshot, when needed, stays local or in explicitly approved controlled storage with its access and retention recorded; it is not implicitly authorized for tracker upload. If that evidence becomes unavailable, recover it before claiming the affected cleanup invariant verified. If entry state has drifted, reconcile it before cleanup and obtain approval for changed writes; never overwrite new unrelated work. A failed patch, leftover Remove hunk, or invariant mismatch leaves the affected publication checkpoint incomplete while preserving successful artifacts.
+Disabled by default; enable only when multiple terminal tickets must land atomically to main. Verify canonical branch availability and applicable repository rules/checks for both terminal-to-integration and final-to-target edges. Any required capability bootstrap must be an exact approved write and verify before the lane is considered runnable.
 
-Persist the exact-path, ancestor, pointer-only, and landing requirements as the executor's contract. Initial publication can finish once the baseline, pointers, cleanup, and other approved writes verify; implementation and landing may still be pending.
+Have the ticket source supply the final integrate-and-verify ticket, blocked by every terminal, before approval. Persist a lane contract linked from the Map and final ticket:
 
-## Shared integration branch delivery
+- canonical branch/target, capability or bootstrap evidence, terminal/final ticket identities and real blockers;
+- optional baseline pointer, immutable full integration start SHA with capture point;
+- umbrella PR URL, or the final executor's responsibility to bind it when created;
+- the execution gates below.
 
-Keep independent ticket landing unless multiple terminal tickets must land atomically to `main` through a shared integration branch. Verify that the canonical branch path, applicable repository rules, and required checks can support terminal-to-integration and final-to-target delivery. If prerequisites need bootstrap, include its exact writes in the final bundle and verify them before treating the lane as runnable; checks alone do not prove the rules permit the lane.
+Capture start at approved publication: empty Carry uses the established path's full SHA immediately, before later bootstrap; create the path from the approved base first if needed. Non-empty Carry initializes the baseline before other lane commits/terminal branches, completes approved bootstrap, then records start with baseline ancestry proved. Mutable integration HEAD/checks/PR receipts never rewrite immutable baseline/start evidence.
 
-When that condition holds, persist a lane record linked from the Map and the final ticket, containing:
+Persist these executor gates:
 
-- canonical integration branch and target;
-- capability or bootstrap evidence;
-- optional full Planning Baseline pointer;
-- terminal tickets and the final integrate-and-verify ticket, blocked by every terminal ticket;
-- immutable full integration start SHA and its capture point;
-- umbrella PR pointer, or `pending` with the final executor responsible for binding it when created; and
-- the executor gates below, including final aggregate verification and main-drift reconciliation.
+1. Terminals branch independently from the latest green integration HEAD. Their PRs use `Refs` or equivalent reference semantics, not automatic closing.
+2. A terminal closes only after merge to integration, required checks on the exact resulting HEAD, and durable PR URL/full-SHA receipts.
+3. The final ticket waits for all terminals and owns main-drift reconciliation, aggregate verification, umbrella synchronization and Map-home parent closure after the final gate.
+4. Failed or unknown rules/checks/ancestry/exact-head evidence blocks new closure/finalization; retain artifacts and report the affected gate incomplete.
 
-Have the ticket source supply or amend the final ticket and terminal blocking edges before final approval; this reference does not author a missing delivery ticket. Native containment remains separate from these blockers.
+Initial publication records these contracts; it need not wait for implementation or landing and preserves the starting item's lifecycle.
 
-Record the start SHA during approved publication, never by an early tracker write during discussion:
+## Requested verification
 
-- **Empty Carry:** capture the canonical integration path's current full SHA immediately when the lane is established, before subsequent bootstrap or implementation commits. If the path must be created, create it from the approved base first. Keep that start immutable.
-- **Non-empty Carry:** initialize the canonical integration path from the fetched base with the baseline before other lane commits or terminal branches. Complete approved capability bootstrap, then capture the immutable integration start SHA and prove the baseline SHA is its ancestor.
+A later explicit resume/finalization check is read-only and does not modify the Map or repeat publication. Verify applicable ticket/relationship evidence plus:
 
-Keep mutable integration HEAD, checks, PR progress, and receipts in lane state, separate from immutable baseline and start evidence. Lane movement never rewrites those recorded identities.
+With Carry/baseline, first verify Carrier availability, the recorded path/baseline binding and baseline diff for either stage.
 
-Persist these execution obligations in the lane record and relevant tickets:
+| Evidence | Unfinished delivery | Completed landing |
+| --- | --- | --- |
+| Carry/baseline | Live same-path HEAD must descend from baseline. | Recover a readable immutable implementation/PR head bound to that Carrier/path and verify baseline ancestry there; a retired ref is not required. |
+| Shared lane | Current branch/rules and required checks on the current exact integration HEAD. | Recover the bound final integration/umbrella PR head and applicable rule/check evidence for that exact head, even after ref retirement. |
 
-- Terminal tickets use independent branches from the latest green integration HEAD. Their PRs reference scoped tickets (`Refs` or the tracker's equivalent), without automatic closing keywords.
-- A terminal ticket may close only after its PR merges to integration, required checks pass on the exact resulting integration HEAD, and a durable PR URL plus full-SHA receipt exists.
-- The final ticket waits for all terminals and owns main-drift reconciliation, aggregate verification, umbrella synchronization, and closure of the Map home itself as the parent tracker item after the final gate. Parent lifecycle closure is separate from publishing the agreed Map.
-- Failed, unknown, or contradictory branch/rule, check, ancestry, or exact-HEAD evidence blocks new child closure and finalization. Preserve completed artifacts and report the affected delivery checkpoint incomplete.
+For a lane, also verify immutable start, baseline ancestry when present, and relevant PR/full-SHA receipts. Another head's green checks never suffice; missing historical evidence requires recovery, not recreated refs. A cancelled Carrier leaves delivery incomplete until an approved Map amendment selects its replacement.
 
-The executor performs implementation, merges, and lifecycle changes under its own authorization. This skill publishes their contract and verifies requested evidence; initial publication preserves the starting item's lifecycle.
+For Carry, read actual content from the target and, after final landing, main. Baseline existence, ancestry or a merged PR cannot excuse reverted content. Squash landing need not preserve baseline ancestry in target/main. Work may resume before Carry lands, but delivery is incomplete until its content gate passes.
 
-## Requested delivery verification
-
-When the user asks whether delivery can resume or be finalized, read the saved contracts and fresh evidence even after the agreed Map has been published. A pure request for the existing handoff can return its links without running this lifecycle audit. Neither request alone authorizes progress updates on the Map.
-
-- **With non-empty Carry or an existing baseline:** check Carrier availability, the recorded path/baseline binding, and baseline diff. Before unfinished implementation resumes, require the exact live path and baseline ancestry of its current HEAD. For already completed landing, recover an immutable implementation or PR-head SHA bound to that Carrier and path, and verify baseline ancestry there; a retired branch need not still exist. Missing historical evidence leaves that verification incomplete and calls for recovery, not recreating refs. A cancelled Carrier leaves delivery incomplete until an approved Map amendment selects another; do not reassign it silently.
-- **For that Carry's landing gate:** read its actual content from the approved landing target and report whether the gate has been met. Work may resume before landing, but delivery cannot be declared complete until the target contains Carry. After final landing, also verify Carry content in `main`. A squash landing may preserve the content without preserving the original baseline SHA in target/main ancestry; that is valid. Ancestry checks on the original implementation path do not impose a baseline-ancestor requirement on squash landing targets, and ancestry alone cannot detect reverted Carry.
-- **With an enabled lane:** before unfinished delivery resumes or finalizes, recheck applicable current branch/rule evidence and required checks on the current exact integration HEAD. For already completed landing, recover the immutable final integration or umbrella PR-head SHA bound to that lane and approved landing; verify the applicable rule evidence and required checks for that exact final head without requiring a retired integration ref. In either case, verify immutable start identity, baseline ancestry when a baseline exists, and relevant PR/SHA receipts. Missing historical evidence leaves verification incomplete; a green result for a different head is insufficient.
-
-For Planning `none`, skip Carrier, baseline, and Carry-landing checks. Verify only the published ticket/relationship and any enabled lane evidence relevant to the request; an empty-Carry lane still has its recorded integration start and executor gates. Missing inapplicable baseline fields are not failures and do not authorize creating them.
-
-Report the scoped result without redoing successful publication, starting implementation, or changing tracker lifecycle. Preserve earlier publication success while reporting an affected delivery checkpoint incomplete; any corrective Map, tracker, or Git writes need their own exact approved amendment.
+Planning `none` skips Carrier/baseline/Carry-landing checks, not applicable shared-lane gates. Do not invent missing inapplicable fields. Retain successful publication when a delivery gate fails; corrective writes require separate exact approval.

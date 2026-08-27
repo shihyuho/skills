@@ -25,12 +25,12 @@
 
 外部事實只引用上述兩個官方 repository 的 SHA-pinned source。本文沒有以第三方文章、搜尋摘要或 marketplace 說明作為判斷依據。
 
-受評估的 `scope-it-remake` 是尚未 commit 的工作樹版本，因此沒有可引用的 commit SHA；研究完成後，同一工作樹已套用本文建議，以下連結指向整合後位置：
+受評估的 `scope-it-remake` 當時尚未 commit；研究與整合結果後來保存於 `1df4eea5632e1ccd69d3289768515d6640799370`。本文保留當時研究快照，以下引用固定為該歷史版本；目前 runtime 以 [SKILL.md](../../skills/scope-it-remake/SKILL.md) 為準。
 
-- frontier 固定為 `scope → tickets → delivery → done`，每次只處理一個 frontier（[`skills/scope-it-remake/SKILL.md`](../../skills/scope-it-remake/SKILL.md#L69-L82)）。
-- active producer 要先回傳 mutation-free draft；ticket producer 要回傳 title、end-to-end outcome、acceptance evidence、blocker 與獨立可執行性（[`references/sources.md`](../../skills/scope-it-remake/references/sources.md#L48-L107)）。
-- completed artifact 現在使用獨立 acceptance contract，並記錄 role、revision 與 approval state（[`references/artifacts.md`](../../skills/scope-it-remake/references/artifacts.md#L5-L42)）。
-- delivery frontier 只在有 scope-owned worktree changes 或需要多 ticket 原子落地時載入額外規則（[`skills/scope-it-remake/SKILL.md`](../../skills/scope-it-remake/SKILL.md#L73-L82)）。
+- frontier 固定為 `scope → tickets → delivery → done`，每次只處理一個 frontier（[`skills/scope-it-remake/SKILL.md`](https://github.com/shihyuho/skills/blob/1df4eea5632e1ccd69d3289768515d6640799370/skills/scope-it-remake/SKILL.md#L69-L82)）。
+- active producer 要先回傳 mutation-free draft；ticket producer 要回傳 title、end-to-end outcome、acceptance evidence、blocker 與獨立可執行性（[`references/sources.md`](https://github.com/shihyuho/skills/blob/1df4eea5632e1ccd69d3289768515d6640799370/skills/scope-it-remake/references/sources.md#L48-L107)）。
+- completed artifact 現在使用獨立 acceptance contract，並記錄 role、revision 與 approval state（[`references/artifacts.md`](https://github.com/shihyuho/skills/blob/1df4eea5632e1ccd69d3289768515d6640799370/skills/scope-it-remake/references/artifacts.md#L5-L42)）。
+- delivery frontier 只在有 scope-owned worktree changes 或需要多 ticket 原子落地時載入額外規則（[`skills/scope-it-remake/SKILL.md`](https://github.com/shihyuho/skills/blob/1df4eea5632e1ccd69d3289768515d6640799370/skills/scope-it-remake/SKILL.md#L90-L99)）。
 
 ## 相容性總覽
 
