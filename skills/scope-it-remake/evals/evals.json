@@ -89,11 +89,11 @@
     },
     {
       "id": 9,
-      "prompt": "Publish approved B4 on MAP-8: Scope S3 shares planning comment C8 with the Map. Create three children; only Import is blocked by Foundation. Source reviews, required metadata and attachments are approved; planning skills have no tracker methods. Exact bindings survive in session.",
+      "prompt": "Publish approved B4 on MAP-8: Scope S3 shares planning comment C8 with the Map. Create three children; only Import is blocked by Foundation. Source reviews, required metadata and attachments are approved; planning skills have no tracker methods. Exact bindings survive in session, but each executor receives only its ticket and has no planning chat or scope-it-remake skill.",
       "expected_output": "Publish through tracker capabilities, reuse C8 and verify actual child identities and edges.",
       "files": [],
       "assertions": [
-        "Preserves the original report and full Scope; child items own Ticket content and actual returned IDs bind relations/first ticket.",
+        "Preserves the original report and full Scope; child items own Ticket content, link the planning post and applicable handoff, and actual returned IDs bind relations/first ticket.",
         "The coordinator performs approved writes without requiring source publishers or repeating phase approvals.",
         "Reads back dependent operations and freshly verifies content, attachments, metadata, both relation axes, applicable delivery/preferences, then final Map/Scope.",
         "Map contains agreed facts/links, not draft placeholders or renamed orchestration status fields."
@@ -311,12 +311,12 @@
     },
     {
       "id": 30,
-      "prompt": "Publish approved atomic shared delivery: Import/Export terminals and source-supplied Integrate blocked by both. Accessible canonical baseline S1 precedes approved capability bootstrap to S2; both landing paths verify. No implementation exists.",
+      "prompt": "Publish approved atomic shared delivery: Import/Export terminals and source-supplied Integrate blocked by both. Accessible canonical baseline S1 precedes approved capability bootstrap to S2; both landing paths verify. Each executor receives only its terminal/final ticket and its own implementation skill. No implementation exists.",
       "expected_output": "Publish start S2 and terminal-first handoff, with Integrate as Carrier.",
       "files": [],
       "assertions": [
         "Verifies terminal-to-integration and final-to-target capabilities; baseline precedes other lane commits/terminal branches, then bootstrap and start with S1 ancestry.",
-        "Records real final blockers separately from containment, canonical branch/target, baseline/start and capture point, capability evidence and umbrella URL or binding owner.",
+        "Records real final blockers separately from containment, canonical branch/target, baseline/start and capture point, capability evidence and umbrella URL or binding owner; every terminal/final ticket links the published lane contract.",
         "Requires independent terminal branches from latest green HEAD, non-closing Refs, integration merge, exact resulting-HEAD checks and PR/full-SHA receipts before child closure.",
         "Final waits for all terminals and owns main drift, aggregate verification, umbrella sync and parent closure; publication records duties without executing them or rewriting immutable evidence."
       ]
@@ -396,13 +396,14 @@
     },
     {
       "id": 38,
-      "prompt": "Publication and final readback are complete. The user retrieves the handoff, then raises an unconfirmed Export idea. Approvals/bindings remain in session; tracker readiness, native relations and lane receipts exist.",
-      "expected_output": "Return the handoff and discuss the idea without maintaining Map progress.",
+      "prompt": "A fresh executor has separate implementation approval, only a published ticket and its own implementation skill, with no scope-it-remake or planning chat. It must find Scope, acceptance, prerequisites, repository/target and applicable baseline/lane/closure checks from published links. Variant A has these in a shared linked handoff; B says only 'follow scope-it-remake/references/delivery.md'. Separately, the user invokes scope-it-remake to retrieve the completed handoff and raises an unconfirmed Export idea.",
+      "expected_output": "A is independently usable; B needs a published handoff repair. Planner retrieval and later discussion leave the agreed Map unchanged.",
       "files": [],
       "assertions": [
         "Leaves the agreed Map unchanged until an exact amendment is approved; no Frontier/Publication/artifact-state/source-mode or renamed status fields.",
         "Preserves real lifecycle/readiness, relations and executor evidence with recoverable first-ticket/baseline/lane links.",
-        "Does not infer a tracker recovery log, monitoring obligation or implementation authorization."
+        "Does not infer a tracker recovery log, monitoring obligation or implementation authorization, or publish planner-only write limits as product scope exclusions.",
+        "Verifies handoff reachability from each ticket without this skill/chat: A uses its own implementation workflow/authorization without inheriting the planner's read-only audit boundary; B needs actual published instructions, not an installed-skill link or planning-chat memory."
       ]
     }
   ]

@@ -24,16 +24,16 @@ For non-empty Carry, select exactly one **Carrier** (the ticket transporting the
 1. Bind the approved operations to the Carrier, repository, exact branch/path, base SHA, isolated worktree, Carry manifest and remote-publication choice. Check ownership, collisions, tools and permissions before mutation. Use available tools under repository/host rules; Git helper skills are optional. An unrelated branch is not reusable, and failures do not authorize forcing, bypassing permissions or choosing another path.
 2. Initialize the actual delivery path from the fetched remote default branch: the Carrier's ticket branch for independent delivery, or the canonical integration branch for a shared lane. Commit only Carry as its immutable **Planning Baseline**, before other path commits. Reuse an existing approved path after verifying its baseline diff and ancestry.
 3. Make the content retrievable by the executor. A local commit suffices only with verified, accepted shared-repository access. For an unknown executor or another clone/machine, propose and approve publication of the delivery branch to a readable remote, then read back its full SHA and content. A local path or SHA string alone is not a cross-agent handoff. This never authorizes a default-branch push.
-4. Put a **Baseline Pointer** on every related ticket and link it from the Map: Carrier URL; repository and exact branch/path; full baseline SHA; landing target; approved Carry manifest with paths/patches and base SHA. Require the executor to resume that path with baseline ancestry. Other tickets consume pointers, not duplicate Carry or parallel baselines. The target, and ultimately main, must contain Carry.
+4. Put a **Baseline Pointer** on every related ticket and link it from the Map: Carrier URL; repository and exact branch/path; full baseline SHA; landing target; approved Carry manifest with paths/patches and base SHA. Publish its executor duties with it: the Carrier resumes that path with baseline ancestry; other tickets consume pointers, not duplicate Carry or parallel baselines; the target, and ultimately main, must contain Carry.
 5. Read back the pointers and accessible baseline before entry cleanup. Verify `baseline diff = all approved Carry`, `entry after = entry before − entry's Carry − Remove`, and byte-for-byte unchanged Preserve. Cleanup touches only approved patches originally present in entry; publishing a new draft adds no entry cleanup. Retain recoverable evidence. Share only approved payloads and non-disclosing preservation receipts; full entry snapshots stay local or in explicitly approved storage with known access/retention.
 
-On interruption, verify existing Git work and fill only missing approved pointers/cleanup. A clean entry, missing comment or unavailable tool does not justify recreating a baseline. Missing evidence, entry drift or leftover patches prevent claiming cleanup complete: reconcile, approve changed writes and preserve successful results plus unrelated new work. A cancelled Carrier requires an approved Map amendment before replacement.
+On interruption, verify existing Git work and fill only missing approved pointers/cleanup. A clean entry, missing comment or unavailable tool does not justify recreating a baseline. Missing evidence, entry drift or leftover patches prevent claiming cleanup complete: reconcile, approve changed writes and preserve successful results plus unrelated new work.
 
 ## Shared integration delivery
 
 Use only when multiple terminal tickets must land atomically to main; independent delivery is the default. Verify the canonical branch and applicable rules/checks for both terminal-to-integration and final-to-target paths. Any missing-capability bootstrap is an exact approved write, verified before the lane is considered runnable.
 
-Have the planning skill supply a final integrate-and-verify ticket blocked by every terminal. Publish a lane contract linked from the Map and final ticket:
+Have the planning skill supply a final integrate-and-verify ticket blocked by every terminal. Publish a lane contract linked from the Map and every terminal/final ticket:
 
 - Canonical branch/target, capability or bootstrap evidence, terminal/final identities and real blockers.
 - Optional Baseline Pointer and immutable full integration start SHA, with its capture point.
@@ -53,7 +53,13 @@ Publish these contracts without waiting for their execution or changing the star
 
 ## Requested verification
 
-A later delivery-resume/finalization check is read-only. Check applicable ticket/relationship evidence, Carrier availability and the exact path/baseline binding and diff. Use evidence appropriate to the stage:
+When this planning skill is invoked only to verify delivery, remain read-only and preserve prior publication; corrective writes require separate exact approval. This audit boundary does not replace the executor's own implementation authorization.
+
+### Executor checks to publish
+
+Include these applicable resume/landing checks in the baseline/lane handoff, with project-specific paths, check names and evidence requirements. The executor reads that published contract, not this skill reference.
+
+Check applicable ticket/relationship evidence, Carrier availability and the exact path/baseline binding and diff. Use evidence appropriate to the stage:
 
 | Evidence | Unfinished delivery | Completed landing |
 | --- | --- | --- |
@@ -62,6 +68,8 @@ A later delivery-resume/finalization check is read-only. Check applicable ticket
 
 Also verify immutable integration start, baseline ancestry when applicable, and relevant PR/full-SHA receipts. Another head's green checks never fill a gap. Recover missing historical evidence rather than recreating refs.
 
+A cancelled Carrier requires an approved Map amendment before replacement.
+
 Read actual Carry content in the target and, after final landing, main. A baseline, ancestor or merge receipt does not excuse reverted content; squash landing need not preserve baseline ancestry in target/main. Work may resume before Carry lands, but delivery is incomplete until its content gate passes.
 
-Planning `none` skips Carry/baseline checks, not applicable ticket, relationship or shared-lane gates. Preserve prior publication when verification fails; corrective writes need separate exact approval.
+Planning `none` skips Carry/baseline checks, not applicable ticket, relationship or shared-lane gates.

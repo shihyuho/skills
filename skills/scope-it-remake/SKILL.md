@@ -26,12 +26,14 @@ Use this outline inside `<!-- scope-it-remake:delivery-map:start -->` and `<!-- 
 <Ticket waves, first executable ticket, actual blockers and containment.>
 <Independent landing or shared integration; planning files: none or baseline pointer.>
 ## Out of scope
-<Work excluded from this delivery.>
+<Product scope exclusions and deferred deliverables agreed in Scope.>
 ## Continue
-<First ticket and the durable material its executor needs.>
+<First ticket and its published implementation handoff.>
 ```
 
 For multiple tickets, add a compact ticket-only diagram distinguishing order, blocking and delivery lane; one ticket needs no order diagram. Publish actual facts and links, without orchestration statuses or draft placeholders. Real tracker lifecycle, required readiness metadata and delivery evidence remain valid facts.
+
+Make each ticket a sufficient entry point for an executor using its own implementation workflow and authorization, without this skill or the planning chat. Include or durably link Scope, prerequisites, acceptance evidence, repository/target, and any assigned path, planning revision and delivery/closure gates. Share common instructions once, linked from every affected ticket. Leave this planning invocation's write limits in its approval context.
 
 ## Planning skills
 
@@ -75,12 +77,12 @@ Use repository/tracker guidance and tools to publish; planning skills need not i
 
 1. Freshly read targets and reconcile with the approval. Perform only missing writes in dependency order; retain real identities and comment permalinks, and read back each result before dependent writes. Preserve unrelated content and the starting item's lifecycle. Implementation and default-branch commit/push are outside this workflow.
 2. Verify containment and blockers independently, with no self-relations for a one-ticket home. For unavailable capabilities, use an applicable supplied fallback or propose a concrete alternative, approve its writes, and retain per-axis unavailability/provenance/degraded evidence. Text links are not native verification; failed readback of a supported capability is not unavailability.
-3. Freshly verify the complete package: content, attachments, metadata, both relationship axes, applicable baseline/lane/cleanup evidence and changed preferences. Read back the final Map with actual links and its same-post Scope. Report Map/artifacts, first ticket and reachable planning/fallback evidence when they match the agreement, then stop; publication does not wait for implementation or close tickets.
+3. Freshly verify the complete package: content, attachments, metadata, both relationship axes, applicable baseline/lane/cleanup evidence and changed preferences. Check every ticket's handoff using only published content; inaccessible material or missing applicable instructions leaves publication incomplete. Read back the final Map with actual links and its same-post Scope. Report Map/artifacts, first ticket and reachable planning/fallback evidence when they match the agreement, then stop; publication does not wait for implementation or close tickets.
 
 On interruption, retain successful results and recover exact drafts, approvals and operation bindings. Look up uncertain creations against approved content before retrying: bind unique matches, clarify ambiguity before creating again. Repair only missing approved deltas. Missing evidence or changed/corrective writes need focused recovery or approval, not a restart or permission inferred from Map existence. Keep partial-operation records outside the formal Map.
 
-### Continue an existing map
+### Revisit a published map
 
-Handoff retrieval returns the Map, first ticket and delivery links without a new audit. Discuss later ideas without updating the agreed Map; publish only explicitly approved amendments. Requested delivery verification is read-only: follow [Requested verification](references/delivery.md#requested-verification), including historical evidence, rather than restarting publication or implementation.
+When this planning skill is invoked again, return the published Map and ticket handoffs without a new audit. Discuss later ideas without updating the agreed Map; publish only explicitly approved amendments. Requested delivery verification is read-only: follow [Requested verification](references/delivery.md#requested-verification), including historical evidence, rather than restarting publication or implementation.
 
 $ARGUMENTS

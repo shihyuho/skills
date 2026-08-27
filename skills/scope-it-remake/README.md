@@ -2,7 +2,7 @@
 
 A delivery-map coordinator: discuss scope, tickets and delivery with interchangeable planning skills, approve the whole package, then publish and verify it.
 
-The Map is an index of agreed deliverables, not a progress tracker. Scope and Map share one planning post; one ticket is a separate comment on that home, while multiple tickets are child items. Existing complete artifacts can satisfy the planning work without rerunning their producer.
+The Map is an index of agreed deliverables, not a progress tracker. Scope and Map share one planning post; one ticket is a separate comment on that home, while multiple tickets are child items. Every ticket includes or links its implementation handoff, so another agent can use its own implementation workflow without this skill or the planning conversation. Existing complete artifacts can satisfy the planning work without rerunning their producer.
 
 Choose the skills for scope and tickets independently, by name or with `--scope-source <name>` / `--ticket-source <name>`. Confirmed defaults are remembered across repositories; v3 preferences record consent to future planning delegation, while older preferences require a one-time migration confirmation. Publication and Git writes still require the final package approval.
 
