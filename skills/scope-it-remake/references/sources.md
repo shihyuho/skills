@@ -8,22 +8,23 @@ When new content is required, resolve an active source in this order:
 
 1. A valid `--scope-source` or `--ticket-source` flag from the current invocation.
 2. The source already recorded on the current Delivery Map.
-3. The repository's stored source preference.
-4. A compatible source explicitly invoked by the user in the current request.
-5. A compatible model-invoked source required by repository guidance.
+3. A compatible source explicitly invoked by the user in the current request.
+4. The repository's stored source preference.
+5. The stored global source preference.
+6. A compatible model-invoked source required by repository guidance.
 
 After exhausting this order, stop the current frontier. Report whether no compatible source was found or the selected source is unavailable, recommend one compatible source when evidence supports it, and ask the user which skill should produce the missing artifact. Do not draft the missing Scope or Tickets, update the map, or write source preferences before the user answers.
 
 `to-spec` and `to-tickets` are fixed optional compatibility profiles: an explicit `scope-it-remake` invocation may delegate to either when installed. They are not installation requirements. Other skills participate through the same contracts below. A source recorded on a map is lineage, not fresh authorization. An exact source flag is the user's current workflow configuration and may select an explicit-only source. Without a flag, consume its accepted artifact or ask the user to invoke it alongside `scope-it-remake`.
 
-Record the selected source names on the map so later sessions preserve the content lineage. Replace a selected source only through a valid flag or a user answer after reporting that the stored source is unavailable or incompatible.
+Record the selected source names on the map so later sessions preserve the content lineage. Replace a source already recorded on the current map only through a valid flag or a user answer after reporting that source as unavailable or incompatible. A compatible source explicitly invoked in the current request overrides stored preferences for a new map without rewriting those preferences.
 
 ## Stored preference
 
-Source selection changes future behavior and cannot be reconstructed without user input, so store it as config rather than cache. Resolve the agent-skills config root from active user-level instructions; otherwise use `~/.config/agent-skills`. Store preferences in:
+Source selection changes future behavior and cannot be reconstructed without user input, so store it as config rather than cache. Use `~/.config/softleader/agent-skills` as the config root. Store preferences in:
 
 ```text
-<resolved-config-root>/scope-it-remake/sources.json
+~/.config/softleader/agent-skills/scope-it-remake/sources.json
 ```
 
 Use this minimal schema and preserve unknown fields:
@@ -31,6 +32,10 @@ Use this minimal schema and preserve unknown fields:
 ```json
 {
   "schema_version": 1,
+  "global": {
+    "scope": "<canonical-name>",
+    "tickets": "<canonical-name>"
+  },
   "repositories": {
     "<repository-identity>": {
       "scope": "<canonical-name>",
@@ -40,11 +45,11 @@ Use this minimal schema and preserve unknown fields:
 }
 ```
 
-Store only roles whose source the user has selected; omit an unresolved `scope` or `tickets` key until its frontier resolves it.
+Store only roles whose source the user has selected; omit an unresolved `scope` or `tickets` key until its frontier resolves it. Treat `global` as the reusable default and `repositories` as sparse overrides.
 
 Prefer the normalized `origin` repository identity so worktrees share one preference: retain only host and repository path, removing scheme, user info, query, fragment, and a trailing `.git`. When no remote identity exists, use the absolute repository root. Do not store credentials, prompts, or artifact content.
 
-On first selection, include the preference-file write in the frontier's **Writes** and persist it only after approval. On later invocations, reuse the map or stored preference without asking. A valid source flag overrides the corresponding role for the current map and updates the stored preference after approval; a partial override preserves the other role. If the chosen source cannot be resolved or fails the compatibility contract, show one replacement recommendation, wait for the user's answer, then update both map and preference. An unusable explicitly configured config root is an error rather than a reason to fall back to another path.
+When a role has no repository or global preference, include writing the user's first approved selection to `global` in the frontier's **Writes**. On later invocations, reuse the map, repository override, or global preference without asking. A valid source flag overrides the corresponding role for the current map and writes a repository override after approval; a partial override preserves the other role and the global defaults. Update `global` instead only when the user explicitly changes the default for future repositories. A configured repository preference shadows `global`; when the selected repository or global source is unavailable or incompatible, report it, show one replacement recommendation, and wait for the user's answer rather than silently falling through. After approval, update the map and the applicable preference level. An unusable config root is an error rather than a reason to fall back to another path.
 
 Accepting a completed artifact does not replace the stored producer preference. Preference state chooses how to make future content; artifact state records what this map actually consumed. Apply [artifacts.md](artifacts.md) when completed planning material is present.
 

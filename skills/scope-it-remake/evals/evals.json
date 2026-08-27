@@ -27,12 +27,13 @@
     },
     {
       "id": 3,
-      "prompt": "Use scope-it-remake together with $team-spec and $team-ticket. Both can draft without writes, disclose unresolved decisions, publish after approval, and return stable pointers.",
+      "prompt": "Use scope-it-remake together with $team-spec and $team-ticket for a new map, even though stored preferences name different sources. Both explicitly invoked sources can draft without writes, disclose unresolved decisions, publish after approval, and return stable pointers.",
       "expected_output": "The agent records the explicitly invoked team sources and applies the generic compatibility contract without requiring to-spec or to-tickets.",
       "files": [],
       "assertions": [
         "Accepts explicitly invoked compatible scope and ticket sources by role rather than by hard-coded name.",
         "Records both source names on the Delivery Map.",
+        "Uses the explicitly invoked sources for this new map without rewriting the stored preferences.",
         "Requires both sources to attach their outputs to the existing or proposed Map home rather than create a parallel planning root.",
         "Preserves the frontier's mutation boundary while honoring the source workflow's content-approval gates.",
         "Does not claim the external source artifacts were published before readback."
@@ -90,7 +91,7 @@
       "expected_output": "The agent reuses both stored sources without asking the user to choose them again and records them on the new Delivery Map.",
       "files": [],
       "assertions": [
-        "Reads the per-repository preference from the user-configured agent-skills root or the neutral default.",
+        "Reads the per-repository preference from ~/.config/softleader/agent-skills.",
         "Reuses available compatible sources without another selection question.",
         "Performs no preference write when the stored values remain unchanged.",
         "Does not treat the source preference as cache or store it in the repository or installed skill directory."
@@ -105,16 +106,17 @@
         "Applies the partial flag only to the ticket role.",
         "Preserves the stored scope source.",
         "Treats the valid exact flag as the user's explicit source choice without asking again.",
-        "Updates the map and stored preference only after approval."
+        "Updates the map and repository override only after approval without changing global defaults."
       ]
     },
     {
       "id": 10,
-      "prompt": "Use scope-it-remake in a repository whose stored ticket source is no longer installed. No override flag was supplied.",
+      "prompt": "Use scope-it-remake in a repository whose stored ticket source is no longer installed. A different global ticket source is available and compatible, but no override flag was supplied.",
       "expected_output": "The agent reports the unavailable stored source, recommends one replacement, waits for the user's answer, and changes neither map nor config before approval.",
       "files": [],
       "assertions": [
         "Does not silently replace the unavailable stored source.",
+        "Does not fall through from the unavailable repository override to a global source.",
         "Asks one bounded source replacement question with a recommendation.",
         "Performs no config or tracker write before the user approves the replacement.",
         "Updates both map lineage and stored preference after approval."
@@ -204,6 +206,31 @@
         "Uses the new Issue as the canonical Map home while keeping the full repository spec in its owning document.",
         "Stores one managed Delivery Map block with a stable continuation protocol on the Map home.",
         "Keeps the single delivery Ticket on the same Issue without creating a self-relationship or a second Issue."
+      ]
+    },
+    {
+      "id": 18,
+      "prompt": "Use scope-it-remake in a new repository with no repository-specific source overrides. The global preferences select $team-spec and $team-ticket, and both sources are available and compatible.",
+      "expected_output": "The agent reuses both global source preferences without asking again or creating repository overrides, and records the selected sources on the Delivery Map.",
+      "files": [],
+      "assertions": [
+        "Reads global preferences after finding no repository override.",
+        "Reuses both compatible global sources without another selection question.",
+        "Creates no repository override when the global sources remain applicable.",
+        "Records the actual source lineage on the Delivery Map."
+      ]
+    },
+    {
+      "id": 19,
+      "prompt": "Use scope-it-remake in a repository with no Delivery Map and no stored scope source at either repository or global level. The user selects a compatible $team-spec source after the agent asks which skill should produce the Scope.",
+      "expected_output": "The agent includes writing $team-spec as the global scope default in the exact checkpoint, waits for mutation approval, and only then updates the preference and Delivery Map lineage.",
+      "files": [],
+      "assertions": [
+        "Treats the user's source answer as content for the next checkpoint rather than immediate write authorization.",
+        "Proposes the first approved selection as the global scope default instead of creating a repository override.",
+        "Leaves the unresolved tickets key absent rather than inventing a ticket source.",
+        "Writes the global preference and map lineage only after mutation approval.",
+        "Preserves unknown fields already present in the preference file."
       ]
     }
   ]
