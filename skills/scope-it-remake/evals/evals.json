@@ -1,0 +1,210 @@
+{
+  "skill_name": "scope-it-remake",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Use scope-it-remake for this settled one-ticket change. A starting issue exists, there is no accepted scope artifact or stored source preference, and no compatible planning source can be found.",
+      "expected_output": "The agent keeps the starting issue as the proposed Delivery Map home, reports that no compatible scope source was found, and stops to ask which skill should produce the Scope without drafting it or writing the Delivery Map.",
+      "files": [],
+      "assertions": [
+        "Keeps the first interaction read-only and leaves the current frontier unresolved.",
+        "Asks the user to select or invoke a compatible scope source instead of drafting the Scope itself.",
+        "Identifies the starting issue as the proposed Delivery Map home without writing a map block yet.",
+        "Does not load or propose shared integration branch or Planning Baseline mechanics for the ordinary path."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Resume scope-it-remake from a map whose scope artifact is published and verified. The current frontier is tickets and the approved scope links to a compatible ticket-source artifact.",
+      "expected_output": "The agent loads the map, scope pointer, and ticket source output, proposes ticket titles, outcomes, acceptance evidence, and blockers, then waits without starting delivery planning.",
+      "files": [],
+      "assertions": [
+        "Loads only evidence needed by the ticket frontier.",
+        "Reuses the approved scope artifact instead of repeating scope analysis.",
+        "Uses ticket nodes rather than files, modules, coding steps, or test tasks in the map.",
+        "Leaves relationship writes and carrier selection for the delivery frontier."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Use scope-it-remake together with $team-spec and $team-ticket. Both can draft without writes, disclose unresolved decisions, publish after approval, and return stable pointers.",
+      "expected_output": "The agent records the explicitly invoked team sources and applies the generic compatibility contract without requiring to-spec or to-tickets.",
+      "files": [],
+      "assertions": [
+        "Accepts explicitly invoked compatible scope and ticket sources by role rather than by hard-coded name.",
+        "Records both source names on the Delivery Map.",
+        "Requires both sources to attach their outputs to the existing or proposed Map home rather than create a parallel planning root.",
+        "Preserves the frontier's mutation boundary while honoring the source workflow's content-approval gates.",
+        "Does not claim the external source artifacts were published before readback."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Resume scope-it-remake from an old map naming an explicit-only $other-spec source, but the user did not invoke that source in this request and only its completed spec artifact is linked.",
+      "expected_output": "The agent consumes the linked artifact as evidence but does not invoke the explicit-only source from the old map.",
+      "files": [],
+      "assertions": [
+        "Treats the recorded source as lineage rather than fresh invocation authorization.",
+        "Uses the completed linked artifact without rerunning its source.",
+        "Does not silently replace or invoke the explicit-only source."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Use scope-it-remake, but the settled-looking discussion still has several dependent product decisions that change the observable behavior and ticket boundaries.",
+      "expected_output": "The agent bounds the decisions blocking the scope frontier, uses grilling to settle them, and stops after shared understanding is confirmed without materializing the map.",
+      "files": [],
+      "assertions": [
+        "Uses grilling for the unresolved design frontier.",
+        "Performs no tracker or repository writes in the grilling interaction.",
+        "Stops before scope, ticket, or delivery materialization."
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Advance scope-it-remake at the delivery frontier. One exact proven ADR is scope-owned, another person's uncommitted paragraph shares a dirty file, and there is one delivery ticket.",
+      "expected_output": "The agent reads conditional delivery planning, proposes the ADR as Carry, preserves the unrelated paragraph byte-for-byte, recommends the only ticket as Planning Carrier, and waits before Git mutation.",
+      "files": [],
+      "assertions": [
+        "Loads Planning Baseline detail only after the worktree condition activates it.",
+        "Uses provenance rather than semantic similarity to classify Carry.",
+        "Preserves unrelated mixed-file content byte-for-byte.",
+        "Includes the exact Git and tracker writes in the delivery-frontier checkpoint before executing them."
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Advance scope-it-remake at the delivery frontier for three tickets that can land independently and require no shared aggregate verification.",
+      "expected_output": "The agent labels the path as independent ticket landing in the user's language, wires approved native containment and blockers, recommends the first executable ticket, and does not load or propose shared integration branch delivery.",
+      "files": [],
+      "assertions": [
+        "Keeps independent ticket landing as the default despite multiple tickets.",
+        "Treats containment and blocking as independent native axes.",
+        "Avoids shared integration branch delivery because atomic landing is not required.",
+        "Stops after completing and reading back the delivery frontier."
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Use scope-it-remake again in a repository whose stored preference selects $team-spec and $team-ticket. Both sources are installed and compatible, and no source flags were supplied.",
+      "expected_output": "The agent reuses both stored sources without asking the user to choose them again and records them on the new Delivery Map.",
+      "files": [],
+      "assertions": [
+        "Reads the per-repository preference from the user-configured agent-skills root or the neutral default.",
+        "Reuses available compatible sources without another selection question.",
+        "Performs no preference write when the stored values remain unchanged.",
+        "Does not treat the source preference as cache or store it in the repository or installed skill directory."
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "Use scope-it-remake --ticket-source team-ticket-v2 in a repository that already stores $team-spec and $team-ticket. The named replacement source is available and compatible, and the map has not yet been published.",
+      "expected_output": "The agent keeps $team-spec, proposes team-ticket-v2 as the ticket source, includes the exact preference update in Writes, and persists it only after approval.",
+      "files": [],
+      "assertions": [
+        "Applies the partial flag only to the ticket role.",
+        "Preserves the stored scope source.",
+        "Treats the valid exact flag as the user's explicit source choice without asking again.",
+        "Updates the map and stored preference only after approval."
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "Use scope-it-remake in a repository whose stored ticket source is no longer installed. No override flag was supplied.",
+      "expected_output": "The agent reports the unavailable stored source, recommends one replacement, waits for the user's answer, and changes neither map nor config before approval.",
+      "files": [],
+      "assertions": [
+        "Does not silently replace the unavailable stored source.",
+        "Asks one bounded source replacement question with a recommendation.",
+        "Performs no config or tracker write before the user approves the replacement.",
+        "Updates both map lineage and stored preference after approval."
+      ]
+    },
+    {
+      "id": 11,
+      "prompt": "Resume scope-it-remake with a completed approved scope artifact whose producer is not installed. The artifact has a stable pointer, revision, required scope fields, approval evidence, and matching readback.",
+      "expected_output": "The agent accepts the completed artifact in supplied-artifact mode without requiring its producer to satisfy the active source contract or changing the stored source preference.",
+      "files": [],
+      "assertions": [
+        "Applies completed artifact acceptance independently from active producer availability.",
+        "Records the artifact revision and content-approval evidence.",
+        "Sets Tickets as the first incomplete frontier instead of restarting Scope.",
+        "Does not require mutation-free draft, producer resume, or write-preview capabilities for an already completed artifact.",
+        "Does not replace the repository's stored producer preference."
+      ]
+    },
+    {
+      "id": 12,
+      "prompt": "The approved planning bundle contains a scope document, a detailed execution plan with file-level coding steps, and a Markdown task checklist, but no tracker tickets.",
+      "expected_output": "The agent accepts the scope and execution plan under separate roles, leaves Tickets pending, and does not promote plan steps or checklist items into the Delivery Map ticket graph.",
+      "files": [],
+      "assertions": [
+        "Records the execution plan separately from scope and delivery tickets.",
+        "Treats file-level steps and checklist items as execution-plan evidence.",
+        "Keeps the ticket frontier incomplete until tracker-addressable end-to-end outcomes are proposed or accepted.",
+        "Does not turn modules, files, commands, or coding steps into ticket nodes."
+      ]
+    },
+    {
+      "id": 13,
+      "prompt": "A scope artifact was approved at revision A, then changed to revision B before scope-it-remake resumed. Publication and readback of revision B both succeed, but no one reviewed the new revision.",
+      "expected_output": "The agent records revision B with pending content approval and leaves the scope frontier current despite successful publication and readback.",
+      "files": [],
+      "assertions": [
+        "Does not transfer content approval from revision A to revision B.",
+        "Distinguishes publication and readback from content approval.",
+        "Leaves the scope frontier incomplete until revision B receives content approval."
+      ]
+    },
+    {
+      "id": 14,
+      "prompt": "Use scope-it-remake for one clear delivery unit. The current issue already records the observable result, boundaries, acceptance evidence, and an approved conversation checkpoint. No separate spec or execution plan adds decision value.",
+      "expected_output": "The agent uses the existing issue as the Delivery Map home, compact scope artifact, and single delivery ticket; it records approval and readback without creating a ceremonial spec, plan file, or additional tracker artifact.",
+      "files": [],
+      "assertions": [
+        "Uses the compact scope path only for one clear delivery unit with complete evidence.",
+        "Records the issue under both scope and single-ticket roles without a self-relationship.",
+        "Keeps one managed Delivery Map block on the same issue instead of creating another Issue or comment.",
+        "Creates no separate spec, execution plan, or extra ticket solely to satisfy phase structure.",
+        "Preserves approval and readback requirements."
+      ]
+    },
+    {
+      "id": 15,
+      "prompt": "A source workflow approved the direction and authorized creating a scope file, but requires a separate human review of the written revision. scope-it-remake writes and reads back the file successfully.",
+      "expected_output": "The agent records mutation approval and successful readback, keeps content approval pending, and does not advance to tickets until the written revision is reviewed.",
+      "files": [],
+      "assertions": [
+        "Tracks mutation approval separately from content approval.",
+        "Preserves the artifact-owning workflow's additional content review gate.",
+        "Does not treat successful publication as content approval.",
+        "Leaves the current frontier unchanged until every required gate is evidenced."
+      ]
+    },
+    {
+      "id": 16,
+      "prompt": "Use scope-it-remake from an existing GitHub Issue that will become the Delivery Map home. The approved Scope is attached and the approved breakdown has three delivery tickets.",
+      "expected_output": "The agent proposes one managed Delivery Map block on the existing Issue and three child ticket Issues, without creating a second Map Issue or adding a new map comment for each frontier.",
+      "files": [],
+      "assertions": [
+        "Uses the existing Issue as the canonical Delivery Map home and attaches the Scope to it.",
+        "Updates one managed map block in place while preserving surrounding Issue content.",
+        "Keeps a stable continuation protocol in that block so another agent can resume from the current frontier.",
+        "Creates delivery tickets as child Issues only after their frontier is approved.",
+        "Creates neither a second Delivery Map Issue nor per-frontier map comments."
+      ]
+    },
+    {
+      "id": 17,
+      "prompt": "Use scope-it-remake for work with no starting Issue. GitHub Issues are available, the approved Scope source publishes a repository spec document, and the approved breakdown has one delivery ticket.",
+      "expected_output": "The agent proposes one new Delivery Map Issue as the top-level tracker artifact, links the repository spec from it, keeps the single Ticket section on it, and creates no additional ticket Issue.",
+      "files": [],
+      "assertions": [
+        "Proposes the new Delivery Map Issue and all exact writes in the current-frontier checkpoint before creating it.",
+        "Uses the new Issue as the canonical Map home while keeping the full repository spec in its owning document.",
+        "Stores one managed Delivery Map block with a stable continuation protocol on the Map home.",
+        "Keeps the single delivery Ticket on the same Issue without creating a self-relationship or a second Issue."
+      ]
+    }
+  ]
+}
