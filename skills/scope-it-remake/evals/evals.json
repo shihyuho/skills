@@ -15,8 +15,8 @@
     },
     {
       "id": 2,
-      "prompt": "Resume scope-it-remake from a map whose scope artifact is published and verified. The current frontier is tickets and the approved scope links to a compatible ticket-source artifact.",
-      "expected_output": "The agent loads the map, scope pointer, and ticket source output, proposes ticket titles, outcomes, acceptance evidence, and blockers, then waits without starting delivery planning.",
+      "prompt": "Resume scope-it-remake with confirmed scope S3 and a compatible ticket-source draft recovered from the previous session. S3's published pointer and exact approval evidence match readback, but the ticket breakdown has not been confirmed. No Map progress fields exist.",
+      "expected_output": "The agent reuses S3, reviews the source-owned ticket titles, outcomes, acceptance evidence, and blockers, then waits for their content confirmation without starting delivery planning or updating the tracker Map.",
       "files": [],
       "assertions": [
         "Loads only evidence needed by the ticket frontier.",
@@ -77,12 +77,15 @@
     },
     {
       "id": 7,
-      "prompt": "Advance scope-it-remake at the delivery frontier for three confirmed ticket drafts that can land independently and require no shared aggregate verification. No final publication approval has been given.",
-      "expected_output": "The agent recommends independent ticket landing and the first executable proposed ticket, previews native containment and blockers in the final checkpoint, and waits before publishing anything.",
+      "prompt": "Advance scope-it-remake at the delivery frontier for confirmed Import, Export, and Audit tickets. Import and Export are unblocked; Audit depends only on Import. The user prefers starting Export first for scheduling, but this is not a dependency. All tickets can land independently, require no shared aggregate verification, and Carry is empty. No final publication approval has been given.",
+      "expected_output": "The agent preserves the executable scheduling preference separately from the actual blocker graph, shows executable frontiers and native containment, records Planning none, and waits at the final checkpoint without publishing.",
       "files": [],
       "assertions": [
         "Keeps independent ticket landing as the default despite multiple tickets.",
         "Treats containment and blocking as independent native axes.",
+        "Shows Import and Export in the same executable frontier and Audit gated only by Import, with Export-first merely a recommendation.",
+        "Adds no Import-blocked-by-Export edge and no Carrier for the scheduling preference.",
+        "Records recoverable Planning none rather than creating baseline work for an empty Carry.",
         "Avoids shared integration branch delivery because atomic landing is not required.",
         "Reaches the final publication checkpoint without writing tracker items or relationships.",
         "Uses proposed ticket references instead of fabricating tracker identities."
@@ -129,12 +132,12 @@
     {
       "id": 11,
       "prompt": "Resume scope-it-remake with a completed approved scope artifact whose producer is not installed. The artifact has a stable pointer, revision, required scope fields, approval evidence, and matching readback.",
-      "expected_output": "The agent accepts the completed artifact in supplied-artifact mode without requiring its producer to satisfy the active source contract or changing the stored source preference.",
+      "expected_output": "The agent accepts the completed artifact without requiring its producer to satisfy the active source contract, publishing source-mode fields, or changing the stored source preference.",
       "files": [],
       "assertions": [
         "Applies completed artifact acceptance independently from active producer availability.",
-        "Records the artifact revision and content-approval evidence.",
-        "Sets Tickets as the first incomplete frontier instead of restarting Scope.",
+        "Retains the artifact revision and content-approval evidence internally without requiring public approval/state fields.",
+        "Continues internally with Tickets instead of restarting Scope or writing discussion progress to the Map.",
         "Does not require mutation-free draft, producer resume, or write-preview capabilities for an already completed artifact.",
         "Does not replace the shared producer preference."
       ]
@@ -154,12 +157,12 @@
     {
       "id": 13,
       "prompt": "A scope artifact was approved at revision A, then changed to revision B before scope-it-remake resumed. Publication and readback of revision B both succeed, but no one reviewed the new revision.",
-      "expected_output": "The agent records revision B with pending content approval and leaves the scope frontier current despite successful publication and readback.",
+      "expected_output": "The agent reopens content review for revision B in the session despite successful publication and readback, preserving the existing tracker artifact without adding approval or workflow-status fields.",
       "files": [],
       "assertions": [
         "Does not transfer content approval from revision A to revision B.",
         "Distinguishes publication and readback from content approval.",
-        "Leaves the scope frontier incomplete until revision B receives content approval."
+        "Does not advance the discussion until revision B receives content approval, and records no unapproved status change on the Map."
       ]
     },
     {
@@ -197,7 +200,7 @@
       "assertions": [
         "Uses the existing tracker item as the Map home and C8 as the combined Scope/Map planning post.",
         "Queues the Map addition to C8 while preserving its approved Scope content and the original item body.",
-        "Keeps a stable continuation protocol in that block so another agent can resume from the current frontier.",
+        "Previews delivery handoff instructions pointing to the first executable ticket, dependencies, and applicable contracts rather than discussion progress.",
         "Queues native containment for all three children and only the actual Import blocker, with no tracker writes before final approval.",
         "Creates neither a second Delivery Map item nor per-frontier map comments."
       ]
@@ -211,7 +214,7 @@
         "Uses the publication environment declared by the ticket source instead of assuming a tracker vendor.",
         "Proposes the new Delivery Map item and all exact writes in the final publication checkpoint before creating it.",
         "Uses the new tracker item as the canonical Map home while keeping the full repository spec in its owning document.",
-        "Prepares one managed Delivery Map block with a continuation protocol that separates content confirmation from publication.",
+        "Previews one agreed-content Map with artifact links and delivery handoff instructions, keeping draft and approval evidence internal.",
         "Places the single Ticket in a separate comment, not in the combined Scope-link/Map body, and records its comment permalink.",
         "Uses the same tracker item for delivery without creating a self-relationship or a second item."
       ]
@@ -269,8 +272,8 @@
     },
     {
       "id": 22,
-      "prompt": "Publish the exact scope-it-remake final bundle B4 I just reviewed: scope S3 and the managed Map block together in planning comment C8 on existing tracker item MAP-8, three confirmed child tickets T2 and their previewed blockers, the durable publication record and its per-ticket draft references, and final Map updates. All delivery choices and source content gates are confirmed; I approve all listed writes and no others.",
-      "expected_output": "The agent freshly reads MAP-8, publishes the approved scope and ticket bundle through its sources, binds real returned identities, applies the approved relationships, and marks done only after complete readback.",
+      "prompt": "Publish the exact scope-it-remake final bundle B4 I just reviewed: scope S3 and the complete agreed Map together in planning comment C8 on existing tracker item MAP-8, three confirmed child tickets T2, their previewed blockers, and final Map bindings. Source-required readiness metadata, relationship evidence, and all delivery choices are included. The session holds the exact drafts, approvals, and operation bindings. I approve all listed writes and no tracker recovery log or progress fields.",
+      "expected_output": "The agent freshly reads MAP-8, publishes the approved scope and ticket bundle through its sources, binds real returned identities, applies the approved relationships and metadata, then reports completion only after fresh consolidated verification and readback of the complete final Map.",
       "files": [],
       "assertions": [
         "Reuses MAP-8 and C8, keeping Scope and Map together, Tickets in separate child items, and unrelated content unchanged.",
@@ -278,20 +281,21 @@
         "Does not pause for another approval merely because execution crosses a former frontier boundary.",
         "Uses real returned identities for containment, blockers, and the first executable ticket.",
         "Binds new published revision IDs to the approved draft by matching content rather than asking for redundant content approval.",
-        "Marks done only after readback of every artifact, attachment, and relationship, then verifies the final Map block.",
-        "Keeps ticket payloads out of the combined planning post, including its publication record.",
-        "Hands off the executable ticket without starting implementation."
+        "Performs a fresh consolidated pass over current artifacts, attachments, source-required metadata, both native axes, and any conditional delivery or preference evidence, then reads back the complete final Map and its Scope content.",
+        "Keeps ticket payloads in separate child items and recovery evidence in the session; the final planning post contains no Frontier, Publication status, artifact approval/state, source mode, or draft/pending artifact placeholders.",
+        "Returns a Map link that exposes the relationship evidence and Planning result, together with the executable ticket, without starting implementation.",
+        "Publishes actual artifact links and preserved relationship/readiness facts, without renaming removed orchestration states as other Map fields or requiring a separate tracker recovery artifact."
       ]
     },
     {
       "id": 23,
-      "prompt": "Resume scope-it-remake publication B4 in a new session with only the Map link. Its Publication record contains the exact confirmed drafts, approved write list, and approval evidence. Scope is verified; Foundation and Import have recorded IDs. Export creation timed out and may have succeeded, and no blocker links were written. B4 content has not changed.",
-      "expected_output": "The agent reconciles all existing results, checks whether Export was created, and resumes only missing approved writes without duplicating the Map or tickets or restarting planning.",
+      "prompt": "Resume interrupted scope-it-remake publication B4 in a new session with the Map link and access to a controlled temporary recovery snapshot. Only that snapshot contains exact confirmed drafts, the approved write list, approval evidence, and operation bindings; the tracker has no orchestration record or progress fields. Scope readback matches and Foundation and Import have recorded IDs. Export creation timed out and may have succeeded, and no blocker links were written. B4 content has not changed.",
+      "expected_output": "The agent recovers B4 from controlled storage, reconciles actual tracker results, checks whether Export was created, and resumes only missing approved writes without duplicating artifacts or requiring a tracker progress record.",
       "files": [],
       "assertions": [
-        "Keeps publication partial until every result is resolved and read back.",
-        "Recovers the complete approved remaining work from the Map's publication record without relying on the previous conversation.",
-        "Records each ticket's revision and publication state separately instead of treating the partially published group as fully published.",
+        "Reports unresolved operations in the session and withholds completion until every approved result is reconciled and read back, without adding tracker progress fields.",
+        "Recovers exact drafts, write approval, and operation bindings from the accessible controlled snapshot without requiring the previous conversation or a tracker recovery record.",
+        "Tracks each ticket's actual identity and readback separately in the recovery record instead of treating successful sibling writes as evidence Export exists.",
         "Looks up the uncertain Export result before attempting creation again.",
         "Reuses Foundation and Import identities rather than recreating them.",
         "Resumes still-approved writes without asking to reconfirm unchanged content.",
@@ -349,14 +353,14 @@
     },
     {
       "id": 28,
-      "prompt": "Resume scope-it-remake from a task-local temporary snapshot containing full scope S3, its approval checkpoint, the draft Map, and pending ticket work. The canonical tracker item has not been changed. The user wants to continue planning, not publish.",
-      "expected_output": "The agent recovers S3 and its approval, continues ticket drafting from the snapshot, and keeps the temporary file separate from the canonical Map and delivery Carry.",
+      "prompt": "Resume scope-it-remake from a controlled task-local temporary snapshot containing full scope amendment S3, its approval checkpoint, a draft Map amendment, and unconfirmed ticket work. An older agreed Map already exists on the tracker and has not been changed. The user wants to continue planning, not publish.",
+      "expected_output": "The agent recovers S3 and its approval, continues ticket drafting from the snapshot, and leaves the published Map unchanged while keeping temporary recovery data separate from delivery Carry.",
       "files": [],
       "assertions": [
         "Reuses the exact confirmed scope draft rather than redoing scope analysis.",
-        "Recognizes the temporary snapshot as draft state, not a published Map home.",
+        "Uses the temporary snapshot as internal working evidence, not a second Map home or permission to update the existing Map.",
         "Does not commit temporary files or automatically classify them as Carry.",
-        "Performs no tracker or canonical publication writes during resumed planning."
+        "Performs no tracker or canonical publication writes, including progress or approval updates on the older Map, during resumed planning."
       ]
     },
     {
@@ -379,7 +383,7 @@
       "assertions": [
         "Actually saves the approved shared ticket preference rather than leaving it merely listed in the checkpoint.",
         "Preserves the latest unrelated role and metadata instead of writing an old whole-file snapshot.",
-        "Requires successful preference readback and final Map readback before reporting done.",
+        "Requires successful preference readback, fresh consolidated verification, and complete final Map readback before reporting completion without adding a completion-status field.",
         "Reuses already verified tracker artifacts without recreating them."
       ]
     },
@@ -397,11 +401,11 @@
     },
     {
       "id": 32,
-      "prompt": "Resume scope-it-remake from a Map marked publish and approved. It links one completed scope artifact, but its approved publication record is missing, the prior conversation is unavailable, and only a vague ticket summary remains.",
-      "expected_output": "The agent reuses the recoverable artifact as evidence but stops to recover the exact missing ticket bundle and approval instead of generating and publishing new tickets under the old approved status.",
+      "prompt": "Resume scope-it-remake after an interrupted publication with only the tracker Map link. It contains agreed delivery content and one completed Scope link, but the prior session and controlled recovery snapshot are unavailable; only a vague ticket summary remains. The exact ticket drafts, remaining write list, and their write approval cannot be recovered. The Map has no workflow-status fields.",
+      "expected_output": "The agent reuses the recoverable Scope artifact as evidence but stops to recover the exact missing ticket bundle and write approval, rather than inferring authorization from the existing Map or inventing tickets from the summary.",
       "files": [],
       "assertions": [
-        "Does not treat the Map's approved status alone as authority for unknown writes.",
+        "Does not treat an existing Map, published Scope, or absent workflow states as authority for unknown writes.",
         "Asks for missing bundle or approval evidence rather than restarting completed scope analysis.",
         "Does not invent exact approved ticket content from the vague summary.",
         "Performs no further publication writes until the missing evidence is recovered."
@@ -409,7 +413,7 @@
     },
     {
       "id": 33,
-      "prompt": "Publish the final scope-it-remake bundle I approved for existing tracker item TASK-42. Its body contains the original user report and there is no Scope or Map post yet. The approved source drafts contain Scope S1 and one Ticket T1. The exact write preview adds one combined planning comment, a separate Ticket comment, a linked durable publication record, and final Map bindings. The tracker supports comment permalinks.",
+      "prompt": "Publish the final scope-it-remake bundle I approved for existing tracker item TASK-42. Its body contains the original user report and there is no Scope or Map post yet. The approved source drafts contain Scope S1 and one Ticket T1. The exact write preview adds one combined planning comment, a separate Ticket comment, and final Map bindings. Exact approval and operation evidence stay in the session; no tracker recovery record is requested. The tracker supports comment permalinks.",
       "expected_output": "The agent preserves TASK-42's body, publishes Scope and Map together in one planning comment and T1 in another comment, records both permalinks, and verifies the approved writes without creating another tracker item.",
       "files": [],
       "assertions": [
@@ -423,32 +427,33 @@
     },
     {
       "id": 34,
-      "prompt": "Publish the confirmed scope-it-remake bundle for a new one-ticket change with no starting tracker item. Both sources produce tracker content, and the configured tracker supports comments. I approved one new Map item with Scope S1 and Map together in its body, Ticket T1 as a separate comment, a linked durable publication record, and final Map bindings.",
-      "expected_output": "The agent creates one item with the combined Scope/Map body, then publishes the Ticket comment and completes the approved bindings with readback.",
+      "prompt": "Publish the confirmed scope-it-remake bundle for a new one-ticket change with no starting tracker item. Both sources produce tracker content, and the configured tracker supports comments. I approved one new Map item, initial confirmed Scope S1 content to establish its home, Ticket T1 as a separate comment, and the final agreed Map in the same body using returned identities. Exact draft and write approval evidence are recoverable in the session; no tracker recovery log or progress fields are approved.",
+      "expected_output": "The agent creates one item from the approved initial content, publishes the Ticket comment, and finishes the same Scope/Map body using actual links, followed by fresh consolidated verification and complete Map readback.",
       "files": [],
       "assertions": [
-        "Creates exactly one tracker item and uses its body for Scope and Map together.",
+        "Creates exactly one tracker item using the approved initial content and finishes its body with Scope and the complete agreed Map together.",
         "Keeps Ticket T1 in its own comment rather than appending it to the combined body.",
         "Publishes no redundant standalone Scope or Map comment.",
         "Binds the returned comment permalink and item identity without inventing them.",
-        "Preserves the final-approval boundary and performs no implementation work."
+        "Preserves the final-approval boundary and performs no implementation work.",
+        "Uses dependency-ordered writes without inventing comment IDs or adding publish/done or pending-artifact placeholders, and does not claim the sequence was atomic."
       ]
     },
     {
       "id": 35,
-      "prompt": "Resume scope-it-remake from a planning comment containing approved Scope S1 and the Map. A verified publication operation updated only the Map's results and changed the comment's updated_at timestamp; Scope S1's exact content is unchanged. The approved publication record is recoverable and there are still missing approved relationship writes.",
-      "expected_output": "The agent compares the Scope section itself, retains its content approval, and resumes only the missing approved writes without treating the Map edit as a new Scope revision.",
+      "prompt": "Resume an interrupted scope-it-remake publication. A planning comment contains approved Scope S1 and the Map. An approved binding update inserted real artifact links into the Map and changed the comment's updated_at timestamp; Scope S1's exact content is unchanged. The controlled recovery record contains the exact approvals and missing relationship operations. One containment edge and one blocker still need their approved writes.",
+      "expected_output": "The agent compares the Scope section itself, retains its content approval, reuses the agreed Map and artifacts, and repairs only the missing approved relationships before final readback.",
       "files": [],
       "assertions": [
         "Checks role-specific content rather than invalidating Scope solely from the shared post timestamp.",
         "Keeps Scope S1 approved when its content matches the reviewed revision.",
-        "Reuses the existing planning comment and updates its managed Map block in place.",
-        "Does not create a new Scope or Map comment just to advance the frontier."
+        "Reuses the existing planning comment; changes its Map only if an exact approved binding or evidence repair remains.",
+        "Creates no new Scope or Map comment and writes no discussion-progress field."
       ]
     },
     {
       "id": 36,
-      "prompt": "Resume approved scope-it-remake publication B7. The combined Scope/Map planning comment is verified, but creation of the single Ticket comment timed out before its ID was recorded. The Map links the exact approved T1 content and write approval. Reading the home item's comments reveals one matching Ticket comment C9 and an unrelated user comment. No content changed.",
+      "prompt": "Resume approved scope-it-remake publication B7. The combined Scope/Map planning comment matches readback, but creation of the single Ticket comment timed out before its ID was recorded. A controlled recovery snapshot contains exact approved T1 content, write approval, and the uncertain creation operation; none of these orchestration fields are on the Map. Reading the home item's comments reveals one matching Ticket comment C9 and an unrelated user comment. No content changed.",
       "expected_output": "The agent verifies and binds existing comment C9, preserves the unrelated comment, and finishes only the missing approved Map updates instead of posting T1 again.",
       "files": [],
       "assertions": [
@@ -472,14 +477,261 @@
     },
     {
       "id": 38,
-      "prompt": "Use scope-it-remake for two confirmed tickets where Import is blocked by Foundation. The selected tracker supports child containment and comments but has no native blocking-link capability. No fallback has been discussed or approved.",
-      "expected_output": "The agent retains the actual dependency, proposes supported native containment plus an explicit blocker fallback, and asks for approval before publishing the bundle.",
+      "prompt": "Use scope-it-remake for two confirmed tickets where Import is blocked by Foundation. The tracker supports child containment but not native blockers. The selected ticket source defines a reciprocal text-link fallback. No fallback is approved initially; after its exact preview the user approves the complete bundle. Publication succeeds, then a new session requests only the completed Map handoff with no producer installed.",
+      "expected_output": "The agent proposes the source-defined fallback, publishes only after approval, and persists separate native-containment and degraded-blocking evidence with provenance. The new session returns a short linked handoff that retains the degraded axis without rerunning the source or claiming native blocker verification.",
       "files": [],
       "assertions": [
         "Treats containment and blockers as separate capabilities.",
+        "Uses the selected source's defined fallback rather than inventing another supported alternative.",
         "Does not claim native containment represents the blocking dependency.",
         "Obtains approval for the unsupported blocking-axis fallback before writing.",
-        "Keeps each proposed Ticket in its own child item, separate from the combined Scope/Map post."
+        "Persists native blocker unavailability, the approved reciprocal links, source provenance, and degraded evidence while containment remains native-verified.",
+        "Keeps each proposed Ticket in its own child item, separate from the combined Scope/Map post.",
+        "The producer-free later handoff identifies the degraded blocker axis and links the durable evidence without repeating publication."
+      ]
+    },
+    {
+      "id": 39,
+      "prompt": "Finish approved scope-it-remake publication B9. Every individual write initially read back successfully. While the last operation ran, another actor changed the approved Scope acceptance text, removed one child's native parent edge, and replaced the shared tickets preference that B9 had saved. The final Map block itself still matches B9. No overwrite of these later changes is approved.",
+      "expected_output": "The final consolidated pass re-fetches artifacts, both relationship axes, and affected preferences, detects drift despite earlier readbacks and the unchanged Map, and leaves publication incomplete without silently restoring the old values.",
+      "files": [],
+      "assertions": [
+        "Re-reads current Scope content and placement after the final operation rather than reusing its earlier success.",
+        "Freshly checks containment and blockers independently and detects the missing parent edge.",
+        "Freshly checks the approved affected preference and detects its replacement while preserving unrelated config.",
+        "Does not report completion merely because the final Map matches, and records the mismatch internally without adding a Map workflow-status field.",
+        "Preserves successful artifacts and later user changes, and requests revised approval only for affected corrective writes."
+      ]
+    },
+    {
+      "id": 40,
+      "prompt": "Complete an approved scope-it-remake publication with non-empty Carry and independent landing. Import A and Export B are both unblocked; neither is a foundation ticket. A was provisionally first, but approved document ownership selected B as the sole Carrier. The installed Git mechanics sources are available. Their successful operations produce the approved B branch and baseline SHA, all pointers and cleanup match, and Carry has not yet landed in the target.",
+      "expected_output": "The agent uses the approved B delivery path, verifies its baseline and cleanup, publishes complete pointer-only handoffs to the other tickets, and completes publication with B selected first while leaving actual landing to the executor.",
+      "files": [],
+      "assertions": [
+        "Selects B as the first delivery ticket and sole Carrier without inventing a foundation ticket or retaining A as first.",
+        "Reads and uses each required installed create-branch, create-worktree, commit, and push source for missing operations, with exact approved arguments and Carry scope.",
+        "Provides a durable Carrier URL, exact branch/path, full baseline SHA, target, Carry manifest, and target/main landing gate through the Map and every related ticket.",
+        "Instructs the executor to resume the exact path with baseline ancestry and other tickets to consume pointers without duplicating Carry.",
+        "Verifies baseline diff, exact entry subtraction, and Preserve bytes before completion.",
+        "Adds no blocker merely for Carrier selection and completes publication without waiting for future implementation or stamping a workflow status on the Map."
+      ]
+    },
+    {
+      "id": 41,
+      "prompt": "Resume only the missing writes of an approved scope-it-remake bundle recovered from controlled temporary storage. The entry worktree is clean, the Carrier branch and immutable baseline already exist, and a registered worktree owns that exact branch. Only one related ticket lacks its approved Planning pointer. The recorded baseline diff and ancestry can be verified; no new Git operation is approved or needed. The published Map has delivery content but no process states.",
+      "expected_output": "The agent loads conditional delivery evidence despite the clean entry and publication-only repair, verifies the existing path and baseline, and repairs only the missing approved pointer before final verification.",
+      "files": [],
+      "assertions": [
+        "Recovers existing Carry and the baseline instead of treating the clean worktree as Planning none.",
+        "Verifies branch/path, full SHA, baseline diff, and baseline ancestry before publishing the pointer.",
+        "Reuses the registered path and creates no second branch, worktree, baseline commit, or Carrier.",
+        "Does not invoke Git mutation sources when only readback and a tracker pointer repair remain.",
+        "Runs final consolidated verification after the missing pointer is read back."
+      ]
+    },
+    {
+      "id": 42,
+      "prompt": "The agreed scope-it-remake Map and artifacts were published and read back in a previous session; they contain no workflow-status fields. Verify whether direct delivery can resume. The durable pointer binds Carrier B to branch delivery-b and baseline SHA S. S exists remotely, but delivery-b's current HEAD is not a descendant of S. The entry worktree is clean and all published tickets remain valid.",
+      "expected_output": "The agent performs the requested conditional lifecycle verification instead of returning the cached handoff, reports the ancestry failure and incomplete delivery checkpoint, and preserves publication and artifacts without creating a replacement path.",
+      "files": [],
+      "assertions": [
+        "Does not use previous publication success or a clean entry to skip requested delivery verification.",
+        "Checks the recorded branch's current ancestry rather than only whether S exists.",
+        "Reports the requested delivery verification incomplete while retaining existing published artifacts unchanged.",
+        "Does not rebase, recreate a baseline, rerun ticket production, or change tracker state without separate approval."
+      ]
+    },
+    {
+      "id": 43,
+      "prompt": "Verify final delivery for a completed scope-it-remake publication with Carry. The exact delivery branch and target contain the baseline ancestry. The final merge is in main and main also has that ancestry, but a later commit reverted one of the approved Carry changes. The durable Change Proposal identifies the exact expected content.",
+      "expected_output": "The agent reads actual Carry content from the target and main, detects the reverted change despite valid ancestry, and refuses to declare final delivery complete without altering the published artifacts.",
+      "files": [],
+      "assertions": [
+        "Checks actual target and final main contents against the approved Carry manifest.",
+        "Does not treat an existing baseline commit, ancestry, or a merged PR as sufficient landing evidence.",
+        "Reports the specific missing Carry content as an incomplete final gate.",
+        "Performs no implementation, restoration commit, merge, or issue closure."
+      ]
+    },
+    {
+      "id": 44,
+      "prompt": "At scope-it-remake delivery planning, the entry worktree has a mixed-file hunk that looks related to the approved Scope but has no session ownership evidence. No change is yet classified as scope-owned. The path and exact range are observable, and another hunk is clearly unrelated user work. No final publication approval exists.",
+      "expected_output": "The agent loads the classification rules for unclassified entry changes, records the candidate as Uncertain with path, range, evidence and recommendation, preserves unrelated work, and asks only for the necessary ownership decision before queuing any cleanup.",
+      "files": [],
+      "assertions": [
+        "Reaches the conditional delivery rules without first assuming the hunk is scope-owned.",
+        "Records a concrete path, bounded range, evidence gap, and recommended treatment for Uncertain.",
+        "Does not promote semantic similarity alone into Carry or Remove.",
+        "Preserves both unresolved and unrelated content until their exact treatment is approved.",
+        "Does not perform Git or tracker writes during classification."
+      ]
+    },
+    {
+      "id": 45,
+      "prompt": "Finish approved scope-it-remake cleanup. A recoverable controlled-local entry snapshot has Carry C, Remove patches R1 and R2, and unrelated Preserve P whose content is not approved for sharing. The published baseline diff is exactly C and P is byte-for-byte unchanged. Cleanup reported success, but a fresh diff still contains R2; C and R1 are gone. The remaining exact R2 operation is recoverable from the approved bundle.",
+      "expected_output": "The agent detects that the complete entry-state subtraction invariant failed, preserves the baseline and P, and reconciles only the missing approved R2 cleanup instead of accepting partial cleanup or reverting the whole file.",
+      "files": [],
+      "assertions": [
+        "Compares the entire post-cleanup entry state to the saved entry minus approved C, R1, and R2.",
+        "Does not accept baseline equality and Preserve hashes alone as publication completion.",
+        "Leaves the affected checkpoint incomplete until R2's exact removal and final readback succeed.",
+        "Retains the existing baseline and touches neither P nor unrelated files during retry.",
+        "Keeps full entry/Preserve content in controlled-local storage and publishes only approved scope payloads plus non-disclosing verification evidence."
+      ]
+    },
+    {
+      "id": 46,
+      "prompt": "Publish an approved scope-it-remake bundle with empty Carry, no existing baseline or lane, one exact Remove patch superseded by the published Scope, and unrelated Preserve text in the same file. The exact Remove-only cleanup is approved and its fresh entry snapshot still matches.",
+      "expected_output": "The agent applies only the approved Remove patch, verifies exact entry subtraction and Preserve, records Planning none, and completes the approved publication without any baseline Git work.",
+      "files": [],
+      "assertions": [
+        "Verifies the after-state equals the before-state minus only the approved Remove patch.",
+        "Keeps unrelated Preserve text byte-for-byte unchanged.",
+        "Creates no Carrier, baseline branch, worktree, commit, push, or baseline pointer.",
+        "Makes Planning none recoverable through the Map and final handoff."
+      ]
+    },
+    {
+      "id": 47,
+      "prompt": "Publish the approved scope-it-remake shared-lane bundle with non-empty Carry, two terminal tickets Import and Export, and the source-authored final Integrate ticket. The approved graph blocks Integrate on both terminals. Git mechanics sources return baseline S1 on the canonical integration path, then approved capability bootstrap produces S2. Rules and exact-HEAD check capability verify. No terminal implementation or PR exists yet.",
+      "expected_output": "The agent persists complete Planning and lane contracts, records S2 as immutable integration start with S1 as ancestor, publishes both terminal blockers and executor gates, and hands off the executable terminal frontier while Integrate remains Carrier.",
+      "files": [],
+      "assertions": [
+        "Places the baseline before bootstrap and terminal branches, then verifies S1 is an ancestor of immutable start S2.",
+        "Keeps Integrate as sole Carrier but hands off the executable terminals rather than running the final ticket first.",
+        "Verifies final-ticket blockers on both terminals independently from native child containment.",
+        "Persists canonical branch/target, full baseline pointer, start SHA, capability evidence, and umbrella pointer or explicit pending owner.",
+        "Persists terminal independent-branch and Refs-only PR rules plus merged-to-integration, exact-resulting-HEAD checks, and PR/full-SHA receipt gates.",
+        "Persists the final ticket's aggregate verification, main-drift, umbrella synchronization, and parent lifecycle closure duties without closing the parent during publication.",
+        "Keeps mutable execution-lane state separate from immutable evidence and completes publication without waiting for implementation or adding Map process states."
+      ]
+    },
+    {
+      "id": 48,
+      "prompt": "Publish an approved scope-it-remake shared integration lane with empty Carry and no previous baseline. The canonical path is established at full SHA S0; an approved capability bootstrap later advances it to S1. The ticket source supplied the final gate and all terminal blockers. No implementation is authorized.",
+      "expected_output": "The agent records S0 as the immutable integration start immediately when the lane is established, retains S1 only as mutable current state/bootstrap evidence, and verifies lane readiness without inventing a Planning Baseline.",
+      "files": [],
+      "assertions": [
+        "Captures immutable start S0 before subsequent bootstrap commits rather than backfilling S1 at handoff.",
+        "Does not change the recorded start when mutable integration HEAD advances.",
+        "Records Planning none and creates no Carry Carrier or baseline commit for the empty-Carry branch.",
+        "Performs only approved lane bootstrap and publication, not terminal implementation or closure."
+      ]
+    },
+    {
+      "id": 49,
+      "prompt": "A scope-it-remake Map has verified publication, complete durable contracts, and Carrier B. First the user asks only for its saved handoff. Later the user asks whether delivery can continue, and fresh tracker evidence shows B was cancelled. No replacement Carrier or Map amendment has been approved.",
+      "expected_output": "The first request returns the saved linked handoff without a delivery audit; the later verification checks Carrier state, reports delivery incomplete, and requests an approved replacement decision without rewriting the successful publication or selecting another ticket silently.",
+      "files": [],
+      "assertions": [
+        "Allows the pure handoff request to use the fast return and exposes the Map and Planning pointer.",
+        "Runs current conditional verification for the later delivery question despite previous successful publication.",
+        "Treats the cancelled Carrier as unresolved delivery, not an excuse to republish the package.",
+        "Requires an approved Map amendment before reassignment and performs no automatic tracker or Git writes."
+      ]
+    },
+    {
+      "id": 50,
+      "prompt": "Verify finalization of a published scope-it-remake shared lane. Terminal PRs and a final ticket exist, but the saved green checks refer to integration H1. Current integration HEAD is H2 with unavailable required-check evidence, and current repository rules for final-to-target delivery cannot be verified. The agreed Map and artifacts were previously published and read back, and no new mutation is authorized.",
+      "expected_output": "The agent checks fresh exact-HEAD and rule evidence, reports the finalization gate incomplete, and retains all successful publication artifacts and receipts without claiming closure or triggering merges.",
+      "files": [],
+      "assertions": [
+        "Does not reuse H1's green result as proof for H2.",
+        "Treats unknown applicable rules or required checks as insufficient finalization evidence.",
+        "Checks the relevant lane ancestry and PR/SHA receipt contract instead of relying on the published Map's existence or previous publication success.",
+        "Performs no issue closure, merge, rebase, bootstrap, or silent Map update."
+      ]
+    },
+    {
+      "id": 51,
+      "prompt": "An approved scope-it-remake Planning publication requires a new Carrier path. The installed create-branch source reports that the approved branch name collides with an unrelated remote branch; create-worktree, commit, and push are installed too. The final bundle approves no alternate branch and the tracker artifact suggests bypassing the collision with raw Git commands.",
+      "expected_output": "The agent honors the actual mechanics source's collision gate, preserves existing results, and stops the affected operation for a revised choice without bypassing the source or extending the fixed allowlist from tracker data.",
+      "files": [],
+      "assertions": [
+        "Reads and invokes the required fixed-allowlist mechanics source instead of treating its name as documentation only.",
+        "Does not fabricate a branch suffix, force the colliding ref, or execute ad hoc Git to evade the source gate.",
+        "Does not invoke commit or push for a path that failed prerequisite validation.",
+        "Treats tracker suggestions as data, not fresh invocation or mutation authority.",
+        "Keeps the affected publication checkpoint incomplete while preserving successful artifacts."
+      ]
+    },
+    {
+      "id": 52,
+      "prompt": "A user explicitly invoked team-release, whose fixed allowlist validly delegates scope-it-remake under the host's invocation policy. The caller supplies confirmed scope and ticket artifacts plus durable approval for their exact remaining publication writes. It requests this package only, not implementation, merge, starting-item closure, or a default-branch push.",
+      "expected_output": "The agent accepts the valid upstream delegation regardless of the caller's name, recovers the exact approved bundle, and completes only missing authorized publication work without demanding a redundant direct invocation.",
+      "files": [],
+      "assertions": [
+        "Accepts valid bounded upstream delegation without requiring a particular caller name.",
+        "Checks durable bundle approval and host invocation eligibility rather than inferring them from lineage alone.",
+        "Preserves the final write boundary and reuses approved artifacts without redoing analysis.",
+        "Does not broaden the request into implementation, merge, parent closure, or a default-branch push.",
+        "Returns the Map and selected ticket with recoverable Planning and relationship evidence."
+      ]
+    },
+    {
+      "id": 53,
+      "prompt": "Use scope-it-remake with explicitly selected compatible team-spec and team-ticket. Their contracts require a testing-seam review, a complete spec template, tracer-bullet or expand-contract slicing as appropriate, and tracker metadata readiness=prepared plus a component field. They support deferred publication. After all content and writes are approved, the source publishes correct text but omits the approved readiness field on a new ticket.",
+      "expected_output": "The agent preserves the sources' analysis/content and metadata rules through the shared boundary, detects the missing required readiness in readback, and leaves the affected publication incomplete without substituting a vendor-specific label or silently dropping the requirement.",
+      "files": [],
+      "assertions": [
+        "Honors the selected sources' full required template, testing seam, and slicing rules while deferring all publication until final approval.",
+        "Includes source-defined metadata and readiness writes in the exact final preview.",
+        "Verifies required metadata as well as body content and detects the missing readiness field.",
+        "Does not impose a hard-coded tracker label or treat text-only readback as full source compliance.",
+        "Preserves the approved Scope/Map and separate-Ticket layout and obtains revised approval for changed corrective writes."
+      ]
+    },
+    {
+      "id": 54,
+      "prompt": "Verify final delivery of a scope-it-remake direct Carrier. Its implementation branch was deleted after the approved squash merge. A durable PR receipt binds full implementation-head SHA H to that Carrier and branch; H remains readable and contains baseline SHA S as an ancestor. The target/main preserves all exact Carry content but does not contain S as an ancestor. All other applicable ticket and landing evidence matches, and no Git mutation is authorized.",
+      "expected_output": "The agent recovers the immutable implementation head from its bound PR receipt, verifies historical baseline ancestry and current target/main Carry content, and accepts the landing gate without requiring the deleted branch or baseline ancestry on the squash destination.",
+      "files": [],
+      "assertions": [
+        "Recovers the immutable implementation or PR-head SHA bound to the Carrier and original path, and checks baseline ancestry there after branch retirement.",
+        "Verifies actual Carry content at the current target/main instead of treating the historical receipt as current content proof.",
+        "Does not fail the landing gate solely because the squash destination lacks S in its ancestry.",
+        "Does not require or recreate the deleted branch, or cherry-pick the baseline to manufacture target ancestry.",
+        "Reports the verified requested gate without performing merge, closure, or other implementation actions."
+      ]
+    },
+    {
+      "id": 55,
+      "prompt": "Verify whether delivery can resume for two completed scope-it-remake publications, both explicitly Planning none. The first uses ordinary independent landing. The second uses an empty-Carry shared lane with a recorded integration start, valid current rules/checks, and terminal/final ticket contracts. Neither has a Carrier or Planning Baseline, and their applicable artifacts and relations verify.",
+      "expected_output": "The agent checks each publication's applicable ticket and lane evidence without treating absent Carry-only fields as failures or creating baseline work.",
+      "files": [],
+      "assertions": [
+        "Skips Carrier, baseline, and Carry-landing checks when Planning is none.",
+        "For the empty-Carry lane, still verifies its recorded start and applicable current lane gates.",
+        "Does not report missing baseline fields as incomplete delivery for either case.",
+        "Creates no Carrier, baseline, branch, commit, or pointer and does not start implementation."
+      ]
+    },
+    {
+      "id": 56,
+      "prompt": "Verify two scope-it-remake shared lanes whose approved umbrella squash landings are complete and whose integration branches were deleted. Both have readable immutable final head H bound to their lane and merged umbrella PR, immutable start and baseline ancestry, terminal PR/SHA receipts, and exact Carry content still present in target/main. The first has recoverable applicable rule evidence and required checks for its final H. The second has only green checks for an earlier H0; its exact-H evidence cannot be recovered. No Git or tracker mutation is authorized.",
+      "expected_output": "The agent verifies the first completed landing from its bound immutable final head and exact-head evidence despite branch retirement, but reports the second lane's delivery verification incomplete because older green checks cannot prove its final head. It preserves both publication results and performs no repair or lifecycle action.",
+      "files": [],
+      "assertions": [
+        "Uses the immutable final integration or umbrella PR-head SHA bound to each lane and approved landing instead of requiring a live integration branch.",
+        "Verifies applicable rule evidence, exact-final-head required checks, immutable start, baseline ancestry, and relevant PR/SHA receipts for the first lane.",
+        "Reads current target/main Carry content rather than treating historical landing receipts as current content proof.",
+        "Reports the second lane's requested verification incomplete because H0 checks do not verify H, even though its umbrella PR already landed.",
+        "Does not require baseline ancestry on the squash destination or recreate retired branches to recover missing evidence.",
+        "Preserves prior publication success and performs no merge, closure, Git mutation, or silent Map amendment."
+      ]
+    },
+    {
+      "id": 57,
+      "prompt": "scope-it-remake has just published and freshly verified the complete agreed Map, separate tickets, native relationships, source-required readiness, and any applicable Planning/lane evidence. The Map contains the final artifact links and first executable ticket; all approvals and operation receipts are in the session only. The user asks for the handoff, then raises a possible new Export requirement but has not confirmed revised scope or any writes.",
+      "expected_output": "The agent ends the publication workflow with the linked handoff. It can discuss the proposed change internally, but leaves the agreed Map and tracker metadata unchanged until a separate exact content amendment is approved.",
+      "files": [],
+      "assertions": [
+        "Reports publication completion after consolidated verification and complete Map readback without adding done, Publication, artifact approval/state, source-mode, or renamed progress fields.",
+        "Returns the first executable ticket and applicable Planning/lane/relationship links without starting implementation, merge, or closure.",
+        "Treats the later idea as discussion, not authority to reopen, rewrite, or append progress comments to the published Map.",
+        "Preserves real tracker lifecycle, source-required readiness, native relationship evidence, and delivery contracts rather than deleting them as if they were orchestration statuses.",
+        "Does not create a tracker recovery artifact or ongoing tracking obligation merely because the session has draft, approval, or receipt data."
       ]
     }
   ]
