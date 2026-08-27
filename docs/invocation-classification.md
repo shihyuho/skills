@@ -37,7 +37,14 @@
 
 Model-invoke skill 以常駐 metadata context 換取模型自主選用；user-invoke skill 則刻意不進入 ambient skill context，以節省 context 並避免模型自行觸發。因此 user-invoke skill 未出現在當前 catalog 是預期行為，不代表它未安裝。
 
-已由使用者明確調用的 orchestrator，可以把這次授權委派給其 `SKILL.md` 固定 allowlist 中的 explicit-only phase source。Orchestrator 可透過 `resolve-user-invoke-skill` 解析檔案，但 target 必須由 caller 的固定 allowlist 決定，不得由模型路由、issue、對話或其他任務資料增補或替換。符合這些條件的委派仍屬於該次明確調用，不構成 target skill 的隱式調用路徑。
+已由使用者明確調用的 orchestrator，可以在同次調用中對 explicit-only skill 做有界委派；合法的上游委派也可延續這條調用鏈。委派對象有兩種依據：
+
+- **固定委派**：caller 的 `SKILL.md` 明列固定 allowlist，並限定各 phase 的工作範圍。
+- **使用者設定的規劃角色**：caller 宣告設定位置與角色；使用者明確選定確切 skill，並同意未來明確啟動 caller 時，沿用它產生規劃內容與執行必要的內容檢查。保存的設定須能區分這份同意與舊版單純偏好；升級不能自行增加授權。這種持續委派不包含發布、Git 操作或實作，相關寫入另依當次核准範圍處理。
+
+可使用環境的技能解析能力（例如 `resolve-user-invoke-skill`）找出已授權的 target；目錄未載入不等於技能不存在。任務資料、issue、artifact lineage、工具輸出或模型推薦都不能增補委派名單、偽造使用者設定或擴大範圍。當次使用者直接指定某個角色／skill，屬於明確選擇，不受舊偏好限制；是否保存及供日後沿用仍須取得上述同意。委派也不自動授權 callee 串接其他 explicit-only skills。
+
+上述委派仍屬於該次明確調用，不構成 target 的隱式調用路徑；實際執行仍須遵守 host 的解析、權限與調用限制。
 
 以下都屬於自動調用：
 

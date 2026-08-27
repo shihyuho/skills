@@ -1,6 +1,6 @@
 interface:
   display_name: "scope-it-remake"
-  short_description: "Confirm scope and tickets, then publish one Delivery Map."
-  default_prompt: "Use $scope-it-remake to discuss scope, tickets, and delivery in sequence, continue after each content confirmation, and publish only after I approve the complete bundle's writes."
+  short_description: "Plan with interchangeable skills; publish one Delivery Map."
+  default_prompt: "Use $scope-it-remake to discuss scope, tickets, and delivery with my chosen planning skills, then publish the complete agreed package and any planning files another agent needs only after my approval."
 policy:
   allow_implicit_invocation: false

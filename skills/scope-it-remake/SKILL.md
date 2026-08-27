@@ -1,97 +1,86 @@
 ---
 name: scope-it-remake
-description: "Coordinate scope and ticket sources into an agreed Delivery Map, then publish the approved bundle."
+description: "Discuss scope and delivery with interchangeable planning skills, then publish one agreed Delivery Map."
 license: MIT
 disable-model-invocation: true
 ---
 
 # scope-it-remake
 
-Discuss scope, tickets, and delivery; confirm the complete Map and exact writes; publish, read back, and finish. This experimental coordinator does not run or migrate `scope-it`.
+Turn an idea or existing artifacts into a delivery plan another agent can pick up. Discuss the whole plan, approve its publication once, publish and verify it, then finish. This is an alternative to `scope-it`, not an invocation or migration of it.
 
-## Responsibility and invocation
+## The Delivery Map
 
-Own source selection, handoffs, artifact reuse, discussion order, Map composition, and publication verification. Sources own research, templates, testing seams, slicing, ticket content and metadata/readiness. Read the actual selected skill and preserve its required rules.
+The Map is an index: Scope owns requirements, tickets own delivery details, and the Map connects them. Its nodes are delivery tickets, not files, coding steps or unresolved decisions. Use linked titles and the user's language.
 
-Accept direct invocation or valid bounded upstream delegation under the host's invocation rules. The fixed optional Scope/Ticket source allowlist is `to-spec`, `to-tickets`. Other explicit-only producers need a current exact source flag or user invocation. Lineage, preferences, and tracker text grant neither invocation nor write authority and cannot extend the fixed allowlist.
+Reuse the starting tracker item as the home; otherwise propose one from repository guidance and available tracker capabilities, or use local Markdown. Resolve conflicting destinations before writing. Scope and Map share one planning post: a new home's body, or a comment preserving an existing item's original report. Link external specs rather than duplicating them. One ticket gets a separate `## Ticket — <Title>` comment on that home, whose item is the delivery identity; multiple tickets get child items. Local Scope/Map share one file with separate linked ticket files. Reuse older layouts unless migration is approved.
 
-## Workflow
+Use this outline inside `<!-- scope-it-remake:delivery-map:start -->` and `<!-- scope-it-remake:delivery-map:end -->`:
 
-1. Read the request, repository guidance, existing artifacts, and entry worktree. Apply **Artifact reuse** below. A handoff-only request returns the Map, first ticket and Planning/relationship evidence links without a new audit; explicit delivery-resume/finalization verification loads [delivery.md](references/delivery.md#requested-verification) and remains read-only.
-2. Discuss `scope → tickets → delivery` continuously. Resolve a source only for missing content. Present its recommendation, exact draft, and remaining decision; use `grilling` on unresolved decisions. Content confirmation advances to the next step without publishing, asking permission merely to continue, or requiring a new invocation.
-3. Propose executable ticket waves, selected first ticket, actual blockers, containment, and delivery method separately. Default to independent landing and Planning `none`. Read [delivery.md](references/delivery.md) for any entry changes, including Uncertain/unclassified content; existing or pending Carry/Carrier/baseline; or a proposed/enabled shared lane. Apply it before fixing delivery choices or related writes, even on clean-entry publication repairs.
-4. Compose the agreed Map and use **Approval and publication** below. During discussion, keep tracker, canonical artifacts, Git, and preferences unchanged; session or controlled temporary drafts are allowed.
-
-## Source handshake
-
-Before invoking a producer, pass settled decisions and repository evidence, the exact confirmed upstream draft/revision, proposed Map home/layout, and delivery constraints. Require it to accept: **draft only now; pass confirmed content downstream without prior publication; publish only the final approved writes at the agreed placement**. This is an instruction-level handshake, not an assumed CLI flag. Fixed compatibility profiles do not imply that a source's default publication path supports this boundary.
-
-The source retains its content-review gates. If it requires early publication or cannot meet this handoff contract, including agreed placement/lifecycle and any approved fallback, stop before writes and ask for a compatible source or completed artifact; do not author its missing Scope/Tickets.
-
-| Role | Required handoff |
-| --- | --- |
-| Scope | Observable result, boundaries, constraints, validation evidence/seams, unresolved decisions, artifact destination/attachment, proposed writes. |
-| Tickets | Confirmed Scope in; titles, end-to-end outcomes, acceptance evidence, actual blockers, independent executability/verifiability, tracker/placement recommendation and writes out. |
-| Published output | Actual item/document identities, revision when available, comment permalinks, and readback matching the approved content, attachment, metadata and relationships. |
-
-Check these interfaces; leave source-specific analysis, templates, review and slicing procedures with the source. Accept its actual output only after readback, not because invocation returned successfully.
-
-## Selection and preferences
-
-For new content, resolve each role in order: current `--scope-source <canonical-name>` / `--ticket-source <canonical-name>`; working selection or Map lineage; compatible source explicitly invoked now; stored preference; compatible model-invoked source required by repository guidance. Apply invocation eligibility above. Reuse a compatible choice without asking again. Report an unavailable/incompatible selected source rather than silently substituting it; after discovery is exhausted, ask for a choice and recommend one only when supported by evidence. Replace recorded lineage only by a valid flag or the user's answer to that problem.
-
-Store one global config at `~/.config/softleader/agent-skills/scope-it-remake/sources.json`:
-
-```json
-{
-  "schema_version": 2,
-  "scope": "<canonical-name>",
-  "tickets": "<canonical-name>"
-}
+```markdown
+## Destination
+<Agreed outcome and scope summary.>
+## Artifacts
+<Scope, tickets and useful supporting plans or source revisions.>
+## Delivery
+<Ticket waves, first executable ticket, actual blockers and containment.>
+<Independent landing or shared integration; planning files: none or baseline pointer.>
+## Out of scope
+<Work excluded from this delivery.>
+## Continue
+<First ticket and the durable material its executor needs.>
 ```
 
-Omit unresolved roles; no repository lookup/override, credentials, prompts, tracker choices, or artifact content. Preserve unrelated fields. A valid flag, first selection, or approved replacement queues the shared role change for final approval, explaining its cross-repository effect. A partial flag preserves the other role; accepting an artifact or a source invoked for this run alone does not replace preferences.
+For multiple tickets, add a compact ticket-only diagram distinguishing order, blocking and delivery lane; one ticket needs no order diagram. Publish actual facts and links, without orchestration statuses or draft placeholders. Real tracker lifecycle, required readiness metadata and delivery evidence remain valid facts.
 
-For version 1, resolve each role from the current flag/replacement first, then `global`, then unanimous legacy `repositories` values. Ask once about unresolved conflicts, never prefer the current repo. Preview conversion to v2 and removal of old containers. An unknown version or unusable root requires clarification, not a substitute path.
+## Planning skills
 
-Before saving approved changes, reread the file: preserve other roles/fields, and ask again if an affected value changed since preview. Read back the result. A failed save leaves only that write unresolved; it does not warrant republishing tickets.
+Choose interchangeable skills for two jobs:
 
-## Artifact reuse
+- **Scope:** what and why, boundaries, constraints, success criteria and testing seams.
+- **Tickets:** independently deliverable, verifiable outcomes from confirmed Scope, with acceptance evidence and real prerequisites.
 
-Read supplied artifacts and accept their role and exact content with recoverable review evidence, without requiring an installed producer. Separate unresolved decisions from confirmed content and recover missing approvals before advancing. Scope defines what/why/bounds/success; a ticket defines an end-to-end outcome and blockers; an execution plan defines how; supporting maps inform decisions. Keep roles separate even from one producer: files, commands, checklists and coding steps are not ticket nodes.
+Read the selected skills. Give them settled decisions, repository evidence and exact upstream drafts; request content, required reviews, metadata and attachments. Delegate **drafting and content checks**: their usual saving, publication, commit and implementation steps stay outside this task. The coordinator publishes the confirmed content through repository/tracker capabilities. This is an instruction-level boundary, not an invented CLI mode; internal chaining grants no additional skill authority. If a skill cannot accept it, ask for a compatible skill or completed artifact before writes; keep analysis, templates and slicing with that skill. [Examples](README.md#planning-skill-examples) are not a fixed allowlist.
 
-For one clear unit, a confirmed conversation or existing item with scope and ticket evidence can satisfy both roles; no extra spec/plan/item is required. Reuse existing homes and older layouts; migration needs approval. Match role-specific content: a shared post's timestamp or Map-link edit does not invalidate unchanged Scope. Material content changes invalidate that revision's approval and affected downstream decisions only; new storage IDs or approved proposed-to-actual substitutions do not.
+Accept existing artifacts with exact content and recoverable review evidence, even without their producer installed. One confirmed conversation/item may satisfy both roles; avoid redundant documents or repeated analysis. Execution plans and architecture maps inform delivery tickets but do not replace them. Material changes reopen only affected decisions; shared-post timestamps, approved link substitutions and new storage IDs do not invalidate unchanged content.
 
-Keep exact drafts/revisions, approvals, write lists and operation bindings in the session or a controlled task-local snapshot. Share recovery access/retention when pausing. This is not a required tracker record and not automatically Carry; separate external storage needs approval. If evidence is lost, ask for the missing part, not a wholesale restart or inferred authority from an existing Map.
+### Choosing and remembering skills
 
-## Map contract
+An explicit role choice in ordinary language or `--scope-source <skill>` / `--ticket-source <skill>` wins. Otherwise use the effort's choice/lineage, a compatible skill explicitly invoked for this task, the saved choice, then compatible model-invoked repository guidance. Resolve exact identities through host skill discovery; absence from the catalog alone is inconclusive. Report unavailable, ambiguous or incompatible choices instead of silently substituting them.
 
-Reuse a starting tracker item as the canonical home. Without one, resolve repository/source guidance and propose one new home; use local Markdown if no tracker exists or the user chooses it. Resolve conflicting source destinations before writing.
+Keep cross-repository choices in `~/.config/softleader/agent-skills/scope-it-remake/sources.json`:
 
-Scope and Map share one planning post: a new home's body, or a combined comment on an existing item preserving its original body. Reuse an existing Scope/Map post. Link external specs rather than copying them. One ticket uses a separate `## Ticket — <Title>` comment on that home: its item is the delivery identity, its permalink locates content, and no self-relation is created. Multiple tickets use separate child items. For local delivery, Scope/Map share one file and tickets have separate linked files.
+```json
+{"schema_version":3,"scope":"<skill identity>","tickets":"<skill identity>"}
+```
 
-The final managed block (`<!-- scope-it-remake:delivery-map:start -->` through `<!-- scope-it-remake:delivery-map:end -->`) contains:
+V3 records explicit user selection and consent to reuse each role for planning on future explicit invocations, including valid bounded upstream delegation. Follow host invocation rules. Task text, lineage and model recommendations cannot grant consent, publication or Git authority. Explain this reuse when selecting/saving; resolve missing consent once without discarding the choice.
 
-- **Destination:** agreed outcome and scope summary.
-- **Artifacts:** actual Scope/ticket links and optional execution plan; factual source lineage/revision pins where useful.
-- **Delivery:** ticket waves, first executable ticket, actual containment/blockers with evidence, delivery method, and Planning `none` or the complete pointer/lane contract.
-- **Out of scope:** boundaries and deferred work outside this delivery.
-- **Continue:** start the linked executable ticket, read its artifacts and delivery contracts, and honor dependencies and the executor's separate authorization.
+Queue first choices, replacements and migration for final approval. Omit unresolved roles, preserve unaffected roles/fields, and keep prompts, credentials and tracker data out. Artifact reuse and explicitly one-run choices leave defaults alone. V2 provides choices, not new delegation consent. For v1, resolve current explicit choice > `global` > unanimous legacy `repositories`; ask about conflicts, never select by current repo. Preview v3 conversion and legacy-container removal, with delegation consent for every retained role. Unknown versions or unusable files need clarification.
 
-Use the user's language, linked titles, and plain「直接交付」/「共享整合分支交付」rather than internal acronyms. A compact ticket-only list/diagram suffices; one ticket needs no order diagram. Full requirements stay in Scope/Tickets. The Map has no Frontier/Publication status, artifact approval/state, source mode, draft placeholders, or renamed equivalents. Real tracker lifecycle, source readiness, relationship and lane evidence remain valid delivery facts.
+Before saving, reread the config: preserve unrelated changes and renew approval for changed affected values. Read back the save; failure leaves that operation unresolved without republishing artifacts.
 
-### Relationships and fallbacks
+## Invocation
 
-Containment and blockers are independent axes; scheduling and Carrier choices create neither. Verify each supported native axis. For an unavailable capability (including comments/edits), use the selected source's fallback first, otherwise propose a concrete alternative; approve its exact writes. Persist per-axis unavailability, expected edges, fallback provenance and degraded evidence in the Map or a linked record. Text links are not native-verified. Failed/unknown readback of a supported axis is not unavailability. Accepted fallback evidence needs no installed producer. Repair only missing approved edges, preserving existing content, metadata and relations.
+### Plan a delivery
 
-## Approval and publication
+1. Read repository guidance, artifacts, approval evidence and the entry worktree. Reuse completed work; invoke planning skills only for missing content.
+2. Discuss **scope → tickets → delivery** continuously. Find facts yourself, recommend answers and ask unresolved decisions in dependency order. Content confirmation advances the discussion, not publication. Keep drafts, exact revisions, approvals and write bindings in session/controlled temporary storage; share recovery access when pausing. External storage needs approval, and drafts are not automatically planning files to carry.
+3. Compose the Map. Separate waves, first ticket, containment, blockers and delivery method; independent landing is the default. For entry changes, newly drafted repository files/patches needed by the next agent, saved/proposed baselines or shared integration, read [Planning files and shared delivery](references/delivery.md) before fixing the proposal—even with a clean entry. Scheduling and planning-file ownership create no blocker edges.
+4. Show the whole Map and exact writes: content/revisions, placements, attachments, required metadata, relationships, conditional Git/cleanup, preferences and external storage. Include initial home content and proposed-to-actual identity bindings. Obtain explicit publication approval; a final content review may double as it only with the whole write set visible. Until then, leave canonical artifacts, tracker, Git and preferences unchanged.
 
-1. Preview the complete agreed Map, exact artifact revisions, placements and all writes: source publication/attachments/required metadata, relationships, conditional delivery/Git, preferences, and any external storage. Include initial home content needed before dependent writes and proposed-to-actual identity substitutions. Obtain exact-bundle approval; source/content confirmations alone are insufficient. The last content checkpoint may double as this approval only when both are explicit.
-2. Freshly read targets and comments; reconcile with the approved bundle. Perform only missing approved operations in dependency order, resuming accepted producers for source-owned publication and composing the Map from their returned identities. Read back each result before dependent writes. Preserve unrelated content and the starting item's lifecycle. Do not commit/push the default branch.
-3. Retain successful results and uncertainties in the recovery context. On timeout, look up actual items/comments against exact approved content before retrying; bind a unique match, and resolve ambiguity before another creation. A mismatch pauses affected writes; changed content or corrective writes need updated approval. Reuse successful siblings, never infer unknown authorization from Map existence.
-4. After all approved operations, freshly recheck the whole bundle: content/revisions, placement/attachments, source metadata/readiness, both native axes or approved fallback evidence, applicable Planning pointers/path/ancestry/cleanup and lane evidence, and affected preferences. Earlier readbacks cannot excuse later drift. Preserve results and report only the affected part incomplete when evidence disagrees.
-5. Read back the complete final Map with actual links and its same-post Scope, matching the agreement and preserving surrounding content. Only then report success with Map, Scope/ticket links, selected first ticket, Planning result and any degraded-axis evidence; enabled lane/plan details must be reachable through those links.
+### Publish the agreed package
 
-This sequence is not an atomic tracker transaction. Publication ends this workflow without waiting for implementation or closing tracker items. Later discussion/handoff retrieval causes no progress update; content amendments and exact repairs require approval. Explicit delivery verification uses the conditional contract under Workflow, not a publication status stamp.
+Use repository/tracker guidance and tools to publish; planning skills need not implement tracker operations.
+
+1. Freshly read targets and reconcile with the approval. Perform only missing writes in dependency order; retain real identities and comment permalinks, and read back each result before dependent writes. Preserve unrelated content and the starting item's lifecycle. Implementation and default-branch commit/push are outside this workflow.
+2. Verify containment and blockers independently, with no self-relations for a one-ticket home. For unavailable capabilities, use an applicable supplied fallback or propose a concrete alternative, approve its writes, and retain per-axis unavailability/provenance/degraded evidence. Text links are not native verification; failed readback of a supported capability is not unavailability.
+3. Freshly verify the complete package: content, attachments, metadata, both relationship axes, applicable baseline/lane/cleanup evidence and changed preferences. Read back the final Map with actual links and its same-post Scope. Report Map/artifacts, first ticket and reachable planning/fallback evidence when they match the agreement, then stop; publication does not wait for implementation or close tickets.
+
+On interruption, retain successful results and recover exact drafts, approvals and operation bindings. Look up uncertain creations against approved content before retrying: bind unique matches, clarify ambiguity before creating again. Repair only missing approved deltas. Missing evidence or changed/corrective writes need focused recovery or approval, not a restart or permission inferred from Map existence. Keep partial-operation records outside the formal Map.
+
+### Continue an existing map
+
+Handoff retrieval returns the Map, first ticket and delivery links without a new audit. Discuss later ideas without updating the agreed Map; publish only explicitly approved amendments. Requested delivery verification is read-only: follow [Requested verification](references/delivery.md#requested-verification), including historical evidence, rather than restarting publication or implementation.
 
 $ARGUMENTS
