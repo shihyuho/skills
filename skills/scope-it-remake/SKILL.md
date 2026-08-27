@@ -13,7 +13,7 @@ This is an experimental parallel experience. It does not replace or migrate `sco
 
 ## Contract
 
-`$ARGUMENTS` supplements the conversation. It may set `--scope-source <canonical-name>` and `--ticket-source <canonical-name>`; source resolution and persistence follow [references/sources.md](references/sources.md). An invocation authorizes read-only orientation; mutate only the current frontier after the user approves its exact proposed writes. Track that mutation approval separately from the owning workflow's content approval as defined in [references/artifacts.md](references/artifacts.md). Preserve unrelated tracker content, repository bytes, and Git state. Leave the starting issue open and do not commit or push the default branch.
+`$ARGUMENTS` supplements the conversation. It may set `--scope-source <canonical-name>` and `--ticket-source <canonical-name>`; source resolution and persistence follow [references/sources.md](references/sources.md). An invocation authorizes read-only orientation; mutate only the current frontier after the user approves its exact proposed writes. Track that mutation approval separately from the owning workflow's content approval as defined in [references/artifacts.md](references/artifacts.md). Preserve unrelated tracker content, the starting item's lifecycle state, repository bytes, and Git state. Do not commit or push the default branch.
 
 Scope and ticket production use interchangeable sources rather than required skill names; read [references/sources.md](references/sources.md) when selecting or invoking a source.
 
@@ -21,12 +21,12 @@ Scope and ticket production use interchangeable sources rather than required ski
 
 The Delivery Map is the top-level planning artifact. Keep one managed low-resolution status block in its canonical home and update that block in place while preserving all surrounding content:
 
-1. When a starting GitHub Issue exists, reuse that Issue as the Delivery Map home.
-2. Otherwise propose one new Delivery Map Issue in the first checkpoint. Use local Markdown as the Map home only when the tracker is unavailable or the user chooses a local artifact.
+1. When a starting tracker item exists, reuse that item as the Delivery Map home.
+2. Otherwise resolve the publication environment from repository guidance and the selected sources, then propose one new Delivery Map item in that tracker. When neither defines a tracker, include one bounded tracker recommendation or question in the first checkpoint. Use local Markdown as the Map home when no tracker is available or the user chooses a local artifact.
 3. Attach the approved Scope to the Map home: keep it as a section there when the Scope source produces tracker content, or link its owning artifact when the full spec lives elsewhere.
-4. For one delivery ticket, keep its `## Ticket — <Title>` section on the Map home. For multiple tickets, publish each delivery ticket as a child Issue of the Map home when native containment is available.
+4. For one delivery ticket, keep its `## Ticket — <Title>` section on the Map home. For multiple tickets, publish each delivery ticket as a child item of the Map home when native containment is available.
 
-Use exactly one Map home: reuse the starting Issue or create a new Delivery Map Issue, never both. Update its block rather than adding a new map comment per frontier. The checkpoint must identify the canonical block and the exact section replacement it proposes.
+Use exactly one Map home: reuse the starting tracker item or create a new Delivery Map item, never both. Update its block rather than adding a new map comment per frontier. The checkpoint must identify the tracker chosen by repository guidance or a source contract, the canonical block, and the exact section replacement it proposes. Do not assume a tracker vendor.
 
 ```markdown
 <!-- scope-it-remake:delivery-map:start -->
@@ -71,8 +71,8 @@ Render map headings and continuation instructions in the user's language. Refer 
 
 Use this mode when no Delivery Map exists.
 
-1. Orient from the conversation, supplied issue or document, repository guidance, and current worktree status. Avoid loading ticket, Git, or delivery-lane detail before its frontier.
-2. Name the Destination and Map home. When completed planning material exists, read [references/artifacts.md](references/artifacts.md) and accept it when it satisfies the artifact contract.
+1. Orient from the conversation, supplied tracker item or document, repository guidance, and current worktree status. Avoid loading ticket, Git, or delivery-lane detail before its frontier.
+2. Name the Destination and Map home, following any publication environment defined by the selected source. When completed planning material exists, read [references/artifacts.md](references/artifacts.md) and accept it when it satisfies the artifact contract.
 3. If the input is not settled, bound the unresolved branch to the decisions blocking the current frontier and invoke `grilling`. Let it reach shared understanding and user confirmation, then stop; charting resumes in the next interaction.
 4. For the first incomplete frontier, resolve an active Source through [references/sources.md](references/sources.md) only when new content is required. When no compatible source can be resolved, stop and ask the user which skill should produce it.
 5. Draft the low-resolution map with the first incomplete frontier in `scope → tickets → delivery`; use `done` when all three are complete. Show one compact checkpoint:

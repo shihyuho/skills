@@ -29,7 +29,7 @@ A checklist item, plan task, module, file, or dependency list becomes a ticket p
 
 ## Compact scope
 
-For one clear delivery unit, an approved conversation checkpoint or existing tracker issue may satisfy the scope role when it records the observable result, boundaries, acceptance evidence, approval pointer, and readback. The Delivery Map home may also satisfy the scope and single delivery-ticket roles. This compact path creates no separate spec or execution plan merely to complete a phase.
+For one clear delivery unit, an approved conversation checkpoint or existing tracker item may satisfy the scope role when it records the observable result, boundaries, acceptance evidence, approval pointer, and readback. The Delivery Map home may also satisfy the scope and single delivery-ticket roles. This compact path creates no separate spec or execution plan merely to complete a phase.
 
 ## Approval gates
 

@@ -3,13 +3,13 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Use scope-it-remake for this settled one-ticket change. A starting issue exists, there is no accepted scope artifact or stored source preference, and no compatible planning source can be found.",
-      "expected_output": "The agent keeps the starting issue as the proposed Delivery Map home, reports that no compatible scope source was found, and stops to ask which skill should produce the Scope without drafting it or writing the Delivery Map.",
+      "prompt": "Use scope-it-remake for this settled one-ticket change. A starting tracker item exists, there is no accepted scope artifact or stored source preference, and no compatible planning source can be found.",
+      "expected_output": "The agent keeps the starting tracker item as the proposed Delivery Map home, reports that no compatible scope source was found, and stops to ask which skill should produce the Scope without drafting it or writing the Delivery Map.",
       "files": [],
       "assertions": [
         "Keeps the first interaction read-only and leaves the current frontier unresolved.",
         "Asks the user to select or invoke a compatible scope source instead of drafting the Scope itself.",
-        "Identifies the starting issue as the proposed Delivery Map home without writing a map block yet.",
+        "Identifies the starting tracker item as the proposed Delivery Map home without writing a map block yet.",
         "Does not load or propose shared integration branch or Planning Baseline mechanics for the ordinary path."
       ]
     },
@@ -160,13 +160,13 @@
     },
     {
       "id": 14,
-      "prompt": "Use scope-it-remake for one clear delivery unit. The current issue already records the observable result, boundaries, acceptance evidence, and an approved conversation checkpoint. No separate spec or execution plan adds decision value.",
-      "expected_output": "The agent uses the existing issue as the Delivery Map home, compact scope artifact, and single delivery ticket; it records approval and readback without creating a ceremonial spec, plan file, or additional tracker artifact.",
+      "prompt": "Use scope-it-remake for one clear delivery unit. The current tracker item already records the observable result, boundaries, acceptance evidence, and an approved conversation checkpoint. No separate spec or execution plan adds decision value.",
+      "expected_output": "The agent uses the existing tracker item as the Delivery Map home, compact scope artifact, and single delivery ticket; it records approval and readback without creating a ceremonial spec, plan file, or additional tracker artifact.",
       "files": [],
       "assertions": [
         "Uses the compact scope path only for one clear delivery unit with complete evidence.",
-        "Records the issue under both scope and single-ticket roles without a self-relationship.",
-        "Keeps one managed Delivery Map block on the same issue instead of creating another Issue or comment.",
+        "Records the tracker item under both scope and single-ticket roles without a self-relationship.",
+        "Keeps one managed Delivery Map block on the same tracker item instead of creating another item or comment.",
         "Creates no separate spec, execution plan, or extra ticket solely to satisfy phase structure.",
         "Preserves approval and readback requirements."
       ]
@@ -185,27 +185,28 @@
     },
     {
       "id": 16,
-      "prompt": "Use scope-it-remake from an existing GitHub Issue that will become the Delivery Map home. The approved Scope is attached and the approved breakdown has three delivery tickets.",
-      "expected_output": "The agent proposes one managed Delivery Map block on the existing Issue and three child ticket Issues, without creating a second Map Issue or adding a new map comment for each frontier.",
+      "prompt": "Use scope-it-remake from an existing tracker item in a tracker with native child containment. The item will become the Delivery Map home, the approved Scope is attached, and the approved breakdown has three delivery tickets.",
+      "expected_output": "The agent proposes one managed Delivery Map block on the existing tracker item and three child ticket items, without creating a second Map item or adding a new map comment for each frontier.",
       "files": [],
       "assertions": [
-        "Uses the existing Issue as the canonical Delivery Map home and attaches the Scope to it.",
-        "Updates one managed map block in place while preserving surrounding Issue content.",
+        "Uses the existing tracker item as the canonical Delivery Map home and attaches the Scope to it.",
+        "Updates one managed map block in place while preserving surrounding tracker content.",
         "Keeps a stable continuation protocol in that block so another agent can resume from the current frontier.",
-        "Creates delivery tickets as child Issues only after their frontier is approved.",
-        "Creates neither a second Delivery Map Issue nor per-frontier map comments."
+        "Creates delivery tickets as child items only after their frontier is approved.",
+        "Creates neither a second Delivery Map item nor per-frontier map comments."
       ]
     },
     {
       "id": 17,
-      "prompt": "Use scope-it-remake for work with no starting Issue. GitHub Issues are available, the approved Scope source publishes a repository spec document, and the approved breakdown has one delivery ticket.",
-      "expected_output": "The agent proposes one new Delivery Map Issue as the top-level tracker artifact, links the repository spec from it, keeps the single Ticket section on it, and creates no additional ticket Issue.",
+      "prompt": "Use scope-it-remake for work with no starting tracker item. The selected ticket source defines its tracker and supports a rich top-level item, the approved Scope source publishes a repository spec document, and the approved breakdown has one delivery ticket.",
+      "expected_output": "The agent proposes one new Delivery Map item in the ticket source's tracker, links the repository spec from it, keeps the single Ticket section on it, and creates no additional ticket item.",
       "files": [],
       "assertions": [
-        "Proposes the new Delivery Map Issue and all exact writes in the current-frontier checkpoint before creating it.",
-        "Uses the new Issue as the canonical Map home while keeping the full repository spec in its owning document.",
+        "Uses the publication environment declared by the ticket source instead of assuming a tracker vendor.",
+        "Proposes the new Delivery Map item and all exact writes in the current-frontier checkpoint before creating it.",
+        "Uses the new tracker item as the canonical Map home while keeping the full repository spec in its owning document.",
         "Stores one managed Delivery Map block with a stable continuation protocol on the Map home.",
-        "Keeps the single delivery Ticket on the same Issue without creating a self-relationship or a second Issue."
+        "Keeps the single delivery Ticket on the same tracker item without creating a self-relationship or a second item."
       ]
     },
     {

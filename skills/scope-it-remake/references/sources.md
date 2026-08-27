@@ -58,12 +58,15 @@ Accepting a completed artifact does not replace the stored producer preference. 
 A compatible source can:
 
 - produce a draft without tracker or repository mutation;
+- declare the publication environment and tracker capabilities when it owns that choice;
 - separate unresolved decisions from its recommended content;
 - name every write it proposes before performing it;
 - resume after approval without repeating settled analysis; and
 - return stable artifact pointers plus enough readback evidence to verify publication.
 
 The source retains every content-approval gate in its own workflow. `scope-it-remake` owns mutation approval for the exact writes shown in the current checkpoint. Classify its outputs and complete the frontier through [artifacts.md](artifacts.md).
+
+A tracker choice declared by a source belongs to that source's publication contract; it is not a `scope-it-remake` default. Reconcile it with any starting item and repository guidance. When applicable sources disagree, keep the Map home unresolved, surface the contradiction, and recommend one home rather than creating parallel planning roots.
 
 ## Scope source
 
@@ -97,12 +100,13 @@ If one production run returns artifacts in several roles, classify and record ea
 Input:
 
 - the approved scope artifact;
-- the Map home;
-- tracker capabilities; and
+- the Map home or its approved proposed identity;
+- tracker context already fixed by a starting item or repository guidance; and
 - delivery constraints already settled on the map.
 
 Draft output for every ticket:
 
+- tracker and placement recommendation when the publication environment is not already fixed;
 - title;
 - end-to-end outcome;
 - acceptance evidence;
