@@ -135,12 +135,12 @@
     },
     {
       "id": 13,
-      "prompt": "Published source tickets are Import, Export and Audit; only Audit depends on Import. The user prefers Export first. All can land independently; no planning files are selected. The Map is unapproved. Separately, the Scope source has an unresolved acceptance decision that would change Audit readiness.",
+      "prompt": "Published source Tickets are Import (`feat/import` → `main`), Export (`feat/export` → `main`) and Audit (`fix/audit` → `main`); only Audit depends on Import. The user prefers Export first. All land independently; no planning files are selected. The Map is unapproved. Separately, the Scope source has an unresolved acceptance decision that would change Audit readiness.",
       "expected_output": "Preview a ticket-only Map with independent delivery and resolve upstream change before affected publication.",
       "files": [],
       "assertions": [
         "Separates execution preference, native children and blockers; schedule creates neither Import/Export blocking nor shared delivery.",
-        "Uses linked Ticket titles only as Delivery Path nodes, records branches/PR targets and direct landing, omits Scope/Ticket-list/out-of-scope duplication, and uses `Continue` only for the Export-first override. Planning Carry `None` creates no Git side effect.",
+        "Uses linked Ticket titles as Ticket nodes. Import → Audit is the only Ticket-to-Ticket edge; Export has none. Exact branch/PR edges land each Ticket on one shared `main` endpoint without inventing a shared lane. It omits Scope/Ticket-list/out-of-scope duplication and uses `Continue` only for the Export-first override. Planning Carry `None` creates no Git side effect.",
         "Sends the readiness-affecting decision back to Scope and then Tickets before publishing or amending Audit; the unapproved Map creates no runtime status or implementation authority."
       ]
     },
@@ -163,7 +163,7 @@
       "expected_output": "Publish agreed delivery responsibilities once; obtain approval for ownership changes.",
       "files": [],
       "assertions": [
-        "Delivery Path identifies actual repo/target, responsible Tickets and special delivery/closure duties once in the Map; blockers stay distinct from children and Ticket artifacts do not copy or backlink the handoff.",
+        "Delivery Topology identifies actual repo/target, responsible Tickets and special delivery/closure duties once in the Map; blocker edges project native dependencies and Ticket artifacts do not copy or backlink the handoff.",
         "Preserves conditional last-finisher ownership instead of assigning a fixed ticket. Git, CI and merge follow repo/executor workflow; adds no exact-head, historical-ref or squash audit.",
         "Cancellation needs approved reassignment; planning publication authorizes no implementation, merge, closure or automatic Map amendment."
       ]

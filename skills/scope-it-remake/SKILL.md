@@ -35,7 +35,7 @@ On interruption, recover exact drafts, approvals and successful writes; look up 
 
 ## Delivery Map
 
-The Map is a low-resolution delivery index attached to its parent, not another Scope source of truth. Requirements, acceptance and product boundaries stay in the parent Scope and Ticket artifacts. Use linked Ticket titles as diagram nodes and native tracker membership/dependencies as their source of truth; do not repeat a Ticket or blocker list. Show branches, PR targets and direct/integration landing paths as labels or edges. Independent landing is the default. Omit the diagram for one Ticket; keep runtime progress and frontier snapshots out of the Map.
+The Map is a low-resolution delivery index attached to its parent, not another Scope source of truth. Requirements, acceptance and product boundaries stay in the parent Scope and Ticket artifacts. Use linked Ticket titles as diagram nodes. Ticket-to-Ticket edges project verified native blockers (`A â†’ B` means B is blocked by A); Ticket-to-target edges show branch/PR landing and converge on each shared endpoint once. Native tracker membership/dependencies remain the source of truth; do not repeat Ticket or blocker lists. Independent landing is the default. Omit the diagram for one Ticket; keep runtime progress and frontier snapshots out of the Map.
 
 Reuse the starting tracker item as parent; otherwise agree one from repository guidance or use local Markdown. Publish or link the complete Scope without replacing an existing report. After Scope and Tickets exist, publish the full Map once as a standalone, then-current final comment on a commentable parent. Its read-back comment ID/URL is canonical; markers delimit its editable block. Later comments do not change that identity, and approved amendments edit it in place. After a creation timeout without an ID, bind only a unique marker-and-content match.
 
@@ -44,8 +44,8 @@ With one Ticket, the parent is its tracker identity and a separate `## Ticket â€
 Use this outline inside `<!-- scope-it-remake:delivery-map:start -->` and `<!-- scope-it-remake:delivery-map:end -->`. Insert `## Continue` with the effort-specific selection override between Planning Carry and Start the Next Ticket only when one exists. Keep live eligibility, current/following frontier and claim state out of the durable Map.
 
 ```markdown
-## Delivery Path
-<Ticket topology with branch, PR target and direct/integration landing path.>
+## Delivery Topology
+<Linked Ticket topology: verified native blocker edges plus branch/PR landing endpoints.>
 ## Planning Carry
 <Durable location/baseline, Carrier Ticket and landing path; or None.>
 ## Start the Next Ticket
