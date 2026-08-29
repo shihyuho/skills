@@ -58,13 +58,13 @@
     },
     {
       "id": 6,
-      "prompt": "All source artifacts are individually approved, published and fully read back: Scope S3 is on an existing home's planning post without replacing its report, and Tickets Foundation, Import and Export are native child issues with real IDs, links, source-native metadata and attachments. Only Import is blocked by Foundation. The coordinator's proposed Delivery Map index on that same planning post, required per-ticket backlinks and common compact handoff are shown for confirmation. The coordinator writes are then approved.",
+      "prompt": "Approved Scope S3 is on a commentable parent without replacing its report. Approved Tickets Foundation, Import and Export are native children; only Import is blocked by Foundation. Publish their proposed canonical Delivery Map. Repeat with Foundation as the single Ticket comment whose tracker identity is the parent.",
       "expected_output": "Publish the approved coordination index from already real source artifacts.",
       "files": [],
       "assertions": [
-        "Uses complete read-back source artifacts and their real identities; Map text indexes rather than replaces source content, templates, reviews, metadata or attachments.",
-        "Publishes only the specifically confirmed Map on Scope's planning post, backlinks and shared handoff, preserving the existing home report and unrelated content.",
-        "Reads back full Map content, links, placement and required backlinks after writing; successful source writes or generated IDs alone are insufficient."
+        "Uses native child membership and linked Ticket titles as topology rather than repeating an artifact/Ticket list or replacing source content, reviews, metadata or attachments.",
+        "Initially appends the full Map exactly once as the parent's then-final standalone comment, preserves Scope/Ticket bytes, and binds its read-back ID/URL as canonical; later comments do not change that identity.",
+        "For one Ticket, uses the parent identity plus its content comment without a child or self-relation; for many, uses native children. Creates no Ticket backlink/full-Map copy and reads back one canonical Map."
       ]
     },
     {
@@ -80,13 +80,13 @@
     },
     {
       "id": 8,
-      "prompt": "Resume after approved native publication: Scope and two ticket artifacts succeeded; the third ticket creation timed out before its ID was saved. Separately test a timed-out approved Map backlink. Lookup finds one exact match or two indistinguishable matches.",
+      "prompt": "Resume after approved publication when a third Ticket or the canonical Map comment timed out before its ID/result was saved. Marker and approved-content lookup finds one exact match or two indistinguishable matches.",
       "expected_output": "Recover successful writes before continuing only missing approved operations.",
       "files": [],
       "assertions": [
         "Looks up and reads back actual content and identity before recreating; binds the unique result and pauses ambiguous creation.",
-        "Preserves siblings and unrelated content, reuses unchanged phase approval, and verifies remaining relations, Map bindings and backlinks only after their writes.",
-        "Keeps recovery evidence outside the Map; interruption justifies neither duplicate artifacts nor runtime status fields."
+        "Preserves siblings and unrelated content, reuses unchanged phase approval, and verifies remaining relations and Map binding only after their writes.",
+        "Binds a unique Map comment ID/URL; ambiguity pauses retry. Interruption justifies neither a second Map/full-Map copy nor runtime status fields."
       ]
     },
     {
@@ -102,11 +102,11 @@
     },
     {
       "id": 10,
-      "prompt": "All approved source and coordinator writes succeeded. Final fresh readback finds missing Ticket native metadata, changed Scope acceptance, a removed child edge, a missing Map backlink, or a changed approved Tickets preference. Map text otherwise matches; restoration is unapproved.",
+      "prompt": "After approved publication, fresh readback finds missing Ticket metadata, changed Scope/Ticket bytes, a removed child edge, a Ticket backlink/full-Map copy, duplicate Map, changed canonical comment ID/content, or changed Tickets preference. A later ordinary parent comment exists; restoration is unapproved.",
       "expected_output": "Report the exact publication mismatch and seek the needed repair approval.",
       "files": [],
       "assertions": [
-        "Freshly checks source content, links, attachments/metadata, Map/backlinks, both relation axes and affected preferences instead of trusting earlier receipts or Map text.",
+        "Freshly checks source content/metadata, canonical Map ID/content, unchanged Scope/Ticket bytes, absence of Ticket backlinks/copies, one Map, both relation axes and affected preferences; the later ordinary comment is not drift and does not move or recreate the Map.",
         "Distinguishes generated IDs from missing or changed approved content; preserves successful writes and later edits.",
         "Withholds affected completion and requests only needed repairs, without dropping fields, republishing siblings or recording runtime status in the Map."
       ]
@@ -140,19 +140,21 @@
       "files": [],
       "assertions": [
         "Separates execution preference, native children and blockers; schedule creates neither Import/Export blocking nor shared delivery.",
-        "Uses tickets as diagram nodes and repo/target as context. Planning none creates no carrier, baseline, branch, worktree or other Git side effect.",
+        "Uses linked Ticket titles only as Delivery Path nodes, records branches/PR targets and direct landing, omits Scope/Ticket-list/out-of-scope duplication, and uses `Continue` only for the Export-first override. Planning Carry `None` creates no Git side effect.",
         "Sends the readiness-affecting decision back to Scope and then Tickets before publishing or amending Audit; the unapproved Map creates no runtime status or implementation authority."
       ]
     },
     {
       "id": 14,
-      "prompt": "Plan ADR D and a selected CONTEXT.md patch for another-clone executor. The mixed file also contains unrelated Preserve P; an uncertain hunk and draft U are unselected. A has approved ownership, readable version/base/patch bounds, actual delivery path/target and carrying ticket B; B has only an inaccessible local path and no publication permission. Later the responsible ticket changes.",
-      "expected_output": "Expose approved planning ownership/access and resolve missing access or changed responsibility.",
+      "prompt": "Plan ADR D and a selected CONTEXT.md patch for another-clone executor. The mixed file also contains unrelated Preserve P; an uncertain hunk and draft U are unselected. A has approved ownership, readable version/base/patch bounds, target and Carrier ticket B for a final fix delivery. Someone created and pushed a docs-named planning branch with a local worktree, but the tracker supports native issue-linked branches and reports none for B. B will continue with implementation, tests, an ADR and one PR, yet has only that inaccessible local path and no publication permission. Later the responsible ticket changes.",
+      "expected_output": "Bind the baseline to B's final delivery branch and expose approved planning ownership, native linkage and executor access before completion.",
       "files": [],
       "assertions": [
-        "A records exact files or partial-patch bounds/base, immutable version/location, actual delivery-path binding, repo/target and owner once in the shared handoff. Affected tickets link it; verifies selected content and executor access before any approved cleanup.",
+        "A records exact files or partial-patch bounds and one compact Planning Carry pointer with Carrier B, linked branch, repo/path, base SHA, baseline SHA, target and content obligation; verifies selected content and executor access before any approved cleanup.",
         "Similarity or clean entry does not prove ownership. Preserves P/U and the unselected hunk; resolves ownership before proposed inclusion. B needs approved accessible placement, not a hidden push. Missing content/access leaves publication incomplete.",
-        "Reassignment or delivery-path changes need approval. Git setup, cleanup and execution follow repo/executor workflow; the coordinator adds no baseline algorithm, file-hash scheme or unapproved Git changes."
+        "Uses B's final ticket- and fix-derived delivery branch as the immutable baseline start, not a docs-only branch inferred from Carry; the executor continues implementation, tests and required ADR there and opens one PR to target under separate authority.",
+        "Because native linking is available, establishes it from Carrier B's Issue and verifies that Issue's linkedBranches plus pointer consistency; a push or local worktree alone is insufficient. Unavailable capability uses the selected workflow's approved fallback and degraded evidence.",
+        "Reassignment or delivery-path changes need approval. Git setup, cleanup and execution follow repo/executor workflow; the coordinator adds no helper-skill dependency, baseline algorithm, file-hash scheme or unapproved Git changes."
       ]
     },
     {
@@ -161,20 +163,22 @@
       "expected_output": "Publish agreed delivery responsibilities once; obtain approval for ownership changes.",
       "files": [],
       "assertions": [
-        "Shared handoff identifies actual repo/target, responsible tickets and special delivery/closure duties; affected tickets link it, and blockers stay distinct from children.",
+        "Delivery Path identifies actual repo/target, responsible Tickets and special delivery/closure duties once in the Map; blockers stay distinct from children and Ticket artifacts do not copy or backlink the handoff.",
         "Preserves conditional last-finisher ownership instead of assigning a fixed ticket. Git, CI and merge follow repo/executor workflow; adds no exact-head, historical-ref or squash audit.",
         "Cancellation needs approved reassignment; planning publication authorizes no implementation, merge, closure or automatic Map amendment."
       ]
     },
     {
       "id": 16,
-      "prompt": "A fresh executor has only its published ticket and own implementation skill. A links full Scope, acceptance/prerequisites, repo/target, exact planning version/location or none, responsible ticket and special duties; B links only this skill/chat. Then retrieve the handoff, discuss an unconfirmed Export idea, and propose reviewed Scope B replacing A, affecting Import only. A Map link/timestamp edit leaves Scope bytes unchanged.",
-      "expected_output": "Keep handoff independently usable and revisit only affected decisions.",
+      "prompt": "Plan and publish a Delivery Map whose future implementation session will have only the parent Issue, not scope-it-remake or the planning chat. The multi-Ticket variant has ordered children Import, Export and Audit; Audit is blocked by Import, Export may have an active repository claim, and this effort prefers Audit when eligible. Concurrent edits may change a blocker just before selection. Also cover a user-named Ticket and a single Ticket stored as a parent comment. Later an approved Map amendment and reviewed Scope B affect Import only.",
+      "expected_output": "Publish a low-resolution Map with a self-contained protocol for selecting one live Ticket and handing it to its executor.",
       "files": [],
       "assertions": [
-        "A works without this skill or the planning chat; B needs published content and links. Common facts live once with per-ticket links, not copied execution contracts.",
-        "Retrieval returns links without rerunning sources or lifecycle audits; unconfirmed ideas leave the agreed Map unchanged and create no monitoring/status obligation.",
-        "Scope B uses source-native review, confirmation, publication and readback before affected Import is reshaped or republished; unchanged Export and timestamp-only Scope edits retain their approval."
+        "The canonical Map itself contains a compact `Work through the Map` protocol; following it requires only the parent, Map and fresh native children/blockers/linked branches, not this skill, the planning chat or all Ticket bodies.",
+        "The embedded protocol gives a user-named Ticket priority while surfacing eligibility; otherwise it applies only an eligible effort-specific `Continue` override, then chooses the first open, unblocked and reliably unclaimed Ticket in tracker order after a fresh concurrency read.",
+        "For one Ticket, the protocol selects the parent identity and its Ticket comment; for many, one child. It zooms only into the selected Ticket and needed closed Tickets, then follows that Ticket's branch, target and relevant Carry without a backlink.",
+        "The implementation session revalidates and performs the repository-defined claim before work; unreliable claim state makes selection provisional and no qualifying Ticket yields live reasons. The Map stores neither current/following frontier nor claim snapshots.",
+        "Scope B still needs source-native review/publication before affected Import changes; unchanged Tickets retain approval, and a Map amendment keeps the same comment identity."
       ]
     }
   ]
