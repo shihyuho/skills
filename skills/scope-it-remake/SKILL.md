@@ -31,7 +31,7 @@ Reuse complete artifacts with recoverable evidence of the selected skill's contr
 
 At each phase, use its native confirmations and current approval covering the concrete content, destinations, attachments, metadata and relationships to write. Explain that Scope and tickets become visible before the Map; resolve any execution-triggering metadata before publication. Read fresh targets before writes and compare each result with its approved payload before dependent work. Preserve unrelated content and the starting item's lifecycle. Verify native containment and blockers separately. An unavailable capability needs an approved concrete fallback with its limitation recorded; a failed readback of a supported capability remains unresolved. Preview-only requests stop before writes, without inventing a draft mode for a skill that cannot provide one.
 
-On interruption, recover exact drafts, approvals and successful writes; look up uncertain creations before retrying. Repair only missing approved operations, asking about ambiguity or changed writes. Keep operation records outside the formal Map. On a later retrieval, return the parent and published Map without restarting planning. The Map's embedded **Work through the Map** protocol lets another session continue without this skill or the planning chat. Discuss and publish only approved amendments. A requested delivery audit uses the published agreement and repository workflow, read-only until corrective writes are approved.
+On interruption, recover exact drafts, approvals and successful writes; look up uncertain creations before retrying. Repair only missing approved operations, asking about ambiguity or changed writes. Keep operation records outside the formal Map. On a later retrieval, return the parent and published Map without restarting planning. The Map's embedded **Start the Next Ticket** instructions let another session continue without this skill or the planning chat. Discuss and publish only approved amendments. A requested delivery audit uses the published agreement and repository workflow, read-only until corrective writes are approved.
 
 ## Delivery Map
 
@@ -41,23 +41,20 @@ Reuse the starting tracker item as parent; otherwise agree one from repository g
 
 With one Ticket, the parent is its tracker identity and a separate `## Ticket — <Title>` comment holds its content; create no child item or self-relationship. With multiple Tickets, use native child items with real blockers. Ticket artifacts do not link back to or copy the Map. Read back the canonical ID/content, unchanged Scope/Ticket bytes and no duplicate Map. Pass these placements to the source skills and preserve existing layouts unless migration is approved. Without a commentable parent, retain the approved local/unsupported fallback; local Scope/Map may share one file and link separate Ticket files. If a fallback makes the Map independent, add only a compact Scope pointer.
 
-Use this outline inside `<!-- scope-it-remake:delivery-map:start -->` and `<!-- scope-it-remake:delivery-map:end -->`:
+Use this outline inside `<!-- scope-it-remake:delivery-map:start -->` and `<!-- scope-it-remake:delivery-map:end -->`. Insert `## Continue` with the effort-specific selection override between Planning Carry and Start the Next Ticket only when one exists. Keep live eligibility, current/following frontier and claim state out of the durable Map.
 
 ```markdown
 ## Delivery Path
 <Ticket topology with branch, PR target and direct/integration landing path.>
 ## Planning Carry
 <Durable location/baseline, Carrier Ticket and landing path; or None.>
-## Continue
-<Only an effort-specific selection override; omit when none.>
-## Work through the Map
-- Start from this parent, this Map and fresh native child, dependency and linked-branch relations. Keep the low-resolution view until one Ticket is selected.
-- If the user names a Ticket, use it and surface whether it is currently eligible. Otherwise use an eligible `Continue` override; absent one, take the first Ticket in tracker order that is open, has all blockers complete and has no active claim when the repository exposes reliable claim state.
-- For one Ticket, select the parent and its `## Ticket — <Title>` comment; for many, select one child item. Re-read live relations immediately before proceeding. If claim state is unreliable, mark the choice provisional; if nothing qualifies, report the live reason.
-- Load only the selected Ticket and related closed Tickets needed to understand it. Before implementation, the executor revalidates the selection and performs the repository-defined claim, then follows the recorded branch, PR target and relevant Planning Carry.
+## Start the Next Ticket
+- If the user names a Ticket, select it and report any live blocker before work. Otherwise use an eligible `Continue` override, then the first open Ticket in tracker order whose blockers are complete and, when reliable claim state exists, is unclaimed.
+- Re-read live parent relations before work. For one Ticket, use the parent and its `## Ticket — <Title>` comment; for many, use the selected child. If none qualifies, report why; unreliable claim state makes the choice provisional.
+- Load only the selected Ticket and closed Tickets needed for context. Follow the repository's claim process, then the recorded branch, PR target and Planning Carry.
 ```
 
-Always publish **Work through the Map** as a compact, self-contained operating protocol, adapting tracker terms without moving the rules into Ticket bodies. `Continue` stores only an effort-specific override; live eligibility and current/following frontier never become Map snapshots. The parent is the entry for later sessions. Its Scope, native relations and marker-bound Map provide the low-resolution view; Ticket bodies stay unloaded until selection. The selected Ticket's source-owned content carries its complete prerequisites and acceptance evidence, while the Map owns cross-Ticket delivery facts. Keep planner write limits and operation receipts in the approval context.
+Publish **Start the Next Ticket** in every Map, adapting tracker terms without moving the instructions into Ticket bodies. The parent is the entry for later sessions. Its Scope, native relations and marker-bound Map provide the low-resolution view; Ticket bodies stay unloaded until selection. The selected Ticket's source-owned content carries its complete prerequisites and acceptance evidence, while the Map owns cross-Ticket delivery facts. Keep planner write limits and operation receipts in the approval context.
 
 ### Planning files and delivery choices
 
