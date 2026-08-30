@@ -1,5 +1,7 @@
 # Scope owns conditional planning baselines
 
+> Superseded by [ADR 0004](0004-scope-it-coordinates-portable-delivery-maps.md).
+
 When settled scoping leaves Scope-related Changes, `scope-it` creates one Planning Baseline from the latest remote `main` and assigns exactly one Planning Carrier to transport it into delivery. The only ticket is its own Carrier; without an Integration Delivery Lane (IDL), the approved Delivery Map recommends one first-to-land ticket; with IDL, the final integrate-and-verify ticket carries it on the canonical integration path. Every related ticket receives a Baseline Pointer, while scopes without related file changes retain the tracker-only flow.
 
 ## Considered Options

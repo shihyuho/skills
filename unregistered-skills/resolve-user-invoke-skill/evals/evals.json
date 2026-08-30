@@ -27,7 +27,7 @@
     },
     {
       "id": 5,
-      "prompt": "I explicitly invoked scope-it, whose fixed allowlist authorizes `to-spec`. The host's available discovery capabilities have checked every location identified as a skill source, and none contains an exact canonical-name match.",
+      "prompt": "I explicitly invoked scope-it with `--scope-skill to-spec`, so that exact selected planning role is authorized. The host's available discovery capabilities have checked every location identified as a skill source, and none contains an exact canonical-name match.",
       "expected_output": "The agent reports the exact target name, the lack of an exact match, and the checked source scope as the minimum useful evidence; it does not substitute a similar skill or require a fixed error label.",
       "files": []
     },

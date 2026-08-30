@@ -4,7 +4,7 @@ Run or resume a settled design through scoping, implementation, and pull request
 
 This skill must be invoked explicitly.
 
-It uses `resolve-user-invoke-skill` to load `scope-it`, `create-worktree`, `implement`, `commit`, `push`, and `pr` from the active agent environment. It carries any verified Planning Baseline from scope into the delivery worktree. The default path still stops after opening the pull request.
+It uses `resolve-user-invoke-skill` to load `scope-it`, `create-worktree`, `implement`, `commit`, `push`, and `pr` from the active agent environment. It follows the published Delivery Map to select one live Ticket, then carries any applicable Planning Carry into that Ticket's delivery worktree. The default path still stops after opening the pull request.
 
 Use `--loop` to load the fixed `get-pr-ready` phase after the pull request exists:
 

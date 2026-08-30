@@ -1,5 +1,7 @@
 # Scope-it adds optional Integration Delivery Lane
 
+> Superseded by [ADR 0004](0004-scope-it-coordinates-portable-delivery-maps.md).
+
 When a single planning session produces multiple implementation tickets that must land atomically, `scope-it` records an optional Integration Delivery Lane (IDL) separate from the Planning Baseline. The lane holds mutable delivery state: integration branch, canonical integration start SHA, bootstrap/state evidence, and final integration ticket ownership. When planning changes exist, that final ticket is the Planning Carrier; the immutable Planning Baseline initializes the canonical integration path, and the start SHA is recorded only after bootstrap with the baseline as an ancestor.
 
 ## Context

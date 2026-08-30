@@ -1,6 +1,0 @@
-interface:
-  display_name: "scope-it-remake"
-  short_description: "Plan delivery with interchangeable skills and one portable Map."
-  default_prompt: "Use $scope-it-remake to coordinate my scope and ticket skills into one Delivery Map whose embedded continuation protocol lets a later implementation session start from the parent alone."
-policy:
-  allow_implicit_invocation: false

@@ -1,114 +1,83 @@
 ---
 name: scope-it
-description: "Compose upstream spec and ticket workflows into one approved Delivery Map and durable scope package."
+description: "Coordinate interchangeable scope and ticket workflows into one Delivery Map with a self-contained continuation protocol."
 license: MIT
 disable-model-invocation: true
 ---
 
 # scope-it
 
-Turn settled work into one Delivery Map, approve it once, then materialize its spec, ready-for-agent tickets, native relationships, and optional repository delivery artifacts.
+Orchestrate scope and delivery planning. The selected skills create, review and publish their outputs through their own workflows; this skill coordinates the discussion and connects those artifacts in a Delivery Map whose continuation protocol travels with it. Finish after publication and readback. Implementation belongs to the executor's workflow.
 
-## Contract
+## Planning skills
 
-`$ARGUMENTS` supplements the conversation. Direct invocation or delegation from another skill authorizes only this package's tracker and repository mutations, including exact cleanup of its confirmed worktree changes. Never alter unrelated changes, close the starting issue, or commit or push the default branch.
+Choose two roles independently:
 
-This is a thin orchestrator. Use `to-spec` at runtime for spec analysis and content, `to-tickets` for tracer-bullet ticket analysis and content, and `create-branch`, `create-worktree`, `commit`, and `push` for Git mechanics. Use each source only when its phase is incomplete. The sources remain authoritative for their phase rules; `scope-it` owns their shared interaction and mutation boundary, publication shape, Delivery Map, reconciliation, and approval.
+- **Scope:** what and why, boundaries, constraints, success criteria and testing seams.
+- **Tickets:** independently deliverable outcomes, acceptance evidence and real prerequisites.
 
-Reconcile toward the approved map: reuse equivalent artifacts, apply the smallest missing delta, and read it back. Ask outside the map only when conflicting evidence prevents one defensible proposal.
+Read each selected skill's workflow before invoking it or accepting its output. It owns analysis, templates, slicing, required reviews, publication, metadata and attachments. Pass settled decisions, repository evidence, complete upstream artifacts, the placement preferences below and the current authorized scope. Follow its native planning steps, preserving the full content and checks while applying the agreed placement. If it requires Git or implementation beyond the approved scope, pause to resolve that boundary; choose a compatible skill or completed artifact when necessary.
 
-## Flow
+Reuse complete artifacts with recoverable evidence of the selected skill's contract and reviews, even when the producer is unavailable, or when the user explicitly accepts an artifact as the complete substitute. Otherwise send existing material to the selected skill to assess and fill its gaps; clarify missing evidence rather than infer completeness. One artifact can satisfy both roles when it meets both contracts. A plan of coding steps needs ticket shaping by the ticket skill, not a relabeling by the coordinator.
 
-### 1. Draft at the shared boundary
+## Process
 
-Follow `to-spec` to synthesize the spec and testing seams, then give that draft to `to-tickets` to produce ticket drafts and their blocking graph. Hold both source workflows before their user confirmation or tracker writes. This shared side-effect boundary lets one Delivery Map approval satisfy both sources while preserving their analysis and content rules.
+1. **Orient.** Read repository guidance, existing artifacts and approvals. Resolve the planning skills and destinations; reuse confirmed work. Find repository facts, recommend answers and ask unresolved questions in dependency order.
+2. **Scope.** Give settled context to the scope skill. Let it complete its own content checks, confirmations and publication. Keep the complete output and read back its actual location before proceeding.
+3. **Tickets.** Pass the complete published Scope and its real reference to the ticket skill. Resolve delivery choices affecting ticket shape, responsibilities or readiness before publication. Let that skill propose, review and publish its complete tickets in the agreed placement. Retain the real identities and verify the outputs before assembling the Map.
+4. **Assemble.** Build the Map below from those published artifacts. Check identities and relationships; retain every agreed delivery obligation with its owner, trigger and required evidence, including while shortening the handoff. Source content stays complete in its own artifacts; return content gaps or conflicts to the responsible skill for approved revision.
+5. **Publish the Map.** Show the Map and remaining planning-file and preference writes. After approval, publish only those changes. Preserve Scope and Ticket bytes; the Map never replaces source artifacts.
+6. **Verify and finish.** Freshly compare complete source artifacts, the Map and remaining writes with their approvals, including links, metadata, attachments and relationships. Report the parent, Map and applicable delivery evidence, then stop. This does not wait for implementation or close tickets; planning approval does not authorize implementation, merging or default-branch Git writes.
 
-`scope-it` starts from settled work. Include source-requested confirmations in the Delivery Map when the conversation already supports a recommendation. If a missing product, architecture, or testing decision prevents a defensible draft, stop and report that unresolved decision instead of opening another interview inside this workflow.
+At each phase, use its native confirmations and current approval covering the concrete content, destinations, attachments, metadata and relationships to write. Explain that Scope and tickets become visible before the Map; resolve any execution-triggering metadata before publication. Read fresh targets before writes and compare each result with its approved payload before dependent work. Preserve unrelated content and the starting item's lifecycle. Verify native containment and blockers separately. An unavailable capability needs an approved concrete fallback with its limitation recorded; a failed readback of a supported capability remains unresolved. Preview-only requests stop before writes, without inventing a draft mode for a skill that cannot provide one.
 
-Observe existing tracker artifacts, repository state, and entry-worktree changes once while drafting. Consistent durable artifacts may satisfy part of the map; contradictory evidence blocks only the affected part.
+On interruption, recover exact drafts, approvals and successful writes; look up uncertain creations before retrying. Repair only missing approved operations, asking about ambiguity or changed writes. Keep operation records outside the formal Map. On a later retrieval, return the parent and published Map without restarting planning. The Map's embedded **Start the Next Ticket** instructions let another session continue without this skill or the planning chat. Discuss and publish only approved amendments. A requested delivery audit uses the published agreement and repository workflow, read-only until corrective writes are approved.
 
-### 2. Approve one Delivery Map
+## Delivery Map
 
-Present one concise proposal with:
+The Map is a low-resolution delivery index attached to its parent, not another Scope source of truth. Requirements, acceptance and product boundaries stay in the parent Scope and Ticket artifacts. Use linked Ticket titles as diagram nodes. Ticket-to-Ticket edges project verified native blockers (`A → B` means B is blocked by A); Ticket-to-target edges show branch/PR landing and converge on each shared endpoint once. Native tracker membership/dependencies remain the source of truth; do not repeat Ticket or blocker lists. Independent landing is the default. Omit the diagram for one Ticket; keep runtime progress and frontier snapshots out of the Map.
 
-- **Scope:** spec destination, testing seam, and the decisions the spec will preserve.
-- **Tickets:** each proposed ticket's title, blockers, and end-to-end behavior from `to-tickets`.
-- **Implementation order:** ticket dependency waves or frontier. Each node is a proposed or published ticket; describe files, modules, coding steps, and test tasks only inside the ticket's end-to-end delivery.
-- **Native graph:** Scope Parent containment and blocking edges as separate axes.
-- **Delivery lane:** direct delivery or enabled Integration Delivery Lane (IDL), including the final gate when applicable.
-- **Planning:** Change Proposal, Planning Baseline result, and the single Planning Carrier that will transport a non-empty **Carry** into delivery.
-- **Writes:** tracker and repository mutations that approval will authorize.
+Reuse the starting tracker item as parent; otherwise agree one from repository guidance or use local Markdown. Publish or link the complete Scope without replacing an existing report. After Scope and Tickets exist, publish the full Map once as a standalone, then-current final comment on a commentable parent. Its read-back comment ID/URL is canonical; markers delimit its editable block. Later comments do not change that identity, and approved amendments edit it in place. After a creation timeout without an ID, bind only a unique marker-and-content match.
 
-For one ticket, omit Implementation order and the diagram. Show the ticket, `Blocked by: None`, IDL state, Planning result and Carrier when needed, and approved writes.
+With one Ticket, the parent is its tracker identity and a separate `## Ticket — <Title>` comment holds its content; create no child item or self-relationship. With multiple Tickets, use native child items with real blockers. Ticket artifacts do not link back to or copy the Map. Read back the canonical ID/content, unchanged Scope/Ticket bytes and no duplicate Map. Pass these placements to the source skills and preserve existing layouts unless migration is approved. Without a commentable parent, retain the approved local/unsupported fallback; local Scope/Map may share one file and link separate Ticket files. If a fallback makes the Map independent, add only a compact Scope pointer.
 
-For multiple tickets, use a short labeled diagram whose nodes are tickets and whose labels distinguish implementation order, blocking, and delivery lane. The map approval replaces `to-spec`'s pending seam confirmation, `to-tickets`'s granularity and blocker quiz, spec placement confirmation, multi-ticket approval, Planning approval, and IDL choice. Coalesce bounded uncertainties into the same proposal with a recommendation.
-
-Materialize nothing before the map is approved. When durable evidence proves the same map was already approved, resume its missing deltas without asking again.
-
-### 3. Materialize spec and tickets
-
-After approval, resume the source workflows from their drafts without repeating analysis or phase-specific confirmation.
-
-- Publish the approved spec through `to-spec` at the map's destination and retain its required metadata.
-- Follow the ticket breakdown and content produced by `to-tickets` without a ticket-count preference.
-- **One ticket:** publish `## Ticket — <Title>` on the spec issue and use that issue as the delivery ticket. Create no separate issue or self-relationship. Without a commentable spec issue, the Delivery Map must approve a separate destination.
-- **Multiple tickets:** publish in dependency order. A tracker spec issue is the **Scope Parent** of every delivery ticket.
-
-Containment, blocking, Planning transport, and optional delivery topology are independent. Express supported relationship axes natively; textual references are content, not relationship evidence. Planning Carrier selection creates no blocker edge. Repair only a missing edge without rerunning source analysis or changing approved content, metadata, or existing relationships.
-
-#### Integration Delivery Lane
-
-IDL remains disabled unless multiple terminal implementation tickets must land atomically to `main` through a shared integration branch and repository evidence proves the lane can run.
-
-When enabled, record the canonical integration branch and target, capability or bootstrap evidence, optional Planning Baseline pointer, final integrate-and-verify ticket, and umbrella PR pointer. Record the immutable integration start SHA immediately when **Carry** is empty; otherwise defer it until Planning materialization has initialized the canonical integration path. Terminal tickets use independent branches from the latest green integration HEAD and reference rather than close their scoped issues. A child closes only after its PR merges to integration, required checks pass on the exact resulting integration HEAD, and durable PR URL/full-SHA evidence exists. The final ticket is blocked by terminal tickets and owns main-drift reconciliation, aggregate verification, Scope Parent closure, and umbrella synchronization.
-
-With a non-empty **Carry**, the final integrate-and-verify ticket is the Planning Carrier. Put the Planning Baseline on the canonical integration path before terminal branches start, and require its full SHA to be an ancestor of the immutable integration start SHA.
-
-Keep mutable IDL state separate from the immutable Planning Baseline; never encode lane movement in baseline evidence.
-
-Failed or unverifiable rules, checks, ancestry, or exact-head evidence preserve completed artifacts and stop new child closure or finalization.
-
-### 4. Materialize Planning
-
-The Delivery Map's **Change Proposal** accounts for every entry-worktree change as:
-
-- **Carry:** scope-owned whole files or independently applicable exact patches to publish in the baseline.
-- **Remove:** confirmed scope-owned patches superseded by a durable artifact.
-- **Preserve:** unrelated content, byte-for-byte.
-- **Uncertain:** candidate, path, bounded range, evidence, and recommended treatment.
-
-Ownership requires session edit records, snapshots, exact patches, or approved classification; semantic similarity alone supports only a recommendation. Coalesce bounded uncertain candidates into the Delivery Map. Preserve unbounded candidates, recommend the smallest content-level resolution, and stop only when they prevent an independently verifiable map.
-
-A non-empty **Carry** has exactly one Planning Carrier:
-
-- **One ticket:** that ticket.
-- **Multiple tickets without IDL:** the agent recommends one ticket from the earliest executable frontier as first-to-land, using document or foundation ownership to break ties. Map approval fixes the choice without another confirmation.
-- **Multiple tickets with IDL:** the final integrate-and-verify ticket, using the canonical integration path as described above.
-
-The Carrier transports planning content; it creates no containment or blocking relationship. Other tickets receive the pointer and never duplicate **Carry**. A cancelled Carrier leaves delivery incomplete until an updated Delivery Map explicitly selects another.
-
-For direct delivery, return the Carrier as the selected first delivery ticket so the next implementation resumes its path. IDL keeps the approved terminal-ticket frontier; its Carrier remains the final ticket because the baseline already initializes the shared integration path.
-
-Planning publication is complete only when baseline diff equals **Carry**, the cleaned entry state equals its original state minus **Carry** and **Remove**, and **Preserve** is byte-for-byte unchanged. With empty **Carry**, apply only **Remove**, verify, and report `none` without selecting a Carrier or performing baseline Git mutations.
-
-Otherwise make the Planning Baseline the immutable start of the Carrier's actual delivery path. For direct delivery, create or resume the Carrier's issue-linked delivery branch from the fetched remote default branch. For IDL, initialize the canonical integration path from that fetched base with the baseline before other lane commits, then record the integration start SHA after capability bootstrap; require the baseline SHA to remain its ancestor. Use an isolated worktree, verify the full SHA and ancestry, and publish this pointer on every related ticket before cleaning the entry worktree:
+Use this outline inside `<!-- scope-it:delivery-map:start -->` and `<!-- scope-it:delivery-map:end -->`. When continuing a Map bounded by legacy `scope-it-remake` markers, edit that same block and comment instead of creating a canonical duplicate. Insert `## Continue` with the effort-specific selection override between Planning Carry and Start the Next Ticket only when one exists. Keep live eligibility, current/following frontier and claim state out of the durable Map.
 
 ```markdown
-## Planning baseline
-
-- Carrier: <ticket URL>
-- Branch: `<branch>`
-- Commit: `<full SHA>`
-- Landing target: `<target>`
-- Landing gate: **Carry** is present in `<target>` and, after final landing, `main`
+## Delivery Topology
+<Linked Ticket topology: verified native blocker edges plus branch/PR landing endpoints.>
+## Planning Carry
+<Durable location/baseline, Carrier Ticket and landing path; or None.>
+## Start the Next Ticket
+- If the user names a Ticket, select it and report any live blocker before work. Otherwise use an eligible `Continue` override, then the first open Ticket in tracker order whose blockers are complete and, when reliable claim state exists, is unclaimed.
+- Re-read live parent relations before work. For one Ticket, use the parent and its `## Ticket — <Title>` comment; for many, use the selected child. If none qualifies, report why; unreliable claim state makes the choice provisional.
+- Load only the selected Ticket and closed Tickets needed for context. Follow the repository's claim process, then the recorded branch, PR target and Planning Carry.
 ```
 
-The Carrier's implementation must resume that exact path with the baseline SHA as an ancestor of its HEAD. Delivery remains incomplete until the target contains **Carry**; after final landing, verify `main` contains **Carry**. A failed patch, invariant, ancestry, landing, or preservation check keeps completed artifacts and leaves the affected checkpoint incomplete.
+Publish **Start the Next Ticket** in every Map, adapting tracker terms without moving the instructions into Ticket bodies. The parent is the entry for later sessions. Its Scope, native relations and marker-bound Map provide the low-resolution view; Ticket bodies stay unloaded until selection. The selected Ticket's source-owned content carries its complete prerequisites and acceptance evidence, while the Map owns cross-Ticket delivery facts. Keep planner write limits and operation receipts in the approval context.
 
-### 5. Verify and return
+### Planning files and delivery choices
 
-Read back the approved content, native containment, native blockers, enabled lane state, Planning Carrier and pointers, baseline ancestry, and worktree invariants in one consolidated verification pass. On delivery resume or finalization, also read back **Carry** from the approved target and then `main`. An unavailable native axis uses the source-defined fallback and reports degraded evidence; contradictory evidence leaves that part incomplete.
+For ADRs, `CONTEXT.md` changes or other repository content the executor needs, agree the exact scope-owned files/patches, retrievable version/location, landing target and one responsible delivery ticket. Preserve unrelated entry changes; resolve uncertain ownership before including content. Use repository workflows/tools for approved preservation or publication, verifying access for the intended executor. An unknown executor needs access beyond a local path. Verify durable content before any approved entry cleanup; missing content or access leaves publication incomplete.
 
-Return the spec artifact, ticket artifacts, selected delivery ticket (the Carrier for direct delivery with **Carry**), issue-only Delivery Map, verified relationship summary, enabled IDL record, and Planning result (`none` or Carrier, branch, full SHA, landing target, and pointer URLs). Keep phase-source and low-level command receipts internal.
+For direct delivery, the Planning Baseline starts the Carrier ticket's final branch, never a planning-only branch. Follow repository naming while reflecting final delivery type and Carrier identity—for example, `fix/1049-terminal-payload-lifecycle`, not `docs/` inferred from the Carry. When supported, create the native linked branch from the Carrier's Issue—the Scope Issue when one Ticket is a comment—before a local worktree tracks it; push alone is insufficient. Repository/executor workflow owns Git mechanics; unavailable native linking uses its approved fallback and degraded evidence.
+
+Planning Carry records one compact pointer: Carrier Ticket, linked branch, repository/path, base and baseline full SHAs with patch bounds when needed, landing target and approved-content obligation. Before cleanup, verify pointer consistency, content/access and native linkage (on GitHub, the Carrier's Issue `linkedBranches`). The executor resumes that branch for implementation, tests, required ADR and the PR to target under separate authority. Retain an existing delivery-path binding. With no planning files, report `None` and create no baseline work.
+
+For an agreed shared delivery lane, have the ticket skill supply its final integration/verification ticket with dependencies on all terminal tickets. Record the approved lane, target and responsibility for aggregate verification and closure, linking the applicable repository workflow. Git setup, CI rules and implementation procedures belong to that workflow. A change to file ownership, delivery path or shared responsibilities needs an approved Map amendment.
+
+## Choosing and remembering skills
+
+An explicit role choice by name or `--scope-skill <skill>` / `--ticket-skill <skill>` wins. Otherwise use the effort's choice/lineage, a compatible skill explicitly invoked for the task, the saved choice, then compatible repository guidance. Resolve exact identities through host discovery before declaring them unavailable. Follow host invocation rules: lineage or recommendations do not grant delegation authority. Clarify unavailable, ambiguous or incompatible choices instead of substituting silently. Accept `--scope-source` and `--ticket-source` as legacy input aliases.
+
+Save confirmed cross-repository defaults at `~/.config/softleader/agent-skills/scope-it/sources.json`. When it is absent, treat `~/.config/softleader/agent-skills/scope-it-remake/sources.json` as the legacy location; copy accepted values only in an approved preference write and leave the legacy file unchanged unless removal is approved.
+
+```json
+{"schema_version":3,"scope":"<skill identity>","tickets":"<skill identity>"}
+```
+
+V3 records explicit user selection and consent to future planning delegation on explicit invocations of this coordinator; it grants no publication, Git or implementation authority. Explain that consent when selecting/saving. Internal chaining still follows host invocation rules.
+
+Include preference writes in final approval; one-run choices and artifact reuse leave defaults unchanged. Preserve unrelated fields and omit unresolved roles. V2 choices need delegation consent before v3 migration. For v1, resolve explicit choice > `global` > unanimous legacy `repositories`; clarify conflicts, and approve conversion/removal of legacy containers with consent for every retained role. Unknown versions or unusable files need clarification. Before saving, reread the file, preserve unrelated concurrent changes and renew approval for changed affected values; verify the save without republishing artifacts.
 
 $ARGUMENTS

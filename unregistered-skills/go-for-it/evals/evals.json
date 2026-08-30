@@ -27,20 +27,20 @@
     },
     {
       "id": 5,
-      "prompt": "Use go-for-it for an already-published ticket. The originating worktree still contains whole-file planning changes for that ticket and has no Baseline Pointer.",
-      "expected_output": "The agent treats Scope as incomplete, resolves scope-it to publish the Planning Baseline, then passes its owner, branch, and full SHA to create-worktree before implementation.",
+      "prompt": "Use go-for-it for an already-published Ticket. The originating worktree still contains whole-file planning changes, but no canonical Delivery Map or Planning Carry exists.",
+      "expected_output": "The agent treats Scope as incomplete, resolves scope-it through its publication approvals, then follows the read-back Map to select a live Ticket and passes that Ticket plus any applicable Carrier branch and baseline SHA to create-worktree.",
       "files": []
     },
     {
       "id": 6,
-      "prompt": "Resume go-for-it for a ticket with one valid Baseline Pointer and a matching remote branch that already has later implementation commits.",
-      "expected_output": "The agent accepts the pointer because the baseline SHA is an ancestor of branch HEAD, reuses the existing scope artifacts, and has create-worktree resume that branch rather than creating a variant.",
+      "prompt": "Resume go-for-it from a complete canonical Map. Carrier Foundation has a valid Planning Carry, but fresh relations and claim state select independent Export first.",
+      "expected_output": "The agent accepts Scope as complete without requiring a preselected Ticket, follows Start the Next Ticket to choose Export, and has create-worktree use Export's recorded branch without forcing Foundation's baseline branch or SHA onto it.",
       "files": []
     },
     {
       "id": 7,
-      "prompt": "Use go-for-it for a legacy ticket with a complete spec, no Baseline Pointer, and no Scope-related Changes.",
-      "expected_output": "The agent preserves backward compatibility by treating Scope as complete and continues through the existing worktree-to-PR chain without creating a baseline.",
+      "prompt": "Use go-for-it for a legacy Ticket with a complete Scope, no canonical Delivery Map, and no scope-owned planning files.",
+      "expected_output": "The agent resolves scope-it to reuse the complete artifacts and publish the missing canonical Map after its approval, records Planning Carry as None, then performs fresh Ticket selection and continues through the worktree-to-PR chain without baseline Git work.",
       "files": []
     }
   ]
