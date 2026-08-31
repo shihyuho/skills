@@ -4,6 +4,24 @@ Coordinate interchangeable scope and ticket workflows into one Delivery Map with
 
 This skill must be invoked explicitly.
 
+## Workflow
+
+```mermaid
+flowchart TD
+    A["1. Orient<br/>Choose skills, artifacts and destinations"]
+    B["2. Scope skill<br/>Resolve, review and publish Scope"]
+    C["3. Ticket skill<br/>Shape, review and publish Tickets"]
+    D["4. scope-it<br/>Assemble the Delivery Map"]
+    E["5. Approve and publish<br/>Map plus planning and preference writes"]
+    F["6. Verify and finish<br/>Read back artifacts and relations"]
+    G["Later: executor<br/>Select the next live Ticket from the parent"]
+
+    A --> B --> C --> D --> E --> F
+    F -. "planning handoff" .-> G
+```
+
+Steps 1–6 are planning. Implementation begins only after the dashed handoff.
+
 The selected skills own their content, reviews and publication. Scope is confirmed and published first, then passed to the ticket skill; the coordinator finally confirms and publishes the Map with any needed handoff links. These are separate approvals, so Scope and tickets are visible before the Map.
 
 Publication keeps the agreed placement: an existing parent hosts Scope without replacing the report, one Ticket uses that parent as its identity, and multiple Tickets become children. The Map is one canonical parent comment; Ticket artifacts neither copy nor link back to it.
