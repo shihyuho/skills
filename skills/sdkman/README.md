@@ -1,17 +1,10 @@
 # sdkman
 
-Teach an agent to run commands under an explicitly requested or project-selected [SDKMAN](https://sdkman.io/) candidate without leaking shell-local state across tool calls.
+Run a command under an explicitly requested or worktree-selected [SDKMAN](https://sdkman.io/) candidate while preserving wrappers, build toolchains, exact vendor identity, and persistent user settings.
 
-The skill keeps `sdk use` or a worktree-local `sdk env` and the workload in one shell invocation, preserves the workload directory, prefers project wrappers and build toolchains, preserves an explicitly requested vendor, and asks before installing a candidate or changing the user's default.
+The skill now uses a bundled read-only inspector to validate the complete applicable environment before one same-shell execution. It triggers only when SDKMAN can affect the next command; an unrelated `.sdkmanrc`, compiler target, or healthy wrapper/toolchain does not cause a switch.
 
-It distinguishes launcher, build toolchain, compile／test, and application runtime failures: Maven `release`／`source`／`target` and Gradle `options.release`／compatibility settings do not by themselves require changing the shell JDK.
-
-## When it triggers
-
-- The user requests a JDK, Kotlin, Gradle, Maven, or other SDKMAN candidate version or vendor.
-- A repository has `.sdkmanrc`.
-- A build reports an actual Java runtime or toolchain mismatch.
-- A task depends on SDKMAN-managed `JAVA_HOME` behavior.
+The inspector uses Python 3's standard library, performs no network or environment mutation, and returns a versioned verdict. Installation, default changes, auto-env, and project-file changes still require an explicit request.
 
 ## Install
 
