@@ -1,131 +1,76 @@
 ---
 name: sdkman
-description: Switch an SDKMAN-managed JDK, Kotlin, Gradle, Maven, or other candidate for a command. Use for a requested version or vendor, `.sdkmanrc`, or an actual Java version failure (`UnsupportedClassVersionError`, invalid target release, class-file version errors); diagnose the failing layer because compiler targets and healthy build toolchains do not require a shell-JDK switch.
+description: Switch an SDKMAN-managed candidate for the next command when the user requests a candidate/version/vendor, a worktree-contained `.sdkmanrc` applies, or a diagnosed launcher/runtime mismatch belongs to SDKMAN. Leave compiler targets and wrapper- or toolchain-owned runtimes to their owning layer.
 license: MIT
 ---
 
 # sdkman
 
-SDKMAN exposes `sdk` as a shell function. A version selected with `sdk use` affects only that shell, while agent shell tool calls normally start fresh shells. Keep the switch and the command that needs it in the same shell invocation.
+Treat SDKMAN as one environment layer, not as the owner of every Java build setting. A project wrapper owns its Maven or Gradle version, and a configured build toolchain owns compile and test JDK selection. SDKMAN owns only the candidate that affects the next command's launcher or runtime.
 
-## Resolve the workload context
+## Form one environment plan
 
-Before each workload invocation, resolve the directory where the command must run. In Git, treat its current worktree as the environment boundary: from the workload directory, look upward for the nearest `.sdkmanrc`, stopping at that worktree's root. Outside Git, stop at the explicitly selected project directory. Re-check the current filesystem; a prior shell, another checkout, or pre-compaction context is not evidence that this project has the file.
+Resolve the workload directory first. Preserve it as the command's cwd.
 
-Follow these invariants:
+Translate evidence into structured inspector inputs:
 
-- Invoke `sdk env` only after confirming the selected `.sdkmanrc` exists inside the workload's environment boundary.
-- Do not read or copy `.sdkmanrc` from a sibling checkout, the originating checkout, or another worktree.
-- Preserve the workload's original directory; environment discovery must not change the command's cwd.
+- Pass an immutable candidate identity as `--exact CANDIDATE=ID`.
+- Pass a non-exact request as `--version-prefix CANDIDATE=PREFIX`; add `--vendor-suffix CANDIDATE=SUFFIX` only when the SDKMAN suffix is evidence-backed.
+- Pass `--delegate CANDIDATE=wrapper|toolchain` when that layer owns a `.sdkmanrc` declaration.
 
-## Choose the execution path
+An explicit constraint overrides the same candidate in `.sdkmanrc`; other applicable declarations remain. Exact IDs and vendor suffixes are reproducibility contracts, so preserve them byte-for-byte and ask only when the installed evidence is genuinely ambiguous.
 
-Use the first matching row:
+Run the bundled read-only inspector once:
 
-| Evidence | Action |
-| --- | --- |
-| The user requested an exact SDKMAN id | Use that exact installed id with `sdk use`. |
-| The user requested a candidate, version, or vendor constraint | Resolve one installed id with the evidence order below, then use `sdk use`. |
-| The current worktree contains an applicable `.sdkmanrc` | Follow its exact declarations with `sdk env`. |
-| No `.sdkmanrc`; the repository has `mvnw` or `gradlew` and its launcher works | Run the wrapper and let the build select its toolchains. |
-| A wrapper launcher probe cannot start because the shell JDK is missing or incompatible | Select an evidence-backed installed JDK for the launcher, then run the unchanged workload command. |
-| A compile, test, daemon, toolchain, or application runtime reports a mismatch | Diagnose that failing layer; switch the shell candidate only when that layer depends on it. |
-
-The absence of `.sdkmanrc` is a normal branch, not an `sdk env` failure. Use the wrapper or diagnose the launcher instead of invoking `sdk env` speculatively.
-
-## Select an installed candidate
-
-An exact id from the user or `.sdkmanrc`, including its vendor suffix, is a reproducibility contract. If it is unavailable, stop and ask whether to install the exact id; do not substitute the same major, another patch, or another vendor. Mention installed alternatives only as information, not as a way to bypass the contract; using one requires the user to explicitly override the requested environment.
-
-When a shell JDK is actually required but the project provides only a major-version constraint, select with this evidence order:
-
-1. A compatible JDK already active in the workload shell.
-2. SDKMAN's current or configured default selection, only when it resolves to one exact installed id matching the constraint.
-3. The sole compatible installed candidate.
-4. If multiple candidates remain, ask for the vendor or exact id.
-
-If no compatible candidate is installed, ask the user to choose an exact id and vendor before installation. Use `sdk list <candidate>` only when remote options are needed; do not infer a remote vendor from a major-version constraint.
-
-Treat tracked `.java-version` and vendor or runtime constraints as project intent, but respect the version manager that owns them. Do not turn compiler compatibility settings into a vendor choice or proof that SDKMAN owns the environment.
-
-## Diagnose Java builds
-
-Do not infer a shell-JDK switch merely from compiler compatibility settings such as Maven's `maven.compiler.release`, `source`/`target`, or Gradle's `options.release`／`sourceCompatibility`. A newer JDK can compile an older release. Let a configured Maven or Gradle toolchain select its own JDK unless the failure is in the launcher or the build proves the required toolchain is unavailable.
-
-When Java availability or launcher compatibility is unknown, use a non-workload launcher probe such as `./mvnw -version` or `./gradlew --version`. A failed probe means environment setup failed; it is not a failed test or build. Start the user's original workload only after the launcher is ready.
-
-For Gradle, distinguish the Client JVM, Daemon JVM, and task toolchain. A shell switch changes the Client launch environment but does not necessarily override Daemon JVM criteria or the JDK selected for compile／test tasks.
-
-## Confirm SDKMAN and installed candidates
-
-Only perform these checks when a switch is needed:
-
-```bash
-[ -s "${SDKMAN_DIR:-$HOME/.sdkman}/bin/sdkman-init.sh" ]
-ls "${SDKMAN_DIR:-$HOME/.sdkman}/candidates/<candidate>/"
+```text
+python3 <skill-directory>/scripts/inspect.py \
+  --workload-dir <directory> \
+  [--exact <candidate>=<id>]... \
+  [--version-prefix <candidate>=<prefix>]... \
+  [--vendor-suffix <candidate>=<suffix>]... \
+  [--delegate <candidate>=wrapper|toolchain]...
 ```
 
-If SDKMAN is absent, report that the requested switch cannot be performed through SDKMAN and inspect the project's existing version-manager setup before proposing an alternative.
+The inspector returns `schema_version: 1` JSON. It reads only the current worktree, its applicable `.sdkmanrc`, and relevant installed candidates. It does not source SDKMAN, run a workload, use the network, or mutate state.
 
-## Run with an ephemeral version
+If `python3` is unavailable or the script cannot start and therefore emits no verdict, read [references/manual-inspection.md](references/manual-inspection.md) and perform the same read-only decision manually.
 
-For a one-command switch, load SDKMAN only when necessary and run the workload in the same invocation:
+## Follow the verdict
 
-```bash
-type sdk >/dev/null 2>&1 || source "${SDKMAN_DIR:-$HOME/.sdkman}/bin/sdkman-init.sh"
-sdk use java <installed-jdk-id> && <command>
-```
+- `ready`: apply the complete plan and run the command without another confirmation.
+- `no_switch`: run the unchanged command directly; make no further SDKMAN probe.
+- `choice_required`: ask one consolidated question for every unresolved exact ID.
+- `approval_required`: ask once before installing the listed exact IDs; installation is a separate persistent action.
+- `error`: report the inspection boundary that failed and leave the workload unstarted.
 
-This is the default because it validates the id and SDKMAN defines `use` as a current-shell switch. Replace `java` with another SDKMAN candidate when requested. SDKMAN may create a missing candidate `current` link on first use; when preserving the absence of that link matters, use the validated direct-environment fallback instead.
+Never apply a partial plan. If a later answer or approved installation changes the environment, inspect the current state again before execution.
 
-For `.sdkmanrc`, validate the file, load it from its directory, return to the workload directory, and run the command in the same shell:
+## Execute in one shell
 
-```bash
-workload_dir=$PWD
-sdkmanrc_dir=/validated/path/inside/current/worktree
-type sdk >/dev/null 2>&1 || source "${SDKMAN_DIR:-$HOME/.sdkman}/bin/sdkman-init.sh"
-test -f "$sdkmanrc_dir/.sdkmanrc" &&
-  cd "$sdkmanrc_dir" &&
-  sdk env &&
-  cd "$workload_dir" &&
-  <command>
-```
+Apply every `ready` plan item before starting the workload:
 
-If `.sdkmanrc` names an uninstalled candidate, stop and ask before installing it.
+- For `activation: sdk_use`, load `sdkman-init.sh` only when `sdk` is unavailable, then run `sdk use <candidate> <exact_id>`.
+- For `activation: direct_environment`, export the returned `home_variable` to `candidate_home` and prepend `bin_directory` to `PATH`.
 
-## Persistent changes and installs
+Keep all activation steps and the original command in one shell invocation. Do not evaluate inspector output as shell code. Preserve the original cwd, command, and exit status.
 
-Use `sdk default <candidate> <id>` only when the user explicitly asks to change future shells. Use `sdk install <candidate> <id>` or `sdk env install` only after the user approves the persistent download and every exact candidate id, including vendor when applicable. Leave the user's auto-env setting unchanged.
+The default lane is task-local. Run `sdk install`, `sdk env install`, `sdk default`, auto-env changes, or create or modify `.sdkmanrc` only when the user explicitly requests that persistent action and the exact candidate identity is known.
 
-Create, copy, or commit `.sdkmanrc` only when the user explicitly asks to establish a persistent project contract. Compiler settings alone cannot determine its exact SDKMAN ids.
+## Diagnose the owning layer
 
-When a non-exact requested constraint has no installed match:
+Load [references/jvm-build-ownership.md](references/jvm-build-ownership.md) when Maven or Gradle launchers, daemons, compiler targets, or toolchains determine ownership.
 
-1. Show compatible installed ids.
-2. Ask the user to choose an exact id without silently choosing a vendor.
-3. Ask before running `sdk install`; use `sdk list <candidate>` only when remote options are needed.
+Load [references/failure-network-supply-chain.md](references/failure-network-supply-chain.md) for failure attribution, offline constraints, installation, wrapper downloads, or supply-chain questions.
 
-## Direct environment fallback
+Report failures at the layer that failed:
 
-Use direct environment variables only when the `sdk` function cannot be loaded or a detached process specifically requires them. Validate the candidate directory first, then set both the home variable and `PATH` in the same invocation:
+1. environment inspection or activation;
+2. wrapper or launcher;
+3. build runtime or toolchain;
+4. requested workload.
 
-```bash
-sdkman_candidate_home="${SDKMAN_DIR:-$HOME/.sdkman}/candidates/java/<installed-jdk-id>"
-test -d "$sdkman_candidate_home" &&
-  export JAVA_HOME="$sdkman_candidate_home" &&
-  export PATH="$JAVA_HOME/bin:$PATH" &&
-  <command>
-```
-
-For other candidates, use the corresponding home variable: `GRADLE_HOME`, `MAVEN_HOME`, or `KOTLIN_HOME`.
+State whether the original command and real workload started, and preserve the failing exit status. Diagnose an execution failure before considering a retry; do not switch candidates or rerun automatically.
 
 ## Completion check
 
-The requested workload must start only after environment initialization and candidate validation succeed in the same shell invocation. Preserve the original workload command, cwd, and exit status.
-
-Report which boundary failed:
-
-- If discovery, `sdk env`, `sdk use`, or candidate validation fails, state that environment initialization failed and the workload did not start.
-- If initialization succeeds and the workload fails, report the workload failure and its status without relabeling it as setup failure.
-
-Leave the user's explicit default, installed candidates, project files, and auto-env setting unchanged unless the user authorized that persistent change.
+Completion means the complete validated environment was applied before the unchanged workload started, or the agent truthfully reported why it did not start. User defaults, installed candidates, auto-env, and project files remain unchanged unless that exact persistent action was authorized.
