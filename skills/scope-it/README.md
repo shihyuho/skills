@@ -8,19 +8,28 @@ This skill must be invoked explicitly.
 
 ```mermaid
 flowchart TD
-    A["1. Orient<br/>Choose skills, artifacts and destinations"]
-    B["2. Scope skill<br/>Resolve, review and publish Scope"]
-    C["3. Ticket skill<br/>Shape, review and publish Tickets"]
-    D["4. scope-it<br/>Assemble the Delivery Map"]
-    E["5. Approve and publish<br/>Map plus planning and preference writes"]
-    F["6. Verify and finish<br/>Read back artifacts and relations"]
-    G["Later: executor<br/>Select the next live Ticket from the parent"]
+    subgraph CHOOSE["Choose planning skills"]
+        direction LR
+        CS["Scope role<br/>Choose or reuse skill"]
+        CT["Tickets role<br/>Choose or reuse skill"]
+    end
 
-    A --> B --> C --> D --> E --> F
-    F -. "planning handoff" .-> G
+    SAVE[("Saved defaults<br/>Optional · with consent")]
+    S["Run Scope skill<br/>Produce · review · publish Scope"]
+    T["Run Ticket skill<br/>Shape · review · publish Tickets"]
+    M["Delivery Map<br/>scope-it verifies + composes<br/>User approves · publish · read back on Parent"]
+    E["Later: executor<br/>Pick the next Ticket from Parent"]
+
+    CS -.-> SAVE
+    CT -.-> SAVE
+    CS --> S
+    CT --> T
+    S -->|"published Scope"| T
+    T -->|"published Tickets"| M
+    M -. "handoff" .-> E
 ```
 
-Steps 1–6 are planning. Implementation begins only after the dashed handoff.
+Scope and Tickets roles are chosen independently; remembering either choice is optional and requires consent. Planning ends with the canonical Map on the Parent. Implementation belongs to the later executor.
 
 The selected skills own their content, reviews and publication. Scope is confirmed and published first, then passed to the ticket skill; the coordinator finally confirms and publishes the Map with any needed handoff links. These are separate approvals, so Scope and tickets are visible before the Map.
 
