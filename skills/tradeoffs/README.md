@@ -1,8 +1,8 @@
 # tradeoffs
 
-Judge which discussed option is most worth choosing by comparing its incremental value with its incremental cost, risk, and complexity.
+Decide which discussed option is most worth choosing by comparing incremental value with added cost, risk, and complexity.
 
-This skill must be invoked explicitly.
+This skill can be invoked automatically when a real choice between options needs a recommendation.
 
 ## Installation
 
