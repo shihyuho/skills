@@ -23,9 +23,13 @@ Turn the options in **this conversation** into a recommendation about which is m
    - **Incremental burden** — implementation and long-term cognitive, testing, operational, and migration costs, plus new failure modes the option creates.
    - **Sufficiency and reversibility** — whether a cheaper option already meets the success boundary and how difficult the choice is to revise.
    - **Best fit** — when several options are viable, identify what distinguishes them and show what each optimizes, sacrifices, and assumes relative to the user's priorities.
-3. Mark decision-relevant claims as **known**, **inferred**, or **unknown**. Keep only unknowns that could change the recommendation, and use qualitative comparisons unless the available evidence grounds numeric probabilities, costs, or scores.
-4. Verify a decisive unknown when a small, safe, read-only check within scope can resolve it. Limit verification to evidence that could change the recommendation. If verification needs new authority, writes, or material scope expansion, recommend under explicit assumptions.
-5. Choose the option whose incremental value best justifies its incremental burden. Make a recommendation under imperfect evidence; when uncertainty dominates, prefer the simplest sufficient, reversible choice or the smallest validation step that preserves optionality.
+3. Mark decision-relevant claims as **known**, **inferred**, or **unknown**. Keep only unknowns that could change the recommendation, frame each as a precise question, and use qualitative comparisons unless the available evidence grounds numeric probabilities, costs, or scores.
+4. Pass each decisive unknown through a **research gate**:
+   - **Local verification** — resolve facts in the supplied artifacts or current working directory with a small, safe, read-only check.
+   - **External research** — when the answer depends on outside knowledge, investigate high-trust primary sources such as official documentation, specifications, source code, or first-party APIs.
+   - **Explicit assumption** — when resolution needs new authority, writes, material scope expansion, or disproportionate effort, state the assumption instead of blocking the recommendation.
+   Complete the gate when every decisive unknown is either resolved with evidence or carried into the recommendation as an explicit assumption.
+5. Recompare the options after the research gate, then choose the option whose incremental value best justifies its incremental burden. Make a recommendation under imperfect evidence; when uncertainty dominates, prefer the simplest sufficient, reversible choice or the smallest validation step that preserves optionality.
 6. State the evidence or threshold that would reverse the recommendation.
 
 ## Rules
@@ -38,7 +42,7 @@ Turn the options in **this conversation** into a recommendation about which is m
 
 ## Output
 
-Keep code, paths, and `file:line` verbatim.
+Keep code, paths, and `file:line` verbatim. Cite every externally researched decision-relevant claim next to the source that supports it.
 
 - Lead with the recommended option and the decisive reason.
 - Show the smallest useful comparison of incremental value versus incremental burden; use a table only when it improves the decision.
