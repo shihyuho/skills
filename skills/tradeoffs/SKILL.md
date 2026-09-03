@@ -1,18 +1,19 @@
 ---
 name: tradeoffs
-description: "Decide which discussed option is most worth choosing by comparing incremental value with added cost, risk, and complexity. Use when the user faces a real choice between alternatives and wants a recommendation or explicit trade-off analysis before deciding."
+description: "Judge which discussed option is most worth choosing by comparing its incremental value with its incremental cost, risk, and complexity."
 license: MIT
+disable-model-invocation: true
 ---
 
 # tradeoffs
 
 ## Invocation input
 
-`$ARGUMENTS` below means the arguments supplied when the skill is invoked explicitly; model invocation usually leaves it empty. In inherited `Context` blocks, run each `!` command to collect the named value; those expressions are not expanded automatically in a skill.
+`$ARGUMENTS` below means the arguments supplied with the user's explicit invocation. In inherited `Context` blocks, run each `!` command to collect the named value; those expressions are not expanded automatically in a skill.
 
 Turn the options in **this conversation** into a recommendation about which is most worth choosing.
 
-`$ARGUMENTS`: an optional focus hint (`focus on caching`) or save path. Empty, including model invocation, means the whole discussion and printing to chat.
+`$ARGUMENTS`: a focus hint (`focus on caching`) or a save path. Empty = whole discussion, print to chat.
 
 ## Decision method
 
