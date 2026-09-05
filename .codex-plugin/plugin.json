@@ -29,7 +29,7 @@
     "defaultPrompt": [
       "Create and push a commit, then open a pull request.",
       "Turn the approaches in this conversation into a decision brief.",
-      "Check whether this change has untested branches."
+      "Coordinate scope and tickets into a Delivery Map."
     ]
   }
 }

@@ -1,6 +1,0 @@
-interface:
-  display_name: "go-for-it"
-  short_description: "Deliver settled work through PR and optional review-and-fix loop"
-  default_prompt: "Use $go-for-it to take this settled work from scope through implementation and pull request; add --loop only when I explicitly request the peer review-and-fix loop."
-policy:
-  allow_implicit_invocation: false
