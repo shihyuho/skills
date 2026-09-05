@@ -1,0 +1,53 @@
+{
+  "skill_name": "commit-push-pr",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Use commit-push-pr for only CONTEXT.md and docs/adr/0002-planning-baseline.md. The current branch is main, the remote's advertised default is refs/heads/main, and unrelated content is already staged.",
+      "expected_output": "The agent recognizes the default branch, creates a feature branch, commits only the explicit paths with unrelated index/worktree changes preserved, then verifies the push and PR result.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Use commit-push-pr after we settled only the login fix as the scope. README.md also has unrelated staged changes, and no exact paths are repeated in the invocation.",
+      "expected_output": "The agent preserves the conversation-scoped selection through branch creation, commit, push, and PR instead of reverting to all-current-changes behavior.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Use commit-push-pr on a feature branch. The selected commit fails because a hook exits nonzero.",
+      "expected_output": "The agent reports the failed commit and outstanding work without pushing or creating a PR.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Use commit-push-pr for a selected change on feature/login. The intended repository/head/base already has one open PR; the destination has a PR template.",
+      "expected_output": "The agent commits and pushes the selected change, locates the unique matching PR, verifies its head/base and head SHA against the pushed result, and returns its URL without creating a duplicate or rewriting unrelated PR content.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "Resume this commit-push-pr invocation after commit and push were verified but gh pr create timed out. The exact approved commit is still HEAD, selected paths are now unchanged, and lookup finds one matching open PR.",
+      "expected_output": "The agent verifies the completed stages and existing PR, returns the verified URL, and performs no duplicate commit, push, or PR creation. A changed or ambiguous result is reported rather than guessed.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "Use commit-push-pr on main, but the destination remote's default ref cannot be resolved from either advertised HEAD or verified repository metadata.",
+      "expected_output": "The agent reports the unresolved default-branch check before creating a branch or publishing, rather than treating the unknown ref as proof that the current branch is safe.",
+      "files": []
+    },
+    {
+      "id": 7,
+      "prompt": "Use commit-push-pr for the literal filename :(glob)*.txt on an existing feature branch. An unrelated .txt file is already staged.",
+      "expected_output": "The agent applies literal pathspec handling to the selected commit, preserves the unrelated index/worktree changes, and verifies the resulting push and PR.",
+      "files": []
+    },
+    {
+      "id": 8,
+      "prompt": "Use commit-push-pr with one explicitly requested path that is unchanged and another that does not exist.",
+      "expected_output": "The agent reports the invalid selection before staging or committing and performs no push or PR creation; it does not broaden to other changed files.",
+      "files": []
+    }
+  ]
+}

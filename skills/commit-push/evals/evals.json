@@ -1,0 +1,47 @@
+{
+  "skill_name": "commit-push",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Use commit-push for only CONTEXT.md and docs/adr/0002-planning-baseline.md on the current feature branch. Another file is already staged and a third has unrelated unstaged changes.",
+      "expected_output": "The agent applies the same whole-path scope contract as commit, verifies only the selected paths are committed, preserves unrelated index/worktree changes, and explicitly pushes the intended remote/ref before returning its branch URL.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "We already authorized committing only the login fix and pushing it directly to this repository's origin/main. Now invoke commit-push with no arguments. The branch command returns main and the cached remote HEAD is origin/main.",
+      "expected_output": "The agent preserves the settled commit scope, resolves the live remote default ref in a comparable format, and uses the existing exact-destination approval without asking again. It verifies commit and push results.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Use commit-push for this cohesive change on main. Pushing to the default branch has not been authorized.",
+      "expected_output": "The agent verifies and creates the selected commit, then asks about that exact default-branch push before publishing. It keeps the completed commit and does not treat commit approval as push approval.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Use commit-push on feature/login with no upstream. origin is the intended repository, but remote.pushDefault names a different remote.",
+      "expected_output": "The agent uses an explicit origin destination for the normal push, creates upstream tracking when absent, and verifies origin's branch. It does not let push defaults redirect publication.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "Use commit-push for the selected feature-branch change. The commit hook fails before creating a commit.",
+      "expected_output": "The agent stops before push, inspects the failure state, and reports that the commit stage did not complete. No branch URL is presented as a successful delivery.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "Resume the same commit-push invocation after its selected commit was verified but push failed. That SHA is still branch HEAD, the approved diff is recoverable, and selected paths are now unchanged.",
+      "expected_output": "The agent re-verifies the recorded commit against the approved selection, skips the already completed commit stage, and retries only the authorized push. It does not demand another change, create an empty commit, or broaden the selection.",
+      "files": []
+    },
+    {
+      "id": 7,
+      "prompt": "Use commit-push for the exact filename :(glob)*.txt. Another .txt file is pre-staged and unrelated.",
+      "expected_output": "The agent uses literal pathspec handling for staging and whole-path committing, preserves the unrelated staged file, then pushes only the resulting commit on the intended branch.",
+      "files": []
+    }
+  ]
+}

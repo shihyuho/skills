@@ -12,14 +12,14 @@ Shihyu's curated collection of agent skills.
 
 ### User-invoke
 
-- **[commit](skills/commit/)** - Create one cohesive commit from all or explicitly selected changes, or ask before splitting clearly unrelated concerns.
-- **[commit-push](skills/commit-push/)** - Create a commit and push its branch with safeguards for default-branch pushes.
-- **[commit-push-pr](skills/commit-push-pr/)** - Create a commit, push its branch, and open a pull request with safeguards for default-branch pushes.
+- **[commit](skills/commit/)** - Commit the changes selected by the request or conversation while preserving unrelated staged and unstaged work.
+- **[commit-push](skills/commit-push/)** - Commit selected changes and push to the intended branch, reusing authorization for the same destination.
+- **[commit-push-pr](skills/commit-push-pr/)** - Commit selected changes, push the intended branch, and create or resume its pull request.
 - **[create-branch](skills/create-branch/)** - Create or safely resume a descriptive local or issue-linked remote branch without duplicate branches.
 - **[create-worktree](skills/create-worktree/)** - Create or resume isolated work in a descriptive Git worktree, including an existing Planning Baseline branch.
 - **[grill-on-point](skills/grill-on-point/)** - Run the external `grill-with-docs` skill over a doc, plan, or rough idea while surfacing only findings that truly need your input.
-- **[pr](skills/pr/)** - Push the current feature branch and open a pull request with a default-branch safety gate.
-- **[push](skills/push/)** - Push the current branch to origin with a safety gate for direct default-branch pushes.
+- **[pr](skills/pr/)** - Publish committed feature-branch changes and return a verified new or existing pull request.
+- **[push](skills/push/)** - Push to the intended remote branch with verified default-branch authorization and publication results.
 - **[skill-review](skills/skill-review/)** - Review a skill against the available skill-authoring rubrics and optionally apply fixes.
 - **[splitoff](skills/splitoff/)** - Hand the current conversation to a Claude Code background agent or a native Codex subagent using a generated handoff summary.
 - **[scope-it](skills/scope-it/)** - Coordinate interchangeable planning skills into one Delivery Map whose embedded protocol lets later sessions continue from its parent.

@@ -1,0 +1,41 @@
+{
+  "skill_name": "pr",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Use pr while the local branch is main and the remote's advertised default ref is refs/heads/main.",
+      "expected_output": "The agent recognizes the default branch and stops before pushing or creating a PR, reporting that a feature branch is needed.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Use pr for feature/login targeting maintained branch 3.x. One open PR already matches the intended repository/head/3.x, and a PR template exists.",
+      "expected_output": "The agent inspects the committed diff against 3.x, verifies the intended feature-branch push, reuses the unique matching PR, and reports its verified URL/head/base/SHA without creating a duplicate.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Use pr for the already pushed feature branch. gh pr create times out, and a lookup finds exactly one open PR matching the intended repository/head/base.",
+      "expected_output": "The agent reads back the matching PR and verifies its head/base and head SHA instead of blindly creating another. Ambiguous lookup remains unresolved.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Use pr to publish the login fix, but that fix is still uncommitted in the working tree.",
+      "expected_output": "The agent explains the missing committed content and resolves the delivery gap before publishing; it does not claim the requested fix is present in a PR of older commits.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "Use pr on the intended feature branch. The normal push fails.",
+      "expected_output": "The agent reports the failed push and does not create a PR or present a PR URL as completed.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "Use pr for a feature branch and explicit base 3.x. After creation, readback shows a different base or a head SHA that does not match the pushed commit.",
+      "expected_output": "The agent reports the readback mismatch and withholds completion instead of accepting any returned URL as the requested PR.",
+      "files": []
+    }
+  ]
+}

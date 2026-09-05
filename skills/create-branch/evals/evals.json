@@ -18,6 +18,24 @@
       "prompt": "Use create-branch for issue #42, but the intended branch name already exists and is linked to a different issue.",
       "expected_output": "The agent stops on the conflicting collision and does not reuse, rename, recreate, or push the branch.",
       "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Earlier we explicitly approved creating and natively linking a remote branch for issue #42 from origin/main. Invoke create-branch with only #42; no ref collision exists.",
+      "expected_output": "The agent carries the approved repository, branch operation, and base from the conversation, creates and verifies the issue-linked branch without repeating the remote-publication question.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "We previously discussed a remote branch for issue #42, but now invoke create-branch for #42 with an explicit local-only instruction.",
+      "expected_output": "The agent follows the current local-only choice, creates only the local branch when safe, and leaves remote refs and native linked branches unchanged.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "A bounded caller has explicitly authorized creating a second branch for this task with a chosen name and remote publication. The current feature branch is fresh and collision checks pass.",
+      "expected_output": "The agent carries the exact authorized name and publication scope, does not repeat the second-branch or remote questions solely because the current branch is fresh, and verifies the new result.",
+      "files": []
     }
   ]
 }
