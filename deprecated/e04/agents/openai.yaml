@@ -1,6 +1,0 @@
-interface:
-  display_name: "e04"
-  short_description: "Decode Zhuyin typed with English keyboard keys"
-  default_prompt: "Use $e04 to decode this Zhuyin keyboard text."
-policy:
-  allow_implicit_invocation: false

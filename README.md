@@ -6,6 +6,7 @@ Shihyu's curated collection of agent skills.
 
 ### Model-invoke
 
+- **[e04](skills/e04/)** - Decode 注音文 (Zhuyin/Bopomofo text typed with English keyboard keys) into Chinese characters.
 - **[sdkman](skills/sdkman/)** - Validate and run commands under applicable [SDKMAN](https://sdkman.io/) candidates while preserving worktree boundaries, project-owned toolchains, exact vendor identity, and persistent user settings.
 - **[writing-agents-md](skills/writing-agents-md/)** - Create, update, prune, or review `AGENTS.md` and `CLAUDE.md` by routing standing guidance to the smallest correct scope and mechanism.
 
@@ -28,7 +29,6 @@ These archived skills live under `deprecated/` and are excluded from both the Cl
 
 - **[cover-branches](deprecated/cover-branches/)** - Find branch coverage gaps in changed code and write the missing tests, with optional spec-based scenario coverage analysis.
 - **[distil](deprecated/distil/)** - Re-express a passage by dropping peripheral detail and keeping its core message.
-- **[e04](deprecated/e04/)** - Decode 注音文 (Zhuyin/Bopomofo text typed with English keyboard keys) into Chinese characters.
 - **[grill-on-point](deprecated/grill-on-point/)** - Run the external `grill-with-docs` skill over a doc, plan, or rough idea while surfacing only findings that truly need your input.
 - **[merge-train](deprecated/merge-train/)** - Merge approved pull requests one at a time through an auto-merge update-branch queue.
 - **[plain](deprecated/plain/)** - Rewrite jargon-heavy text in clear language while preserving every point.
