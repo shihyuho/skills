@@ -10,19 +10,17 @@
   "plugins": [
     {
       "name": "skills",
-      "description": "Shihyu's curated collection of agent skills — cover-branches, e04, lgtm, promote-claude-settings, rephrase (tighten/distil/plain), reveries, sdkman, tldr, writing-agents-md",
+      "description": "Shihyu's curated collection of agent skills for Git delivery, scope planning, SDKMAN, skill review, decision analysis, agent instructions, and Zhuyin decoding",
       "source": "./",
       "keywords": [
         "skills",
         "agent-skills",
-        "tldr",
-        "rephrase",
-        "reveries",
+        "git",
+        "scope-it",
         "sdkman",
-        "lgtm",
-        "cover-branches",
+        "skill-review",
+        "tradeoffs",
         "writing-agents-md",
-        "promote-claude-settings",
         "e04"
       ]
     }
