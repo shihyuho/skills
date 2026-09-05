@@ -9,8 +9,8 @@
     },
     {
       "id": 2,
-      "prompt": "Use create-worktree for issue #42 with a Baseline Pointer naming branch feat/42-handoff and full baseline SHA abc123. The local branch exists, contains the baseline, and is not checked out anywhere.",
-      "expected_output": "The agent verifies the baseline ancestry and attaches the existing local branch to the conventional worktree path without creating a new branch.",
+      "prompt": "Use create-worktree for issue #42 with a Baseline Pointer naming feat/42-handoff. Supply the full SHA obtained with git rev-parse for the existing baseline commit in the test repository. The free local branch contains that commit; no worktree currently checks it out.",
+      "expected_output": "The agent checks the supplied full SHA and baseline ancestry, then attaches the existing local branch to the conventional worktree path without creating another branch.",
       "files": []
     },
     {
@@ -21,8 +21,8 @@
     },
     {
       "id": 4,
-      "prompt": "Use create-worktree with a Baseline Pointer whose branch is checked out in another worktree or whose SHA is not an ancestor of the branch HEAD.",
-      "expected_output": "The agent stops with the exact occupancy or ancestry conflict and does not force checkout, create a variant branch, or choose another base.",
+      "prompt": "Use create-worktree with a Baseline Pointer containing an existing commit's full SHA, but that commit is not an ancestor of the selected branch HEAD. No registered worktree matches the branch.",
+      "expected_output": "The agent reports the failed ancestry check before creating a worktree and does not force checkout, create a variant branch, or choose another base.",
       "files": []
     },
     {
@@ -35,6 +35,18 @@
       "id": 6,
       "prompt": "Use create-worktree for a new task whose requirements point equally to two maintained remote branches and do not establish which one owns the delivery.",
       "expected_output": "The agent stops and asks which base to use instead of selecting either branch arbitrarily or falling back to the default branch.",
+      "files": []
+    },
+    {
+      "id": 7,
+      "prompt": "Use create-worktree for feat/42-handoff with the full SHA of its baseline. A matching registered worktree already checks out that branch and contains the baseline; it has existing uncommitted work.",
+      "expected_output": "The agent verifies branch identity and baseline ancestry, reuses the registered path, preserves existing changes, and reports reused. Occupancy by the matching worktree does not cause a duplicate or blanket refusal.",
+      "files": []
+    },
+    {
+      "id": 8,
+      "prompt": "Use create-worktree for feat/42-handoff, but the intended target path is a registered worktree for fix/99-other.",
+      "expected_output": "The agent reports the path/branch collision and preserves that worktree. It does not treat a different registered branch as a reusable match, choose a variant path, or force checkout.",
       "files": []
     }
   ]

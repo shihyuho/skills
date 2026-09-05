@@ -18,6 +18,36 @@
       "prompt": "Use commit for src/a.js and src/b.js, but one requested path has no change and another requested path does not exist.",
       "expected_output": "The agent stops before staging or committing and reports the invalid explicit path scope rather than silently broadening it.",
       "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Earlier in the conversation we agreed to commit only the login fix in src/login.js. Now use commit. docs/notes.md has unrelated pre-staged changes and README.md has unrelated unstaged changes.",
+      "expected_output": "The agent carries the settled login-fix scope into commit without treating the short invocation as all-current-changes authorization. It commits only that fix and preserves both unrelated changes.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "Use commit for the exact filenames :(glob)*.txt and [notes].md. Other .txt files are changed and unrelated.txt is already staged.",
+      "expected_output": "The agent shell-quotes the paths and uses Git literal-pathspec mode for staging and committing. The filenames are data, not patterns; only the two selected paths enter the commit and unrelated index/worktree content remains intact.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "Use commit for staged changes only. src/a.js has an older staged edit and a newer unstaged edit; src/b.js also has unstaged changes.",
+      "expected_output": "The agent reviews and commits the existing index without restaging working-tree files or using a whole-path commit that would include the newer edit. Both unstaged edits remain after the commit.",
+      "files": []
+    },
+    {
+      "id": 7,
+      "prompt": "Use commit and split the explicitly selected fixes into atomic commits; we already agreed the split. Unrelated files are also staged.",
+      "expected_output": "The agent follows the settled split within the selected scope without asking the same commit-choice question again. Each commit contains its intended concern and unrelated staged changes remain excluded.",
+      "files": []
+    },
+    {
+      "id": 8,
+      "prompt": "Use commit for the selected fix. A commit hook exits nonzero before any commit is created.",
+      "expected_output": "The agent reports that the commit failed and does not claim a new SHA or completion. It inspects the resulting state and preserves the outstanding work.",
+      "files": []
     }
   ]
 }
