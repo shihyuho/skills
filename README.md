@@ -17,6 +17,7 @@ Shihyu's curated collection of agent skills.
 - **[commit-push-pr](skills/commit-push-pr/)** - Create a commit, push its branch, and open a pull request with safeguards for default-branch pushes.
 - **[create-branch](skills/create-branch/)** - Create or safely resume a descriptive local or issue-linked remote branch without duplicate branches.
 - **[create-worktree](skills/create-worktree/)** - Create or resume isolated work in a descriptive Git worktree, including an existing Planning Baseline branch.
+- **[grill-on-point](skills/grill-on-point/)** - Run the external `grill-with-docs` skill over a doc, plan, or rough idea while surfacing only findings that truly need your input.
 - **[pr](skills/pr/)** - Push the current feature branch and open a pull request with a default-branch safety gate.
 - **[push](skills/push/)** - Push the current branch to origin with a safety gate for direct default-branch pushes.
 - **[skill-review](skills/skill-review/)** - Review a skill against the available skill-authoring rubrics and optionally apply fixes.
@@ -29,7 +30,6 @@ These archived skills live under `deprecated/` and are excluded from both the Cl
 
 - **[cover-branches](deprecated/cover-branches/)** - Find branch coverage gaps in changed code and write the missing tests, with optional spec-based scenario coverage analysis.
 - **[distil](deprecated/distil/)** - Re-express a passage by dropping peripheral detail and keeping its core message.
-- **[grill-on-point](deprecated/grill-on-point/)** - Run the external `grill-with-docs` skill over a doc, plan, or rough idea while surfacing only findings that truly need your input.
 - **[merge-train](deprecated/merge-train/)** - Merge approved pull requests one at a time through an auto-merge update-branch queue.
 - **[plain](deprecated/plain/)** - Rewrite jargon-heavy text in clear language while preserving every point.
 - **[post-gh-comment](deprecated/post-gh-comment/)** - Post local files or confirmed chat content as individual comments on a GitHub issue or pull request.
