@@ -21,22 +21,9 @@ Shihyu's curated collection of agent skills.
 - **[pr](skills/pr/)** - Push the current feature branch and open a pull request with a default-branch safety gate.
 - **[push](skills/push/)** - Push the current branch to origin with a safety gate for direct default-branch pushes.
 - **[skill-review](skills/skill-review/)** - Review a skill against the available skill-authoring rubrics and optionally apply fixes.
+- **[splitoff](skills/splitoff/)** - Hand the current conversation to a Claude Code background agent or a native Codex subagent using a generated handoff summary.
 - **[scope-it](skills/scope-it/)** - Coordinate interchangeable planning skills into one Delivery Map whose embedded protocol lets later sessions continue from its parent.
 - **[tradeoffs](skills/tradeoffs/)** - Judge which discussed option is most worth choosing by comparing its incremental value with its incremental cost, risk, and complexity.
-
-## Deprecated
-
-These archived skills live under `deprecated/` and are excluded from both the Claude Code and Codex plugin skill directories.
-
-- **[cover-branches](deprecated/cover-branches/)** - Find branch coverage gaps in changed code and write the missing tests, with optional spec-based scenario coverage analysis.
-- **[distil](deprecated/distil/)** - Re-express a passage by dropping peripheral detail and keeping its core message.
-- **[merge-train](deprecated/merge-train/)** - Merge approved pull requests one at a time through an auto-merge update-branch queue.
-- **[plain](deprecated/plain/)** - Rewrite jargon-heavy text in clear language while preserving every point.
-- **[post-gh-comment](deprecated/post-gh-comment/)** - Post local files or confirmed chat content as individual comments on a GitHub issue or pull request.
-- **[promote-claude-settings](deprecated/promote-claude-settings/)** - Interactively promote entries from a project's `.claude/settings.local.json` into the global `~/.claude/settings.json`.
-- **[splitoff](deprecated/splitoff/)** - Hand the current conversation to a Claude Code background agent or a native Codex subagent using a generated handoff summary.
-- **[tighten](deprecated/tighten/)** - Re-express a passage in fewer words while keeping every point.
-- **[tldr](deprecated/tldr/)** - Produce a TL;DR of a file, directory, git ref, URL, or GitHub PR/issue so the reader can keep up in roughly two minutes.
 
 ## Installation
 
