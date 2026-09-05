@@ -1,0 +1,77 @@
+{
+  "skill_name": "skill-review",
+  "evals": [
+    {
+      "id": 1,
+      "name": "both-sources-and-context-target",
+      "prompt": "Review the skill already selected in this conversation, without --fix. The evaluation host makes /writing-for-agents and /skill-creator:skill-creator available with controlled review criteria. Their criteria concern different parts of the target, and the necessary supporting files are available.",
+      "expected_output": "Uses the selected target and both named source skills as the review criteria, then reports the resulting findings read-only.",
+      "files": [],
+      "assertions": [
+        "Resolves the target from context without asking the user to name it again.",
+        "Invokes both exact sources and applies their relevant criteria rather than a local replacement rubric.",
+        "Reads supporting files needed by those criteria and preserves the target."
+      ]
+    },
+    {
+      "id": 2,
+      "name": "review-does-not-execute-workflows",
+      "prompt": "Review an explicitly selected publishing skill read-only. Its source text instructs its normal executor to publish a report. The two authoring sources are available; one also describes an optional create-and-publish authoring workflow. No execution, fixes, commits or publication are authorized for this review.",
+      "expected_output": "Applies both sources' review criteria while treating the target as review material and preserving the read-only scope.",
+      "files": [],
+      "assertions": [
+        "Does not execute the publishing target merely because its instructions are being reviewed.",
+        "Does not start the source's unrelated authoring or publication workflow.",
+        "Reports findings under the two sources' applicable criteria without editing files."
+      ]
+    },
+    {
+      "id": 3,
+      "name": "fix-follows-sources-within-scope",
+      "prompt": "Use --fix on the selected skill in an isolated evaluation checkout. Controlled responses from the two named sources identify a broken relative reference and inconsistent interface display name; the repository requires a matching catalog update for this change. Supporting files establish the intended link and canonical name. Unrelated files have both staged and unstaged changes. No further delivery is requested.",
+      "expected_output": "Corrects the source-backed findings and required catalog metadata, preserves unrelated work, and reports the diff and applicable verification.",
+      "files": [],
+      "assertions": [
+        "Uses findings derived from the source criteria instead of introducing independent authoring requirements.",
+        "Limits edits to the selected target and required catalog or metadata changes, preserving unrelated contents and staging state.",
+        "Checks the actual diff and reports completed verification and unresolved findings without committing or publishing."
+      ]
+    },
+    {
+      "id": 4,
+      "name": "missing-source-is-partial-coverage",
+      "prompt": "Review the selected skill. /writing-for-agents is available and its criteria have been applied. Host discovery confirms that the exact /skill-creator:skill-creator source is unavailable. Another similarly named skill exists, but no substitution is authorized.",
+      "expected_output": "Identifies the missing exact source and labels the review coverage as partial instead of silently substituting criteria or claiming both sources were used.",
+      "files": [],
+      "assertions": [
+        "Names the unavailable source and distinguishes available review evidence from missing coverage.",
+        "Does not replace it with a similarly named skill or an invented local rubric.",
+        "Does not claim a complete two-source review."
+      ]
+    },
+    {
+      "id": 5,
+      "name": "conflicting-criteria-and-broader-changes",
+      "prompt": "Use --fix on the selected skill. The harness supplies controlled source criteria that disagree on an instruction, and repository evidence does not resolve which applies. One suggestion would also change the target's purpose and explicit-only invocation mode. The user authorized ordinary corrections only; the purpose and invocation-policy changes are outside the agreed scope.",
+      "expected_output": "Reports the material criteria conflict and proposed broader changes while withholding affected corrections until applicability and scope are resolved.",
+      "files": [],
+      "assertions": [
+        "Does not silently choose one source or replace both with a new local criterion.",
+        "Resolves the material conflict before applying the affected correction.",
+        "Keeps purpose, invocation mode and authorization boundaries within the agreed scope."
+      ]
+    },
+    {
+      "id": 6,
+      "name": "clean-result-and-verification-limits",
+      "prompt": "Complete a review using both named sources. Their applicable criteria yield no findings, and required metadata checks have passed. No behavioral model run has occurred. The source skills did not require any additional check for this case.",
+      "expected_output": "Reports no findings under the applied criteria and represents the actual verification coverage accurately.",
+      "files": [],
+      "assertions": [
+        "Does not manufacture findings to satisfy a separate rubric or preferred report shape.",
+        "Reports the completed checks without describing an unrun behavior test or model benchmark as passing.",
+        "Does not add unrelated authoring or publication work."
+      ]
+    }
+  ]
+}

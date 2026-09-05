@@ -1,6 +1,6 @@
 interface:
   display_name: "skill-review"
-  short_description: "Review a skill and optionally apply fixes"
-  default_prompt: "Use $skill-review to review this skill against the authoring rubrics and apply fixes if requested."
+  short_description: "Review a skill with both authoring rubrics"
+  default_prompt: "Use $skill-review to review this skill using writing-for-agents and skill-creator, and apply fixes if requested."
 policy:
   allow_implicit_invocation: false

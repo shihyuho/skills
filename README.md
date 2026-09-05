@@ -20,7 +20,7 @@ Shihyu's curated collection of agent skills.
 - **[grill-on-point](skills/grill-on-point/)** - Run the external `grill-with-docs` skill over a doc, plan, or rough idea while surfacing only findings that truly need your input.
 - **[pr](skills/pr/)** - Publish committed feature-branch changes and return a verified new or existing pull request.
 - **[push](skills/push/)** - Push to the intended remote branch with verified default-branch authorization and publication results.
-- **[skill-review](skills/skill-review/)** - Review a skill against the available skill-authoring rubrics and optionally apply fixes.
+- **[skill-review](skills/skill-review/)** - Review a skill using writing-for-agents and skill-creator, and optionally apply fixes.
 - **[splitoff](skills/splitoff/)** - Hand the current conversation to a Claude Code background agent or a native Codex subagent using a generated handoff summary.
 - **[scope-it](skills/scope-it/)** - Coordinate interchangeable planning skills into one Delivery Map whose embedded protocol lets later sessions continue from its parent.
 - **[tradeoffs](skills/tradeoffs/)** - Judge which discussed option is most worth choosing by comparing its incremental value with its incremental cost, risk, and complexity.
