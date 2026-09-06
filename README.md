@@ -23,7 +23,7 @@ Shihyu's curated collection of agent skills.
 - **[skill-review](skills/skill-review/)** - Review a skill using writing-for-agents and skill-creator, and optionally apply fixes.
 - **[splitoff](skills/splitoff/)** - Hand the current conversation to a Claude Code background agent or a native Codex subagent using a generated handoff summary.
 - **[scope-it](skills/scope-it/)** - Coordinate interchangeable planning skills into one Delivery Map whose embedded protocol lets later sessions continue from its parent.
-- **[tradeoffs](skills/tradeoffs/)** - Judge which discussed option is most worth choosing by comparing its incremental value with its incremental cost, risk, and complexity.
+- **[tradeoffs](skills/tradeoffs/)** - Recommend a discussed option by weighing its added value against cost, risk, and complexity, with evidence that would change the recommendation.
 
 ## Installation
 

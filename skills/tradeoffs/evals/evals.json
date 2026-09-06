@@ -1,0 +1,23 @@
+{
+  "skill_name": "tradeoffs",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Use tradeoffs for the options we discussed: keep a two-minute manual check performed once a month, or build and maintain a service that automates it. Either meets our current deadline and reliability needs. Our priority is low ongoing maintenance. Give me the recommendation here.",
+      "expected_output": "Recommends keeping the manual check on the supplied evidence, compares added value with implementation and ongoing burden, and identifies a concrete change in frequency or requirements that would reverse the recommendation. Finishes concisely in chat without creating a file or asking whether to save.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Use tradeoffs to choose between synchronous validation and the proposed queue described in the supplied validation-contract.md. The queue is expected to offer higher throughput, but we have no evidence that synchronous throughput misses our target. The only way to measure production capacity requires a deployment I have not authorized. Recommend the next step from what we know.",
+      "expected_output": "Reads and cites the supplied contract, rules out the proposed queue because it acknowledges before validation, and recommends retaining synchronous validation under an explicit capacity assumption. States what evidence or design change would justify reconsideration without inventing throughput measurements, deploying, or withholding all judgment.",
+      "files": ["evals/files/validation-contract.md"]
+    },
+    {
+      "id": 3,
+      "prompt": "Use tradeoffs and save the recommendation to decisions/polling.md. We discussed polling once per minute versus a WebSocket connection; updates may be 60 seconds old, polling meets the measured load target, and we prioritize simple operations. The evaluation workspace already contains decisions/polling.md and decisions/polling-2.md; preserve both.",
+      "expected_output": "Recommends polling with the relevant value-versus-burden comparison and a condition that would justify WebSockets. Saves the recommendation to decisions/polling-3.md, preserves both supplied existing files byte-for-byte, and reports the actual saved path.",
+      "files": ["evals/files/decisions/polling.md", "evals/files/decisions/polling-2.md"]
+    }
+  ]
+}
