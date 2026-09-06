@@ -1,6 +1,6 @@
 interface:
   display_name: "tradeoffs"
-  short_description: "Judge which option is worth its added burden"
-  default_prompt: "Use $tradeoffs to decide which discussed option is most worth choosing and what evidence would reverse that recommendation."
+  short_description: "Recommend an option and its decisive tradeoffs"
+  default_prompt: "Use $tradeoffs to recommend which discussed option is worth its added burden, explain what would change that recommendation, and keep the comparison proportionate to the decision."
 policy:
   allow_implicit_invocation: false
