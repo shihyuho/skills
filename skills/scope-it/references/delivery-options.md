@@ -4,7 +4,11 @@ Read this for repository planning files, a shared lane or special verification/c
 
 ## Planning Carry
 
-For ADRs, `CONTEXT.md` changes or other repository content the executor needs, agree exact scope-owned files/patches, retrievable version/location, landing target and one responsible Carrier Ticket. Similarity or a clean worktree does not establish ownership.
+For ADRs, `CONTEXT.md` changes or other repository content the executor needs, agree exact scope-owned files/patches, retrievable version/location, landing target and one responsible Carrier Ticket. Preserve unrelated bytes and keep uncertain ownership unresolved; similarity or a clean worktree does not establish ownership.
+
+Carry each confirmed planning patch still needed for delivery, even when Ticket acceptance quotes its content or assigns later recreation. Acceptance defines the requirement; Carry preserves the existing patch for the executor. This includes one-line edits and single-Ticket plans; direct delivery uses the final branch below.
+
+When required write authority or preservation evidence is missing, present the exact patch, Carrier, final branch/baseline plan and pending actions. Obtain only missing approval and keep the delivery obligation unresolved until verified.
 
 Use repository workflows/tools for approved preservation or publication. An unknown executor needs access beyond a local path; verify content and access as required by the main workflow before cleanup.
 
@@ -18,7 +22,7 @@ Record one compact Planning Carry pointer:
 - repository/path, base and baseline full SHAs, plus patch bounds when needed;
 - landing target and approved-content obligation.
 
-Before cleanup, verify pointer consistency, content/access and native linkage (on GitHub, the Carrier Issue's `linkedBranches`). Retain an existing delivery-path binding. The executor resumes that branch for implementation, tests, required ADR and the PR to target under separate authority.
+Before reporting Carry complete or performing approved cleanup, verify pointer consistency, content/access and native linkage (on GitHub, the Carrier Issue's `linkedBranches`). Retain an existing delivery-path binding. The executor resumes that branch for implementation, tests, required ADR and the PR to target under separate authority.
 
 ## Shared lane and special responsibilities
 

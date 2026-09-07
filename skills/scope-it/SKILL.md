@@ -14,7 +14,7 @@ Coordinate scope and delivery planning. The selected skills own their complete o
 1. **Orient.** Read repository guidance, artifacts and approvals. Resolve the roles and placement below; reuse confirmed work. Find repository facts, recommend answers and ask unresolved questions in dependency order.
 2. **Scope.** Give the Scope skill the settled context and agreed placement. Let it complete its native content checks, confirmations and publication. Keep the complete output and read back its actual location before Tickets.
 3. **Tickets.** Pass the complete published Scope and real reference to the Tickets skill. Resolve choices affecting shape, responsibilities or readiness before publication. Let the source propose, review and publish complete tickets in the agreed placement; retain their verified identities.
-4. **Assemble.** Build the Map from those published artifacts and verified relationships. Retain every agreed delivery obligation with its owner, trigger and required evidence. Requirements and acceptance stay complete in the source artifacts; return gaps or conflicts to the responsible source for approved revision.
+4. **Assemble.** Reconcile this planning session's repository artifacts and changes, including work from invoked skills, with current status/diffs and confirmed delivery obligations before deciding Planning Carry. Build the Map from the published artifacts and verified relationships. Retain every agreed delivery obligation with its owner, trigger and required evidence. Requirements and acceptance stay complete in the source artifacts; return gaps or conflicts to the responsible source for approved revision.
 5. **Publish.** Show the Map and remaining planning-file and preference writes. Use approval covering those concrete changes, then publish only them. Preserve the source artifacts and record the canonical Map identity.
 6. **Verify and finish.** Freshly compare the complete sources, Map and remaining writes with their approvals, including links, metadata, attachments and both relationship axes. Check unchanged Scope/Ticket bytes and one canonical Map. Report the parent, Map and applicable delivery evidence, then stop. Planning approval does not authorize implementation, merging, ticket closure or default-branch Git writes.
 
@@ -64,7 +64,7 @@ Ticket artifacts neither link back to nor copy the Map. After Scope and Tickets 
 
 Use linked Ticket titles as diagram nodes. Ticket-to-Ticket edges project verified native blockers (`A → B` means B is blocked by A); Ticket-to-target edges show branch/PR landing and converge on each shared endpoint once. Independent landing is the default. Omit the diagram for one Ticket.
 
-Use this outline. Insert `## Continue` between Planning Carry and Start the Next Ticket only when a task-specific selection override exists. With no planning files, Planning Carry is `None` and creates no baseline work.
+Use this outline. Insert `## Continue` between Planning Carry and Start the Next Ticket only when a task-specific selection override exists. Use Planning Carry `None` only when that reconciliation confirms no planning content needs carrying; it creates no baseline work.
 
 ```markdown
 ## Delivery Topology
