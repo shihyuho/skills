@@ -188,12 +188,12 @@
     },
     {
       "id": 17,
-      "prompt": "Use scope-it to connect the completed Scope and one Ticket on the parent into a Delivery Map. Their complete artifacts and required source reviews are supplied and recoverable; I accept both as complete. Use team-spec and team-ticket only for this run, with no preference change. The tracker supports comments. The Ticket lands independently on main, with no planning files, special closure duties, interrupted writes or existing Map. Map publication is not yet approved.",
+      "prompt": "Use scope-it to connect the completed Scope and one Ticket on the parent into a Delivery Map. Their complete artifacts and required source reviews are supplied and recoverable; I accept both as complete. Use team-spec and team-ticket only for this run, with no preference change. The tracker supports comments. The Ticket lands independently on main, with no planning files, special closure duties, interrupted writes or existing Map. Map publication is not yet approved. The planning record and fresh tracked/untracked status confirm that this session and its invoked skills produced no repository content needing delivery; any pre-existing changes are confirmed unrelated.",
       "expected_output": "Preview the complete single-Ticket Map through the main workflow, reusing the accepted sources and requesting only the missing Map publication approval.",
       "files": [],
       "assertions": [
         "Reuses the accepted complete source artifacts and reviews without rerunning sources or requesting already settled decisions.",
-        "Keeps the parent as the Ticket identity, omits the diagram, records Planning Carry None and includes the self-contained Start the Next Ticket protocol.",
+        "Reconciles the supplied planning history and fresh repository status before using Planning Carry None; preserves confirmed unrelated changes, keeps the parent as the Ticket identity, omits the diagram and includes the self-contained Start the Next Ticket protocol.",
         "Does not load preferences, recovery or delivery-options references when none of their branches applies; creates no configuration or baseline work.",
         "Previews the Map without writing because Map publication approval is missing."
       ]
@@ -230,6 +230,52 @@
         "Checks exact Carry ownership, the Carrier final branch, full base/baseline SHAs, native linkage and access for the other-clone executor before claiming readiness.",
         "Preserves the completed source artifacts and unrelated changes; no missing publication or cleanup permission is inferred from the baseline pointer.",
         "Keeps the Map unpublished until its concrete publication approval is available."
+      ]
+    },
+    {
+      "id": 21,
+      "prompt": "Resume scope-it after pausing for grill-with-docs (grilling plus domain-modeling). During that pause, the agent applied and read back this exact one-line CONTEXT.md addition and the user confirmed it: +**ChannelCode**: A partner-channel code is translated to the internal channel code at the boundary. Scope and a single Ticket comment are now published on parent #42. The Ticket acceptance quotes that line verbatim and asks its future executor to add it to the glossary. references/delivery-options.md has already been read in full. A fresh git diff still shows that one-line addition; status shows no other changes. The user prefers the smallest change, one Ticket and no planning-only branch. No Git write, baseline publication or Map publication is approved. Continue with the Map proposal and remaining actions; the user has not pointed out any contradiction.",
+      "expected_output": "Recognize the confirmed existing patch as delivery content before proposing the Map, and expose the missing approved preservation path without treating Ticket acceptance as patch delivery.",
+      "files": [],
+      "assertions": [
+        "Accounts for the exact CONTEXT.md patch from the invoked design work when resuming the coordinator, without waiting for a user reminder or rerunning the completed Scope and Ticket sources.",
+        "Keeps the patch as a Carry obligation despite the verbatim Ticket acceptance, proposed future recreation, one-line size, single Ticket and preference against a planning-only branch; does not propose Planning Carry None.",
+        "Presents the exact patch, parent #42 as the Carrier identity, a proposed final delivery branch/baseline plan and only the missing write approvals; preserves local bytes and performs no unapproved Git or Map writes.",
+        "Reports preservation and the Map as unresolved rather than claiming a baseline or Carry is complete. Does not claim an incorrect Map was published or content was lost."
+      ]
+    },
+    {
+      "id": 22,
+      "prompt": "Continue scope-it with the confirmed one-line CONTEXT.md patch from the design pause. The user has now approved that exact patch, parent #42 as the single Carrier Ticket, final branch fix/42-channel-code with an immutable Planning Baseline, native Issue linkage, remote access for another-clone executor and the corresponding Git operations. Scope and Ticket are complete; no Map publication or entry cleanup is approved. The repository workflow supplies readbacks of the exact committed patch, full base and baseline SHAs, correct landing target, native linkedBranches and successful content retrieval from the executor location. In a separate failure variant, remote content retrieval fails although commit and linkage succeeded. Prepare the resulting Map proposal and completion report.",
+      "expected_output": "Reuse the approved preservation work and verify the real Carry evidence before reporting it complete, keeping missing evidence unresolved and Map publication separately bounded.",
+      "files": [],
+      "assertions": [
+        "Uses the approved exact patch and final Carrier branch, preserving complete source artifacts and existing write authority instead of requesting the same approvals or recreating a planning-only branch.",
+        "Checks the actual baseline content against the approved patch, full base/baseline SHAs, landing target, native linkage and executor access before reporting Carry complete, even when cleanup is not requested.",
+        "Records the compact verified Carry pointer in the Map proposal; performs no unapproved Map publication, entry cleanup or implementation.",
+        "The failed-access variant preserves the successful commit/linkage and reports only the remaining delivery-access gap; it neither marks Carry complete nor substitutes None or future Ticket recreation."
+      ]
+    },
+    {
+      "id": 23,
+      "prompt": "Assemble scope-it after domain-modeling returned. CONTEXT.md contains a one-line channel-code definition added during this planning session and explicitly confirmed by the user, plus an adjacent pre-existing paragraph that belongs to another task. An untracked ADR contains a similar rule, but neither the planning record nor the user establishes who created it or whether it belongs to this scope. The single Ticket acceptance quotes the confirmed definition. Current diffs and the prior snapshot distinguish the confirmed line from the pre-existing paragraph. No Git or Map write is approved. Propose the remaining delivery work.",
+      "expected_output": "Carry only the evidenced patch, preserve unrelated bytes and surface uncertain ownership separately before proposing any additional inclusion.",
+      "files": [],
+      "assertions": [
+        "Selects the exact confirmed CONTEXT.md hunk as Carry despite the Ticket quotation; does not widen selection to the whole mixed file or all dirty/untracked files.",
+        "Preserves the unrelated paragraph and ADR bytes. Similar content is not ownership evidence: the ADR remains an explicit unresolved ownership question, without silent classification as Carry or None.",
+        "Exposes only missing ownership or write decisions, performs no unapproved preservation/cleanup/publication and does not claim the delivery package complete while the relevant uncertainty remains."
+      ]
+    },
+    {
+      "id": 24,
+      "prompt": "Resume scope-it with a clean current worktree and a published single Ticket on parent #42. The planning record shows that an invoked design skill made a user-confirmed one-line CONTEXT.md change and, under its separate exact authorization, committed it on a local branch before returning. The recorded full commit SHA and patch are readable and match the approval; the change is absent from the landing target and inaccessible to the future executor in another clone. The Ticket quotes the definition. No publication permission is available. Assemble the Map proposal from this state.",
+      "expected_output": "Reconcile the recorded planning artifact despite an empty current diff, and retain its delivery obligation until the executor can retrieve it on the approved delivery path.",
+      "files": [],
+      "assertions": [
+        "Uses the planning record and recorded commit/patch as well as current status; a clean worktree and quoted Ticket acceptance do not justify Planning Carry None.",
+        "Identifies the confirmed content as requiring Carry and applies references/delivery-options.md to its Carrier branch, baseline, landing target and executor access.",
+        "Preserves the local commit and sources, proposes only missing approved delivery/access work and withholds Carry completion and Map publication until their respective evidence and authority exist."
       ]
     }
   ]
