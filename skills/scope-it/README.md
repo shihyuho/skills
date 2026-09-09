@@ -4,6 +4,12 @@ Coordinate interchangeable scope and ticket workflows into one Delivery Map with
 
 This skill must be invoked explicitly.
 
+Use `--publish` to publish settled requirements through completion and return verified links without separate draft or phase confirmations:
+
+```text
+$scope-it --publish
+```
+
 ## Workflow
 
 ```mermaid
@@ -17,7 +23,7 @@ flowchart TD
     SAVE[("Saved defaults<br/>Optional · with consent")]
     S["Run Scope skill<br/>Produce · review · publish Scope"]
     T["Run Ticket skill<br/>Shape · review · publish Tickets"]
-    M["Delivery Map<br/>scope-it verifies + composes<br/>User approves · publish · read back on Parent"]
+    M["Delivery Map<br/>scope-it verifies + composes<br/>Current authority · publish · read back on Parent"]
     E["Later: executor<br/>Pick the next Ticket from Parent"]
 
     CS -.-> SAVE
@@ -31,7 +37,7 @@ flowchart TD
 
 Scope and Tickets roles are chosen independently; remembering either choice is optional and requires consent. Planning ends with the canonical Map on the Parent. Implementation belongs to the later executor.
 
-The selected skills own their content, reviews and publication. Scope is confirmed and published first, then passed to the ticket skill; the coordinator finally confirms and publishes the Map with any needed handoff links. These are separate approvals, so Scope and tickets are visible before the Map.
+The selected skills own their content, reviews and publication. Scope is published first, then passed to the ticket skill; the coordinator finally publishes the Map with any needed handoff links. Each phase uses current publication authority; `--publish` covers routine publication within the confirmed scope while preserving required content checks and reviews. Git/cleanup, preferences and activation of implementation still need their own authority.
 
 Publication keeps the agreed placement: an existing parent hosts Scope without replacing the report, one Ticket uses that parent as its identity, and multiple Tickets become children. The Map is one canonical parent comment; Ticket artifacts neither copy nor link back to it.
 

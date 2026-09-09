@@ -431,6 +431,41 @@
         "In the uncertain variant, preserves the affected source content and staging state until ownership and cleanup scope are resolved, without guessing that C1 is disposable.",
         "Verifies the resulting index and worktree independently, preserves source branch history and successful publication, and reports cleanup status accurately."
       ]
+    },
+    {
+      "id": 38,
+      "prompt": "Use scope-it --publish. The discussion confirmed optional code, name and status filters for GET /exchange/namespace: code/name use case-insensitive contains matching after trim, blank strings are absent, status matches exactly, and combined filters use AND. Unfiltered behavior, paging, sorting, responses and permissions stay unchanged. The user accepted this scope and excluded further special-character/error-input design. Publish in the resolved backend repository. The selected Scope and Tickets workflows can complete their content checks and reviews from the available evidence; their routine draft/publication confirmations are the only remaining approval steps. Their ticket analysis finds one independently deliverable outcome. No exact Issue or Map draft has been individually approved. No Carry, temporary worktree, implementation activation or additional repository publication is requested.",
+      "expected_output": "Complete the single-Ticket planning publication and readback under --publish, then return the verified parent and Map links without routine approval questions.",
+      "files": [],
+      "assertions": [
+        "Passes --publish authority and the settled requirements to both sources, completes their content checks and reviews, and does not reopen the excluded design discussion or ask the user to approve routine drafts or publication phases.",
+        "Preserves every confirmed filter rule and unchanged behavior in the full planning artifacts; uses the existing parent/single-Ticket-comment/Map contract rather than changing ticket layout or bypassing ticket shaping.",
+        "Publishes Scope, Ticket and one canonical Map, reads back their content, identities, metadata and relationships, and returns verified links only after completion.",
+        "Creates no UI notice, extra repository issue, planning baseline or implementation work by default; --publish does not save preferences or change invocation markers."
+      ]
+    },
+    {
+      "id": 39,
+      "prompt": "Use scope-it --publish for confirmed requirements in a resolved repository. Consider independent variants: A, a source discovers an unresolved product decision that changes acceptance; B, its default readiness metadata would immediately queue implementation, but the repository supports a non-triggering planning state and execution is unapproved; C, a required Carry move needs Git publication/cleanup whose exact scope is not approved; D, a substantive independent content review is still required. Existing publication receipts are verified and no permission beyond planning artifact publication was given.",
+      "expected_output": "Use --publish for the covered planning writes while resolving only genuine decision, review or authorization gaps, preserving completed work.",
+      "files": [],
+      "assertions": [
+        "For A, asks only about the acceptance-changing decision before affected publication; does not invent requirements or restart already settled planning.",
+        "For B, uses the repository's non-triggering planning state and verifies actual metadata effects; neither a source default nor --publish authorizes queuing implementation.",
+        "For C, preserves Carry and successful publication, obtains only missing authority for its Git/cleanup scope, and does not claim the planning obligation complete.",
+        "For D, completes or obtains the required substantive review; distinguishes that review from routine draft/publication confirmations already covered by --publish."
+      ]
+    },
+    {
+      "id": 40,
+      "prompt": "Resume scope-it --publish within the same confirmed requirements and destinations. The Scope parent was published and read back before interruption. Exact Ticket and Map drafts are recoverable and meet the selected sources' content/review contracts, but have no separate phase approvals; their publication is covered by --publish. Fresh readback shows neither was published, and content and target state still match. In an independent variant, the user's current instruction explicitly limits this run to previewing the remaining drafts without writes.",
+      "expected_output": "Finish only the remaining covered publication and verification, or honor the explicit preview-only limit, without duplicating completed artifacts.",
+      "files": [],
+      "assertions": [
+        "Uses recovery readbacks and --publish authority to publish and verify only the remaining Ticket and Map, without recreating Scope or requesting routine phase approvals.",
+        "Keeps the canonical identities, content, invocation choices and unrelated state intact, and reports complete links only after the remaining readbacks succeed.",
+        "In the preview-only variant, returns the drafts without external writes; --publish does not override the user's narrower current instruction."
+      ]
     }
   ]
 }

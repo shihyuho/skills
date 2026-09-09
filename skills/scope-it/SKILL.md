@@ -12,7 +12,7 @@ Coordinate scope and delivery planning. The selected skills own their complete o
 ## Workflow
 
 1. **Orient.** Read repository guidance, artifacts and approvals. Resolve the roles and placement below; reuse confirmed work. Find repository facts, recommend answers and ask unresolved questions in dependency order.
-2. **Scope.** Give the Scope skill the settled context and agreed placement. Let it complete its native content checks, confirmations and publication. Keep the complete output and read back its actual location before Tickets.
+2. **Scope.** Give the Scope skill the settled context and agreed placement. Let it complete its native content checks and reviews, then publish under the authority below. Keep the complete output and read back its actual location before Tickets.
 3. **Tickets.** Pass the complete published Scope and real reference to the Tickets skill. Resolve choices affecting shape, responsibilities or readiness before publication. Let the source propose, review and publish complete tickets in the agreed placement; retain their verified identities.
 4. **Assemble.** Reconcile this planning session's repository artifacts, changes and created worktrees, including work from invoked skills, with current status/diffs, worktree ownership evidence and confirmed delivery obligations before deciding Planning Carry and cleanup. Build the Map from the published artifacts and verified relationships. Retain every agreed delivery obligation with its owner, trigger and required evidence. Requirements and acceptance stay complete in the source artifacts; return gaps or conflicts to the responsible source for approved revision.
 5. **Publish.** Show the Map, remaining planning-file and preference writes, and any remaining worktrees to remove. Use approval covering those concrete changes, then perform only them. Preserve the source artifacts and record the canonical Map identity.
@@ -43,7 +43,9 @@ Reuse complete artifacts with recoverable evidence of the selected source's cont
 
 ## Publication contract
 
-Each phase uses its native confirmations and approval for the concrete content, destinations, attachments, metadata and relationships. Reuse that approval while those writes still match; ask only about missing decisions or changed writes, preserving the source's required content checks and reviews.
+`--publish` from the user or an authorized caller authorizes completing Scope, Tickets and Map publication within the confirmed requirements and destinations. This covers routine drafting, ticket structure, attachments, non-triggering metadata and necessary relationships without separate approval of each draft or phase. Pass that authority to the selected sources, complete their content checks and required reviews, and continue through publication and readback. Reuse settled decisions; ask only about substantive requirement/delivery changes or missing authority. Git/cleanup, preferences and activation of implementation retain their separate authorization.
+
+Otherwise, each phase uses its native confirmations and approval for the concrete content, destinations, attachments, metadata and relationships. Reuse that approval while those writes still match; ask only about missing decisions or changed writes, preserving the source's required content checks and reviews.
 
 Explain that Scope and Tickets become visible before the Map, and resolve execution-triggering metadata before publication. Read fresh targets before writes and compare each result with its approved payload before dependent work. Look up uncertain creations before retrying. Preserve unrelated content and the starting item's lifecycle.
 
