@@ -4,7 +4,7 @@ Coordinate interchangeable scope and ticket workflows into one Delivery Map with
 
 This skill must be invoked explicitly.
 
-Use `--publish` to publish settled requirements through completion and return verified links without separate draft or phase confirmations:
+Use `--publish` to complete this skill's full workflow within the agreed scope and return a verified planning handoff without routine confirmation between steps:
 
 ```text
 $scope-it --publish
@@ -37,7 +37,7 @@ flowchart TD
 
 Scope and Tickets roles are chosen independently; remembering either choice is optional and requires consent. Planning ends with the canonical Map on the Parent. Implementation belongs to the later executor.
 
-The selected skills own their content, reviews and publication. Scope is published first, then passed to the ticket skill; the coordinator finally publishes the Map with any needed handoff links. Each phase uses current publication authority; `--publish` covers routine publication within the confirmed scope while preserving required content checks and reviews. Git/cleanup, preferences and activation of implementation still need their own authority.
+The selected skills own their content, reviews and publication. Scope is published first, then passed to the ticket skill; the coordinator finally publishes the Map with any needed handoff links. Each step uses current workflow authority while preserving required content checks and reviews.
 
 Publication keeps the agreed placement: an existing parent hosts Scope without replacing the report, one Ticket uses that parent as its identity, and multiple Tickets become children. The Map is one canonical parent comment; Ticket artifacts neither copy nor link back to it.
 

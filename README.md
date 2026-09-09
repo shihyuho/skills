@@ -22,7 +22,7 @@ Shihyu's curated collection of agent skills.
 - **[push](skills/push/)** - Push to the intended remote branch with verified default-branch authorization and publication results.
 - **[skill-review](skills/skill-review/)** - Review a skill using writing-for-agents and skill-creator, and optionally apply fixes.
 - **[splitoff](skills/splitoff/)** - Hand the current conversation to a Claude Code background agent or a native Codex subagent using a generated handoff summary.
-- **[scope-it](skills/scope-it/)** - Coordinate interchangeable planning skills into one verified Delivery Map with Carry delivery and source/worktree cleanup, using `--publish` to complete agreed planning publication without per-phase confirmation.
+- **[scope-it](skills/scope-it/)** - Coordinate interchangeable planning skills into one verified Delivery Map, using `--publish` to complete the full planning workflow without routine confirmation.
 - **[tradeoffs](skills/tradeoffs/)** - Recommend a discussed option by weighing its added value against cost, risk, and complexity, with supporting evidence and conditions that would change the recommendation.
 
 ## Installation

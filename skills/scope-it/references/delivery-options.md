@@ -6,13 +6,13 @@ Source and worktree cleanup must leave required planning content retrievable thr
 
 ## Planning Carry
 
-For ADRs, `CONTEXT.md` changes or other repository content the executor needs, agree exact scope-owned files/patches, retrievable version/location, landing target and one responsible Carrier Ticket. Preserve unrelated bytes and keep uncertain ownership unresolved; similarity or a clean worktree does not establish ownership.
+For ADRs, `CONTEXT.md` changes or other repository content the executor needs, identify exact scope-owned files/patches, retrievable version/location, landing target and one responsible Carrier Ticket. Preserve unrelated bytes and keep uncertain ownership unresolved; similarity or a clean worktree does not establish ownership.
 
 Record the pre-move source state and Carry ownership separately in the index and worktree, including differing staged and unstaged versions.
 
 Carry each confirmed planning patch still needed for delivery, even when Ticket acceptance quotes its content or assigns later recreation. Acceptance defines the requirement; Carry preserves the existing patch for the executor. This includes one-line edits and single-Ticket plans; direct delivery uses the final branch below.
 
-Present the exact patch, Carrier, final branch/baseline plan, source cleanup and temporary worktree removal together. Approval covers that move and cleanup; reuse it without reconfirming unchanged scope. Respect an explicit request to retain source copies or a worktree. When authority or preservation evidence is missing, expose only the gap and keep the delivery obligation unresolved.
+Present the exact patch, Carrier, final branch/baseline plan, source cleanup and temporary worktree removal together. Apply the [publication contract](../SKILL.md#publication-contract) to this move and reuse matching authority without reconfirmation. Respect an explicit request to retain source copies or a worktree. When authority or preservation evidence is missing, expose only the gap and keep the delivery obligation unresolved.
 
 Use repository workflows/tools for preservation, publication and cleanup. An unknown executor needs access beyond a local path.
 
@@ -34,7 +34,7 @@ Verify the resulting source state and applicable [worktree cleanup](#worktree-cl
 
 ## Worktree cleanup
 
-Account for worktrees created by this planning run, including invoked workflows, whether or not Carry exists. Keep creation evidence and repository/path/ref/HEAD identities in the approval context to distinguish them from pre-existing worktrees. Include temporary worktree removal in the creation or Carry proposal and reuse matching approval.
+Account for worktrees created by this planning run, including invoked workflows, whether or not Carry exists. Keep creation evidence and repository/path/ref/HEAD identities in the approval context to distinguish them from pre-existing worktrees. Include temporary worktree removal in the creation or Carry plan and apply the same publication contract.
 
 Once their planning or publication purpose is complete, remove those owned worktrees after required content and executor access are verified. Future execution on the same branch does not require retaining its current worktree. Keep worktrees explicitly retained or handed over for continued work, along with pre-existing or ownership-uncertain worktrees.
 

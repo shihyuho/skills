@@ -446,13 +446,13 @@
     },
     {
       "id": 39,
-      "prompt": "Use scope-it --publish for confirmed requirements in a resolved repository. Consider independent variants: A, a source discovers an unresolved product decision that changes acceptance; B, its default readiness metadata would immediately queue implementation, but the repository supports a non-triggering planning state and execution is unapproved; C, a required Carry move needs Git publication/cleanup whose exact scope is not approved; D, a substantive independent content review is still required. Existing publication receipts are verified and no permission beyond planning artifact publication was given.",
+      "prompt": "Use scope-it --publish for confirmed requirements in a resolved repository. Consider independent variants: A, a source discovers an unresolved product decision that changes acceptance; B, its default readiness metadata would immediately queue implementation, but the repository supports a non-triggering planning state and execution is unapproved; C, a required Carry candidate contains changes whose ownership cannot be established from the planning record or source state; D, a substantive independent content review is still required. Existing publication receipts are verified and the agreed scope covers the planning handoff.",
       "expected_output": "Use --publish for the covered planning writes while resolving only genuine decision, review or authorization gaps, preserving completed work.",
       "files": [],
       "assertions": [
         "For A, asks only about the acceptance-changing decision before affected publication; does not invent requirements or restart already settled planning.",
         "For B, uses the repository's non-triggering planning state and verifies actual metadata effects; neither a source default nor --publish authorizes queuing implementation.",
-        "For C, preserves Carry and successful publication, obtains only missing authority for its Git/cleanup scope, and does not claim the planning obligation complete.",
+        "For C, preserves the uncertain source changes and successful publication, resolves only the ownership gap, and withholds affected completion; the use of Git or cleanup alone is not a reason to request another approval under --publish.",
         "For D, completes or obtains the required substantive review; distinguishes that review from routine draft/publication confirmations already covered by --publish."
       ]
     },
@@ -465,6 +465,41 @@
         "Uses recovery readbacks and --publish authority to publish and verify only the remaining Ticket and Map, without recreating Scope or requesting routine phase approvals.",
         "Keeps the canonical identities, content, invocation choices and unrelated state intact, and reports complete links only after the remaining readbacks succeed.",
         "In the preview-only variant, returns the drafts without external writes; --publish does not override the user's narrower current instruction."
+      ]
+    },
+    {
+      "id": 41,
+      "prompt": "Use scope-it --publish after an approved design discussion. That discussion produced two confirmed planning files, a design document and its audit evidence, still untracked on source main; recoverable creation and content records establish their exact scope ownership. Other source changes belong to another task. The resolved repository and selected workflows supply naming, base, linked-branch and publication mechanics; one backend Carrier and the landing target are determined by the settled delivery responsibilities. The sources can complete their required content checks and reviews. No separate approval has been given for a branch, baseline commit/push, source move, temporary worktree removal or Map draft. Complete the agreed planning handoff.",
+      "expected_output": "Carry the full planning workflow through verified remote preservation, source and owned-worktree cleanup, and canonical Map publication under --publish alone.",
+      "files": [],
+      "assertions": [
+        "Passes the agreed scope and full workflow authority to the selected workflows, resolves concrete actions from repository evidence, and performs required checks without asking for routine draft, Git or cleanup approval.",
+        "Creates or safely reuses the Carrier's correctly based and natively linked non-default delivery branch, preserves exactly the two planning files in an immutable baseline, and verifies remote content, full SHAs and executor access.",
+        "After fresh preservation and source-state checks, removes only the delivered source changes and any eligible temporary worktree created for this planning run; preserves unrelated bytes and staging, pre-existing worktrees, retained refs and required handoff locations.",
+        "Publishes and reads back one canonical Map with the actual Carry evidence, returns verified artifact and baseline links, and claims completion only after all applicable cleanup is verified.",
+        "Preserves source main history and starts no feature implementation, execution-triggering automation, implementation PR, merge, deployment or preference change."
+      ]
+    },
+    {
+      "id": 42,
+      "prompt": "Resume the same scope-it --publish run after an interruption. Scope and Tickets were published; the Carrier's baseline commit was pushed and has recoverable content, linkage and access receipts. Source cleanup and temporary worktree removal have not run, and the Map remains a recoverable draft. Creation and pre-move records identify exact source ownership and the temporary worktree. Fresh repository and tracker reads can confirm whether those states still match. There is no later scope or retention change and no separate cleanup or Map approval.",
+      "expected_output": "Re-verify the completed preservation, finish the remaining safe cleanup and Map publication with the existing --publish authority, and report the verified handoff.",
+      "files": [],
+      "assertions": [
+        "Uses recovery and delivery references, revalidates real receipts and current state, and resumes at unfinished work without duplicating the baseline, push, Issues or other successful publication.",
+        "When current state matches, completes exact source cleanup and eligible owned-worktree removal without another Agree, then publishes and reads back the canonical Map.",
+        "A failed readback or changed ownership/content leaves the affected work unresolved while preserving successful publication; --publish does not bypass preservation evidence or permit broader removal."
+      ]
+    },
+    {
+      "id": 43,
+      "prompt": "Complete scope-it --publish with Planning Carry None. The selected Scope workflow created a temporary worktree for necessary isolated planning checks within the agreed scope; trusted creation records identify it. Its required outputs are now retrievable through the published Scope, Tickets and canonical Map, and no required path or unpreserved commit depends on keeping it. The source worktree is pre-existing. The temporary worktree's purpose is complete and its fresh identity, content, lock and usage checks can be read from tools. No separate worktree-removal approval was given.",
+      "expected_output": "Apply the full workflow authority to eligible owned-worktree cleanup even without Carry, then verify the completed planning handoff.",
+      "files": [],
+      "assertions": [
+        "Reads delivery-options.md for worktree cleanup, verifies ownership and preservation, and removes only the eligible owned temporary worktree using ordinary non-force removal without a routine approval question.",
+        "Verifies both registration and directory removal, preserves the pre-existing source worktree and retained refs, and reports actual cleanup and publication results.",
+        "Retains Carry None and creates no unnecessary baseline, commit or push; source reviews, published artifact identities and implementation boundaries remain intact."
       ]
     }
   ]
