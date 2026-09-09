@@ -188,7 +188,7 @@
     },
     {
       "id": 17,
-      "prompt": "Use scope-it to connect the completed Scope and one Ticket on the parent into a Delivery Map. Their complete artifacts and required source reviews are supplied and recoverable; I accept both as complete. Use team-spec and team-ticket only for this run, with no preference change. The tracker supports comments. The Ticket lands independently on main, with no planning files, special closure duties, interrupted writes or existing Map. Map publication is not yet approved. The planning record and fresh tracked/untracked status confirm that this session and its invoked skills produced no repository content needing delivery; any pre-existing changes are confirmed unrelated.",
+      "prompt": "Use scope-it to connect the completed Scope and one Ticket on the parent into a Delivery Map. Their complete artifacts and required source reviews are supplied and recoverable; I accept both as complete. Use team-spec and team-ticket only for this run, with no preference change. The tracker supports comments. The Ticket lands independently on main, with no planning files, special closure duties, interrupted writes or existing Map. Map publication is not yet approved. The planning record and fresh tracked/untracked status confirm that this session and its invoked skills produced no repository content needing delivery; any pre-existing changes are confirmed unrelated. This run and its invoked workflows created no worktrees, and no worktree cleanup is pending.",
       "expected_output": "Preview the complete single-Ticket Map through the main workflow, reusing the accepted sources and requesting only the missing Map publication approval.",
       "files": [],
       "assertions": [
@@ -240,7 +240,7 @@
       "assertions": [
         "Accounts for the exact CONTEXT.md patch from the invoked design work when resuming the coordinator, without waiting for a user reminder or rerunning the completed Scope and Ticket sources.",
         "Keeps the patch as a Carry obligation despite the verbatim Ticket acceptance, proposed future recreation, one-line size, single Ticket and preference against a planning-only branch; does not propose Planning Carry None.",
-        "Presents the exact patch, parent #42 as the Carrier identity, the final delivery branch/baseline and source cleanup as one Carry proposal needing only the missing write approval; preserves local bytes and performs no unapproved Git or Map writes.",
+        "Presents the exact patch, parent #42 as the Carrier identity, the final delivery branch/baseline, source cleanup and removal of any temporary worktree as one Carry proposal needing only the missing write approval; preserves local bytes and performs no unapproved Git or Map writes.",
         "Reports preservation and the Map as unresolved rather than claiming a baseline or Carry is complete. Does not claim an incorrect Map was published or content was lost."
       ]
     },
@@ -252,7 +252,7 @@
       "assertions": [
         "Reuses the approved exact patch and final Carrier branch instead of recreating the baseline or asking for a second cleanup confirmation.",
         "Verifies the actual baseline content, full base/baseline SHAs, landing target, native linkage and executor access before changing the source.",
-        "On successful delivery verification, removes only the carried pending hunk from the source worktree/index and verifies the resulting source state before declaring Carry complete; leaves main's commit history unchanged.",
+        "On successful delivery verification, removes only the carried pending hunk from the source worktree/index and verifies the resulting source state and any required temporary worktree cleanup before declaring Carry complete; leaves main's commit history unchanged.",
         "Records the compact verified Carry pointer in the Map proposal; performs no unapproved Map publication, implementation or commit/push to main.",
         "The failed-access variant preserves the source and successful commit/linkage, reports the remaining access and cleanup work, and keeps Carry incomplete rather than substituting None or future Ticket recreation."
       ]
@@ -325,6 +325,111 @@
         "Treats the already committed source content as requiring no pending-change cleanup; preserves its branch ref and commits rather than removing its tracked file or rewriting history.",
         "Verifies the current source state and delivery evidence before reporting Carry complete; performs no unapproved Map publication or implementation.",
         "Reads references/recovery.md for the interrupted work and references/delivery-options.md for Carry completion."
+      ]
+    },
+    {
+      "id": 29,
+      "prompt": "Finish an approved scope-it Carry move. This planning run created a temporary worktree solely to commit and publish the exact approved Carry on Carrier #42's final branch fix/42-channel-code; trusted creation records identify its repository, path and ref, and approved write receipts identify its current HEAD. The approved proposal includes source cleanup and removal of this temporary worktree. The remote branch and baseline match that HEAD, content, native linkage and executor access are verified, and source cleanup has completed. Fresh inspection finds no staged, unstaged, untracked, ignored or unpreserved committed work, lock or ongoing use. The future executor will resume the same branch from another clone; the local worktree has not been reserved or handed over. The agent's current directory is inside the temporary worktree. Map publication is not approved.",
+      "expected_output": "Remove the owned temporary worktree after verification, retain the delivery branch and pointer, and finish Carry without another cleanup confirmation.",
+      "files": [],
+      "assertions": [
+        "Verifies creation ownership, registered path/ref/HEAD, current content and executor access against the approved cleanup state before removal.",
+        "Moves to a surviving directory and uses normal non-force worktree removal; verifies both registration and directory are gone before claiming cleanup complete.",
+        "Preserves the local and remote delivery branches, baseline SHA, native Issue linkage and Carry pointer; future use of the same branch is not treated as a requirement to keep this local worktree.",
+        "Reuses the approved cleanup scope and reports source and worktree cleanup accurately without publishing the unapproved Map or starting implementation."
+      ]
+    },
+    {
+      "id": 30,
+      "prompt": "A scope-it Carry baseline has been pushed and its content, linkage and access verified. Removal of the temporary worktree created by this run was approved. Before removal, fresh inspection reveals one of these independent variants: a staged or unstaged user edit; an untracked draft; a needed ignored local file although ordinary git status is clean; a new unaccounted local commit after the published HEAD; a different registered branch or HEAD than the approved cleanup state; a lock; or another task actively using the worktree. Source-file cleanup is already verified. No changed cleanup scope is approved.",
+      "expected_output": "Preserve the affected worktree and its contents, report the exact remaining cleanup gap, and keep required cleanup incomplete despite the successful push.",
+      "files": [],
+      "assertions": [
+        "Checks more than ordinary clean status, including untracked and ignored content, current commits and registered identity, locks and ongoing use.",
+        "Retains the worktree in each variant without resetting files, dropping commits, deleting branches, forcing removal or recursively deleting its directory.",
+        "Keeps successful publication and source cleanup intact, reports the specific blocker and leaves required cleanup and planning incomplete.",
+        "Does not treat presence under a familiar worktree directory, a matching branch-name prefix or prior push success as proof of current removal eligibility."
+      ]
+    },
+    {
+      "id": 31,
+      "prompt": "Finish scope-it after Scope, Tickets and the canonical Map were approved, published and read back. Planning Carry is None: all required planning content is already accessible in the published artifacts, and no repository patch needs delivery. The selected Scope workflow created a temporary worktree for isolated planning checks under creation-and-removal approval; its trusted creation and write receipts are recoverable. It is now unused and has no unpreserved files or commits, and its identity matches. The starting worktree was pre-existing. A second worktree appeared concurrently, but no record attributes its creation to this planning run. No new Git publication is approved.",
+      "expected_output": "Reconcile and remove the planning workflow's owned temporary worktree even with Carry None, while preserving pre-existing and unattributed worktrees.",
+      "files": [],
+      "assertions": [
+        "Reads references/delivery-options.md because planning worktree cleanup applies independently of Carry, while retaining Planning Carry None and the completed source artifacts.",
+        "Includes worktrees created by invoked workflows in the cleanup inventory using creation evidence, not merely a before/after worktree-list difference.",
+        "Verifies and removes only the eligible owned temporary worktree with matching approval and non-force removal, then verifies its absence.",
+        "Preserves the starting and unattributed worktrees and all branch refs; creates no new baseline, push, Map publication or implementation work."
+      ]
+    },
+    {
+      "id": 32,
+      "prompt": "Account for worktrees at the end of an otherwise complete scope-it run. A is a clean pre-existing worktree reused for Carry publication. B was created by this run but the user explicitly asked to keep it. C was created by an invoked workflow and then explicitly handed over to an executor already continuing there. D was created by this run and contains an original ADR whose unchanged path and bytes the user explicitly asked to retain after publishing a copy. Required publication and executor access are verified. No other cleanup is pending, and no permission expands removal to these retained worktrees.",
+      "expected_output": "Preserve each worktree for its evidenced ownership or retention reason, and report those agreed outcomes without treating them as cleanup failures.",
+      "files": [],
+      "assertions": [
+        "Preserves A because reuse does not establish invocation ownership, and preserves B under explicit retention.",
+        "Preserves C because the actual worktree was handed over, distinguishing this from merely planning to use the same branch later.",
+        "Preserves D and the requested local ADR path; worktree removal does not override source-copy retention.",
+        "Reports the retained paths and reasons while allowing planning to complete when every applicable obligation is satisfied; asks for no redundant removal confirmation and changes no branch or Map."
+      ]
+    },
+    {
+      "id": 33,
+      "prompt": "Resume scope-it after verified delivery and source cleanup, with approved removal of a temporary worktree created by this run. In variant A, fresh eligibility checks pass but normal worktree removal fails or its result is ambiguous; the directory or registration remains. In variant B, a recoverable successful removal receipt exists, fresh inspection confirms both directory and registration are absent, and the preserved delivery branch, baseline and executor access still match. No new publication or cleanup scope is approved.",
+      "expected_output": "Report incomplete removal accurately in the failure variant and reuse verified removal in the completed variant, without escalating destruction or duplicating work.",
+      "files": [],
+      "assertions": [
+        "For A, preserves successful publication and remaining local content, reports the unresolved removal or verification result, and keeps required cleanup incomplete.",
+        "Uses no forced removal, recursive directory deletion or broad pruning to bypass the failed normal removal.",
+        "For B, reuses the receipt and fresh readback without recreating the worktree, deleting the branch or repeating publication, and reports cleanup complete.",
+        "Reads references/recovery.md and references/delivery-options.md for the interrupted cleanup and retains the canonical Map identity."
+      ]
+    },
+    {
+      "id": 34,
+      "prompt": "Finish an approved scope-it Carry move from main. An unchanged untracked planning file is wholly included in the verified published baseline, and source cleanup was approved. The same file is also the canonical local Scope/Map artifact at the absolute path recorded in the handoff; this dual use is established by the published placement contract. Copying it to the delivery branch preserved its bytes but did not change that canonical path. No replacement location or binding update was approved. There is no temporary worktree to remove.",
+      "expected_output": "Retain the canonical source path and report the unresolved cleanup/placement conflict without treating the published copy as a replacement binding.",
+      "files": [],
+      "assertions": [
+        "Checks that the handoff's recorded artifact locations will remain retrievable after source cleanup, beyond verifying copied content and baseline access.",
+        "Preserves the local Scope/Map path and bytes until an approved replacement and updated binding are verified; performs no unapproved relocation or Map rewrite.",
+        "Reports the specific remaining cleanup gap while preserving successful Carry publication, and does not claim that required cleanup is complete."
+      ]
+    },
+    {
+      "id": 35,
+      "prompt": "Finish scope-it with Planning Carry None. A temporary worktree created by this run is approved for removal, has matching creation and write receipts, and is clean, unlocked and unused. All required commits are reachable from a retained branch. The approved local Markdown fallback, however, records this worktree's absolute Scope, Ticket and canonical Map paths as the continuation entry points. These tracked files have no approved replacement locations or binding updates. All other planning obligations are complete.",
+      "expected_output": "Keep the worktree because its recorded local artifact paths remain required, and identify the approved placement change needed before removal can complete.",
+      "files": [],
+      "assertions": [
+        "Reads references/delivery-options.md for worktree cleanup despite Carry None and evaluates the actual local artifact bindings.",
+        "Distinguishes reachable Git content from the continued availability of the recorded absolute paths; retains the worktree and its files.",
+        "Leaves required removal unresolved without silently changing artifact bindings or treating this as previously agreed retention; preserves completed publication and branch refs."
+      ]
+    },
+    {
+      "id": 36,
+      "prompt": "A scope-it source workflow created a detached temporary worktree. Its clean current HEAD exactly matches the approved write receipt and contains a required planning commit. The approved handoff records the full SHA, and the local executor can read the commit now, but inspection shows no retained branch, tag or durable publication reaches it: its only live HEAD is the worktree scheduled for approved removal. There are no required absolute local artifact paths, unpreserved file changes, locks or ongoing use. Creating a preservation ref or publishing this commit has not been approved.",
+      "expected_output": "Preserve the worktree until the required commit has verified durable reachability and executor access after removal, and report the missing preservation action.",
+      "files": [],
+      "assertions": [
+        "Checks required commit reachability after removal instead of relying on a matching full SHA, current readability or clean status.",
+        "Keeps the detached worktree and required commit intact while preserving the existing handoff; does not create refs or publish outside the approved scope.",
+        "Reports preservation and required cleanup as unresolved without claiming completion or rewriting branch history."
+      ]
+    },
+    {
+      "id": 37,
+      "prompt": "Finish approved scope-it Carry source cleanup for CONTEXT.md on main. The verified baseline contains Carry version C2. Recorded pre-move evidence and cleanup approval separately identify the same scope-owned section as C1 in the index and C2 in the working file; C2 is an unstaged revision of C1. A disjoint unrelated paragraph P is staged, and a disjoint unrelated paragraph U is unstaged. Fresh bytes match these records and delivery/linkage/access checks pass. In an independent variant, C1's ownership was never established and cleanup of that layer was not approved. No branch history or unrelated content changes are authorized.",
+      "expected_output": "Remove the separately recorded owned Carry versions from their respective layers while preserving P and U, or retain uncertain content and report the gap in the ownership variant.",
+      "files": [],
+      "assertions": [
+        "Uses separate index and worktree ownership/state evidence for C1 and C2, rather than assuming the published C2 patch describes both layers.",
+        "In the fully approved variant, removes C1 from the index and C2 from the working file while retaining P as staged and U as unstaged, with all unrelated bytes unchanged.",
+        "In the uncertain variant, preserves the affected source content and staging state until ownership and cleanup scope are resolved, without guessing that C1 is disposable.",
+        "Verifies the resulting index and worktree independently, preserves source branch history and successful publication, and reports cleanup status accurately."
       ]
     }
   ]

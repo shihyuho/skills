@@ -14,8 +14,8 @@ Coordinate scope and delivery planning. The selected skills own their complete o
 1. **Orient.** Read repository guidance, artifacts and approvals. Resolve the roles and placement below; reuse confirmed work. Find repository facts, recommend answers and ask unresolved questions in dependency order.
 2. **Scope.** Give the Scope skill the settled context and agreed placement. Let it complete its native content checks, confirmations and publication. Keep the complete output and read back its actual location before Tickets.
 3. **Tickets.** Pass the complete published Scope and real reference to the Tickets skill. Resolve choices affecting shape, responsibilities or readiness before publication. Let the source propose, review and publish complete tickets in the agreed placement; retain their verified identities.
-4. **Assemble.** Reconcile this planning session's repository artifacts and changes, including work from invoked skills, with current status/diffs and confirmed delivery obligations before deciding Planning Carry. Build the Map from the published artifacts and verified relationships. Retain every agreed delivery obligation with its owner, trigger and required evidence. Requirements and acceptance stay complete in the source artifacts; return gaps or conflicts to the responsible source for approved revision.
-5. **Publish.** Show the Map and remaining planning-file and preference writes. Use approval covering those concrete changes, then publish only them. Preserve the source artifacts and record the canonical Map identity.
+4. **Assemble.** Reconcile this planning session's repository artifacts, changes and created worktrees, including work from invoked skills, with current status/diffs, worktree ownership evidence and confirmed delivery obligations before deciding Planning Carry and cleanup. Build the Map from the published artifacts and verified relationships. Retain every agreed delivery obligation with its owner, trigger and required evidence. Requirements and acceptance stay complete in the source artifacts; return gaps or conflicts to the responsible source for approved revision.
+5. **Publish.** Show the Map, remaining planning-file and preference writes, and any remaining worktrees to remove. Use approval covering those concrete changes, then perform only them. Preserve the source artifacts and record the canonical Map identity.
 6. **Verify and finish.** Freshly compare the complete sources, Map and remaining writes with their approvals, including links, metadata, attachments and both relationship axes. Check unchanged Scope/Ticket bytes and one canonical Map. Report the parent, Map and applicable delivery evidence, then stop. Planning approval does not authorize implementation, merging, ticket closure or commits/pushes to the default branch.
 
 ## Conditional references
@@ -24,7 +24,7 @@ Read the applicable reference before the affected work, including when reusing c
 
 - **Preferences:** when a role needs saved defaults or the user requests a preference change or migration, read [preferences.md](references/preferences.md) before using or writing the configuration.
 - **Recovery:** for interrupted publication, uncertain creations, retrieval or amendment of an existing Map, legacy Map markers, or a delivery audit, read [recovery.md](references/recovery.md) before continuing or retrying.
-- **Delivery options:** for repository planning files, a shared lane, or special verification/closure duties, read [delivery-options.md](references/delivery-options.md) before shaping or accepting the delivery contract, assembling its Map, or proposing related writes.
+- **Delivery options:** for repository planning files, planning worktree creation or cleanup, a shared lane, or special verification/closure duties, read [delivery-options.md](references/delivery-options.md) before shaping or accepting the delivery contract, assembling its Map, or proposing related writes.
 
 ## Planning skills
 
@@ -79,6 +79,6 @@ Use this outline. Insert `## Continue` between Planning Carry and Start the Next
 
 Publish **Start the Next Ticket** in every Map, adapting tracker terms while keeping the instructions in the Map. The parent, Scope, native relations and canonical Map let later sessions select one Ticket before loading its body. The selected Ticket carries complete prerequisites and acceptance; the Map carries cross-Ticket delivery facts. Keep planner write limits and operation receipts in the approval context.
 
-Preserve unrelated entry changes and resolve uncertain planning-file ownership before including content. Complete Planning Carry through verified delivery and source cleanup under [delivery-options.md](references/delivery-options.md); unresolved delivery or cleanup leaves planning incomplete.
+Preserve unrelated entry changes and resolve uncertain planning-file ownership before including content. Complete any Planning Carry and temporary worktree cleanup under [delivery-options.md](references/delivery-options.md); unresolved delivery or required cleanup leaves planning incomplete.
 
 $ARGUMENTS
