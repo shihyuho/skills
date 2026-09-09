@@ -49,7 +49,7 @@ Choose scope and ticket skills independently, by name or with `--scope-skill <sk
 
 These are examples, not required installations. An implementation plan still needs a compatible skill to shape delivery tickets. Each phase's writes require current approval; the coordinator publishes the Map through repository tools without requiring a Git helper skill.
 
-Planning files such as ADRs or `CONTEXT.md` changes need a retrievable version, destination and responsible Ticket. Confirmed planning edits travel as exact patches in Planning Carry, even when Ticket acceptance repeats their content. Shared delivery information appears once in the Map; repository and executor workflows own claim, Git, CI and implementation. Shared integration delivery is optional.
+Planning files such as ADRs or `CONTEXT.md` changes need a retrievable version, destination and responsible Ticket. Confirmed planning edits travel as exact patches in Planning Carry, even when Ticket acceptance repeats their content. Approved Carry includes source cleanup after verified delivery, preserving unrelated changes and their staging state; an explicit request to keep source copies is respected. Shared delivery information appears once in the Map; repository and executor workflows own claim, Git, CI and implementation. Shared integration delivery is optional.
 
 ## Installation
 

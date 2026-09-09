@@ -240,20 +240,21 @@
       "assertions": [
         "Accounts for the exact CONTEXT.md patch from the invoked design work when resuming the coordinator, without waiting for a user reminder or rerunning the completed Scope and Ticket sources.",
         "Keeps the patch as a Carry obligation despite the verbatim Ticket acceptance, proposed future recreation, one-line size, single Ticket and preference against a planning-only branch; does not propose Planning Carry None.",
-        "Presents the exact patch, parent #42 as the Carrier identity, a proposed final delivery branch/baseline plan and only the missing write approvals; preserves local bytes and performs no unapproved Git or Map writes.",
+        "Presents the exact patch, parent #42 as the Carrier identity, the final delivery branch/baseline and source cleanup as one Carry proposal needing only the missing write approval; preserves local bytes and performs no unapproved Git or Map writes.",
         "Reports preservation and the Map as unresolved rather than claiming a baseline or Carry is complete. Does not claim an incorrect Map was published or content was lost."
       ]
     },
     {
       "id": 22,
-      "prompt": "Continue scope-it with the confirmed one-line CONTEXT.md patch from the design pause. The user has now approved that exact patch, parent #42 as the single Carrier Ticket, final branch fix/42-channel-code with an immutable Planning Baseline, native Issue linkage, remote access for another-clone executor and the corresponding Git operations. Scope and Ticket are complete; no Map publication or entry cleanup is approved. The repository workflow supplies readbacks of the exact committed patch, full base and baseline SHAs, correct landing target, native linkedBranches and successful content retrieval from the executor location. In a separate failure variant, remote content retrieval fails although commit and linkage succeeded. Prepare the resulting Map proposal and completion report.",
-      "expected_output": "Reuse the approved preservation work and verify the real Carry evidence before reporting it complete, keeping missing evidence unresolved and Map publication separately bounded.",
+      "prompt": "Continue scope-it with the confirmed one-line CONTEXT.md patch from the design pause. The user approved the Carry move: that exact patch, parent #42 as the single Carrier Ticket, final branch fix/42-channel-code with an immutable Planning Baseline, native Issue linkage, remote access for another-clone executor, and removal of the carried hunk from the source worktree on main after verification. Scope and Ticket are complete; Map publication is unapproved. The repository workflow supplies readbacks of the exact committed patch, full base and baseline SHAs, correct landing target, native linkedBranches and successful content retrieval from the executor location. Fresh source bytes and index state still match the recorded entry state. In a separate failure variant, remote content retrieval fails although commit and linkage succeeded. Prepare the resulting Map proposal and completion report.",
+      "expected_output": "Finish the approved Carry move through verified source cleanup without asking for the same approval again, while leaving Map publication separately bounded.",
       "files": [],
       "assertions": [
-        "Uses the approved exact patch and final Carrier branch, preserving complete source artifacts and existing write authority instead of requesting the same approvals or recreating a planning-only branch.",
-        "Checks the actual baseline content against the approved patch, full base/baseline SHAs, landing target, native linkage and executor access before reporting Carry complete, even when cleanup is not requested.",
-        "Records the compact verified Carry pointer in the Map proposal; performs no unapproved Map publication, entry cleanup or implementation.",
-        "The failed-access variant preserves the successful commit/linkage and reports only the remaining delivery-access gap; it neither marks Carry complete nor substitutes None or future Ticket recreation."
+        "Reuses the approved exact patch and final Carrier branch instead of recreating the baseline or asking for a second cleanup confirmation.",
+        "Verifies the actual baseline content, full base/baseline SHAs, landing target, native linkage and executor access before changing the source.",
+        "On successful delivery verification, removes only the carried pending hunk from the source worktree/index and verifies the resulting source state before declaring Carry complete; leaves main's commit history unchanged.",
+        "Records the compact verified Carry pointer in the Map proposal; performs no unapproved Map publication, implementation or commit/push to main.",
+        "The failed-access variant preserves the source and successful commit/linkage, reports the remaining access and cleanup work, and keeps Carry incomplete rather than substituting None or future Ticket recreation."
       ]
     },
     {
@@ -276,6 +277,54 @@
         "Uses the planning record and recorded commit/patch as well as current status; a clean worktree and quoted Ticket acceptance do not justify Planning Carry None.",
         "Identifies the confirmed content as requiring Carry and applies references/delivery-options.md to its Carrier branch, baseline, landing target and executor access.",
         "Preserves the local commit and sources, proposes only missing approved delivery/access work and withholds Carry completion and Map publication until their respective evidence and authority exist."
+      ]
+    },
+    {
+      "id": 25,
+      "prompt": "Finish an approved scope-it Carry move from the source worktree on main to Carrier #42's final branch fix/42-channel-code. The approved move includes source cleanup. Exact baseline content, full SHAs, target, native Issue linkage and retrieval from the executor's clone have all been verified. The recorded entry state has an untracked docs/adr/channel-code.md wholly selected as Carry and a CONTEXT.md file containing the selected channel-code addition, an unrelated staged paragraph and another unrelated unstaged paragraph. An unrelated untracked scratch.md must remain. The selected addition is staged in variant A and unstaged in variant B; the exact selected patch and both index/worktree states are recoverable. Fresh source state is unchanged. Map publication and implementation are unapproved.",
+      "expected_output": "Remove the verified Carry from its source without losing unrelated bytes or changing their staging state, then verify completion.",
+      "files": [],
+      "assertions": [
+        "Uses the approved move without another cleanup question and rechecks the source against the selected patch and recorded entry state.",
+        "Removes only the unchanged wholly carried untracked ADR; removes the selected CONTEXT.md change from each layer where it occurs, preserving the unrelated staged and unstaged paragraphs in their original layers and scratch.md unchanged and untracked.",
+        "Verifies the remaining worktree and index as the recorded entry state minus Carry before reporting completion; unrelated changes are allowed to remain dirty.",
+        "Keeps the source main ref and existing commits intact, avoids whole-worktree cleanup, and performs no Map publication or implementation."
+      ]
+    },
+    {
+      "id": 26,
+      "prompt": "Resume an approved scope-it Carry move after the exact selected ADR and CONTEXT.md patch were committed and pushed to the Carrier's final branch, with content, access and native linkage verified. Before source cleanup, another task appended new notes to the selected untracked ADR and changed the index state of CONTEXT.md; neither change belongs to the approved Carry and the fresh source states differ from their recorded snapshots. In a separate variant the sources remain unchanged, but the repository cleanup operation fails before removing either selected change. No scope change is approved.",
+      "expected_output": "Preserve affected source content and successful publication, and report the remaining cleanup instead of declaring Carry complete.",
+      "files": [],
+      "assertions": [
+        "Re-reads both source content and index state before cleanup and detects the drift rather than treating a successful push as sufficient evidence to delete or restore files.",
+        "Leaves the changed sources intact, preserves the published baseline and all unrelated bytes, and exposes only the affected cleanup or ownership gap.",
+        "A cleanup failure leaves the source changes and successful publication intact; reports delivery as verified but Carry cleanup as incomplete without claiming overall completion or retrying with broader destructive operations.",
+        "Does not amend or republish the baseline to absorb unrelated changes or infer approval for a different cleanup scope."
+      ]
+    },
+    {
+      "id": 27,
+      "prompt": "Complete scope-it Carry for the exact approved ADR on Carrier #42's final branch. The user explicitly said to publish a retrievable copy and keep the original untracked ADR in the source worktree for further discussion. The branch, baseline content, target, native linkage and executor access are verified, and the retained original is unchanged. Map publication is unapproved. No later instruction authorizes removing the original. In a separate variant, executor access cannot be verified although the local copy is unchanged.",
+      "expected_output": "Honor explicit source retention as the agreed completion state rather than applying default cleanup or asking again.",
+      "files": [],
+      "assertions": [
+        "Preserves the original untracked ADR and its state under the explicit retention instruction.",
+        "Verifies the agreed retained source and delivery evidence, reports Carry complete with the retained copy identified, and does not describe requested retention as failed cleanup.",
+        "Does not ask for cleanup approval, delete the original, or publish the unapproved Map.",
+        "Explicit source retention does not waive delivery verification: the failed-access variant preserves the original and reports Carry incomplete because executor access remains unresolved."
+      ]
+    },
+    {
+      "id": 28,
+      "prompt": "Resume scope-it after an interruption during an approved Carry move. The verified final Carrier branch contains an ADR and a selected CONTEXT.md patch. Source cleanup already removed the unchanged wholly carried untracked ADR, with a recoverable successful receipt. The CONTEXT.md patch was already committed on the source branch before this planning run, so it has no pending source diff. The source branch's original commit SHA is recorded and unchanged. Fresh checks confirm the ADR remains absent and all other worktree/index bytes and staging states match the agreed result. The published baseline, executor access and native linkage remain valid. Map publication is still unapproved.",
+      "expected_output": "Verify and reuse completed delivery and cleanup, preserve source history, and finish only the remaining reporting work.",
+      "files": [],
+      "assertions": [
+        "Reuses the verified publication and successful cleanup receipt without recreating the ADR, repeating deletion or making another commit/push.",
+        "Treats the already committed source content as requiring no pending-change cleanup; preserves its branch ref and commits rather than removing its tracked file or rewriting history.",
+        "Verifies the current source state and delivery evidence before reporting Carry complete; performs no unapproved Map publication or implementation.",
+        "Reads references/recovery.md for the interrupted work and references/delivery-options.md for Carry completion."
       ]
     }
   ]

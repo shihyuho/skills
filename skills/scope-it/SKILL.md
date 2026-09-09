@@ -16,7 +16,7 @@ Coordinate scope and delivery planning. The selected skills own their complete o
 3. **Tickets.** Pass the complete published Scope and real reference to the Tickets skill. Resolve choices affecting shape, responsibilities or readiness before publication. Let the source propose, review and publish complete tickets in the agreed placement; retain their verified identities.
 4. **Assemble.** Reconcile this planning session's repository artifacts and changes, including work from invoked skills, with current status/diffs and confirmed delivery obligations before deciding Planning Carry. Build the Map from the published artifacts and verified relationships. Retain every agreed delivery obligation with its owner, trigger and required evidence. Requirements and acceptance stay complete in the source artifacts; return gaps or conflicts to the responsible source for approved revision.
 5. **Publish.** Show the Map and remaining planning-file and preference writes. Use approval covering those concrete changes, then publish only them. Preserve the source artifacts and record the canonical Map identity.
-6. **Verify and finish.** Freshly compare the complete sources, Map and remaining writes with their approvals, including links, metadata, attachments and both relationship axes. Check unchanged Scope/Ticket bytes and one canonical Map. Report the parent, Map and applicable delivery evidence, then stop. Planning approval does not authorize implementation, merging, ticket closure or default-branch Git writes.
+6. **Verify and finish.** Freshly compare the complete sources, Map and remaining writes with their approvals, including links, metadata, attachments and both relationship axes. Check unchanged Scope/Ticket bytes and one canonical Map. Report the parent, Map and applicable delivery evidence, then stop. Planning approval does not authorize implementation, merging, ticket closure or commits/pushes to the default branch.
 
 ## Conditional references
 
@@ -79,6 +79,6 @@ Use this outline. Insert `## Continue` between Planning Carry and Start the Next
 
 Publish **Start the Next Ticket** in every Map, adapting tracker terms while keeping the instructions in the Map. The parent, Scope, native relations and canonical Map let later sessions select one Ticket before loading its body. The selected Ticket carries complete prerequisites and acceptance; the Map carries cross-Ticket delivery facts. Keep planner write limits and operation receipts in the approval context.
 
-Preserve unrelated entry changes and resolve uncertain planning-file ownership before including content. Verify durable content and executor access before approved cleanup; missing content or access leaves publication incomplete.
+Preserve unrelated entry changes and resolve uncertain planning-file ownership before including content. Complete Planning Carry through verified delivery and source cleanup under [delivery-options.md](references/delivery-options.md); unresolved delivery or cleanup leaves planning incomplete.
 
 $ARGUMENTS
