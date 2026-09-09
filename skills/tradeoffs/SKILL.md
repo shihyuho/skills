@@ -1,6 +1,6 @@
 ---
 name: tradeoffs
-description: "Recommend a discussed option by weighing its added value against cost, risk, and complexity, with evidence that would change the recommendation."
+description: "Recommend a discussed option by weighing its added value against cost, risk, and complexity, with supporting evidence and conditions that would change the recommendation."
 license: MIT
 disable-model-invocation: true
 ---
@@ -13,7 +13,9 @@ Recommend which option in the conversation is most worth choosing for the user's
 
 Compare the options against a common baseline, including keeping the current approach when viable. Weigh incremental value against implementation and ongoing cost, risk, and complexity. Prefer the simplest sufficient, reversible option; broader coverage earns its place through added value. Identify a useful new alternative as a proposal rather than a previously discussed option.
 
-Resolve only unknowns that could change the recommendation, using proportionate read-only checks of supplied artifacts or primary sources. When resolution needs new authority, writes, or disproportionate work, carry the unknown as an explicit assumption and recommend under that uncertainty, or propose the smallest useful validation step. Distinguish evidence from inference; use numeric estimates only when supported and cite researched claims beside their sources.
+Resolve only unknowns that could change the recommendation, using proportionate read-only investigation. Ground claims about repository behavior in its actual implementation. When external research is needed, establish what reliable primary sources support and what remains uncertain, and reflect both in the recommendation.
+
+When resolution needs new authority, writes, or disproportionate work, carry the unknown as an explicit assumption and recommend under that uncertainty, or propose the smallest useful validation step. Distinguish evidence from inference; use numeric estimates only when supported and cite sources beside the claims they support.
 
 Lead with the recommendation and decisive reason. Include the comparison and assumptions needed to assess it, then the evidence or threshold that would reverse it. Scale detail and structure to the decision; preserve code, paths, and `file:line` references verbatim.
 

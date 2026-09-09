@@ -4,7 +4,7 @@
     {
       "id": 1,
       "prompt": "Use tradeoffs for the options we discussed: keep a two-minute manual check performed once a month, or build and maintain a service that automates it. Either meets our current deadline and reliability needs. Our priority is low ongoing maintenance. Give me the recommendation here.",
-      "expected_output": "Recommends keeping the manual check on the supplied evidence, compares added value with implementation and ongoing burden, and identifies a concrete change in frequency or requirements that would reverse the recommendation. Finishes concisely in chat without creating a file or asking whether to save.",
+      "expected_output": "Recommends keeping the manual check on the supplied evidence, compares added value with implementation and ongoing burden, and identifies a concrete change in frequency or requirements that would reverse the recommendation. Finishes concisely in chat without unnecessary research, creating a file, or asking whether to save.",
       "files": []
     },
     {
@@ -18,6 +18,18 @@
       "prompt": "Use tradeoffs and save the recommendation to decisions/polling.md. We discussed polling once per minute versus a WebSocket connection; updates may be 60 seconds old, polling meets the measured load target, and we prioritize simple operations. The evaluation workspace already contains decisions/polling.md and decisions/polling-2.md; preserve both.",
       "expected_output": "Recommends polling with the relevant value-versus-burden comparison and a condition that would justify WebSockets. Saves the recommendation to decisions/polling-3.md, preserves both supplied existing files byte-for-byte, and reports the actual saved path.",
       "files": ["evals/files/decisions/polling.md", "evals/files/decisions/polling-2.md"]
+    },
+    {
+      "id": 4,
+      "prompt": "Use tradeoffs for the event handler in the supplied event-handler/ repository. We discussed keeping the current handler or adding a duplicate guard. Events are delivered sequentially in one process; processed_ids and effects persist across calls for this comparison. A repeated event ID must produce at most one effect. We prioritize correctness and minimal complexity. Recommend which option is justified by the current implementation.",
+      "expected_output": "Grounds the recommendation in handler.py: the handler records an ID but never checks it before appending an effect, so a repeated ID produces another effect. The README's duplicate-handling claim is not accepted as proof that the implementation meets the requirement. Recommends a small duplicate guard, explains why its cost is justified by the stated requirement, and cites the relevant source. Keeps the recommendation scoped to sequential calls with retained state, without inventing concurrent or durable-delivery requirements or editing the handler.",
+      "files": ["evals/files/event-handler/README.md", "evals/files/event-handler/handler.py"]
+    },
+    {
+      "id": 5,
+      "prompt": "Use tradeoffs for our service on standard OpenJDK 21, with no vendor backports. We discussed retaining its fixed platform-thread pool or switching to virtual threads to improve throughput. Many requests perform blocking I/O inside synchronized methods. A teammate read that synchronized no longer pins virtual threads and expects a pool-only change to solve our capacity concerns. We have no workload measurements showing either that the current pool misses our target or how much the switch would help. Keep the runtime version fixed; recommend a next step without changing code or deploying.",
+      "expected_output": "Uses applicable external primary-source evidence, cited beside supported claims, to establish that blocking inside synchronized can pin virtual threads in standard OpenJDK 21. Does not apply newer-runtime behavior to JDK 21 or claim that pinning necessarily makes the switch incorrect or slower. Separates the documented runtime behavior from unmeasured pinning frequency, duration, and throughput impact; recommends retaining the current pool pending a focused validation, or another bounded next step justified by those uncertainties, with evidence that would support switching. Does not invent measurements, upgrade the runtime, modify code, or deploy.",
+      "files": []
     }
   ]
 }
