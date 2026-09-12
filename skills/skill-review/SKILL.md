@@ -20,6 +20,6 @@ If a source is unavailable, identify it and report only the review coverage actu
 ## Mode and result
 
 - **Default:** review read-only. Report findings by severity as problem / `file:line` / suggested fix, keeping names and paths verbatim. Say when no findings were identified under the applied criteria, and disclose any missing review coverage.
-- **`--fix`:** apply supported corrections within the requested target and repository-required catalog or metadata updates, preserving unrelated work. Propose changes to purpose, invocation mode or authorization boundaries separately unless already authorized. Read back the diff, perform the sources' applicable checks and required repository checks, then summarise changes, verification results and unresolved findings. Distinguish unrun checks from passing results.
+- **`--fix`:** assess each finding against the target's evidence and applicable criteria, then apply only corrections you agree are warranted within the requested target and repository-required catalog or metadata updates, preserving unrelated work. Briefly explain why any findings are rejected or deferred. Propose changes to purpose, invocation mode or authorization boundaries separately unless already authorized. Read back the diff, perform the sources' applicable checks and required repository checks, then summarise changes, verification results and unresolved findings. Distinguish unrun checks from passing results.
 
 Committing or publishing follows a separate user or caller request.

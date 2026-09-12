@@ -38,6 +38,19 @@
       ]
     },
     {
+      "id": 7,
+      "name": "fix-assesses-findings-before-editing",
+      "prompt": "Use --fix on the selected skill in an isolated evaluation checkout. Controlled source responses suggest fixing a relative reference, removing a paragraph as redundant, and replacing a command flag. The target files confirm the reference is broken; repository guidance establishes that the paragraph captures a required exception absent elsewhere. The installed command's flag support cannot be verified from available evidence. No further delivery is requested.",
+      "expected_output": "Assesses each suggestion against the available evidence, fixes the broken reference, retains the required exception, and defers the unverified flag change with concise reasons.",
+      "files": [],
+      "assertions": [
+        "Applies the warranted reference correction after checking the target evidence.",
+        "Rejects the paragraph-removal finding because the required exception is not redundant, and explains that reason.",
+        "Defers the flag change due to missing evidence and reports the verification limit.",
+        "Checks the resulting diff and applicable validations without committing or publishing."
+      ]
+    },
+    {
       "id": 4,
       "name": "missing-source-is-partial-coverage",
       "prompt": "Review the selected skill. /writing-for-agents is available and its criteria have been applied. Host discovery confirms that the exact /skill-creator:skill-creator source is unavailable. Another similarly named skill exists, but no substitution is authorized.",
