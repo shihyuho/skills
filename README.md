@@ -17,6 +17,7 @@ Shihyu's curated collection of agent skills.
 - **[commit-push-pr](skills/commit-push-pr/)** - Commit selected changes, push the intended branch, and create or resume its pull request.
 - **[create-branch](skills/create-branch/)** - Create or safely resume a descriptive local or issue-linked remote branch without duplicate branches.
 - **[create-worktree](skills/create-worktree/)** - Create or resume isolated work in a descriptive Git worktree, including an existing Planning Baseline branch.
+- **[grill-minimal](skills/grill-minimal/)** - Run the external `grill-with-docs` skill to discuss the smallest changes and narrowest scope that fully solve the current problem.
 - **[grill-on-point](skills/grill-on-point/)** - Run the external `grill-with-docs` skill over a doc, plan, or rough idea while surfacing only findings that truly need your input.
 - **[pr](skills/pr/)** - Publish committed feature-branch changes and return a verified new or existing pull request.
 - **[push](skills/push/)** - Push to the intended remote branch with verified default-branch authorization and publication results.
