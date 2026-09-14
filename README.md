@@ -12,6 +12,7 @@ Shihyu's curated collection of agent skills.
 
 ### User-invoke
 
+- **[code-tour](skills/code-tour/)** - Walk through a feature's implementation with source-linked reading stops and diagrams connecting its entry point, decisions, and results.
 - **[commit](skills/commit/)** - Commit the changes selected by the request or conversation while preserving unrelated staged and unstaged work.
 - **[commit-push](skills/commit-push/)** - Commit selected changes and push to the intended branch, reusing authorization for the same destination.
 - **[commit-push-pr](skills/commit-push-pr/)** - Commit selected changes, push the intended branch, and create or resume its pull request.

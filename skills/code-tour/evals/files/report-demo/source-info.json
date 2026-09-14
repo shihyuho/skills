@@ -1,0 +1,13 @@
+{
+  "source": "code-tour/report-demo",
+  "kind": "independently authored synthetic fixture; not a production repository",
+  "snapshot_sha256": "9311831a90dad52e5a9759e558dbecbd296a0b161490d74d060e056e238210ed",
+  "git_revision": null,
+  "files_sha256": {
+    "adapters.py": "bb004e0e37a947cf8dfaeba93695a23292e2fda3565bcdc3b091e0a5e49bde08",
+    "bootstrap.py": "ebae41c18ddc0f4c69b56015448edab8d046121970d5ea1cfb16d7bface75e43",
+    "contracts.py": "b945d220780606907b8a8b1902c8afc59d729a8ec5b3ab6342b3391ff4fd3b45",
+    "formatters.py": "6a39cc6612a6348cf012a783601a664acfefae526ac725c22a80298b40be2267",
+    "publisher.py": "3570f0bbb24845b4a7e65bc0a814f2bb429d6950feeff510133b4bd26ea8cd84"
+  }
+}

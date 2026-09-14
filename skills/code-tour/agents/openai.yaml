@@ -1,0 +1,6 @@
+interface:
+  display_name: "code-tour"
+  short_description: "Trace a feature through source-linked code and diagrams."
+  default_prompt: "Use $code-tour to guide me through this feature's actual implementation, connect its entry point and decisions to a concrete outcome, and provide useful diagrams and an ordered route back to the source."
+policy:
+  allow_implicit_invocation: false

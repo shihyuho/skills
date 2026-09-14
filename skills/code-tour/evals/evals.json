@@ -1,0 +1,44 @@
+{
+  "skill_name": "code-tour",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "這個 report-demo 我不熟，帶我從 build_publisher 讀到報告發布的結果。我用 kind=\"detailed\"、fail_notification=True 建立物件，接著 publish([\"A\", \"B\"])；如果通知失敗，哪些事情已經發生了？也讓我知道原碼該從哪裡開始讀。",
+      "expected_output": "A source-linked route through construction, formatter selection and publishing, with a useful diagram or clear text view. Correctly predicts stored body and notification attempt when the exception propagates; does not invent rollback or marker-based dispatch.",
+      "assertions": [
+        "Locates formatter selection in bootstrap.FORMATTERS/build_publisher and delegation in Publisher.publish; does not attribute selection to Auditable, runtime type inspection or input length.",
+        "Predicts detailed body \"1: A\\n2: B\", one stored body and one notification attempt; RuntimeError propagates and no published Result is returned.",
+        "Explains save precedes notification and no compensating removal exists; a notification failure does not undo the already stored body.",
+        "Provides a navigable reading route with precise source locations and explains what to inspect at its decisive stops.",
+        "Uses a coherent diagram or clear text-based flow view whose calls, conditions and effects match the source; distinguishes a source-inferred scenario from an execution actually observed.",
+        "Preserves supplied files and creates no unsolicited artifact."
+      ],
+      "artifact": null
+    },
+    {
+      "id": 2,
+      "prompt": "執行順序我已經看懂了，這次請用 class diagram 釐清 Formatter、Auditable、DetailedFormatter 與 Publisher 的關係。繼承 Auditable 會自動有稽核功能嗎？不用再重走發布流程。",
+      "expected_output": "A focused class diagram and short explanation, distinguishing inheritance from consumer dependency and showing that Auditable has no implemented or consumed audit behavior in this fixture. Avoids an unsolicited sequence walkthrough.",
+      "assertions": [
+        "Diagram correctly shows DetailedFormatter inheriting Formatter and Auditable, and Publisher depending on Formatter; does not make Publisher inherit a formatter or marker.",
+        "Explains Auditable is an empty label with no consumer implementing automatic audit behavior in the supplied fixture; names alone do not establish an effect.",
+        "Cites precise source locations for the type and consumer claims while keeping the answer focused on relationships, without another execution tour.",
+        "Preserves all supplied files and creates no unsolicited artifact."
+      ],
+      "artifact": null
+    },
+    {
+      "id": 3,
+      "prompt": "幫我導讀 preview=True 的路徑，並存成 docs/preview-tour.md。情境是 build_publisher(\"detailed\", fail_notification=True) 之後 publish([\"A\", \"B\"], preview=True)，讓接手的人知道 preview 究竟做到哪一步。",
+      "expected_output": "Creates a portable Markdown tour of the preview branch, with a useful diagram, source-linked stops and the supplied synthetic snapshot provenance, without pretending the fixture has a Git revision.",
+      "assertions": [
+        "Creates docs/preview-tour.md with a coherent diagram or clear text flow view and source-linked reading stops that match the implementation.",
+        "Explains formatting happens before the preview return, yielding Result(\"preview\", \"1: A\\n2: B\"); store.saved and notifier.attempts stay empty, so fail_notification=True does not raise here.",
+        "Records the synthetic source identity and exact supplied snapshot hash, states that no Git revision is provided rather than inventing one, and uses links resolvable from the saved document outside the disposable workspace.",
+        "Distinguishes inferred behavior from observed execution and does not invent transactions, automatic auditing or skipped formatting.",
+        "Preserves every supplied file and changes only docs/preview-tour.md."
+      ],
+      "artifact": "docs/preview-tour.md"
+    }
+  ]
+}

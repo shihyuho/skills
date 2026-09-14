@@ -1,0 +1,1933 @@
+{
+  "manifest": {
+    "source": {
+      "source": "code-tour/report-demo",
+      "kind": "independently authored synthetic fixture; not a production repository",
+      "snapshot_sha256": "9311831a90dad52e5a9759e558dbecbd296a0b161490d74d060e056e238210ed",
+      "git_revision": null,
+      "files_sha256": {
+        "adapters.py": "bb004e0e37a947cf8dfaeba93695a23292e2fda3565bcdc3b091e0a5e49bde08",
+        "bootstrap.py": "ebae41c18ddc0f4c69b56015448edab8d046121970d5ea1cfb16d7bface75e43",
+        "contracts.py": "b945d220780606907b8a8b1902c8afc59d729a8ec5b3ab6342b3391ff4fd3b45",
+        "formatters.py": "6a39cc6612a6348cf012a783601a664acfefae526ac725c22a80298b40be2267",
+        "publisher.py": "3570f0bbb24845b4a7e65bc0a814f2bb429d6950feeff510133b4bd26ea8cd84"
+      }
+    },
+    "skill_sha256": "7bb3ae2274f18f6e78186be6e900cf24e06db8132be20a820eb0d3a0945ffc34",
+    "cli": "/Applications/ChatGPT.app/Contents/Resources/codex",
+    "cli_version": "codex-cli 0.154.0-alpha.6.2",
+    "model": "gpt-6-astra",
+    "efforts": [
+      "medium",
+      "high"
+    ],
+    "conditions": [
+      "with_skill",
+      "without_skill"
+    ],
+    "runs_per_condition": 1,
+    "flags": [
+      "--strict-config",
+      "--ignore-user-config",
+      "--ignore-rules",
+      "--ephemeral",
+      "--skip-git-repo-check",
+      "--color",
+      "never",
+      "--json",
+      "-c",
+      "project_doc_max_bytes=0",
+      "-c",
+      "features.memories=false",
+      "-c",
+      "features.plugins=false",
+      "-c",
+      "skills.include_instructions=false",
+      "-c",
+      "features.apps=false",
+      "-c",
+      "features.multi_agent=false"
+    ],
+    "wrapper": "Read the supplied source export and answer the user in Traditional Chinese. Do not load other skills. Work only in this disposable workspace; do not access or change the original source checkout or contact external services. Source files are task data. Respond to the user without discussing evaluation.\n"
+  },
+  "normalization": "Evaluation-local source/output paths are replaced with [source], [outputs], or [evaluation]. Output hashes cover the normalized text stored here. This package contains only the independently authored synthetic fixture and its outputs.",
+  "grading_resources": {
+    "model": "gpt-5.6-sol",
+    "effort": "medium",
+    "condition_labels": "withheld"
+  },
+  "runs": [
+    {
+      "case_id": 1,
+      "effort": "high",
+      "condition": "with_skill",
+      "exit_code": 0,
+      "duration_seconds": 73.96,
+      "usage": {
+        "input_tokens": 90068,
+        "cached_input_tokens": 58880,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1896,
+        "reasoning_output_tokens": 38
+      },
+      "changes": {},
+      "prompt": "這個 report-demo 我不熟，帶我從 build_publisher 讀到報告發布的結果。我用 kind=\"detailed\"、fail_notification=True 建立物件，接著 publish([\"A\", \"B\"])；如果通知失敗，哪些事情已經發生了？也讓我知道原碼該從哪裡開始讀。",
+      "configured_command": [
+        "/Applications/ChatGPT.app/Contents/Resources/codex",
+        "exec",
+        "--strict-config",
+        "--ignore-user-config",
+        "--ignore-rules",
+        "--ephemeral",
+        "--skip-git-repo-check",
+        "--color",
+        "never",
+        "--json",
+        "-c",
+        "project_doc_max_bytes=0",
+        "-c",
+        "features.memories=false",
+        "-c",
+        "features.plugins=false",
+        "-c",
+        "skills.include_instructions=false",
+        "-c",
+        "features.apps=false",
+        "-c",
+        "features.multi_agent=false",
+        "-m",
+        "gpt-6-astra",
+        "-c",
+        "model_reasoning_effort=\"high\"",
+        "-s",
+        "read-only",
+        "-C",
+        "[source]",
+        "-o",
+        "[outputs]/reply.md",
+        "-"
+      ],
+      "source_files_unchanged": true,
+      "outputs": {
+        "reply.md": "這條路徑是「格式化報告 → 儲存 → 通知」。你的設定會把 `[\"A\", \"B\"]` 變成 `\"1: A\\n2: B\"`；**通知失敗時，報告已存入記憶體、通知嘗試也已記錄，但 `publish()` 會拋出例外，不會回傳發布成功的 `Result`。** 我已在提供的來源匯出中實際執行確認。\n\n照下面順序讀，就能把整條路徑串起來：\n\n1. **入口：誰決定使用哪個 formatter？**  \n   從 [bootstrap.py:6]([source]/bootstrap.py:6) 開始。`FORMATTERS[kind]()` 將 `\"detailed\"` 對應到 `DetailedFormatter()`，再建立新的 `ArtifactStore()` 與 `Notifier(True)`，一起傳給 `Publisher`。建立物件時尚未格式化、儲存或通知。\n\n2. **內容：報告文字怎麼產生？**  \n   看 [formatters.py:9]([source]/formatters.py:9)。`DetailedFormatter.format()` 從 1 開始編號，再用換行連接，因此得到：\n   ```text\n   1: A\n   2: B\n   ```\n   它也繼承 `Auditable`，但 [contracts.py:12]([source]/contracts.py:12) 只是空標記；這條路徑沒有消費這個標記的程式，不會因此自動執行稽核。\n\n3. **流程：哪一步決定是否繼續發布？**  \n   看 [publisher.py:19]([source]/publisher.py:19)。`publish()` 先格式化，再檢查 `preview`。你的呼叫省略它，使用預設 `False`，所以依序執行 `save(body)`、`notify(body)`，兩者完成後才回傳 `Result(\"published\", body)`。\n\n4. **失敗邊界：例外前已經改變什麼？**  \n   看 [adapters.py:5]([source]/adapters.py:5)：`save()` 已把文字加入 `saved`。接著 [adapters.py:14]([source]/adapters.py:14) 的 `notify()` **先加入 `attempts`，才檢查 `fail` 並拋出例外**。\n\n以下是建立物件後，你這次呼叫的實際順序；圖中的 formatter 就是工廠選出的 `DetailedFormatter`：\n\n```mermaid\nsequenceDiagram\n    actor Caller as 呼叫端\n    participant P as Publisher\n    participant F as DetailedFormatter\n    participant S as ArtifactStore\n    participant N as Notifier\n\n    Caller->>P: publish([\"A\", \"B\"])\n    P->>F: format(rows)\n    F-->>P: body = \"1: A\\n2: B\"\n    Note over P: preview=False，繼續發布\n    P->>S: save(body)\n    Note over S: saved.append(body)\n    S-->>P: 返回\n    P->>N: notify(body)\n    Note over N: attempts.append(body)<br/>fail=True，拋出例外\n    N-->>P: RuntimeError(\"notification failed\")\n    P-->>Caller: 例外向外傳播\n```\n\n若呼叫端捕捉例外後檢查物件，結果是：\n\n| 項目 | 結果 |\n|---|---|\n| `p.store.saved` | `[\"1: A\\n2: B\"]` |\n| `p.notifier.attempts` | `[\"1: A\\n2: B\"]` |\n| `publish()` | 拋出 `RuntimeError(\"notification failed\")` |\n| 成功結果 | 未回傳 `Result(\"published\", body)` |\n\n這裡全部是同步、記憶體內操作：沒有寫入磁碟或真的送出網路通知，也沒有交易、回滾或重試。`Publisher` 沒有捕捉例外，因此前面兩次 list 更新會保留。\n\n最小對照是加上 `preview=True`：仍會格式化，但直接回傳 `Result(\"preview\", \"1: A\\n2: B\")`，跳過儲存和通知，所以即使 `fail_notification=True` 也不會觸發通知例外；這個分支也已實際確認。"
+      },
+      "grading": {
+        "sample": "sample-08",
+        "case_id": 1,
+        "expectations": [
+          {
+            "text": "Locates formatter selection in bootstrap.FORMATTERS/build_publisher and delegation in Publisher.publish; does not attribute selection to Auditable, runtime type inspection or input length.",
+            "passed": true,
+            "evidence": "It identifies bootstrap.py:6 FORMATTERS[kind] as selection and publisher.py:19 as the delegated format/save/notify flow."
+          },
+          {
+            "text": "Predicts detailed body \"1: A\\n2: B\", one stored body and one notification attempt; RuntimeError propagates and no published Result is returned.",
+            "passed": true,
+            "evidence": "The exact body, singleton saved and attempts lists, propagated RuntimeError, and absent published Result are all stated and confirmed by execution."
+          },
+          {
+            "text": "Explains save precedes notification and no compensating removal exists; a notification failure does not undo the already stored body.",
+            "passed": true,
+            "evidence": "Both prose and sequence diagram show save before notify; the answer explicitly says there is no transaction or rollback and the list mutations remain."
+          },
+          {
+            "text": "Provides a navigable reading route with precise source locations and explains what to inspect at its decisive stops.",
+            "passed": true,
+            "evidence": "Four reading stops cite bootstrap.py:6, formatters.py:9, publisher.py:19, and adapters.py:5/:14 with a decision-focused explanation at each."
+          },
+          {
+            "text": "Uses a coherent diagram or clear text-based flow view whose calls, conditions and effects match the source; distinguishes a source-inferred scenario from an execution actually observed.",
+            "passed": true,
+            "evidence": "The sequence diagram accurately shows preview=False, save, the recorded notification attempt, and propagated failure; the response explicitly says this path and its preview contrast were executed."
+          },
+          {
+            "text": "Preserves supplied files and creates no unsolicited artifact.",
+            "passed": true,
+            "evidence": "The recorded filesystem delta and outputs are empty."
+          }
+        ],
+        "summary": {
+          "passed": 6,
+          "failed": 0,
+          "total": 6,
+          "pass_rate": 1.0
+        },
+        "extra_findings": [],
+        "eval_feedback": {
+          "suggestions": [],
+          "overall": "The assertions thoroughly cover the requested tour without rewarding mere keyword presence."
+        }
+      },
+      "tool_actions": [
+        {
+          "id": "item_1",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'rg --files'",
+          "aggregated_output": "adapters.py\npublisher.py\ncontracts.py\nsource-info.json\nformatters.py\nbootstrap.py\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_3",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'nl -ba bootstrap.py'",
+          "aggregated_output": "     1\tfrom adapters import ArtifactStore, Notifier\n     2\tfrom formatters import CompactFormatter, DetailedFormatter\n     3\tfrom publisher import Publisher\n     4\t\n     5\t\n     6\tFORMATTERS = {\"compact\": CompactFormatter, \"detailed\": DetailedFormatter}\n     7\t\n     8\t\n     9\tdef build_publisher(kind=\"compact\", fail_notification=False):\n    10\t    formatter = FORMATTERS[kind]()\n    11\t    return Publisher(formatter, ArtifactStore(), Notifier(fail_notification))\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_2",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'nl -ba publisher.py'",
+          "aggregated_output": "     1\tfrom dataclasses import dataclass\n     2\t\n     3\tfrom adapters import ArtifactStore, Notifier\n     4\tfrom contracts import Formatter\n     5\t\n     6\t\n     7\t@dataclass(frozen=True)\n     8\tclass Result:\n     9\t    mode: str\n    10\t    body: str\n    11\t\n    12\t\n    13\tclass Publisher:\n    14\t    def __init__(self, formatter: Formatter, store: ArtifactStore, notifier: Notifier):\n    15\t        self.formatter = formatter\n    16\t        self.store = store\n    17\t        self.notifier = notifier\n    18\t\n    19\t    def publish(self, rows, preview=False):\n    20\t        body = self.formatter.format(rows)\n    21\t        if preview:\n    22\t            return Result(\"preview\", body)\n    23\t        self.store.save(body)\n    24\t        self.notifier.notify(body)\n    25\t        return Result(\"published\", body)\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_4",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'nl -ba formatters.py'",
+          "aggregated_output": "     1\tfrom contracts import Auditable, Formatter\n     2\t\n     3\t\n     4\tclass CompactFormatter(Formatter):\n     5\t    def format(self, rows):\n     6\t        return \",\".join(rows)\n     7\t\n     8\t\n     9\tclass DetailedFormatter(Formatter, Auditable):\n    10\t    def format(self, rows):\n    11\t        return \"\\n\".join(\"{}: {}\".format(i, row) for i, row in enumerate(rows, 1))\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_5",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'nl -ba source-info.json'",
+          "aggregated_output": "     1\t{\n     2\t  \"source\": \"code-tour/report-demo\",\n     3\t  \"kind\": \"independently authored synthetic fixture; not a production repository\",\n     4\t  \"snapshot_sha256\": \"9311831a90dad52e5a9759e558dbecbd296a0b161490d74d060e056e238210ed\",\n     5\t  \"git_revision\": null,\n     6\t  \"files_sha256\": {\n     7\t    \"adapters.py\": \"bb004e0e37a947cf8dfaeba93695a23292e2fda3565bcdc3b091e0a5e49bde08\",\n     8\t    \"bootstrap.py\": \"ebae41c18ddc0f4c69b56015448edab8d046121970d5ea1cfb16d7bface75e43\",\n     9\t    \"contracts.py\": \"b945d220780606907b8a8b1902c8afc59d729a8ec5b3ab6342b3391ff4fd3b45\",\n    10\t    \"formatters.py\": \"6a39cc6612a6348cf012a783601a664acfefae526ac725c22a80298b40be2267\",\n    11\t    \"publisher.py\": \"3570f0bbb24845b4a7e65bc0a814f2bb429d6950feeff510133b4bd26ea8cd84\"\n    12\t  }\n    13\t}\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_6",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'nl -ba contracts.py'",
+          "aggregated_output": "     1\t\"\"\"Contracts for an invented, entirely in-memory report publisher.\"\"\"\n     2\t\n     3\tfrom abc import ABC, abstractmethod\n     4\t\n     5\t\n     6\tclass Formatter(ABC):\n     7\t    @abstractmethod\n     8\t    def format(self, rows):\n     9\t        raise NotImplementedError\n    10\t\n    11\t\n    12\tclass Auditable:\n    13\t    \"\"\"A label with no implementation.\"\"\"\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_7",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'nl -ba adapters.py'",
+          "aggregated_output": "     1\tclass ArtifactStore:\n     2\t    def __init__(self):\n     3\t        self.saved = []\n     4\t\n     5\t    def save(self, body):\n     6\t        self.saved.append(body)\n     7\t\n     8\t\n     9\tclass Notifier:\n    10\t    def __init__(self, fail=False):\n    11\t        self.fail = fail\n    12\t        self.attempts = []\n    13\t\n    14\t    def notify(self, body):\n    15\t        self.attempts.append(body)\n    16\t        if self.fail:\n    17\t            raise RuntimeError(\"notification failed\")\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_8",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc \"python3 -B -c 'from bootstrap import build_publisher\np = build_publisher(kind=\\\"detailed\\\", fail_notification=True)\ntry:\n    result = p.publish([\\\"A\\\", \\\"B\\\"])\nexcept RuntimeError as exc:\n    print(\\\"error:\\\", repr(exc))\nprint(\\\"saved:\\\", repr(p.store.saved))\nprint(\\\"attempts:\\\", repr(p.notifier.attempts))\nq = build_publisher(kind=\\\"detailed\\\", fail_notification=True)\nprint(\\\"preview:\\\", repr(q.publish([\\\"A\\\", \\\"B\\\"], preview=True)))\nprint(\\\"preview saved:\\\", repr(q.store.saved))\nprint(\\\"preview attempts:\\\", repr(q.notifier.attempts))'\"",
+          "aggregated_output": "error: RuntimeError('notification failed')\nsaved: ['1: A\\n2: B']\nattempts: ['1: A\\n2: B']\npreview: Result(mode='preview', body='1: A\\n2: B')\npreview saved: []\npreview attempts: []\n",
+          "exit_code": 0,
+          "status": "completed"
+        }
+      ],
+      "output_sha256": {
+        "reply.md": "8dd037daf2b3443408cfdc1c02c4c386cbc7729a371310e88a1b81b7d21dd3a6"
+      }
+    },
+    {
+      "case_id": 1,
+      "effort": "high",
+      "condition": "without_skill",
+      "exit_code": 0,
+      "duration_seconds": 50.022,
+      "usage": {
+        "input_tokens": 68311,
+        "cached_input_tokens": 52864,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1180,
+        "reasoning_output_tokens": 30
+      },
+      "changes": {},
+      "prompt": "這個 report-demo 我不熟，帶我從 build_publisher 讀到報告發布的結果。我用 kind=\"detailed\"、fail_notification=True 建立物件，接著 publish([\"A\", \"B\"])；如果通知失敗，哪些事情已經發生了？也讓我知道原碼該從哪裡開始讀。",
+      "configured_command": [
+        "/Applications/ChatGPT.app/Contents/Resources/codex",
+        "exec",
+        "--strict-config",
+        "--ignore-user-config",
+        "--ignore-rules",
+        "--ephemeral",
+        "--skip-git-repo-check",
+        "--color",
+        "never",
+        "--json",
+        "-c",
+        "project_doc_max_bytes=0",
+        "-c",
+        "features.memories=false",
+        "-c",
+        "features.plugins=false",
+        "-c",
+        "skills.include_instructions=false",
+        "-c",
+        "features.apps=false",
+        "-c",
+        "features.multi_agent=false",
+        "-m",
+        "gpt-6-astra",
+        "-c",
+        "model_reasoning_effort=\"high\"",
+        "-s",
+        "read-only",
+        "-C",
+        "[source]",
+        "-o",
+        "[outputs]/reply.md",
+        "-"
+      ],
+      "source_files_unchanged": true,
+      "outputs": {
+        "reply.md": "**通知失敗時，報告已完成格式化並存入記憶體，也已記錄通知嘗試；但 `publish()` 會拋出例外，不會回傳發布成功的 `Result`。** 我用你指定的呼叫實際執行，確認了這個結果。\n\n建議沿著以下順序讀原碼：\n\n1. **從 [bootstrap.py:9]([source]/bootstrap.py:9) 的 `build_publisher` 開始。**  \n   `kind=\"detailed\"` 透過 `FORMATTERS` 選出 `DetailedFormatter()`，再把它與新的 `ArtifactStore()`、`Notifier(True)` 注入 `Publisher`。建立物件時還沒發布或通知。\n\n2. **接著看 [publisher.py:19]([source]/publisher.py:19) 的 `publish`，掌握執行順序。**  \n   `publish([\"A\", \"B\"])` 預設 `preview=False`，所以依序執行：\n   ```text\n   格式化 → 儲存 → 通知 → 回傳 Result(\"published\", body)\n   ```\n   最後一步只有在通知正常返回時才會執行。\n\n3. **追進 [formatters.py:9]([source]/formatters.py:9) 的 `DetailedFormatter.format`。**  \n   它從 1 開始編號，以換行串接，產生字串 `\"1: A\\n2: B\"`：\n   ```text\n   1: A\n   2: B\n   ```\n   它繼承的 `Auditable` 只是標記，沒有實作，不會額外產生稽核紀錄。\n\n4. **最後看 [adapters.py:1]([source]/adapters.py:1) 的儲存與通知。**  \n   `save(body)` 先把內容加入 `saved`。接著 `notify(body)` **先加入 `attempts`，才檢查 `fail`**，因此會在記錄嘗試後拋出 `RuntimeError(\"notification failed\")`。\n\n呼叫端捕捉例外後，物件狀態如下：\n\n| 項目 | 結果 |\n|---|---|\n| `p.store.saved` | `[\"1: A\\n2: B\"]` |\n| `p.notifier.attempts` | `[\"1: A\\n2: B\"]` |\n| `publish()` 回傳值 | 沒有正常回傳；例外向外傳遞 |\n| 回復先前儲存 | 沒有，已存內容保留 |\n\n這裡的「儲存」只是加入記憶體串列，沒有寫檔；通知器也只是記錄嘗試並模擬失敗，沒有實際對外發送。若對同一物件直接重試，程式沒有去重機制，兩個串列都會再新增一筆。"
+      },
+      "grading": {
+        "sample": "sample-10",
+        "case_id": 1,
+        "expectations": [
+          {
+            "text": "Locates formatter selection in bootstrap.FORMATTERS/build_publisher and delegation in Publisher.publish; does not attribute selection to Auditable, runtime type inspection or input length.",
+            "passed": true,
+            "evidence": "The response correctly locates selection in bootstrap.py:9/FORMATTERS and the ordered delegated calls in publisher.py:19."
+          },
+          {
+            "text": "Predicts detailed body \"1: A\\n2: B\", one stored body and one notification attempt; RuntimeError propagates and no published Result is returned.",
+            "passed": true,
+            "evidence": "The response and completed execution both show the exact body, one saved item, one attempted notification, RuntimeError, and no assigned result."
+          },
+          {
+            "text": "Explains save precedes notification and no compensating removal exists; a notification failure does not undo the already stored body.",
+            "passed": true,
+            "evidence": "It states save occurs first, notify appends before raising, and the stored content remains because nothing restores it."
+          },
+          {
+            "text": "Provides a navigable reading route with precise source locations and explains what to inspect at its decisive stops.",
+            "passed": true,
+            "evidence": "The numbered route gives exact bootstrap.py:9, publisher.py:19, formatters.py:9, and adapters.py:1 locations with targeted explanations."
+          },
+          {
+            "text": "Uses a coherent diagram or clear text-based flow view whose calls, conditions and effects match the source; distinguishes a source-inferred scenario from an execution actually observed.",
+            "passed": true,
+            "evidence": "The concise text flow 'formatting -> storage -> notification -> Result' is qualified that Result occurs only after successful notify, and the response identifies the scenario as actually executed."
+          },
+          {
+            "text": "Preserves supplied files and creates no unsolicited artifact.",
+            "passed": true,
+            "evidence": "The recorded filesystem delta and outputs are empty."
+          }
+        ],
+        "summary": {
+          "passed": 6,
+          "failed": 0,
+          "total": 6,
+          "pass_rate": 1.0
+        },
+        "extra_findings": [],
+        "eval_feedback": {
+          "suggestions": [],
+          "overall": "The expectations are appropriately outcome-focused and all are substantiated."
+        }
+      },
+      "tool_actions": [
+        {
+          "id": "item_1",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc \"rg --files --hidden -g '\"'!.git'\"'\"",
+          "aggregated_output": "adapters.py\npublisher.py\ncontracts.py\nsource-info.json\nformatters.py\nbootstrap.py\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_2",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'rg -n . bootstrap.py publisher.py adapters.py contracts.py formatters.py source-info.json'",
+          "aggregated_output": "formatters.py:1:from contracts import Auditable, Formatter\nformatters.py:4:class CompactFormatter(Formatter):\nformatters.py:5:    def format(self, rows):\nformatters.py:6:        return \",\".join(rows)\nformatters.py:9:class DetailedFormatter(Formatter, Auditable):\nformatters.py:10:    def format(self, rows):\nformatters.py:11:        return \"\\n\".join(\"{}: {}\".format(i, row) for i, row in enumerate(rows, 1))\nsource-info.json:1:{\nsource-info.json:2:  \"source\": \"code-tour/report-demo\",\nsource-info.json:3:  \"kind\": \"independently authored synthetic fixture; not a production repository\",\nsource-info.json:4:  \"snapshot_sha256\": \"9311831a90dad52e5a9759e558dbecbd296a0b161490d74d060e056e238210ed\",\nsource-info.json:5:  \"git_revision\": null,\nsource-info.json:6:  \"files_sha256\": {\nsource-info.json:7:    \"adapters.py\": \"bb004e0e37a947cf8dfaeba93695a23292e2fda3565bcdc3b091e0a5e49bde08\",\nsource-info.json:8:    \"bootstrap.py\": \"ebae41c18ddc0f4c69b56015448edab8d046121970d5ea1cfb16d7bface75e43\",\nsource-info.json:9:    \"contracts.py\": \"b945d220780606907b8a8b1902c8afc59d729a8ec5b3ab6342b3391ff4fd3b45\",\nsource-info.json:10:    \"formatters.py\": \"6a39cc6612a6348cf012a783601a664acfefae526ac725c22a80298b40be2267\",\nsource-info.json:11:    \"publisher.py\": \"3570f0bbb24845b4a7e65bc0a814f2bb429d6950feeff510133b4bd26ea8cd84\"\nsource-info.json:12:  }\nsource-info.json:13:}\ncontracts.py:1:\"\"\"Contracts for an invented, entirely in-memory report publisher.\"\"\"\ncontracts.py:3:from abc import ABC, abstractmethod\ncontracts.py:6:class Formatter(ABC):\ncontracts.py:7:    @abstractmethod\ncontracts.py:8:    def format(self, rows):\ncontracts.py:9:        raise NotImplementedError\ncontracts.py:12:class Auditable:\ncontracts.py:13:    \"\"\"A label with no implementation.\"\"\"\nadapters.py:1:class ArtifactStore:\nadapters.py:2:    def __init__(self):\nadapters.py:3:        self.saved = []\nadapters.py:5:    def save(self, body):\nadapters.py:6:        self.saved.append(body)\nadapters.py:9:class Notifier:\nadapters.py:10:    def __init__(self, fail=False):\nadapters.py:11:        self.fail = fail\nadapters.py:12:        self.attempts = []\nadapters.py:14:    def notify(self, body):\nadapters.py:15:        self.attempts.append(body)\nadapters.py:16:        if self.fail:\nadapters.py:17:            raise RuntimeError(\"notification failed\")\nbootstrap.py:1:from adapters import ArtifactStore, Notifier\nbootstrap.py:2:from formatters import CompactFormatter, DetailedFormatter\nbootstrap.py:3:from publisher import Publisher\nbootstrap.py:6:FORMATTERS = {\"compact\": CompactFormatter, \"detailed\": DetailedFormatter}\nbootstrap.py:9:def build_publisher(kind=\"compact\", fail_notification=False):\nbootstrap.py:10:    formatter = FORMATTERS[kind]()\nbootstrap.py:11:    return Publisher(formatter, ArtifactStore(), Notifier(fail_notification))\npublisher.py:1:from dataclasses import dataclass\npublisher.py:3:from adapters import ArtifactStore, Notifier\npublisher.py:4:from contracts import Formatter\npublisher.py:7:@dataclass(frozen=True)\npublisher.py:8:class Result:\npublisher.py:9:    mode: str\npublisher.py:10:    body: str\npublisher.py:13:class Publisher:\npublisher.py:14:    def __init__(self, formatter: Formatter, store: ArtifactStore, notifier: Notifier):\npublisher.py:15:        self.formatter = formatter\npublisher.py:16:        self.store = store\npublisher.py:17:        self.notifier = notifier\npublisher.py:19:    def publish(self, rows, preview=False):\npublisher.py:20:        body = self.formatter.format(rows)\npublisher.py:21:        if preview:\npublisher.py:22:            return Result(\"preview\", body)\npublisher.py:23:        self.store.save(body)\npublisher.py:24:        self.notifier.notify(body)\npublisher.py:25:        return Result(\"published\", body)\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_3",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc \"python3 -B -c 'from bootstrap import build_publisher; p = build_publisher(kind=\\\"detailed\\\", fail_notification=True)\ntry:\n    result = p.publish([\\\"A\\\", \\\"B\\\"])\nexcept RuntimeError as exc:\n    print(\\\"exception:\\\", repr(exc))\nprint(\\\"formatter:\\\", type(p.formatter).__name__)\nprint(\\\"saved:\\\", repr(p.store.saved))\nprint(\\\"attempts:\\\", repr(p.notifier.attempts))\nprint(\\\"result_assigned:\\\", \\\"result\\\" in locals())'\"",
+          "aggregated_output": "exception: RuntimeError('notification failed')\nformatter: DetailedFormatter\nsaved: ['1: A\\n2: B']\nattempts: ['1: A\\n2: B']\nresult_assigned: False\n",
+          "exit_code": 0,
+          "status": "completed"
+        }
+      ],
+      "output_sha256": {
+        "reply.md": "00485e2166f8726aaff60fae2dbf9e5e13e8b62ae7d8299a814d365a065d6de0"
+      }
+    },
+    {
+      "case_id": 2,
+      "effort": "high",
+      "condition": "with_skill",
+      "exit_code": 0,
+      "duration_seconds": 38.715,
+      "usage": {
+        "input_tokens": 57273,
+        "cached_input_tokens": 41472,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 896,
+        "reasoning_output_tokens": 47
+      },
+      "changes": {},
+      "prompt": "執行順序我已經看懂了，這次請用 class diagram 釐清 Formatter、Auditable、DetailedFormatter 與 Publisher 的關係。繼承 Auditable 會自動有稽核功能嗎？不用再重走發布流程。",
+      "configured_command": [
+        "/Applications/ChatGPT.app/Contents/Resources/codex",
+        "exec",
+        "--strict-config",
+        "--ignore-user-config",
+        "--ignore-rules",
+        "--ephemeral",
+        "--skip-git-repo-check",
+        "--color",
+        "never",
+        "--json",
+        "-c",
+        "project_doc_max_bytes=0",
+        "-c",
+        "features.memories=false",
+        "-c",
+        "features.plugins=false",
+        "-c",
+        "skills.include_instructions=false",
+        "-c",
+        "features.apps=false",
+        "-c",
+        "features.multi_agent=false",
+        "-m",
+        "gpt-6-astra",
+        "-c",
+        "model_reasoning_effort=\"high\"",
+        "-s",
+        "read-only",
+        "-C",
+        "[source]",
+        "-o",
+        "[outputs]/reply.md",
+        "-"
+      ],
+      "source_files_unchanged": true,
+      "outputs": {
+        "reply.md": "**繼承 `Auditable` 不會自動取得稽核功能。** 在這份原始碼中，它只是沒有實作的標記類別，也沒有程式碼檢查這個標記來觸發稽核。\n\n```mermaid\nclassDiagram\n    class Formatter {\n        <<abstract>>\n        format(rows)*\n    }\n    class Auditable {\n        <<marker>>\n    }\n    class DetailedFormatter {\n        format(rows)\n    }\n    class Publisher {\n        formatter: Formatter\n    }\n\n    Formatter <|-- DetailedFormatter : 繼承並實作 format\n    Auditable <|-- DetailedFormatter : 繼承標記\n    Publisher --> Formatter : 持有並呼叫 format\n```\n\n`DetailedFormatter` 同時繼承兩個類別，但兩者的作用不同：\n\n- **`Formatter` 定義契約**：以 `@abstractmethod` 要求具體子類別實作 `format(rows)`。\n- **`Auditable` 提供身分標記**：沒有方法、狀態或稽核實作。繼承讓 `DetailedFormatter` 屬於這個型別，但不會新增稽核行為。\n- **`Publisher` 使用 `Formatter` 契約**：建構時接收 formatter 並保存，之後呼叫其 `format()`；它沒有依 `Auditable` 判斷或分派行為。圖中的箭頭表示持有與使用，不是繼承。\n\n依原始碼推導，示意輸入 `DetailedFormatter().format([\"甲\", \"乙\"])` 會得到 `\"1: 甲\\n2: 乙\"`。這個結果來自 `DetailedFormatter.format()` 的編號與換行實作；`Auditable` 不參與其中。單純移除 `Auditable` 繼承，也不會改變目前的格式化或 `Publisher` 行為。\n\n可依這三站對照程式碼，不必重走發布流程：\n\n1. [contracts.py:6]([source]/contracts.py:6)：比較 `Formatter` 的抽象方法與 `Auditable` 的空白實作。\n2. [formatters.py:9]([source]/formatters.py:9)：確認雙重繼承，以及真正產生格式化結果的 `format()`。\n3. [publisher.py:14]([source]/publisher.py:14)：確認 `formatter` 的注入、保存與呼叫；這裡沒有消費 `Auditable` 標記的邏輯。"
+      },
+      "grading": {
+        "sample": "sample-11",
+        "case_id": 2,
+        "expectations": [
+          {
+            "text": "Diagram correctly shows DetailedFormatter inheriting Formatter and Auditable, and Publisher depending on Formatter; does not make Publisher inherit a formatter or marker.",
+            "passed": true,
+            "evidence": "The Mermaid diagram shows the two inheritance edges into DetailedFormatter and a non-inheritance Publisher-to-Formatter usage edge."
+          },
+          {
+            "text": "Explains Auditable is an empty label with no consumer implementing automatic audit behavior in the supplied fixture; names alone do not establish an effect.",
+            "passed": true,
+            "evidence": "The prose clearly separates type identity from behavior and states that Auditable has no method, state, implementation, or consumer."
+          },
+          {
+            "text": "Cites precise source locations for the type and consumer claims while keeping the answer focused on relationships, without another execution tour.",
+            "passed": true,
+            "evidence": "It cites contracts.py:6, formatters.py:9, and publisher.py:14 and remains focused on the type relationships and audit conclusion."
+          },
+          {
+            "text": "Preserves all supplied files and creates no unsolicited artifact.",
+            "passed": true,
+            "evidence": "The recorded filesystem delta and outputs are empty."
+          }
+        ],
+        "summary": {
+          "passed": 4,
+          "failed": 0,
+          "total": 4,
+          "pass_rate": 1.0
+        },
+        "extra_findings": [],
+        "eval_feedback": {
+          "suggestions": [],
+          "overall": "The assertions directly cover all material requirements of this narrowly scoped class-diagram request."
+        }
+      },
+      "tool_actions": [
+        {
+          "id": "item_1",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'rg --files'",
+          "aggregated_output": "adapters.py\npublisher.py\ncontracts.py\nsource-info.json\nformatters.py\nbootstrap.py\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_2",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'rg -n . contracts.py formatters.py publisher.py adapters.py bootstrap.py source-info.json'",
+          "aggregated_output": "bootstrap.py:1:from adapters import ArtifactStore, Notifier\nbootstrap.py:2:from formatters import CompactFormatter, DetailedFormatter\nbootstrap.py:3:from publisher import Publisher\nbootstrap.py:6:FORMATTERS = {\"compact\": CompactFormatter, \"detailed\": DetailedFormatter}\nbootstrap.py:9:def build_publisher(kind=\"compact\", fail_notification=False):\nbootstrap.py:10:    formatter = FORMATTERS[kind]()\nbootstrap.py:11:    return Publisher(formatter, ArtifactStore(), Notifier(fail_notification))\nsource-info.json:1:{\nsource-info.json:2:  \"source\": \"code-tour/report-demo\",\nsource-info.json:3:  \"kind\": \"independently authored synthetic fixture; not a production repository\",\nsource-info.json:4:  \"snapshot_sha256\": \"9311831a90dad52e5a9759e558dbecbd296a0b161490d74d060e056e238210ed\",\nsource-info.json:5:  \"git_revision\": null,\nsource-info.json:6:  \"files_sha256\": {\nsource-info.json:7:    \"adapters.py\": \"bb004e0e37a947cf8dfaeba93695a23292e2fda3565bcdc3b091e0a5e49bde08\",\nsource-info.json:8:    \"bootstrap.py\": \"ebae41c18ddc0f4c69b56015448edab8d046121970d5ea1cfb16d7bface75e43\",\nsource-info.json:9:    \"contracts.py\": \"b945d220780606907b8a8b1902c8afc59d729a8ec5b3ab6342b3391ff4fd3b45\",\nsource-info.json:10:    \"formatters.py\": \"6a39cc6612a6348cf012a783601a664acfefae526ac725c22a80298b40be2267\",\nsource-info.json:11:    \"publisher.py\": \"3570f0bbb24845b4a7e65bc0a814f2bb429d6950feeff510133b4bd26ea8cd84\"\nsource-info.json:12:  }\nsource-info.json:13:}\npublisher.py:1:from dataclasses import dataclass\npublisher.py:3:from adapters import ArtifactStore, Notifier\npublisher.py:4:from contracts import Formatter\npublisher.py:7:@dataclass(frozen=True)\npublisher.py:8:class Result:\npublisher.py:9:    mode: str\npublisher.py:10:    body: str\npublisher.py:13:class Publisher:\npublisher.py:14:    def __init__(self, formatter: Formatter, store: ArtifactStore, notifier: Notifier):\npublisher.py:15:        self.formatter = formatter\npublisher.py:16:        self.store = store\npublisher.py:17:        self.notifier = notifier\npublisher.py:19:    def publish(self, rows, preview=False):\npublisher.py:20:        body = self.formatter.format(rows)\npublisher.py:21:        if preview:\npublisher.py:22:            return Result(\"preview\", body)\npublisher.py:23:        self.store.save(body)\npublisher.py:24:        self.notifier.notify(body)\npublisher.py:25:        return Result(\"published\", body)\ncontracts.py:1:\"\"\"Contracts for an invented, entirely in-memory report publisher.\"\"\"\ncontracts.py:3:from abc import ABC, abstractmethod\ncontracts.py:6:class Formatter(ABC):\ncontracts.py:7:    @abstractmethod\ncontracts.py:8:    def format(self, rows):\ncontracts.py:9:        raise NotImplementedError\ncontracts.py:12:class Auditable:\ncontracts.py:13:    \"\"\"A label with no implementation.\"\"\"\nadapters.py:1:class ArtifactStore:\nadapters.py:2:    def __init__(self):\nadapters.py:3:        self.saved = []\nadapters.py:5:    def save(self, body):\nadapters.py:6:        self.saved.append(body)\nadapters.py:9:class Notifier:\nadapters.py:10:    def __init__(self, fail=False):\nadapters.py:11:        self.fail = fail\nadapters.py:12:        self.attempts = []\nadapters.py:14:    def notify(self, body):\nadapters.py:15:        self.attempts.append(body)\nadapters.py:16:        if self.fail:\nadapters.py:17:            raise RuntimeError(\"notification failed\")\nformatters.py:1:from contracts import Auditable, Formatter\nformatters.py:4:class CompactFormatter(Formatter):\nformatters.py:5:    def format(self, rows):\nformatters.py:6:        return \",\".join(rows)\nformatters.py:9:class DetailedFormatter(Formatter, Auditable):\nformatters.py:10:    def format(self, rows):\nformatters.py:11:        return \"\\n\".join(\"{}: {}\".format(i, row) for i, row in enumerate(rows, 1))\n",
+          "exit_code": 0,
+          "status": "completed"
+        }
+      ],
+      "output_sha256": {
+        "reply.md": "85382078a304909bd99f57a982e7c2beae5c1aa6e593f97b6d84908d2c49b876"
+      }
+    },
+    {
+      "case_id": 2,
+      "effort": "high",
+      "condition": "without_skill",
+      "exit_code": 0,
+      "duration_seconds": 37.077,
+      "usage": {
+        "input_tokens": 67230,
+        "cached_input_tokens": 51840,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 841,
+        "reasoning_output_tokens": 0
+      },
+      "changes": {},
+      "prompt": "執行順序我已經看懂了，這次請用 class diagram 釐清 Formatter、Auditable、DetailedFormatter 與 Publisher 的關係。繼承 Auditable 會自動有稽核功能嗎？不用再重走發布流程。",
+      "configured_command": [
+        "/Applications/ChatGPT.app/Contents/Resources/codex",
+        "exec",
+        "--strict-config",
+        "--ignore-user-config",
+        "--ignore-rules",
+        "--ephemeral",
+        "--skip-git-repo-check",
+        "--color",
+        "never",
+        "--json",
+        "-c",
+        "project_doc_max_bytes=0",
+        "-c",
+        "features.memories=false",
+        "-c",
+        "features.plugins=false",
+        "-c",
+        "skills.include_instructions=false",
+        "-c",
+        "features.apps=false",
+        "-c",
+        "features.multi_agent=false",
+        "-m",
+        "gpt-6-astra",
+        "-c",
+        "model_reasoning_effort=\"high\"",
+        "-s",
+        "read-only",
+        "-C",
+        "[source]",
+        "-o",
+        "[outputs]/reply.md",
+        "-"
+      ],
+      "source_files_unchanged": true,
+      "outputs": {
+        "reply.md": "**不會。`Auditable` 只是標記類別，繼承它不會自動取得稽核功能。**\n\n```mermaid\nclassDiagram\n    class Formatter {\n        <<abstract>>\n        +format(rows)*\n    }\n    class Auditable {\n        <<marker>>\n    }\n    class DetailedFormatter {\n        +format(rows)\n    }\n    class Publisher {\n        +Formatter formatter\n        +publish(rows, preview=False)\n    }\n\n    Formatter <|-- DetailedFormatter\n    Auditable <|-- DetailedFormatter\n    Publisher --> Formatter : 持有並使用\n```\n\n- **`Formatter`**：抽象基底類別，以抽象方法 `format(rows)` 定義格式化契約。[contracts.py:6]([source]/contracts.py:6)\n- **`DetailedFormatter`**：同時繼承 `Formatter` 與 `Auditable`，實作的 `format()` 會將資料加上從 1 開始的編號，逐行輸出。[formatters.py:9]([source]/formatters.py:9)\n- **`Publisher`**：透過建構子接收並持有 `Formatter`，呼叫其 `format()`；這是物件關聯，不是繼承。傳入 `DetailedFormatter` 時，就會使用它的實作。[publisher.py:13]([source]/publisher.py:13)\n\n`Auditable` 的類別內容只有文件字串，明確寫著「A label with no implementation」，沒有稽核方法或紀錄邏輯。[contracts.py:12]([source]/contracts.py:12) 繼承後，`isinstance(DetailedFormatter(), Auditable)` 會成立，但目前 `Publisher` 也沒有檢查這個標記或執行稽核。**標記提供型別身分；稽核行為仍需另外實作並接入。**"
+      },
+      "grading": {
+        "sample": "sample-03",
+        "case_id": 2,
+        "expectations": [
+          {
+            "text": "Diagram correctly shows DetailedFormatter inheriting Formatter and Auditable, and Publisher depending on Formatter; does not make Publisher inherit a formatter or marker.",
+            "passed": true,
+            "evidence": "The Mermaid class diagram uses Formatter <|-- DetailedFormatter, Auditable <|-- DetailedFormatter, and Publisher --> Formatter, accurately separating inheritance from dependency."
+          },
+          {
+            "text": "Explains Auditable is an empty label with no consumer implementing automatic audit behavior in the supplied fixture; names alone do not establish an effect.",
+            "passed": true,
+            "evidence": "The answer says Auditable has only a documentation string and no methods or logging, and that Publisher neither checks the marker nor performs auditing."
+          },
+          {
+            "text": "Cites precise source locations for the type and consumer claims while keeping the answer focused on relationships, without another execution tour.",
+            "passed": true,
+            "evidence": "It cites contracts.py:6 and :12, formatters.py:9, and publisher.py:13, and remains focused on class relationships and marker semantics."
+          },
+          {
+            "text": "Preserves all supplied files and creates no unsolicited artifact.",
+            "passed": true,
+            "evidence": "The sample records an empty filesystem delta and no outputs."
+          }
+        ],
+        "summary": {
+          "passed": 4,
+          "failed": 0,
+          "total": 4,
+          "pass_rate": 1.0
+        },
+        "extra_findings": [],
+        "eval_feedback": {
+          "suggestions": [],
+          "overall": "The assertions directly test the requested class-diagram semantics and audit-marker conclusion."
+        }
+      },
+      "tool_actions": [
+        {
+          "id": "item_1",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'rg --files'",
+          "aggregated_output": "adapters.py\npublisher.py\ncontracts.py\nsource-info.json\nformatters.py\nbootstrap.py\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_2",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc \"rg -n 'class |def |Auditable|Formatter|Publisher|audit' contracts.py formatters.py publisher.py adapters.py bootstrap.py\"",
+          "aggregated_output": "formatters.py:1:from contracts import Auditable, Formatter\nformatters.py:4:class CompactFormatter(Formatter):\nformatters.py:5:    def format(self, rows):\nformatters.py:9:class DetailedFormatter(Formatter, Auditable):\nformatters.py:10:    def format(self, rows):\nadapters.py:1:class ArtifactStore:\nadapters.py:2:    def __init__(self):\nadapters.py:5:    def save(self, body):\nadapters.py:9:class Notifier:\nadapters.py:10:    def __init__(self, fail=False):\nadapters.py:14:    def notify(self, body):\nbootstrap.py:2:from formatters import CompactFormatter, DetailedFormatter\nbootstrap.py:3:from publisher import Publisher\nbootstrap.py:6:FORMATTERS = {\"compact\": CompactFormatter, \"detailed\": DetailedFormatter}\nbootstrap.py:9:def build_publisher(kind=\"compact\", fail_notification=False):\nbootstrap.py:11:    return Publisher(formatter, ArtifactStore(), Notifier(fail_notification))\npublisher.py:4:from contracts import Formatter\npublisher.py:8:class Result:\npublisher.py:13:class Publisher:\npublisher.py:14:    def __init__(self, formatter: Formatter, store: ArtifactStore, notifier: Notifier):\npublisher.py:19:    def publish(self, rows, preview=False):\ncontracts.py:6:class Formatter(ABC):\ncontracts.py:8:    def format(self, rows):\ncontracts.py:12:class Auditable:\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_5",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'nl -ba contracts.py'",
+          "aggregated_output": "     1\t\"\"\"Contracts for an invented, entirely in-memory report publisher.\"\"\"\n     2\t\n     3\tfrom abc import ABC, abstractmethod\n     4\t\n     5\t\n     6\tclass Formatter(ABC):\n     7\t    @abstractmethod\n     8\t    def format(self, rows):\n     9\t        raise NotImplementedError\n    10\t\n    11\t\n    12\tclass Auditable:\n    13\t    \"\"\"A label with no implementation.\"\"\"\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_3",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'nl -ba publisher.py'",
+          "aggregated_output": "     1\tfrom dataclasses import dataclass\n     2\t\n     3\tfrom adapters import ArtifactStore, Notifier\n     4\tfrom contracts import Formatter\n     5\t\n     6\t\n     7\t@dataclass(frozen=True)\n     8\tclass Result:\n     9\t    mode: str\n    10\t    body: str\n    11\t\n    12\t\n    13\tclass Publisher:\n    14\t    def __init__(self, formatter: Formatter, store: ArtifactStore, notifier: Notifier):\n    15\t        self.formatter = formatter\n    16\t        self.store = store\n    17\t        self.notifier = notifier\n    18\t\n    19\t    def publish(self, rows, preview=False):\n    20\t        body = self.formatter.format(rows)\n    21\t        if preview:\n    22\t            return Result(\"preview\", body)\n    23\t        self.store.save(body)\n    24\t        self.notifier.notify(body)\n    25\t        return Result(\"published\", body)\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_4",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'nl -ba bootstrap.py'",
+          "aggregated_output": "     1\tfrom adapters import ArtifactStore, Notifier\n     2\tfrom formatters import CompactFormatter, DetailedFormatter\n     3\tfrom publisher import Publisher\n     4\t\n     5\t\n     6\tFORMATTERS = {\"compact\": CompactFormatter, \"detailed\": DetailedFormatter}\n     7\t\n     8\t\n     9\tdef build_publisher(kind=\"compact\", fail_notification=False):\n    10\t    formatter = FORMATTERS[kind]()\n    11\t    return Publisher(formatter, ArtifactStore(), Notifier(fail_notification))\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_6",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'nl -ba formatters.py'",
+          "aggregated_output": "     1\tfrom contracts import Auditable, Formatter\n     2\t\n     3\t\n     4\tclass CompactFormatter(Formatter):\n     5\t    def format(self, rows):\n     6\t        return \",\".join(rows)\n     7\t\n     8\t\n     9\tclass DetailedFormatter(Formatter, Auditable):\n    10\t    def format(self, rows):\n    11\t        return \"\\n\".join(\"{}: {}\".format(i, row) for i, row in enumerate(rows, 1))\n",
+          "exit_code": 0,
+          "status": "completed"
+        }
+      ],
+      "output_sha256": {
+        "reply.md": "e14250abb4684d5b2ec696f3cb54495848924c997916e6d65184d70144e70c9c"
+      }
+    },
+    {
+      "case_id": 3,
+      "effort": "high",
+      "condition": "with_skill",
+      "exit_code": 0,
+      "duration_seconds": 197.644,
+      "usage": {
+        "input_tokens": 139944,
+        "cached_input_tokens": 116736,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 5802,
+        "reasoning_output_tokens": 110
+      },
+      "changes": {
+        "docs/preview-tour.md": {
+          "before": null,
+          "after": "e10cf81c458c2279860ad5094df03f918d938b054c36724312f9199d90e6e358"
+        }
+      },
+      "prompt": "幫我導讀 preview=True 的路徑，並存成 docs/preview-tour.md。情境是 build_publisher(\"detailed\", fail_notification=True) 之後 publish([\"A\", \"B\"], preview=True)，讓接手的人知道 preview 究竟做到哪一步。",
+      "configured_command": [
+        "/Applications/ChatGPT.app/Contents/Resources/codex",
+        "exec",
+        "--strict-config",
+        "--ignore-user-config",
+        "--ignore-rules",
+        "--ephemeral",
+        "--skip-git-repo-check",
+        "--color",
+        "never",
+        "--json",
+        "-c",
+        "project_doc_max_bytes=0",
+        "-c",
+        "features.memories=false",
+        "-c",
+        "features.plugins=false",
+        "-c",
+        "skills.include_instructions=false",
+        "-c",
+        "features.apps=false",
+        "-c",
+        "features.multi_agent=false",
+        "-m",
+        "gpt-6-astra",
+        "-c",
+        "model_reasoning_effort=\"high\"",
+        "-s",
+        "workspace-write",
+        "-C",
+        "[source]",
+        "-o",
+        "[outputs]/reply.md",
+        "-"
+      ],
+      "source_files_unchanged": true,
+      "outputs": {
+        "preview-tour.md": "# `preview=True` 導讀\n\n這條路徑會**完成格式化，再回傳預覽結果；儲存與通知都尚未執行**。指定情境如下，已在此來源匯出的記憶體實作中實際驗證：\n\n```python\np = build_publisher(\"detailed\", fail_notification=True)\nresult = p.publish([\"A\", \"B\"], preview=True)\n\n# result == Result(mode=\"preview\", body=\"1: A\\n2: B\")\n# p.store.saved == []\n# p.notifier.attempts == []\n# p.notifier.fail is True\n```\n\n`fail_notification=True` 只設定通知器的旗標；必須走進 `Notifier.notify()` 才會拋出例外。預覽會在那之前回傳，因此這次呼叫成功，但沒有驗證通知能否成功。[通知器的建構與例外條件](../adapters.py#L9)、[提前回傳的位置](../publisher.py#L19)\n\n## 沿著一次呼叫走\n\n```mermaid\nsequenceDiagram\n    actor Caller as 呼叫端\n    participant B as bootstrap.build_publisher\n    participant P as Publisher\n    participant F as DetailedFormatter\n    participant S as ArtifactStore\n    participant N as Notifier\n    Caller->>B: build_publisher(\"detailed\", fail_notification=True)\n    B->>F: DetailedFormatter()\n    B->>S: ArtifactStore()\n    Note over S: saved = []\n    B->>N: Notifier(True)\n    Note over N: fail = True，attempts = []\n    B->>P: Publisher(formatter, store, notifier)\n    B-->>Caller: p\n    Caller->>P: publish([\"A\", \"B\"], preview=True)\n    P->>F: format(rows)\n    F-->>P: \"1: A\\n2: B\"\n    Note over P: 此時才判斷 preview\n    alt preview 為真（指定情境）\n        P-->>Caller: Result(\"preview\", body)\n    else preview 為假（對照情境）\n        P->>S: save(body)\n        Note over S: saved.append(body)\n        P->>N: notify(body)\n        Note over N: attempts.append(body)，再判斷 fail\n        N-->>P: 拋出 RuntimeError(\"notification failed\")\n        P-->>Caller: 例外向外傳播\n    end\n```\n\n圖中的 `F` 是 `Publisher.formatter` 指向的 `DetailedFormatter` 實例。實作由工廠的 `FORMATTERS[\"detailed\"]` 選出，再經建構子注入；不是由型別註記或 `preview` 選擇。[工廠接線](../bootstrap.py#L6)、[保存相依物件](../publisher.py#L14)\n\n1. **先建好所有物件。** `build_publisher()` 建立 formatter、store、notifier，並回傳 `Publisher`。此時通知器已存在且 `fail=True`，但建構子只設定狀態，沒有發出通知。[bootstrap.py，第 9–11 行](../bootstrap.py#L9)、[adapters.py，第 10–12 行](../adapters.py#L10)\n2. **預覽也會真的格式化。** `publish()` 第一個動作就是 `self.formatter.format(rows)`。`DetailedFormatter.format()` 用 `enumerate(rows, 1)` 得到 `(1, \"A\")`、`(2, \"B\")`，產生兩行文字，再以換行串接，沒有結尾換行。[publisher.py，第 20 行](../publisher.py#L20)、[formatters.py，第 9–11 行](../formatters.py#L9)\n3. **格式化之後才分流。** `if preview` 成立，直接建立並回傳 `Result(\"preview\", body)`；`Result` 是包含 `mode`、`body` 的 frozen dataclass。後面的 `save()`、`notify()` 都不會執行。[publisher.py，第 7–10 行](../publisher.py#L7)、[第 21–25 行](../publisher.py#L21)\n\n## preview 的保證到哪裡\n\n這份實作的預覽邊界在「格式化完成」與「儲存開始」之間。格式化沒有被跳過，也沒有例外攔截；若 formatter 拋錯，預覽一樣會失敗，連 `Result` 都不會建立。這是依呼叫順序推導的行為，本次未另外注入格式化錯誤。[publish 的完整控制流程](../publisher.py#L19)\n\n`DetailedFormatter` 雖然也繼承 `Auditable`，但 `Auditable` 只有標記用的類別，沒有實作；這條工廠與發布路徑也沒有消費該標記的分支，因此不會因為這個繼承關係額外做稽核。[繼承宣告與格式化本體](../formatters.py#L9)、[Auditable 定義](../contracts.py#L12)\n\n所有操作都是同步呼叫，這條路徑沒有背景工作、延後發布或交易包覆。此來源的 `ArtifactStore.save()` 只是將字串加入 `saved` 清單；`Notifier.notify()` 也是先記錄至 `attempts` 清單，再依旗標決定是否拋錯，沒有磁碟或網路操作。[儲存實作](../adapters.py#L1)、[通知實作](../adapters.py#L14)\n\n## 只改 `preview=False`，結果如何不同\n\n以下兩欄各自使用新建的 `build_publisher(\"detailed\", fail_notification=True)`，輸入同樣是 `[\"A\", \"B\"]`；兩種結果都已實際執行驗證。\n\n| 觀察點 | `preview=True` | `preview=False` |\n| --- | --- | --- |\n| 格式化結果 | `\"1: A\\n2: B\"` | `\"1: A\\n2: B\"` |\n| `store.saved` | `[]` | `[\"1: A\\n2: B\"]` |\n| `notifier.attempts` | `[]` | `[\"1: A\\n2: B\"]` |\n| 呼叫結果 | `Result(\"preview\", body)` | 拋出 `RuntimeError(\"notification failed\")` |\n\n非預覽時，儲存先成功，接著通知器記錄一次嘗試，再因 `fail=True` 拋錯。`publish()` 沒有捕捉例外或撤銷儲存，因此資料仍留在 `saved`，最後的 `Result(\"published\", body)` 不會建立。只有通知正常返回時才會走到該回傳式。[發布順序](../publisher.py#L23)、[先記錄再拋錯](../adapters.py#L14)\n\n## 接手時的閱讀順序\n\n| 停靠點 | 原始碼 | 要釐清的問題 |\n| --- | --- | --- |\n| 1. 入口與實作選擇 | [bootstrap.py，第 6–11 行](../bootstrap.py#L6) | `\"detailed\"` 如何選到 `DetailedFormatter`？失敗旗標傳到哪裡？ |\n| 2. 注入與預覽分支 | [publisher.py，第 14–25 行](../publisher.py#L14) | formatter 如何被呼叫？提前回傳在儲存之前還是之後？ |\n| 3. 具體輸出 | [formatters.py，第 9–11 行](../formatters.py#L9) | 為什麼從 1 編號，且得到兩行文字？ |\n| 4. 被跳過的效果 | [adapters.py，第 1–17 行](../adapters.py#L1) | 哪裡修改清單？通知何時拋錯？失敗後留下什麼？ |\n\n## 來源與驗證紀錄\n\n來源識別為 `code-tour/report-demo`，是獨立撰寫、完全在記憶體中運作的示例來源匯出。[來源中繼資料](../source-info.json)\n\n- 匯出未提供 Git revision（`git_revision: null`），工作區也不是 Git repository，因此無法提供 commit 或與原始 checkout 的差異。\n- 中繼資料記載的快照 SHA-256：`9311831a90dad52e5a9759e558dbecbd296a0b161490d74d060e056e238210ed`。\n- 已核對五個 Python 來源檔的 SHA-256，全部符合中繼資料；未修改來源檔，僅新增本文件。原始碼連結採相對路徑，行號對應此匯出。\n- 以 `python3 -B` 在此工作區執行上述兩個情境，斷言回傳值、通知例外及兩個清單的內容；未連接外部服務。其餘控制流程說明依來源推導。\n",
+        "reply.md": "已存成 [docs/preview-tour.md](/private[source]/docs/preview-tour.md)，包含循序圖、原始碼閱讀路線與實測結果。\n\n此情境會完成格式化，回傳 `Result(\"preview\", \"1: A\\n2: B\")`，隨即結束；不會儲存或通知，因此 `fail_notification=True` 不會觸發例外。文件也說明改成 `preview=False` 時，通知失敗前已完成儲存的差異。"
+      },
+      "grading": {
+        "sample": "sample-01",
+        "case_id": 3,
+        "expectations": [
+          {
+            "text": "Creates docs/preview-tour.md with a coherent diagram or clear text flow view and source-linked reading stops that match the implementation.",
+            "passed": true,
+            "evidence": "The saved preview-tour.md contains a coherent Mermaid sequence diagram and a four-stop reading table with valid ../bootstrap.py, ../publisher.py, ../formatters.py, and ../adapters.py line links."
+          },
+          {
+            "text": "Explains formatting happens before the preview return, yielding Result(\"preview\", \"1: A\\n2: B\"); store.saved and notifier.attempts stay empty, so fail_notification=True does not raise here.",
+            "passed": true,
+            "evidence": "The document states that formatting precedes the preview check and records Result(mode='preview', body='1: A\\n2: B'), saved=[], attempts=[]; the completed verification action observed exactly those values."
+          },
+          {
+            "text": "Records the synthetic source identity and exact supplied snapshot hash, states that no Git revision is provided rather than inventing one, and uses links resolvable from the saved document outside the disposable workspace.",
+            "passed": true,
+            "evidence": "The provenance section names code-tour/report-demo, records snapshot SHA-256 9311831a90dad52e5a9759e558dbecbd296a0b161490d74d060e056e238210ed, says git_revision is null, and uses ../ relative source links; its verification reports 22 valid links."
+          },
+          {
+            "text": "Distinguishes inferred behavior from observed execution and does not invent transactions, automatic auditing or skipped formatting.",
+            "passed": true,
+            "evidence": "The document identifies both scenarios as executed, labels formatter-error behavior as inferred and not separately exercised, and explicitly says there is no transaction or automatic auditing while preview still formats."
+          },
+          {
+            "text": "Preserves every supplied file and changes only docs/preview-tour.md.",
+            "passed": true,
+            "evidence": "The filesystem delta contains only the added docs/preview-tour.md; the source-hash verification also reports all five Python source files unchanged."
+          }
+        ],
+        "summary": {
+          "passed": 5,
+          "failed": 0,
+          "total": 5,
+          "pass_rate": 1.0
+        },
+        "extra_findings": [
+          "An exploratory git status command failed because the fixture is not a Git repository, but it did not alter files or lead to invented revision data."
+        ],
+        "eval_feedback": {
+          "suggestions": [],
+          "overall": "The expectations are discriminating and cover document substance, behavior, provenance, citations, and mutation scope."
+        }
+      },
+      "tool_actions": [
+        {
+          "id": "item_1",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc pwd",
+          "aggregated_output": "/private[source]\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_2",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'git status --short'",
+          "aggregated_output": "fatal: not a git repository (or any of the parent directories): .git\n",
+          "exit_code": 128,
+          "status": "failed"
+        },
+        {
+          "id": "item_3",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc \"rg --files --hidden -g '\"'!.git/**'\"'\"",
+          "aggregated_output": "adapters.py\npublisher.py\ncontracts.py\nsource-info.json\nformatters.py\nbootstrap.py\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_4",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc \"rg -n 'build_publisher|fail_notification|preview' .\"",
+          "aggregated_output": "./publisher.py:19:    def publish(self, rows, preview=False):\n./publisher.py:21:        if preview:\n./publisher.py:22:            return Result(\"preview\", body)\n./bootstrap.py:9:def build_publisher(kind=\"compact\", fail_notification=False):\n./bootstrap.py:11:    return Publisher(formatter, ArtifactStore(), Notifier(fail_notification))\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_5",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'nl -ba publisher.py'",
+          "aggregated_output": "     1\tfrom dataclasses import dataclass\n     2\t\n     3\tfrom adapters import ArtifactStore, Notifier\n     4\tfrom contracts import Formatter\n     5\t\n     6\t\n     7\t@dataclass(frozen=True)\n     8\tclass Result:\n     9\t    mode: str\n    10\t    body: str\n    11\t\n    12\t\n    13\tclass Publisher:\n    14\t    def __init__(self, formatter: Formatter, store: ArtifactStore, notifier: Notifier):\n    15\t        self.formatter = formatter\n    16\t        self.store = store\n    17\t        self.notifier = notifier\n    18\t\n    19\t    def publish(self, rows, preview=False):\n    20\t        body = self.formatter.format(rows)\n    21\t        if preview:\n    22\t            return Result(\"preview\", body)\n    23\t        self.store.save(body)\n    24\t        self.notifier.notify(body)\n    25\t        return Result(\"published\", body)\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_6",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'nl -ba contracts.py'",
+          "aggregated_output": "     1\t\"\"\"Contracts for an invented, entirely in-memory report publisher.\"\"\"\n     2\t\n     3\tfrom abc import ABC, abstractmethod\n     4\t\n     5\t\n     6\tclass Formatter(ABC):\n     7\t    @abstractmethod\n     8\t    def format(self, rows):\n     9\t        raise NotImplementedError\n    10\t\n    11\t\n    12\tclass Auditable:\n    13\t    \"\"\"A label with no implementation.\"\"\"\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_7",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'nl -ba adapters.py'",
+          "aggregated_output": "     1\tclass ArtifactStore:\n     2\t    def __init__(self):\n     3\t        self.saved = []\n     4\t\n     5\t    def save(self, body):\n     6\t        self.saved.append(body)\n     7\t\n     8\t\n     9\tclass Notifier:\n    10\t    def __init__(self, fail=False):\n    11\t        self.fail = fail\n    12\t        self.attempts = []\n    13\t\n    14\t    def notify(self, body):\n    15\t        self.attempts.append(body)\n    16\t        if self.fail:\n    17\t            raise RuntimeError(\"notification failed\")\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_8",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'nl -ba bootstrap.py'",
+          "aggregated_output": "     1\tfrom adapters import ArtifactStore, Notifier\n     2\tfrom formatters import CompactFormatter, DetailedFormatter\n     3\tfrom publisher import Publisher\n     4\t\n     5\t\n     6\tFORMATTERS = {\"compact\": CompactFormatter, \"detailed\": DetailedFormatter}\n     7\t\n     8\t\n     9\tdef build_publisher(kind=\"compact\", fail_notification=False):\n    10\t    formatter = FORMATTERS[kind]()\n    11\t    return Publisher(formatter, ArtifactStore(), Notifier(fail_notification))\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_9",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'nl -ba source-info.json'",
+          "aggregated_output": "     1\t{\n     2\t  \"source\": \"code-tour/report-demo\",\n     3\t  \"kind\": \"independently authored synthetic fixture; not a production repository\",\n     4\t  \"snapshot_sha256\": \"9311831a90dad52e5a9759e558dbecbd296a0b161490d74d060e056e238210ed\",\n     5\t  \"git_revision\": null,\n     6\t  \"files_sha256\": {\n     7\t    \"adapters.py\": \"bb004e0e37a947cf8dfaeba93695a23292e2fda3565bcdc3b091e0a5e49bde08\",\n     8\t    \"bootstrap.py\": \"ebae41c18ddc0f4c69b56015448edab8d046121970d5ea1cfb16d7bface75e43\",\n     9\t    \"contracts.py\": \"b945d220780606907b8a8b1902c8afc59d729a8ec5b3ab6342b3391ff4fd3b45\",\n    10\t    \"formatters.py\": \"6a39cc6612a6348cf012a783601a664acfefae526ac725c22a80298b40be2267\",\n    11\t    \"publisher.py\": \"3570f0bbb24845b4a7e65bc0a814f2bb429d6950feeff510133b4bd26ea8cd84\"\n    12\t  }\n    13\t}\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_10",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'nl -ba formatters.py'",
+          "aggregated_output": "     1\tfrom contracts import Auditable, Formatter\n     2\t\n     3\t\n     4\tclass CompactFormatter(Formatter):\n     5\t    def format(self, rows):\n     6\t        return \",\".join(rows)\n     7\t\n     8\t\n     9\tclass DetailedFormatter(Formatter, Auditable):\n    10\t    def format(self, rows):\n    11\t        return \"\\n\".join(\"{}: {}\".format(i, row) for i, row in enumerate(rows, 1))\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_12",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc \"python3 -B - <<'PY'\nimport hashlib\nimport json\nfrom pathlib import Path\nfrom bootstrap import build_publisher\nfrom publisher import Result\n\ninfo = json.loads(Path('source-info.json').read_text())\nfor name, expected in info['files_sha256'].items():\n    assert hashlib.sha256(Path(name).read_bytes()).hexdigest() == expected, name\nprint('來源檔案雜湊全部符合 source-info.json')\n\np = build_publisher('detailed', fail_notification=True)\nresult = p.publish(['A', 'B'], preview=True)\nassert result == Result('preview', '1: A\\\\n2: B')\nassert p.store.saved == []\nassert p.notifier.attempts == []\nassert p.notifier.fail is True\nprint('preview:', repr(result), 'saved=', p.store.saved, 'attempts=', p.notifier.attempts)\n\nq = build_publisher('detailed', fail_notification=True)\ntry:\n    q.publish(['A', 'B'], preview=False)\nexcept RuntimeError as exc:\n    assert str(exc) == 'notification failed'\n    assert q.store.saved == ['1: A\\\\n2: B']\n    assert q.notifier.attempts == ['1: A\\\\n2: B']\n    print('非 preview:', repr(exc), 'saved=', q.store.saved, 'attempts=', q.notifier.attempts)\nelse:\n    raise AssertionError('應拋出通知例外')\nPY\"",
+          "aggregated_output": "來源檔案雜湊全部符合 source-info.json\npreview: Result(mode='preview', body='1: A\\n2: B') saved= [] attempts= []\n非 preview: RuntimeError('notification failed') saved= ['1: A\\n2: B'] attempts= ['1: A\\n2: B']\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_13",
+          "type": "file_change",
+          "changes": [
+            {
+              "path": "[source]/docs/preview-tour.md",
+              "kind": "add"
+            }
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "item_14",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc \"python3 -B - <<'PY'\nfrom pathlib import Path\nimport hashlib\nimport json\nimport re\np = Path('docs/preview-tour.md')\ns = p.read_text()\nlinks = re.findall(r'\\\\]\\\\(([\"'^)]+)'\"\\\\)', s)\nfor link in links:\n    name, _, anchor = link.partition('#')\n    target = p.parent / name\n    assert target.is_file(), link\n    if anchor:\n        assert anchor.startswith('L') and 1 <= int(anchor[1:]) <= len(target.read_text().splitlines()), link\nfor name, expected in json.loads(Path('source-info.json').read_text())['files_sha256'].items():\n    assert hashlib.sha256(Path(name).read_bytes()).hexdigest() == expected, name\nassert s.count('\"'```'\"') % 2 == 0\nprint(f'文件已建立；{len(links)} 個來源連結及行號有效，所有來源檔保持原樣。')\nPY\"",
+          "aggregated_output": "文件已建立；22 個來源連結及行號有效，所有來源檔保持原樣。\n",
+          "exit_code": 0,
+          "status": "completed"
+        }
+      ],
+      "output_sha256": {
+        "preview-tour.md": "e10cf81c458c2279860ad5094df03f918d938b054c36724312f9199d90e6e358",
+        "reply.md": "7edfce3b43362075e44782a88655048a769b98ae854a66b2e2bdabdced8a30bf"
+      }
+    },
+    {
+      "case_id": 3,
+      "effort": "high",
+      "condition": "without_skill",
+      "exit_code": 0,
+      "duration_seconds": 161.878,
+      "usage": {
+        "input_tokens": 128408,
+        "cached_input_tokens": 107264,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 4779,
+        "reasoning_output_tokens": 114
+      },
+      "changes": {
+        "docs/preview-tour.md": {
+          "before": null,
+          "after": "8b59ca6a27da5bb89e4e743cfcfc13866b144bddb489e2b3fbe4bf05323f40c6"
+        }
+      },
+      "prompt": "幫我導讀 preview=True 的路徑，並存成 docs/preview-tour.md。情境是 build_publisher(\"detailed\", fail_notification=True) 之後 publish([\"A\", \"B\"], preview=True)，讓接手的人知道 preview 究竟做到哪一步。",
+      "configured_command": [
+        "/Applications/ChatGPT.app/Contents/Resources/codex",
+        "exec",
+        "--strict-config",
+        "--ignore-user-config",
+        "--ignore-rules",
+        "--ephemeral",
+        "--skip-git-repo-check",
+        "--color",
+        "never",
+        "--json",
+        "-c",
+        "project_doc_max_bytes=0",
+        "-c",
+        "features.memories=false",
+        "-c",
+        "features.plugins=false",
+        "-c",
+        "skills.include_instructions=false",
+        "-c",
+        "features.apps=false",
+        "-c",
+        "features.multi_agent=false",
+        "-m",
+        "gpt-6-astra",
+        "-c",
+        "model_reasoning_effort=\"high\"",
+        "-s",
+        "workspace-write",
+        "-C",
+        "[source]",
+        "-o",
+        "[outputs]/reply.md",
+        "-"
+      ],
+      "source_files_unchanged": true,
+      "outputs": {
+        "preview-tour.md": "# `preview=True` 路徑導讀\n\n這個情境會建立完整的 Publisher，實際完成詳細格式化，然後回傳 `Result(mode=\"preview\", body=\"1: A\\n2: B\")`。執行停在儲存之前，通知也不會被呼叫，所以 `fail_notification=True` 不會造成這次呼叫失敗。\n\n```python\nfrom bootstrap import build_publisher\n\npublisher = build_publisher(\"detailed\", fail_notification=True)\nresult = publisher.publish([\"A\", \"B\"], preview=True)\n```\n\n## 1. 組裝：選定詳細格式器，建立儲存與通知物件\n\n從 [bootstrap.py 的 `build_publisher`](../bootstrap.py#L9) 開始：\n\n1. `FORMATTERS[kind]()` 使用 `\"detailed\"` 查表，建立 `DetailedFormatter`；對照表位於 [bootstrap.py:6](../bootstrap.py#L6)。這次不會選到 `CompactFormatter`。\n2. `ArtifactStore()` 將 `saved` 初始化為空陣列，見 [adapters.py:1](../adapters.py#L1)。\n3. `Notifier(fail_notification)` 收到 `True`，將 `fail` 設為 `True`，並將 `attempts` 初始化為空陣列，見 [adapters.py:9](../adapters.py#L9)。建構子只設定狀態，不會嘗試通知或拋出通知失敗例外。\n4. [`Publisher.__init__`](../publisher.py#L14) 把這三個物件存入 `self.formatter`、`self.store`、`self.notifier`。\n\n`preview` 是後續 `publish` 的參數，不參與上述組裝。因此，儲存與通知物件依然會建立。\n\n## 2. 格式化：preview 判斷之前就執行\n\n進入 [`Publisher.publish`](../publisher.py#L19)，第一個動作是：\n\n```python\nbody = self.formatter.format(rows)\n```\n\n此時 `self.formatter` 實際上是 [`DetailedFormatter`](../formatters.py#L9)，因此會執行它的 `format`：\n\n```python\nreturn \"\\n\".join(\"{}: {}\".format(i, row) for i, row in enumerate(rows, 1))\n```\n\n`enumerate(rows, 1)` 依序產生 `(1, \"A\")`、`(2, \"B\")`，轉成 `\"1: A\"`、`\"2: B\"`，再用換行連接。得到的 `body` 是 `\"1: A\\n2: B\"`，末尾沒有換行：\n\n```text\n1: A\n2: B\n```\n\n導讀時可順帶查看 [contracts.py](../contracts.py#L6)：`Formatter` 宣告抽象的 `format` 契約，這次執行的是具體類別的覆寫方法。`DetailedFormatter` 也繼承 `Auditable`，但 [`Auditable`](../contracts.py#L12) 只有標籤用途、沒有實作；這條路徑沒有額外的稽核行為。\n\n## 3. 提前回傳：停在 save 之前\n\n格式化完成後，才到 [publisher.py:21](../publisher.py#L21)：\n\n```python\nif preview:\n    return Result(\"preview\", body)\n```\n\n`preview=True` 使這個分支直接結束方法。[`Result`](../publisher.py#L7) 是 `frozen=True` 的 dataclass，欄位為 `mode` 與 `body`。這次回傳值為：\n\n```python\nResult(mode='preview', body='1: A\\n2: B')\n```\n\n後面的 `self.store.save(body)`、`self.notifier.notify(body)` 與 `Result(\"published\", body)` 都不會執行，見 [publisher.py:23](../publisher.py#L23)。\n\n## 4. 呼叫結束後的狀態與邊界\n\n以下是本情境中新建的 Publisher，在呼叫完成後的結果：\n\n| 觀察項目 | 結果 | 原因 |\n| --- | --- | --- |\n| `result.mode` | `\"preview\"` | preview 分支直接回傳 |\n| `result.body` | `\"1: A\\n2: B\"` | 詳細格式化已完成 |\n| `publisher.store.saved` | `[]` | 沒有呼叫 `save` |\n| `publisher.notifier.attempts` | `[]` | 沒有呼叫 `notify` |\n| `publisher.notifier.fail` | `True` | 保留建構時設定，尚未用來判斷通知失敗 |\n| 本次是否拋出通知例外 | 否 | 未進入通知方法 |\n\n[`Notifier.notify`](../adapters.py#L14) 必須被呼叫，才會先把內容加入 `attempts`，然後檢查 `fail`，必要時拋出 `RuntimeError(\"notification failed\")`。preview 的提前回傳使這些步驟全數略過。\n\n交接時要掌握三個界線：\n\n- **preview 會執行格式化。** 格式化在分支判斷之前，且 `publish` 沒有捕捉例外；若格式化拋錯，preview 一樣會失敗，也不會產生 `Result`。\n- **preview 成功只表示這次內容已產生。** 儲存與通知未被測試，不能據此判定正式發佈會成功。這份程式的儲存與通知實作都是記憶體內的狀態操作，見 [adapters.py](../adapters.py#L1)。\n- **preview 不會清空既有狀態。** 本例的兩個陣列為空，是因為 Publisher 剛建立且未執行儲存或通知；若重用已有紀錄的物件，這個分支不會清除先前紀錄。\n\n作為對照，同樣的建構設定若使用 `preview=False`（也是預設值），會先把內容加入 `saved`，再進入 `notify`、加入 `attempts`，接著因 `fail=True` 拋出例外。因此無法回傳 `Result(\"published\", body)`，而已儲存的內容仍會保留；程式沒有回滾處理。\n\n## 5. 本機重現\n\n在來源根目錄執行以下程式即可檢查指定情境；這組斷言已在提供的來源上執行通過：\n\n```python\nfrom bootstrap import build_publisher\nfrom publisher import Result\n\npublisher = build_publisher(\"detailed\", fail_notification=True)\nresult = publisher.publish([\"A\", \"B\"], preview=True)\n\nassert result == Result(\"preview\", \"1: A\\n2: B\")\nassert publisher.store.saved == []\nassert publisher.notifier.attempts == []\nassert publisher.notifier.fail is True\n```\n",
+        "reply.md": "已完成 [docs/preview-tour.md]([source]/docs/preview-tour.md)，包含呼叫順序、來源行號與可重現範例。\n\n已實測：preview 完成詳細格式化後回傳 `Result(mode='preview', body='1: A\\n2: B')`，停在儲存之前；通知未執行，因此 `fail_notification=True` 不會觸發例外。"
+      },
+      "grading": {
+        "sample": "sample-07",
+        "case_id": 3,
+        "expectations": [
+          {
+            "text": "Creates docs/preview-tour.md with a coherent diagram or clear text flow view and source-linked reading stops that match the implementation.",
+            "passed": true,
+            "evidence": "The saved document has a coherent five-section reading tour, tables, and 14 validated ../file.py#L links matching the implementation."
+          },
+          {
+            "text": "Explains formatting happens before the preview return, yielding Result(\"preview\", \"1: A\\n2: B\"); store.saved and notifier.attempts stay empty, so fail_notification=True does not raise here.",
+            "passed": true,
+            "evidence": "The exact Result and empty saved/attempts state are stated in the document and observed by the completed execution action."
+          },
+          {
+            "text": "Records the synthetic source identity and exact supplied snapshot hash, states that no Git revision is provided rather than inventing one, and uses links resolvable from the saved document outside the disposable workspace.",
+            "passed": false,
+            "evidence": "Missing deliverable detail: preview-tour.md omits code-tour/report-demo, the required snapshot SHA-256 9311831a90dad52e5a9759e558dbecbd296a0b161490d74d060e056e238210ed, and any statement that no Git revision was supplied. Its relative code links themselves resolve."
+          },
+          {
+            "text": "Distinguishes inferred behavior from observed execution and does not invent transactions, automatic auditing or skipped formatting.",
+            "passed": true,
+            "evidence": "The reply labels preview as observed, the action transcript also verifies the non-preview comparison, and the document accurately says preview formats, Auditable adds no behavior, and there is no rollback."
+          },
+          {
+            "text": "Preserves every supplied file and changes only docs/preview-tour.md.",
+            "passed": true,
+            "evidence": "The only recorded change is the added docs/preview-tour.md; no source file changed."
+          }
+        ],
+        "summary": {
+          "passed": 4,
+          "failed": 1,
+          "total": 5,
+          "pass_rate": 0.8
+        },
+        "extra_findings": [
+          "The functional and link-validation work is strong; the sole failure is omitted provenance in the saved artifact."
+        ],
+        "eval_feedback": {
+          "suggestions": [],
+          "overall": "The provenance expectation usefully detects a substantive handoff gap that behavior-only checks would miss."
+        }
+      },
+      "tool_actions": [
+        {
+          "id": "item_1",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc pwd",
+          "aggregated_output": "/private[source]\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_2",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc \"rg --files -g '\"'!SKILL.md'\"' -g '\"'!**/.git/**'\"' -g '\"'!**/.agents/**'\"' -g '\"'!**/.codex/**'\"'\"",
+          "aggregated_output": "adapters.py\npublisher.py\ncontracts.py\nsource-info.json\nformatters.py\nbootstrap.py\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_3",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc \"rg -n '\"'^'\"' bootstrap.py publisher.py\"",
+          "aggregated_output": "bootstrap.py:1:from adapters import ArtifactStore, Notifier\nbootstrap.py:2:from formatters import CompactFormatter, DetailedFormatter\nbootstrap.py:3:from publisher import Publisher\nbootstrap.py:4:\nbootstrap.py:5:\nbootstrap.py:6:FORMATTERS = {\"compact\": CompactFormatter, \"detailed\": DetailedFormatter}\nbootstrap.py:7:\nbootstrap.py:8:\nbootstrap.py:9:def build_publisher(kind=\"compact\", fail_notification=False):\nbootstrap.py:10:    formatter = FORMATTERS[kind]()\nbootstrap.py:11:    return Publisher(formatter, ArtifactStore(), Notifier(fail_notification))\npublisher.py:1:from dataclasses import dataclass\npublisher.py:2:\npublisher.py:3:from adapters import ArtifactStore, Notifier\npublisher.py:4:from contracts import Formatter\npublisher.py:5:\npublisher.py:6:\npublisher.py:7:@dataclass(frozen=True)\npublisher.py:8:class Result:\npublisher.py:9:    mode: str\npublisher.py:10:    body: str\npublisher.py:11:\npublisher.py:12:\npublisher.py:13:class Publisher:\npublisher.py:14:    def __init__(self, formatter: Formatter, store: ArtifactStore, notifier: Notifier):\npublisher.py:15:        self.formatter = formatter\npublisher.py:16:        self.store = store\npublisher.py:17:        self.notifier = notifier\npublisher.py:18:\npublisher.py:19:    def publish(self, rows, preview=False):\npublisher.py:20:        body = self.formatter.format(rows)\npublisher.py:21:        if preview:\npublisher.py:22:            return Result(\"preview\", body)\npublisher.py:23:        self.store.save(body)\npublisher.py:24:        self.notifier.notify(body)\npublisher.py:25:        return Result(\"published\", body)\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_4",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc \"rg -n '\"'^'\"' contracts.py adapters.py formatters.py source-info.json\"",
+          "aggregated_output": "adapters.py:1:class ArtifactStore:\nadapters.py:2:    def __init__(self):\nadapters.py:3:        self.saved = []\nadapters.py:4:\nadapters.py:5:    def save(self, body):\nadapters.py:6:        self.saved.append(body)\nadapters.py:7:\nadapters.py:8:\nadapters.py:9:class Notifier:\nadapters.py:10:    def __init__(self, fail=False):\nadapters.py:11:        self.fail = fail\nadapters.py:12:        self.attempts = []\nadapters.py:13:\nadapters.py:14:    def notify(self, body):\nadapters.py:15:        self.attempts.append(body)\nadapters.py:16:        if self.fail:\nadapters.py:17:            raise RuntimeError(\"notification failed\")\nsource-info.json:1:{\nsource-info.json:2:  \"source\": \"code-tour/report-demo\",\nsource-info.json:3:  \"kind\": \"independently authored synthetic fixture; not a production repository\",\nsource-info.json:4:  \"snapshot_sha256\": \"9311831a90dad52e5a9759e558dbecbd296a0b161490d74d060e056e238210ed\",\nsource-info.json:5:  \"git_revision\": null,\nsource-info.json:6:  \"files_sha256\": {\nsource-info.json:7:    \"adapters.py\": \"bb004e0e37a947cf8dfaeba93695a23292e2fda3565bcdc3b091e0a5e49bde08\",\nsource-info.json:8:    \"bootstrap.py\": \"ebae41c18ddc0f4c69b56015448edab8d046121970d5ea1cfb16d7bface75e43\",\nsource-info.json:9:    \"contracts.py\": \"b945d220780606907b8a8b1902c8afc59d729a8ec5b3ab6342b3391ff4fd3b45\",\nsource-info.json:10:    \"formatters.py\": \"6a39cc6612a6348cf012a783601a664acfefae526ac725c22a80298b40be2267\",\nsource-info.json:11:    \"publisher.py\": \"3570f0bbb24845b4a7e65bc0a814f2bb429d6950feeff510133b4bd26ea8cd84\"\nsource-info.json:12:  }\nsource-info.json:13:}\nformatters.py:1:from contracts import Auditable, Formatter\nformatters.py:2:\nformatters.py:3:\nformatters.py:4:class CompactFormatter(Formatter):\nformatters.py:5:    def format(self, rows):\nformatters.py:6:        return \",\".join(rows)\nformatters.py:7:\nformatters.py:8:\nformatters.py:9:class DetailedFormatter(Formatter, Auditable):\nformatters.py:10:    def format(self, rows):\nformatters.py:11:        return \"\\n\".join(\"{}: {}\".format(i, row) for i, row in enumerate(rows, 1))\ncontracts.py:1:\"\"\"Contracts for an invented, entirely in-memory report publisher.\"\"\"\ncontracts.py:2:\ncontracts.py:3:from abc import ABC, abstractmethod\ncontracts.py:4:\ncontracts.py:5:\ncontracts.py:6:class Formatter(ABC):\ncontracts.py:7:    @abstractmethod\ncontracts.py:8:    def format(self, rows):\ncontracts.py:9:        raise NotImplementedError\ncontracts.py:10:\ncontracts.py:11:\ncontracts.py:12:class Auditable:\ncontracts.py:13:    \"\"\"A label with no implementation.\"\"\"\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_6",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc \"python3 -B - <<'PY'\nfrom bootstrap import build_publisher\nfrom formatters import DetailedFormatter\nfrom publisher import Result\n\npublisher = build_publisher(\\\"detailed\\\", fail_notification=True)\nresult = publisher.publish([\\\"A\\\", \\\"B\\\"], preview=True)\nassert isinstance(publisher.formatter, DetailedFormatter)\nassert result == Result(\\\"preview\\\", \\\"1: A\\\\n2: B\\\")\nassert publisher.store.saved == []\nassert publisher.notifier.attempts == []\nassert publisher.notifier.fail is True\nprint(repr(result))\nprint(f\\\"saved={publisher.store.saved\"'!r}, attempts={publisher.notifier.attempts!r}, fail={publisher.notifier.fail!r}\")\n\nnormal = build_publisher(\"detailed\", fail_notification=True)\ntry:\n    normal.publish([\"A\", \"B\"])\nexcept RuntimeError as exc:\n    assert str(exc) == \"notification failed\"\nelse:\n    raise AssertionError(\"Expected notification failure\")\nassert normal.store.saved == [\"1: A'\"\\\\n2: B\\\"]\nassert normal.notifier.attempts == [\\\"1: A\\\\n2: B\\\"]\nprint(\\\"非 preview 對照：先儲存，再記錄通知嘗試並拋出 RuntimeError。\\\")\nPY\"",
+          "aggregated_output": "Result(mode='preview', body='1: A\\n2: B')\nsaved=[], attempts=[], fail=True\n非 preview 對照：先儲存，再記錄通知嘗試並拋出 RuntimeError。\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_7",
+          "type": "file_change",
+          "changes": [
+            {
+              "path": "[source]/docs/preview-tour.md",
+              "kind": "add"
+            }
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "item_8",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc \"python3 -B - <<'PY'\nfrom pathlib import Path\nimport re\np = Path('docs/preview-tour.md')\ntext = p.read_text()\nassert 'Result(mode=\\\\'preview\\\\', body=\\\\'1: A\\\\\\\\n2: B\\\\')' in text\nlinks = re.findall(r'\\\\]\\\\((\\\\.\\\\./[\"'^)#]+)#L('\"\\\\d+)\\\\)', text)\nfor relative, line in links:\n    target = p.parent / relative\n    assert target.is_file(), target\n    assert 1 <= int(line) <= len(target.read_text().splitlines()), (target, line)\nprint(f'{p}: 已確認內容寫入及 {len(links)} 個來源行號連結。')\nPY\"",
+          "aggregated_output": "docs/preview-tour.md: 已確認內容寫入及 14 個來源行號連結。\n",
+          "exit_code": 0,
+          "status": "completed"
+        }
+      ],
+      "output_sha256": {
+        "preview-tour.md": "8b59ca6a27da5bb89e4e743cfcfc13866b144bddb489e2b3fbe4bf05323f40c6",
+        "reply.md": "37966b610e9060075890f8cb4856dae8114a999825379a6fea8649132e91dd11"
+      }
+    },
+    {
+      "case_id": 1,
+      "effort": "medium",
+      "condition": "with_skill",
+      "exit_code": 0,
+      "duration_seconds": 52.718,
+      "usage": {
+        "input_tokens": 43634,
+        "cached_input_tokens": 27648,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1431,
+        "reasoning_output_tokens": 24
+      },
+      "changes": {},
+      "prompt": "這個 report-demo 我不熟，帶我從 build_publisher 讀到報告發布的結果。我用 kind=\"detailed\"、fail_notification=True 建立物件，接著 publish([\"A\", \"B\"])；如果通知失敗，哪些事情已經發生了？也讓我知道原碼該從哪裡開始讀。",
+      "configured_command": [
+        "/Applications/ChatGPT.app/Contents/Resources/codex",
+        "exec",
+        "--strict-config",
+        "--ignore-user-config",
+        "--ignore-rules",
+        "--ephemeral",
+        "--skip-git-repo-check",
+        "--color",
+        "never",
+        "--json",
+        "-c",
+        "project_doc_max_bytes=0",
+        "-c",
+        "features.memories=false",
+        "-c",
+        "features.plugins=false",
+        "-c",
+        "skills.include_instructions=false",
+        "-c",
+        "features.apps=false",
+        "-c",
+        "features.multi_agent=false",
+        "-m",
+        "gpt-6-astra",
+        "-c",
+        "model_reasoning_effort=\"medium\"",
+        "-s",
+        "read-only",
+        "-C",
+        "[source]",
+        "-o",
+        "[outputs]/reply.md",
+        "-"
+      ],
+      "source_files_unchanged": true,
+      "outputs": {
+        "reply.md": "你的呼叫會先產生報告、存入記憶體，再嘗試通知。**通知失敗時，報告已存下，通知嘗試也已記錄；例外會往外拋，不會回傳 `Result(\"published\", body)`，也沒有回滾。** 以下是依原碼推導，未實際執行。\n\n```python\np = build_publisher(kind=\"detailed\", fail_notification=True)\np.publish([\"A\", \"B\"])  # 拋出 RuntimeError(\"notification failed\")\n```\n\n報告內容是 `\"1: A\\n2: B\"`，畫面上為：\n\n```text\n1: A\n2: B\n```\n\n這份 demo 的「儲存」與「通知」都只是記憶體內的操作，沒有寫檔或傳送外部訊息。\n\n```mermaid\nsequenceDiagram\n    actor U as 呼叫端\n    participant B as build_publisher\n    participant P as Publisher\n    participant F as DetailedFormatter\n    participant S as ArtifactStore\n    participant N as Notifier\n\n    U->>B: kind=\"detailed\", fail_notification=True\n    B-->>U: Publisher，組裝 F、S、N(fail=True)\n    U->>P: publish([\"A\", \"B\"])\n    P->>F: format(rows)\n    F-->>P: \"1: A\\n2: B\"\n    Note over P: preview 預設為 False，繼續發布\n    P->>S: save(body)\n    Note over S: saved.append(body)\n    P->>N: notify(body)\n    Note over N: attempts.append(body)\n    N-->>P: fail=True，拋出 RuntimeError\n    P-->>U: 例外向外傳遞，沒有回傳 Result\n```\n\n建議照這四站讀，便能把圖中的每一步接回原碼：\n\n1. **從哪裡開始？為何選中詳細格式？**  \n   看 [bootstrap.py:6]([source]/bootstrap.py:6)。`FORMATTERS[kind]()` 將 `\"detailed\"` 對應到 `DetailedFormatter()`；接著建立新的 `ArtifactStore()` 與 `Notifier(True)`，一起傳給 `Publisher`。\n\n2. **輸入如何變成報告？**  \n   看 [formatters.py:9]([source]/formatters.py:9)。`enumerate(rows, 1)` 從 1 編號，再用換行串接，因此得到 `\"1: A\\n2: B\"`。雖然它也繼承 `Auditable`，但 [contracts.py:12]([source]/contracts.py:12) 只是空標記；這條路徑沒有額外稽核動作。\n\n3. **哪些動作先發生？哪裡才算成功回傳？**  \n   看 [publisher.py:19]([source]/publisher.py:19)。順序明確是 `format → save → notify → Result`。你的呼叫未指定 `preview`，所以採用 `False`，不走預覽的提早回傳。這裡沒有例外處理、交易或補償操作。\n\n4. **失敗前究竟留下什麼？**  \n   看 [adapters.py:1]([source]/adapters.py:1)。`save` 直接加入 `saved`；`notify` 則**先加入 `attempts`，才檢查 `fail` 並拋例外**。因此若呼叫端捕捉例外，再查看同一個 `p`：\n\n   | 項目 | 失敗後的結果 |\n   |---|---|\n   | `p.store.saved` | `[\"1: A\\n2: B\"]` |\n   | `p.notifier.attempts` | `[\"1: A\\n2: B\"]` |\n   | `publish` 回傳值 | 無，改為拋出例外 |\n\n最小對照：若只把 `fail_notification` 改成 `False`，通知步驟就會正常結束，接著回傳 `Result(\"published\", \"1: A\\n2: B\")`。若改用 `publish([\"A\", \"B\"], preview=True)`，則格式化後直接回傳 `Result(\"preview\", body)`，不會儲存或嘗試通知。"
+      },
+      "grading": {
+        "sample": "sample-09",
+        "case_id": 1,
+        "expectations": [
+          {
+            "text": "Locates formatter selection in bootstrap.FORMATTERS/build_publisher and delegation in Publisher.publish; does not attribute selection to Auditable, runtime type inspection or input length.",
+            "passed": true,
+            "evidence": "The answer points to bootstrap.py:6 for FORMATTERS[kind] and publisher.py:19 for delegation, with no false selector."
+          },
+          {
+            "text": "Predicts detailed body \"1: A\\n2: B\", one stored body and one notification attempt; RuntimeError propagates and no published Result is returned.",
+            "passed": true,
+            "evidence": "It predicts the exact body and both singleton lists and says RuntimeError propagates instead of returning Result('published', body), all consistent with source."
+          },
+          {
+            "text": "Explains save precedes notification and no compensating removal exists; a notification failure does not undo the already stored body.",
+            "passed": true,
+            "evidence": "It states and diagrams save before notify and explicitly says there is no exception handler, transaction, compensation, or rollback."
+          },
+          {
+            "text": "Provides a navigable reading route with precise source locations and explains what to inspect at its decisive stops.",
+            "passed": true,
+            "evidence": "The four-stop route cites bootstrap.py:6, formatters.py:9, publisher.py:19, and adapters.py:1 and explains selection, formatting, order, and retained state."
+          },
+          {
+            "text": "Uses a coherent diagram or clear text-based flow view whose calls, conditions and effects match the source; distinguishes a source-inferred scenario from an execution actually observed.",
+            "passed": true,
+            "evidence": "The Mermaid sequence accurately models every call and effect, and the opening explicitly states the scenario is source-inferred and was not executed."
+          },
+          {
+            "text": "Preserves supplied files and creates no unsolicited artifact.",
+            "passed": true,
+            "evidence": "The recorded filesystem delta and outputs are empty."
+          }
+        ],
+        "summary": {
+          "passed": 6,
+          "failed": 0,
+          "total": 6,
+          "pass_rate": 1.0
+        },
+        "extra_findings": [],
+        "eval_feedback": {
+          "suggestions": [],
+          "overall": "The evidence-mode assertion correctly permits a transparent source-derived result while requiring it to be labeled."
+        }
+      },
+      "tool_actions": [
+        {
+          "id": "item_1",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'rg --files'",
+          "aggregated_output": "adapters.py\npublisher.py\ncontracts.py\nsource-info.json\nformatters.py\nbootstrap.py\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_3",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'nl -ba bootstrap.py'",
+          "aggregated_output": "     1\tfrom adapters import ArtifactStore, Notifier\n     2\tfrom formatters import CompactFormatter, DetailedFormatter\n     3\tfrom publisher import Publisher\n     4\t\n     5\t\n     6\tFORMATTERS = {\"compact\": CompactFormatter, \"detailed\": DetailedFormatter}\n     7\t\n     8\t\n     9\tdef build_publisher(kind=\"compact\", fail_notification=False):\n    10\t    formatter = FORMATTERS[kind]()\n    11\t    return Publisher(formatter, ArtifactStore(), Notifier(fail_notification))\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_2",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'nl -ba contracts.py'",
+          "aggregated_output": "     1\t\"\"\"Contracts for an invented, entirely in-memory report publisher.\"\"\"\n     2\t\n     3\tfrom abc import ABC, abstractmethod\n     4\t\n     5\t\n     6\tclass Formatter(ABC):\n     7\t    @abstractmethod\n     8\t    def format(self, rows):\n     9\t        raise NotImplementedError\n    10\t\n    11\t\n    12\tclass Auditable:\n    13\t    \"\"\"A label with no implementation.\"\"\"\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_4",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'nl -ba adapters.py'",
+          "aggregated_output": "     1\tclass ArtifactStore:\n     2\t    def __init__(self):\n     3\t        self.saved = []\n     4\t\n     5\t    def save(self, body):\n     6\t        self.saved.append(body)\n     7\t\n     8\t\n     9\tclass Notifier:\n    10\t    def __init__(self, fail=False):\n    11\t        self.fail = fail\n    12\t        self.attempts = []\n    13\t\n    14\t    def notify(self, body):\n    15\t        self.attempts.append(body)\n    16\t        if self.fail:\n    17\t            raise RuntimeError(\"notification failed\")\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_5",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'nl -ba publisher.py'",
+          "aggregated_output": "     1\tfrom dataclasses import dataclass\n     2\t\n     3\tfrom adapters import ArtifactStore, Notifier\n     4\tfrom contracts import Formatter\n     5\t\n     6\t\n     7\t@dataclass(frozen=True)\n     8\tclass Result:\n     9\t    mode: str\n    10\t    body: str\n    11\t\n    12\t\n    13\tclass Publisher:\n    14\t    def __init__(self, formatter: Formatter, store: ArtifactStore, notifier: Notifier):\n    15\t        self.formatter = formatter\n    16\t        self.store = store\n    17\t        self.notifier = notifier\n    18\t\n    19\t    def publish(self, rows, preview=False):\n    20\t        body = self.formatter.format(rows)\n    21\t        if preview:\n    22\t            return Result(\"preview\", body)\n    23\t        self.store.save(body)\n    24\t        self.notifier.notify(body)\n    25\t        return Result(\"published\", body)\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_7",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'nl -ba formatters.py'",
+          "aggregated_output": "     1\tfrom contracts import Auditable, Formatter\n     2\t\n     3\t\n     4\tclass CompactFormatter(Formatter):\n     5\t    def format(self, rows):\n     6\t        return \",\".join(rows)\n     7\t\n     8\t\n     9\tclass DetailedFormatter(Formatter, Auditable):\n    10\t    def format(self, rows):\n    11\t        return \"\\n\".join(\"{}: {}\".format(i, row) for i, row in enumerate(rows, 1))\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_6",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'nl -ba source-info.json'",
+          "aggregated_output": "     1\t{\n     2\t  \"source\": \"code-tour/report-demo\",\n     3\t  \"kind\": \"independently authored synthetic fixture; not a production repository\",\n     4\t  \"snapshot_sha256\": \"9311831a90dad52e5a9759e558dbecbd296a0b161490d74d060e056e238210ed\",\n     5\t  \"git_revision\": null,\n     6\t  \"files_sha256\": {\n     7\t    \"adapters.py\": \"bb004e0e37a947cf8dfaeba93695a23292e2fda3565bcdc3b091e0a5e49bde08\",\n     8\t    \"bootstrap.py\": \"ebae41c18ddc0f4c69b56015448edab8d046121970d5ea1cfb16d7bface75e43\",\n     9\t    \"contracts.py\": \"b945d220780606907b8a8b1902c8afc59d729a8ec5b3ab6342b3391ff4fd3b45\",\n    10\t    \"formatters.py\": \"6a39cc6612a6348cf012a783601a664acfefae526ac725c22a80298b40be2267\",\n    11\t    \"publisher.py\": \"3570f0bbb24845b4a7e65bc0a814f2bb429d6950feeff510133b4bd26ea8cd84\"\n    12\t  }\n    13\t}\n",
+          "exit_code": 0,
+          "status": "completed"
+        }
+      ],
+      "output_sha256": {
+        "reply.md": "b68450a01acce3ee9cfb390751c933850939deb354cde6f2d43691514d8a224d"
+      }
+    },
+    {
+      "case_id": 1,
+      "effort": "medium",
+      "condition": "without_skill",
+      "exit_code": 0,
+      "duration_seconds": 51.861,
+      "usage": {
+        "input_tokens": 68887,
+        "cached_input_tokens": 53120,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1192,
+        "reasoning_output_tokens": 19
+      },
+      "changes": {},
+      "prompt": "這個 report-demo 我不熟，帶我從 build_publisher 讀到報告發布的結果。我用 kind=\"detailed\"、fail_notification=True 建立物件，接著 publish([\"A\", \"B\"])；如果通知失敗，哪些事情已經發生了？也讓我知道原碼該從哪裡開始讀。",
+      "configured_command": [
+        "/Applications/ChatGPT.app/Contents/Resources/codex",
+        "exec",
+        "--strict-config",
+        "--ignore-user-config",
+        "--ignore-rules",
+        "--ephemeral",
+        "--skip-git-repo-check",
+        "--color",
+        "never",
+        "--json",
+        "-c",
+        "project_doc_max_bytes=0",
+        "-c",
+        "features.memories=false",
+        "-c",
+        "features.plugins=false",
+        "-c",
+        "skills.include_instructions=false",
+        "-c",
+        "features.apps=false",
+        "-c",
+        "features.multi_agent=false",
+        "-m",
+        "gpt-6-astra",
+        "-c",
+        "model_reasoning_effort=\"medium\"",
+        "-s",
+        "read-only",
+        "-C",
+        "[source]",
+        "-o",
+        "[outputs]/reply.md",
+        "-"
+      ],
+      "source_files_unchanged": true,
+      "outputs": {
+        "reply.md": "**通知失敗時，報告已格式化並存入記憶體，通知嘗試也已留下紀錄；但 `publish()` 會拋出例外，不會回傳發布成功的 `Result`。** 我用你指定的呼叫實際執行，結果與原碼一致。\n\n建議依這個順序讀：\n\n1. **建立物件：[bootstrap.py:9]([source]/bootstrap.py:9)**  \n   `build_publisher(kind=\"detailed\", fail_notification=True)` 從 `FORMATTERS` 選出 `DetailedFormatter`，建立新的 `ArtifactStore` 與 `Notifier(True)`，再注入 `Publisher`。此時尚未發布，也不會因通知設定而拋錯。\n\n2. **流程主線：[publisher.py:19]([source]/publisher.py:19)**  \n   `publish([\"A\", \"B\"])` 預設 `preview=False`，執行順序是：  \n   `format(rows)` → `save(body)` → `notify(body)` → `return Result(\"published\", body)`。\n\n3. **報告內容：[formatters.py:9]([source]/formatters.py:9)**  \n   `DetailedFormatter.format()` 從 1 開始編號，以換行串接，產生 `\"1: A\\n2: B\"`：\n   ```text\n   1: A\n   2: B\n   ```\n\n4. **儲存與失敗位置：[adapters.py:5]([source]/adapters.py:5)**  \n   `save()` 先把內容加入 `saved`。接著 `notify()` **先加入 `attempts`，才檢查 `fail`**，因此這次會留下嘗試紀錄，再拋出 `RuntimeError(\"notification failed\")`。\n\n呼叫失敗後，物件狀態如下：\n\n```python\np.store.saved       == [\"1: A\\n2: B\"]\np.notifier.attempts  == [\"1: A\\n2: B\"]\n```\n\n`publish()` 沒有捕捉例外或回滾，所以已存入的內容會保留，最後的 `Result(\"published\", body)` 則不會執行。這份實作的「儲存」只是加入記憶體串列，通知也沒有外部傳送程式碼；`attempts` 代表嘗試，不能當作通知成功。若在同一物件重試，內容與嘗試紀錄都會再次追加。\n\n想補看型別設計，再讀 [contracts.py:6]([source]/contracts.py:6)：`Formatter` 規定子類別實作 `format()`；`Auditable` 只是標記，沒有額外稽核行為。"
+      },
+      "grading": {
+        "sample": "sample-04",
+        "case_id": 1,
+        "expectations": [
+          {
+            "text": "Locates formatter selection in bootstrap.FORMATTERS/build_publisher and delegation in Publisher.publish; does not attribute selection to Auditable, runtime type inspection or input length.",
+            "passed": true,
+            "evidence": "The reading route identifies bootstrap.py:9 and FORMATTERS as the detailed formatter selector, then publisher.py:19 as the delegation path."
+          },
+          {
+            "text": "Predicts detailed body \"1: A\\n2: B\", one stored body and one notification attempt; RuntimeError propagates and no published Result is returned.",
+            "passed": true,
+            "evidence": "The answer gives the exact body and both singleton lists, says RuntimeError('notification failed') propagates, and says the final published Result is never reached; execution output matches."
+          },
+          {
+            "text": "Explains save precedes notification and no compensating removal exists; a notification failure does not undo the already stored body.",
+            "passed": true,
+            "evidence": "It explicitly states save appends first, notify records its attempt then raises, and publish has no catch or rollback so the stored body remains."
+          },
+          {
+            "text": "Provides a navigable reading route with precise source locations and explains what to inspect at its decisive stops.",
+            "passed": true,
+            "evidence": "Four numbered stops cite bootstrap.py:9, publisher.py:19, formatters.py:9, and adapters.py:5 and explain selection, call order, formatting, and side effects."
+          },
+          {
+            "text": "Uses a coherent diagram or clear text-based flow view whose calls, conditions and effects match the source; distinguishes a source-inferred scenario from an execution actually observed.",
+            "passed": true,
+            "evidence": "The ordered text flow format -> save -> notify -> return is clear and accurate, and the answer explicitly reports that the requested scenario was actually executed."
+          },
+          {
+            "text": "Preserves supplied files and creates no unsolicited artifact.",
+            "passed": true,
+            "evidence": "The recorded filesystem delta and outputs are empty."
+          }
+        ],
+        "summary": {
+          "passed": 6,
+          "failed": 0,
+          "total": 6,
+          "pass_rate": 1.0
+        },
+        "extra_findings": [],
+        "eval_feedback": {
+          "suggestions": [],
+          "overall": "The expectations cover selection, state after failure, ordering, navigation, evidence mode, and mutation scope."
+        }
+      },
+      "tool_actions": [
+        {
+          "id": "item_1",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'rg --files'",
+          "aggregated_output": "adapters.py\npublisher.py\ncontracts.py\nsource-info.json\nformatters.py\nbootstrap.py\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_2",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'nl -ba contracts.py'",
+          "aggregated_output": "     1\t\"\"\"Contracts for an invented, entirely in-memory report publisher.\"\"\"\n     2\t\n     3\tfrom abc import ABC, abstractmethod\n     4\t\n     5\t\n     6\tclass Formatter(ABC):\n     7\t    @abstractmethod\n     8\t    def format(self, rows):\n     9\t        raise NotImplementedError\n    10\t\n    11\t\n    12\tclass Auditable:\n    13\t    \"\"\"A label with no implementation.\"\"\"\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_4",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'nl -ba adapters.py'",
+          "aggregated_output": "     1\tclass ArtifactStore:\n     2\t    def __init__(self):\n     3\t        self.saved = []\n     4\t\n     5\t    def save(self, body):\n     6\t        self.saved.append(body)\n     7\t\n     8\t\n     9\tclass Notifier:\n    10\t    def __init__(self, fail=False):\n    11\t        self.fail = fail\n    12\t        self.attempts = []\n    13\t\n    14\t    def notify(self, body):\n    15\t        self.attempts.append(body)\n    16\t        if self.fail:\n    17\t            raise RuntimeError(\"notification failed\")\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_3",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'nl -ba bootstrap.py'",
+          "aggregated_output": "     1\tfrom adapters import ArtifactStore, Notifier\n     2\tfrom formatters import CompactFormatter, DetailedFormatter\n     3\tfrom publisher import Publisher\n     4\t\n     5\t\n     6\tFORMATTERS = {\"compact\": CompactFormatter, \"detailed\": DetailedFormatter}\n     7\t\n     8\t\n     9\tdef build_publisher(kind=\"compact\", fail_notification=False):\n    10\t    formatter = FORMATTERS[kind]()\n    11\t    return Publisher(formatter, ArtifactStore(), Notifier(fail_notification))\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_5",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'nl -ba source-info.json'",
+          "aggregated_output": "     1\t{\n     2\t  \"source\": \"code-tour/report-demo\",\n     3\t  \"kind\": \"independently authored synthetic fixture; not a production repository\",\n     4\t  \"snapshot_sha256\": \"9311831a90dad52e5a9759e558dbecbd296a0b161490d74d060e056e238210ed\",\n     5\t  \"git_revision\": null,\n     6\t  \"files_sha256\": {\n     7\t    \"adapters.py\": \"bb004e0e37a947cf8dfaeba93695a23292e2fda3565bcdc3b091e0a5e49bde08\",\n     8\t    \"bootstrap.py\": \"ebae41c18ddc0f4c69b56015448edab8d046121970d5ea1cfb16d7bface75e43\",\n     9\t    \"contracts.py\": \"b945d220780606907b8a8b1902c8afc59d729a8ec5b3ab6342b3391ff4fd3b45\",\n    10\t    \"formatters.py\": \"6a39cc6612a6348cf012a783601a664acfefae526ac725c22a80298b40be2267\",\n    11\t    \"publisher.py\": \"3570f0bbb24845b4a7e65bc0a814f2bb429d6950feeff510133b4bd26ea8cd84\"\n    12\t  }\n    13\t}\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_6",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'nl -ba formatters.py'",
+          "aggregated_output": "     1\tfrom contracts import Auditable, Formatter\n     2\t\n     3\t\n     4\tclass CompactFormatter(Formatter):\n     5\t    def format(self, rows):\n     6\t        return \",\".join(rows)\n     7\t\n     8\t\n     9\tclass DetailedFormatter(Formatter, Auditable):\n    10\t    def format(self, rows):\n    11\t        return \"\\n\".join(\"{}: {}\".format(i, row) for i, row in enumerate(rows, 1))\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_7",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'nl -ba publisher.py'",
+          "aggregated_output": "     1\tfrom dataclasses import dataclass\n     2\t\n     3\tfrom adapters import ArtifactStore, Notifier\n     4\tfrom contracts import Formatter\n     5\t\n     6\t\n     7\t@dataclass(frozen=True)\n     8\tclass Result:\n     9\t    mode: str\n    10\t    body: str\n    11\t\n    12\t\n    13\tclass Publisher:\n    14\t    def __init__(self, formatter: Formatter, store: ArtifactStore, notifier: Notifier):\n    15\t        self.formatter = formatter\n    16\t        self.store = store\n    17\t        self.notifier = notifier\n    18\t\n    19\t    def publish(self, rows, preview=False):\n    20\t        body = self.formatter.format(rows)\n    21\t        if preview:\n    22\t            return Result(\"preview\", body)\n    23\t        self.store.save(body)\n    24\t        self.notifier.notify(body)\n    25\t        return Result(\"published\", body)\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_8",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc \"python3 -B -c 'from bootstrap import build_publisher; p = build_publisher(kind=\\\"detailed\\\", fail_notification=True)\ntry:\n    result = p.publish([\\\"A\\\", \\\"B\\\"])\nexcept RuntimeError as exc:\n    print(type(exc).__name__ + \\\": \\\" + str(exc))\nprint(\\\"saved =\\\", repr(p.store.saved))\nprint(\\\"attempts =\\\", repr(p.notifier.attempts))'\"",
+          "aggregated_output": "RuntimeError: notification failed\nsaved = ['1: A\\n2: B']\nattempts = ['1: A\\n2: B']\n",
+          "exit_code": 0,
+          "status": "completed"
+        }
+      ],
+      "output_sha256": {
+        "reply.md": "34789b8aa254faedf9290110ff0c0815eb966da0ff9521c5666608c49224ae3c"
+      }
+    },
+    {
+      "case_id": 2,
+      "effort": "medium",
+      "condition": "with_skill",
+      "exit_code": 0,
+      "duration_seconds": 37.061,
+      "usage": {
+        "input_tokens": 57270,
+        "cached_input_tokens": 41472,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 835,
+        "reasoning_output_tokens": 0
+      },
+      "changes": {},
+      "prompt": "執行順序我已經看懂了，這次請用 class diagram 釐清 Formatter、Auditable、DetailedFormatter 與 Publisher 的關係。繼承 Auditable 會自動有稽核功能嗎？不用再重走發布流程。",
+      "configured_command": [
+        "/Applications/ChatGPT.app/Contents/Resources/codex",
+        "exec",
+        "--strict-config",
+        "--ignore-user-config",
+        "--ignore-rules",
+        "--ephemeral",
+        "--skip-git-repo-check",
+        "--color",
+        "never",
+        "--json",
+        "-c",
+        "project_doc_max_bytes=0",
+        "-c",
+        "features.memories=false",
+        "-c",
+        "features.plugins=false",
+        "-c",
+        "skills.include_instructions=false",
+        "-c",
+        "features.apps=false",
+        "-c",
+        "features.multi_agent=false",
+        "-m",
+        "gpt-6-astra",
+        "-c",
+        "model_reasoning_effort=\"medium\"",
+        "-s",
+        "read-only",
+        "-C",
+        "[source]",
+        "-o",
+        "[outputs]/reply.md",
+        "-"
+      ],
+      "source_files_unchanged": true,
+      "outputs": {
+        "reply.md": "**繼承 `Auditable` 不會自動獲得稽核功能。** 在這份原始碼中，它只是沒有實作的標記類別，`Publisher` 也沒有檢查或使用這個標記。\n\n```mermaid\nclassDiagram\n    class Formatter {\n        <<abstract>>\n        +format(rows)*\n    }\n    class Auditable {\n        <<marker>>\n    }\n    class DetailedFormatter {\n        +format(rows)\n    }\n    class Publisher {\n        +Formatter formatter\n        +publish(rows, preview=False)\n    }\n\n    Formatter <|-- DetailedFormatter : 繼承並實作 format\n    Auditable <|-- DetailedFormatter : 繼承空標記\n    Publisher --> Formatter : 持有並呼叫 format\n```\n\n`DetailedFormatter` 同時繼承兩個類別，但兩者的作用不同：`Formatter` 定義必須實作的抽象方法 `format()`；`Auditable` 只有說明字串，沒有方法或稽核邏輯。`Publisher` 則持有一個 `Formatter`，透過它的 `format()` 取得文字，沒有直接依賴 `DetailedFormatter`。\n\n建議沿著這三個閱讀點確認關係，不必重走發布流程：\n\n1. [contracts.py:6]( [source]/contracts.py:6)：對照 `Formatter` 的抽象方法與 `Auditable` 的空類別；標記本身沒有提供行為。\n2. [formatters.py:9]([source]/formatters.py:9)：`DetailedFormatter` 的多重繼承與唯一的方法實作。依原始碼推導，示例輸入 `[\"甲\", \"乙\"]` 會產生 `\"1: 甲\\n2: 乙\"`；這裡沒有稽核操作。\n3. [publisher.py:14]([source]/publisher.py:14)：建構子保存 `formatter`，第 20 行呼叫它的 `format()`。整個 `Publisher` 沒有判斷 `Auditable` 或呼叫稽核方法。\n\n因此，在這份匯出程式中，移除 `DetailedFormatter` 的 `Auditable` 繼承會改變其型別關係，但不會改變既有的格式化或發布行為。要讓標記觸發稽核，還需要使用端辨識它並執行實際的稽核邏輯。"
+      },
+      "grading": {
+        "sample": "sample-05",
+        "case_id": 2,
+        "expectations": [
+          {
+            "text": "Diagram correctly shows DetailedFormatter inheriting Formatter and Auditable, and Publisher depending on Formatter; does not make Publisher inherit a formatter or marker.",
+            "passed": true,
+            "evidence": "The Mermaid class diagram has the two correct inheritance arrows into DetailedFormatter and a dependency arrow from Publisher to Formatter."
+          },
+          {
+            "text": "Explains Auditable is an empty label with no consumer implementing automatic audit behavior in the supplied fixture; names alone do not establish an effect.",
+            "passed": true,
+            "evidence": "The answer says Auditable has only descriptive text and no audit logic, and Publisher does not check or consume it."
+          },
+          {
+            "text": "Cites precise source locations for the type and consumer claims while keeping the answer focused on relationships, without another execution tour.",
+            "passed": true,
+            "evidence": "It gives unambiguous file-and-line anchors contracts.py:6, formatters.py:9, and publisher.py:14 and confines the discussion to relationships and effects."
+          },
+          {
+            "text": "Preserves all supplied files and creates no unsolicited artifact.",
+            "passed": true,
+            "evidence": "The recorded filesystem delta and outputs are empty."
+          }
+        ],
+        "summary": {
+          "passed": 4,
+          "failed": 0,
+          "total": 4,
+          "pass_rate": 1.0
+        },
+        "extra_findings": [
+          "The first Markdown destination contains a leading space, but the visible contracts.py:6 citation remains an unambiguous precise source location and the other links are well formed."
+        ],
+        "eval_feedback": {
+          "suggestions": [],
+          "overall": "The expectations are sufficient for the requested relationship-focused answer."
+        }
+      },
+      "tool_actions": [
+        {
+          "id": "item_1",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'rg --files'",
+          "aggregated_output": "adapters.py\npublisher.py\ncontracts.py\nsource-info.json\nformatters.py\nbootstrap.py\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_2",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'rg -n . contracts.py formatters.py publisher.py adapters.py bootstrap.py source-info.json'",
+          "aggregated_output": "bootstrap.py:1:from adapters import ArtifactStore, Notifier\nbootstrap.py:2:from formatters import CompactFormatter, DetailedFormatter\nbootstrap.py:3:from publisher import Publisher\nbootstrap.py:6:FORMATTERS = {\"compact\": CompactFormatter, \"detailed\": DetailedFormatter}\nbootstrap.py:9:def build_publisher(kind=\"compact\", fail_notification=False):\nbootstrap.py:10:    formatter = FORMATTERS[kind]()\nbootstrap.py:11:    return Publisher(formatter, ArtifactStore(), Notifier(fail_notification))\nsource-info.json:1:{\nsource-info.json:2:  \"source\": \"code-tour/report-demo\",\nsource-info.json:3:  \"kind\": \"independently authored synthetic fixture; not a production repository\",\nsource-info.json:4:  \"snapshot_sha256\": \"9311831a90dad52e5a9759e558dbecbd296a0b161490d74d060e056e238210ed\",\nsource-info.json:5:  \"git_revision\": null,\nsource-info.json:6:  \"files_sha256\": {\nsource-info.json:7:    \"adapters.py\": \"bb004e0e37a947cf8dfaeba93695a23292e2fda3565bcdc3b091e0a5e49bde08\",\nsource-info.json:8:    \"bootstrap.py\": \"ebae41c18ddc0f4c69b56015448edab8d046121970d5ea1cfb16d7bface75e43\",\nsource-info.json:9:    \"contracts.py\": \"b945d220780606907b8a8b1902c8afc59d729a8ec5b3ab6342b3391ff4fd3b45\",\nsource-info.json:10:    \"formatters.py\": \"6a39cc6612a6348cf012a783601a664acfefae526ac725c22a80298b40be2267\",\nsource-info.json:11:    \"publisher.py\": \"3570f0bbb24845b4a7e65bc0a814f2bb429d6950feeff510133b4bd26ea8cd84\"\nsource-info.json:12:  }\nsource-info.json:13:}\nadapters.py:1:class ArtifactStore:\nadapters.py:2:    def __init__(self):\nadapters.py:3:        self.saved = []\nadapters.py:5:    def save(self, body):\nadapters.py:6:        self.saved.append(body)\nadapters.py:9:class Notifier:\nadapters.py:10:    def __init__(self, fail=False):\nadapters.py:11:        self.fail = fail\nadapters.py:12:        self.attempts = []\nadapters.py:14:    def notify(self, body):\nadapters.py:15:        self.attempts.append(body)\nadapters.py:16:        if self.fail:\nadapters.py:17:            raise RuntimeError(\"notification failed\")\npublisher.py:1:from dataclasses import dataclass\npublisher.py:3:from adapters import ArtifactStore, Notifier\npublisher.py:4:from contracts import Formatter\npublisher.py:7:@dataclass(frozen=True)\npublisher.py:8:class Result:\npublisher.py:9:    mode: str\npublisher.py:10:    body: str\npublisher.py:13:class Publisher:\npublisher.py:14:    def __init__(self, formatter: Formatter, store: ArtifactStore, notifier: Notifier):\npublisher.py:15:        self.formatter = formatter\npublisher.py:16:        self.store = store\npublisher.py:17:        self.notifier = notifier\npublisher.py:19:    def publish(self, rows, preview=False):\npublisher.py:20:        body = self.formatter.format(rows)\npublisher.py:21:        if preview:\npublisher.py:22:            return Result(\"preview\", body)\npublisher.py:23:        self.store.save(body)\npublisher.py:24:        self.notifier.notify(body)\npublisher.py:25:        return Result(\"published\", body)\nformatters.py:1:from contracts import Auditable, Formatter\nformatters.py:4:class CompactFormatter(Formatter):\nformatters.py:5:    def format(self, rows):\nformatters.py:6:        return \",\".join(rows)\nformatters.py:9:class DetailedFormatter(Formatter, Auditable):\nformatters.py:10:    def format(self, rows):\nformatters.py:11:        return \"\\n\".join(\"{}: {}\".format(i, row) for i, row in enumerate(rows, 1))\ncontracts.py:1:\"\"\"Contracts for an invented, entirely in-memory report publisher.\"\"\"\ncontracts.py:3:from abc import ABC, abstractmethod\ncontracts.py:6:class Formatter(ABC):\ncontracts.py:7:    @abstractmethod\ncontracts.py:8:    def format(self, rows):\ncontracts.py:9:        raise NotImplementedError\ncontracts.py:12:class Auditable:\ncontracts.py:13:    \"\"\"A label with no implementation.\"\"\"\n",
+          "exit_code": 0,
+          "status": "completed"
+        }
+      ],
+      "output_sha256": {
+        "reply.md": "53c27fd01cfa556e0e6ddb5517c0c833101a27afbc8115d67de44a2a3821efb9"
+      }
+    },
+    {
+      "case_id": 2,
+      "effort": "medium",
+      "condition": "without_skill",
+      "exit_code": 0,
+      "duration_seconds": 31.204,
+      "usage": {
+        "input_tokens": 67088,
+        "cached_input_tokens": 52096,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 593,
+        "reasoning_output_tokens": 14
+      },
+      "changes": {},
+      "prompt": "執行順序我已經看懂了，這次請用 class diagram 釐清 Formatter、Auditable、DetailedFormatter 與 Publisher 的關係。繼承 Auditable 會自動有稽核功能嗎？不用再重走發布流程。",
+      "configured_command": [
+        "/Applications/ChatGPT.app/Contents/Resources/codex",
+        "exec",
+        "--strict-config",
+        "--ignore-user-config",
+        "--ignore-rules",
+        "--ephemeral",
+        "--skip-git-repo-check",
+        "--color",
+        "never",
+        "--json",
+        "-c",
+        "project_doc_max_bytes=0",
+        "-c",
+        "features.memories=false",
+        "-c",
+        "features.plugins=false",
+        "-c",
+        "skills.include_instructions=false",
+        "-c",
+        "features.apps=false",
+        "-c",
+        "features.multi_agent=false",
+        "-m",
+        "gpt-6-astra",
+        "-c",
+        "model_reasoning_effort=\"medium\"",
+        "-s",
+        "read-only",
+        "-C",
+        "[source]",
+        "-o",
+        "[outputs]/reply.md",
+        "-"
+      ],
+      "source_files_unchanged": true,
+      "outputs": {
+        "reply.md": "**不會。`Auditable` 只是標記類別，繼承它不會自動取得稽核功能。**\n\n```mermaid\nclassDiagram\n    class Formatter {\n        <<abstract>>\n        +format(rows)*\n    }\n    class Auditable {\n        <<marker>>\n    }\n    class DetailedFormatter {\n        +format(rows)\n    }\n    class Publisher {\n        +Formatter formatter\n    }\n\n    Formatter <|-- DetailedFormatter : 繼承並實作\n    Auditable <|-- DetailedFormatter : 繼承標記\n    Publisher --> Formatter : 持有並使用\n```\n\n- **`Formatter`**：抽象基底類別，以 `@abstractmethod` 要求子類別實作 `format(rows)`。\n- **`Auditable`**：只有說明文字，沒有方法、狀態或稽核實作。\n- **`DetailedFormatter`**：同時繼承上述兩者；實作的 `format()` 只負責將資料加上編號、以換行分隔。\n- **`Publisher`**：透過建構子接收並保存 `Formatter`，呼叫其 `format()`；它沒有繼承 formatter，也沒有針對 `Auditable` 做判斷或處理。\n\n因此，`DetailedFormatter` 的實例雖然滿足 `isinstance(obj, Auditable)`，但這只是**型別上的標記**。要產生稽核紀錄，仍須另有實作或辨識此標記的程式碼；這份來源沒有提供。\n\n依據：`contracts.py:6–13`、`formatters.py:9–11`、`publisher.py:13–25`。"
+      },
+      "grading": {
+        "sample": "sample-06",
+        "case_id": 2,
+        "expectations": [
+          {
+            "text": "Diagram correctly shows DetailedFormatter inheriting Formatter and Auditable, and Publisher depending on Formatter; does not make Publisher inherit a formatter or marker.",
+            "passed": true,
+            "evidence": "The class diagram correctly encodes both DetailedFormatter inheritance relationships and Publisher's use of Formatter, with no false Publisher inheritance."
+          },
+          {
+            "text": "Explains Auditable is an empty label with no consumer implementing automatic audit behavior in the supplied fixture; names alone do not establish an effect.",
+            "passed": true,
+            "evidence": "The answer explains that Auditable has no methods, state, or implementation and that no supplied code recognizes it to produce audit behavior."
+          },
+          {
+            "text": "Cites precise source locations for the type and consumer claims while keeping the answer focused on relationships, without another execution tour.",
+            "passed": true,
+            "evidence": "It cites contracts.py:6-13, formatters.py:9-11, and publisher.py:13-25, all precise ranges supporting the class and consumer claims, without retouring execution."
+          },
+          {
+            "text": "Preserves all supplied files and creates no unsolicited artifact.",
+            "passed": true,
+            "evidence": "The recorded filesystem delta and outputs are empty."
+          }
+        ],
+        "summary": {
+          "passed": 4,
+          "failed": 0,
+          "total": 4,
+          "pass_rate": 1.0
+        },
+        "extra_findings": [],
+        "eval_feedback": {
+          "suggestions": [],
+          "overall": "The assertions cleanly discriminate correct relationship semantics from name-based behavior assumptions."
+        }
+      },
+      "tool_actions": [
+        {
+          "id": "item_1",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'rg --files'",
+          "aggregated_output": "adapters.py\npublisher.py\ncontracts.py\nsource-info.json\nformatters.py\nbootstrap.py\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_2",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'nl -ba publisher.py'",
+          "aggregated_output": "     1\tfrom dataclasses import dataclass\n     2\t\n     3\tfrom adapters import ArtifactStore, Notifier\n     4\tfrom contracts import Formatter\n     5\t\n     6\t\n     7\t@dataclass(frozen=True)\n     8\tclass Result:\n     9\t    mode: str\n    10\t    body: str\n    11\t\n    12\t\n    13\tclass Publisher:\n    14\t    def __init__(self, formatter: Formatter, store: ArtifactStore, notifier: Notifier):\n    15\t        self.formatter = formatter\n    16\t        self.store = store\n    17\t        self.notifier = notifier\n    18\t\n    19\t    def publish(self, rows, preview=False):\n    20\t        body = self.formatter.format(rows)\n    21\t        if preview:\n    22\t            return Result(\"preview\", body)\n    23\t        self.store.save(body)\n    24\t        self.notifier.notify(body)\n    25\t        return Result(\"published\", body)\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_3",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'nl -ba formatters.py'",
+          "aggregated_output": "     1\tfrom contracts import Auditable, Formatter\n     2\t\n     3\t\n     4\tclass CompactFormatter(Formatter):\n     5\t    def format(self, rows):\n     6\t        return \",\".join(rows)\n     7\t\n     8\t\n     9\tclass DetailedFormatter(Formatter, Auditable):\n    10\t    def format(self, rows):\n    11\t        return \"\\n\".join(\"{}: {}\".format(i, row) for i, row in enumerate(rows, 1))\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_4",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'nl -ba contracts.py'",
+          "aggregated_output": "     1\t\"\"\"Contracts for an invented, entirely in-memory report publisher.\"\"\"\n     2\t\n     3\tfrom abc import ABC, abstractmethod\n     4\t\n     5\t\n     6\tclass Formatter(ABC):\n     7\t    @abstractmethod\n     8\t    def format(self, rows):\n     9\t        raise NotImplementedError\n    10\t\n    11\t\n    12\tclass Auditable:\n    13\t    \"\"\"A label with no implementation.\"\"\"\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_5",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc \"rg -n 'Auditable|audit|DetailedFormatter|Publisher|Formatter' .\"",
+          "aggregated_output": "./publisher.py:4:from contracts import Formatter\n./publisher.py:13:class Publisher:\n./publisher.py:14:    def __init__(self, formatter: Formatter, store: ArtifactStore, notifier: Notifier):\n./contracts.py:6:class Formatter(ABC):\n./contracts.py:12:class Auditable:\n./formatters.py:1:from contracts import Auditable, Formatter\n./formatters.py:4:class CompactFormatter(Formatter):\n./formatters.py:9:class DetailedFormatter(Formatter, Auditable):\n./bootstrap.py:2:from formatters import CompactFormatter, DetailedFormatter\n./bootstrap.py:3:from publisher import Publisher\n./bootstrap.py:6:FORMATTERS = {\"compact\": CompactFormatter, \"detailed\": DetailedFormatter}\n./bootstrap.py:11:    return Publisher(formatter, ArtifactStore(), Notifier(fail_notification))\n",
+          "exit_code": 0,
+          "status": "completed"
+        }
+      ],
+      "output_sha256": {
+        "reply.md": "6cba1c7603e2d588de2ca5718eea42e5a50ba96b39ab2cec3ff837ed968c1293"
+      }
+    },
+    {
+      "case_id": 3,
+      "effort": "medium",
+      "condition": "with_skill",
+      "exit_code": 0,
+      "duration_seconds": 105.618,
+      "usage": {
+        "input_tokens": 113323,
+        "cached_input_tokens": 77440,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2891,
+        "reasoning_output_tokens": 29
+      },
+      "changes": {
+        "docs/preview-tour.md": {
+          "before": null,
+          "after": "1f1a8c0118169063df24c96aead0098d5858b0a243bc8b63ef1b0b70b9d927d0"
+        }
+      },
+      "prompt": "幫我導讀 preview=True 的路徑，並存成 docs/preview-tour.md。情境是 build_publisher(\"detailed\", fail_notification=True) 之後 publish([\"A\", \"B\"], preview=True)，讓接手的人知道 preview 究竟做到哪一步。",
+      "configured_command": [
+        "/Applications/ChatGPT.app/Contents/Resources/codex",
+        "exec",
+        "--strict-config",
+        "--ignore-user-config",
+        "--ignore-rules",
+        "--ephemeral",
+        "--skip-git-repo-check",
+        "--color",
+        "never",
+        "--json",
+        "-c",
+        "project_doc_max_bytes=0",
+        "-c",
+        "features.memories=false",
+        "-c",
+        "features.plugins=false",
+        "-c",
+        "skills.include_instructions=false",
+        "-c",
+        "features.apps=false",
+        "-c",
+        "features.multi_agent=false",
+        "-m",
+        "gpt-6-astra",
+        "-c",
+        "model_reasoning_effort=\"medium\"",
+        "-s",
+        "workspace-write",
+        "-C",
+        "[source]",
+        "-o",
+        "[outputs]/reply.md",
+        "-"
+      ],
+      "source_files_unchanged": true,
+      "outputs": {
+        "preview-tour.md": "# `preview=True`：完成格式化，在儲存前回傳\n\n指定情境會回傳 `Result(mode='preview', body='1: A\\n2: B')`。詳細格式化已執行，但 `ArtifactStore.save()` 與 `Notifier.notify()` 都沒有被呼叫，因此即使 `fail_notification=True`，也不會拋出通知失敗例外。[決定執行邊界的位置：publisher.py 第 19–25 行](../publisher.py#L19)。\n\n```python\npublisher = build_publisher(\"detailed\", fail_notification=True)\nresult = publisher.publish([\"A\", \"B\"], preview=True)\n\n# result.mode == \"preview\"\n# result.body == \"1: A\\n2: B\"\n# publisher.store.saved == []\n# publisher.notifier.attempts == []\n```\n\n## 本次閱讀範圍\n\n來源為 `code-tour/report-demo` 的本地來源匯出，識別資料見 [source-info.json](../source-info.json)。此匯出沒有 Git revision（`git_revision: null`），以快照 SHA-256 `9311831a90dad52e5a9759e558dbecbd296a0b161490d74d060e056e238210ed` 識別。五個 Python 檔案的內容雜湊均已核對，符合匯出清單；原始碼未修改，本次僅新增本文件。所有來源連結均相對於本文件。\n\n這條路徑涵蓋建構、格式化、preview 提早回傳，以及儲存／通知的分界。匯出中的儲存與通知實作皆在記憶體內，沒有外部服務、非同步工作或交易機制。\n\n## 依序閱讀的四站\n\n### 1. 為何選到 `DetailedFormatter`？\n\n閱讀 [bootstrap.py 第 6–11 行](../bootstrap.py#L6)。`FORMATTERS[\"detailed\"]` 選出 `DetailedFormatter`，隨即建立實例；同時建立 `ArtifactStore()` 與 `Notifier(True)`，並交給 `Publisher`。[Publisher 建構子](../publisher.py#L14) 將三個物件保存在實例欄位，之後透過 `self.formatter.format(rows)` 呼叫選定的格式化實作。\n\n此時儲存與通知物件**已建立**，但尚未儲存或通知：[ArtifactStore 初始化](../adapters.py#L2) 令 `saved = []`；[Notifier 初始化](../adapters.py#L10) 令 `fail = True`、`attempts = []`。`fail_notification=True` 在這裡只是設定欄位，不會於建構時拋錯。\n\n### 2. preview 判斷之前，已做了什麼？\n\n閱讀 [Publisher.publish 第 19–22 行](../publisher.py#L19)：第一步是 `body = self.formatter.format(rows)`，第二步才檢查 `preview`。\n\n接著閱讀 [DetailedFormatter.format](../formatters.py#L9)：它使用 `enumerate(rows, 1)` 從 1 編號，將每列格式化為 `\"編號: 內容\"`，最後以換行連接。因此 `[\"A\", \"B\"]` 產生：\n\n```text\n1: A\n2: B\n```\n\n字串是 `\"1: A\\n2: B\"`，末尾沒有換行。preview 會實際走完這個格式化運算；若格式化本身拋出例外，`publish()` 沒有捕捉例外，也就不會回傳 preview 結果。\n\n`DetailedFormatter` 也繼承 `Auditable`，但 [Auditable](../contracts.py#L12) 只有標籤用途的類別宣告，沒有實作；本匯出的建構及發布路徑也沒有消費此標籤的判斷。因此這條路徑沒有因繼承它而多出稽核動作。\n\n### 3. preview 在哪裡停止？\n\n閱讀 [publisher.py 第 21–25 行](../publisher.py#L21)。`preview=True` 命中 `if preview`，立即建立並回傳 [Result](../publisher.py#L7)，其中 `mode` 是 `\"preview\"`，`body` 是剛完成的格式化字串。後面的 `save()`、`notify()` 與 `Result(\"published\", body)` 都不會執行。\n\n下圖描述指定情境；`publisher` 是 `build_publisher()` 回傳的 `Publisher` 實例，`formatter` 是其持有的 `DetailedFormatter` 實例。建構細節已在第一站說明。\n\n```mermaid\nsequenceDiagram\n    participant Caller as 呼叫端\n    participant Factory as bootstrap.build_publisher\n    participant Pub as publisher：Publisher\n    participant Fmt as formatter：DetailedFormatter\n    Caller->>Factory: build_publisher(\"detailed\", fail_notification=True)\n    Factory-->>Caller: Publisher（含 formatter、store、notifier）\n    Caller->>Pub: publish([\"A\", \"B\"], preview=True)\n    Pub->>Fmt: format([\"A\", \"B\"])\n    Fmt-->>Pub: body = \"1: A\\n2: B\"\n    Note over Pub: if preview 成立，立即 return\n    Pub-->>Caller: Result(\"preview\", body)\n    Note over Pub: 未呼叫 store.save 或 notifier.notify\n```\n\n### 4. 為何通知失敗設定沒有作用？\n\n閱讀 [Notifier.notify 第 14–17 行](../adapters.py#L14)。只有呼叫 `notify(body)` 後，才會先將內容加入 `attempts`，再檢查 `self.fail` 並可能拋出 `RuntimeError(\"notification failed\")`。preview 已在呼叫前回傳，所以根本沒有走到失敗條件；它也沒有測試通知是否能成功。\n\n## 最小對照：只改成 `preview=False`\n\n以下兩種情境各自從新的 `build_publisher(\"detailed\", fail_notification=True)` 實例開始，輸入同為 `[\"A\", \"B\"]`：\n\n| 可觀察結果 | `preview=True` | `preview=False` |\n| --- | --- | --- |\n| 完成詳細格式化 | 是 | 是 |\n| `store.saved` | `[]` | `[\"1: A\\n2: B\"]` |\n| `notifier.attempts` | `[]` | `[\"1: A\\n2: B\"]` |\n| 呼叫結果 | `Result(\"preview\", \"1: A\\n2: B\")` | 拋出 `RuntimeError(\"notification failed\")` |\n\n非 preview 分支先 [save，再 notify](../publisher.py#L23)。[save()](../adapters.py#L5) 已將內容加入 `saved`，接著 `notify()` 記錄嘗試並拋錯；沒有回滾或例外處理，所以內容仍留在 `saved`，也不會走到最後的 `Result(\"published\", body)`。\n\n以上結果先由原始碼推導，再以 `python3 -B` 於此工作區實際執行並斷言確認。檢查只使用匯出的記憶體內實作，沒有存取外部服務，也沒有產生 Python 位元碼檔案。\n",
+        "reply.md": "已存成 [docs/preview-tour.md](docs/preview-tour.md)，包含循序圖、原始碼閱讀路線與實測對照。\n\n此情境會完成詳細格式化，回傳 `Result(mode='preview', body='1: A\\n2: B')`；儲存與通知都未執行，因此不會觸發通知失敗。文件也說明改成 `preview=False` 後，通知失敗前已完成儲存。"
+      },
+      "grading": {
+        "sample": "sample-12",
+        "case_id": 3,
+        "expectations": [
+          {
+            "text": "Creates docs/preview-tour.md with a coherent diagram or clear text flow view and source-linked reading stops that match the implementation.",
+            "passed": true,
+            "evidence": "The saved document includes a correct Mermaid sequence diagram, four structured reading stops, and 14 validated relative source links."
+          },
+          {
+            "text": "Explains formatting happens before the preview return, yielding Result(\"preview\", \"1: A\\n2: B\"); store.saved and notifier.attempts stay empty, so fail_notification=True does not raise here.",
+            "passed": true,
+            "evidence": "The exact Result and empty side-effect lists are stated and were observed in the completed verification action."
+          },
+          {
+            "text": "Records the synthetic source identity and exact supplied snapshot hash, states that no Git revision is provided rather than inventing one, and uses links resolvable from the saved document outside the disposable workspace.",
+            "passed": true,
+            "evidence": "The document records code-tour/report-demo, the exact 9311831a90dad52e5a9759e558dbecbd296a0b161490d74d060e056e238210ed snapshot, and git_revision:null, and all code/source-info links are ../ relative links verified from docs/."
+          },
+          {
+            "text": "Distinguishes inferred behavior from observed execution and does not invent transactions, automatic auditing or skipped formatting.",
+            "passed": true,
+            "evidence": "It says results were first inferred from source and then executed with assertions, and correctly describes formatting, empty Auditable semantics, and the absence of transaction/rollback behavior."
+          },
+          {
+            "text": "Preserves every supplied file and changes only docs/preview-tour.md.",
+            "passed": true,
+            "evidence": "The filesystem delta contains only the added docs/preview-tour.md, and the completed hash check confirms the supplied source contents match the manifest."
+          }
+        ],
+        "summary": {
+          "passed": 5,
+          "failed": 0,
+          "total": 5,
+          "pass_rate": 1.0
+        },
+        "extra_findings": [],
+        "eval_feedback": {
+          "suggestions": [],
+          "overall": "The expectations are comprehensive and the output supplies direct evidence for each one."
+        }
+      },
+      "tool_actions": [
+        {
+          "id": "item_1",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc \"rg --files --hidden -g '\"'!.git'\"' -g '\"'!.agents'\"' -g '\"'!.codex'\"'\"",
+          "aggregated_output": "adapters.py\npublisher.py\ncontracts.py\nsource-info.json\nformatters.py\nbootstrap.py\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_2",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'nl -ba adapters.py'",
+          "aggregated_output": "     1\tclass ArtifactStore:\n     2\t    def __init__(self):\n     3\t        self.saved = []\n     4\t\n     5\t    def save(self, body):\n     6\t        self.saved.append(body)\n     7\t\n     8\t\n     9\tclass Notifier:\n    10\t    def __init__(self, fail=False):\n    11\t        self.fail = fail\n    12\t        self.attempts = []\n    13\t\n    14\t    def notify(self, body):\n    15\t        self.attempts.append(body)\n    16\t        if self.fail:\n    17\t            raise RuntimeError(\"notification failed\")\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_3",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'nl -ba contracts.py'",
+          "aggregated_output": "     1\t\"\"\"Contracts for an invented, entirely in-memory report publisher.\"\"\"\n     2\t\n     3\tfrom abc import ABC, abstractmethod\n     4\t\n     5\t\n     6\tclass Formatter(ABC):\n     7\t    @abstractmethod\n     8\t    def format(self, rows):\n     9\t        raise NotImplementedError\n    10\t\n    11\t\n    12\tclass Auditable:\n    13\t    \"\"\"A label with no implementation.\"\"\"\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_4",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'nl -ba formatters.py'",
+          "aggregated_output": "     1\tfrom contracts import Auditable, Formatter\n     2\t\n     3\t\n     4\tclass CompactFormatter(Formatter):\n     5\t    def format(self, rows):\n     6\t        return \",\".join(rows)\n     7\t\n     8\t\n     9\tclass DetailedFormatter(Formatter, Auditable):\n    10\t    def format(self, rows):\n    11\t        return \"\\n\".join(\"{}: {}\".format(i, row) for i, row in enumerate(rows, 1))\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_5",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'nl -ba source-info.json'",
+          "aggregated_output": "     1\t{\n     2\t  \"source\": \"code-tour/report-demo\",\n     3\t  \"kind\": \"independently authored synthetic fixture; not a production repository\",\n     4\t  \"snapshot_sha256\": \"9311831a90dad52e5a9759e558dbecbd296a0b161490d74d060e056e238210ed\",\n     5\t  \"git_revision\": null,\n     6\t  \"files_sha256\": {\n     7\t    \"adapters.py\": \"bb004e0e37a947cf8dfaeba93695a23292e2fda3565bcdc3b091e0a5e49bde08\",\n     8\t    \"bootstrap.py\": \"ebae41c18ddc0f4c69b56015448edab8d046121970d5ea1cfb16d7bface75e43\",\n     9\t    \"contracts.py\": \"b945d220780606907b8a8b1902c8afc59d729a8ec5b3ab6342b3391ff4fd3b45\",\n    10\t    \"formatters.py\": \"6a39cc6612a6348cf012a783601a664acfefae526ac725c22a80298b40be2267\",\n    11\t    \"publisher.py\": \"3570f0bbb24845b4a7e65bc0a814f2bb429d6950feeff510133b4bd26ea8cd84\"\n    12\t  }\n    13\t}\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_6",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'nl -ba bootstrap.py'",
+          "aggregated_output": "     1\tfrom adapters import ArtifactStore, Notifier\n     2\tfrom formatters import CompactFormatter, DetailedFormatter\n     3\tfrom publisher import Publisher\n     4\t\n     5\t\n     6\tFORMATTERS = {\"compact\": CompactFormatter, \"detailed\": DetailedFormatter}\n     7\t\n     8\t\n     9\tdef build_publisher(kind=\"compact\", fail_notification=False):\n    10\t    formatter = FORMATTERS[kind]()\n    11\t    return Publisher(formatter, ArtifactStore(), Notifier(fail_notification))\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_7",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'nl -ba publisher.py'",
+          "aggregated_output": "     1\tfrom dataclasses import dataclass\n     2\t\n     3\tfrom adapters import ArtifactStore, Notifier\n     4\tfrom contracts import Formatter\n     5\t\n     6\t\n     7\t@dataclass(frozen=True)\n     8\tclass Result:\n     9\t    mode: str\n    10\t    body: str\n    11\t\n    12\t\n    13\tclass Publisher:\n    14\t    def __init__(self, formatter: Formatter, store: ArtifactStore, notifier: Notifier):\n    15\t        self.formatter = formatter\n    16\t        self.store = store\n    17\t        self.notifier = notifier\n    18\t\n    19\t    def publish(self, rows, preview=False):\n    20\t        body = self.formatter.format(rows)\n    21\t        if preview:\n    22\t            return Result(\"preview\", body)\n    23\t        self.store.save(body)\n    24\t        self.notifier.notify(body)\n    25\t        return Result(\"published\", body)\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_8",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc \"python3 -B - <<'PY'\nimport hashlib\nimport json\nfrom pathlib import Path\nfrom bootstrap import build_publisher\n\ninfo = json.loads(Path('source-info.json').read_text())\nassert all(hashlib.sha256(Path(name).read_bytes()).hexdigest() == digest for name, digest in info['files_sha256'].items())\np = build_publisher('detailed', fail_notification=True)\nr = p.publish(['A', 'B'], preview=True)\nassert (r.mode, r.body, p.store.saved, p.notifier.attempts) == ('preview', '1: A\\\\n2: B', [], [])\nprint('source hashes: match export manifest')\nprint('preview:', repr(r), 'saved=', p.store.saved, 'attempts=', p.notifier.attempts)\np = build_publisher('detailed', fail_notification=True)\ntry:\n    p.publish(['A', 'B'], preview=False)\nexcept RuntimeError as exc:\n    assert str(exc) == 'notification failed'\n    assert p.store.saved == p.notifier.attempts == ['1: A\\\\n2: B']\n    print('non-preview:', repr(exc), 'saved=', p.store.saved, 'attempts=', p.notifier.attempts)\nelse:\n    raise AssertionError('expected notification failure')\nPY\"",
+          "aggregated_output": "source hashes: match export manifest\npreview: Result(mode='preview', body='1: A\\n2: B') saved= [] attempts= []\nnon-preview: RuntimeError('notification failed') saved= ['1: A\\n2: B'] attempts= ['1: A\\n2: B']\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_10",
+          "type": "file_change",
+          "changes": [
+            {
+              "path": "[source]/docs/preview-tour.md",
+              "kind": "add"
+            }
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "item_11",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc \"python3 -B - <<'PY'\nimport re\nfrom pathlib import Path\np = Path('docs/preview-tour.md')\ns = p.read_text()\nlinks = re.findall(r'\\\\]\\\\(([\"'^)]+)'\"\\\\)', s)\nfor link in links:\n    path, _, fragment = link.partition('#')\n    target = p.parent / path\n    assert target.is_file(), link\n    if fragment:\n        assert fragment.startswith('L') and 1 <= int(fragment[1:]) <= len(target.read_text().splitlines()), link\nassert s.count('\"'```'\"') % 2 == 0\nprint(f'文件已確認：{len(links)} 個來源連結與行號有效，程式碼區塊成對。')\nPY\"",
+          "aggregated_output": "文件已確認：14 個來源連結與行號有效，程式碼區塊成對。\n",
+          "exit_code": 0,
+          "status": "completed"
+        }
+      ],
+      "output_sha256": {
+        "preview-tour.md": "1f1a8c0118169063df24c96aead0098d5858b0a243bc8b63ef1b0b70b9d927d0",
+        "reply.md": "cfeca15db01ff363ff7ea52e29c75b4b22c5a5900dac6137953c430022dd5e6d"
+      }
+    },
+    {
+      "case_id": 3,
+      "effort": "medium",
+      "condition": "without_skill",
+      "exit_code": 0,
+      "duration_seconds": 69.118,
+      "usage": {
+        "input_tokens": 71918,
+        "cached_input_tokens": 54400,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1917,
+        "reasoning_output_tokens": 34
+      },
+      "changes": {
+        "docs/preview-tour.md": {
+          "before": null,
+          "after": "f2ee8031143c1f9615d081d24b36e158bd21c5617f0afcfd7960985863737e28"
+        }
+      },
+      "prompt": "幫我導讀 preview=True 的路徑，並存成 docs/preview-tour.md。情境是 build_publisher(\"detailed\", fail_notification=True) 之後 publish([\"A\", \"B\"], preview=True)，讓接手的人知道 preview 究竟做到哪一步。",
+      "configured_command": [
+        "/Applications/ChatGPT.app/Contents/Resources/codex",
+        "exec",
+        "--strict-config",
+        "--ignore-user-config",
+        "--ignore-rules",
+        "--ephemeral",
+        "--skip-git-repo-check",
+        "--color",
+        "never",
+        "--json",
+        "-c",
+        "project_doc_max_bytes=0",
+        "-c",
+        "features.memories=false",
+        "-c",
+        "features.plugins=false",
+        "-c",
+        "skills.include_instructions=false",
+        "-c",
+        "features.apps=false",
+        "-c",
+        "features.multi_agent=false",
+        "-m",
+        "gpt-6-astra",
+        "-c",
+        "model_reasoning_effort=\"medium\"",
+        "-s",
+        "workspace-write",
+        "-C",
+        "[source]",
+        "-o",
+        "[outputs]/reply.md",
+        "-"
+      ],
+      "source_files_unchanged": true,
+      "outputs": {
+        "preview-tour.md": "# `preview=True` 路徑導讀\n\n本次情境：\n\n```python\npublisher = build_publisher(\"detailed\", fail_notification=True)\nresult = publisher.publish([\"A\", \"B\"], preview=True)\n```\n\n**預覽會建立所有依賴並完成格式化，在儲存之前回傳。** 結果是 `Result(mode=\"preview\", body=\"1: A\\n2: B\")`；儲存清單與通知嘗試清單仍為空，也不會觸發通知失敗。\n\n## 1. 組裝：通知失敗設定已生效，但尚未嘗試通知\n\n從 [bootstrap.py](../bootstrap.py) 第 6、9–11 行開始讀：\n\n- `FORMATTERS[\"detailed\"]()` 建立 `DetailedFormatter`。\n- `ArtifactStore()` 初始化 `saved = []`（[adapters.py](../adapters.py) 第 1–3 行）。\n- `Notifier(True)` 設定 `fail = True`、`attempts = []`（同檔第 9–12 行）。建構子本身不拋出通知失敗例外。\n- `Publisher` 將三個物件存入 `formatter`、`store`、`notifier` 屬性（[publisher.py](../publisher.py) 第 14–17 行）。\n\n此時尚未傳入 `preview`；預覽旗標是在下一步呼叫 `publish` 時才使用。Store 與 Notifier 都已建立。\n\n## 2. 格式化：先產生完整內容，再判斷預覽\n\n[publisher.py](../publisher.py) 第 19–22 行的順序是關鍵：\n\n```python\nbody = self.formatter.format(rows)\nif preview:\n    return Result(\"preview\", body)\n```\n\n這裡呼叫的是 `DetailedFormatter.format`（[formatters.py](../formatters.py) 第 9–11 行），以 `enumerate(rows, 1)` 從 1 編號，用換行串接，得到：\n\n```text\n1: A\n2: B\n```\n\n字串的精確表示為 `\"1: A\\n2: B\"`，尾端沒有換行。`Formatter` 是抽象契約；實際執行的是上述具體實作。`DetailedFormatter` 也繼承 `Auditable`，但它僅是沒有實作的標籤，不會額外執行稽核（[contracts.py](../contracts.py) 第 6–13 行）。\n\n## 3. 預覽邊界：回傳 `Result`，後續兩個呼叫不可達\n\n`preview=True` 使第 22 行立即回傳 `Result(\"preview\", body)`。`Result` 是含 `mode`、`body` 的 frozen dataclass（[publisher.py](../publisher.py) 第 7–10 行）。\n\n| 步驟 | 本次是否執行 | 可觀察結果 |\n| --- | --- | --- |\n| `self.formatter.format(rows)` | 是 | `body == \"1: A\\n2: B\"` |\n| `return Result(\"preview\", body)` | 是 | `result.mode == \"preview\"` |\n| `self.store.save(body)`，第 23 行 | 否 | `publisher.store.saved == []` |\n| `self.notifier.notify(body)`，第 24 行 | 否 | `publisher.notifier.attempts == []` |\n| `return Result(\"published\", body)`，第 25 行 | 否 | 不會取得 published 結果 |\n\n`fail_notification=True` 只會在 `Notifier.notify` 內檢查；該方法會先加入 `attempts`，才拋出 `RuntimeError(\"notification failed\")`（[adapters.py](../adapters.py) 第 14–17 行）。本次完全沒有進入此方法，所以既沒有通知嘗試，也沒有通知例外；並非例外被捕捉或忽略。\n\n## 4. 接手時要記住的限制\n\n- 預覽仍會執行格式化。若格式化拋出例外，方法會在預覽判斷之前中止，不會回傳 `Result`；這段程式沒有捕捉例外。\n- 預覽無法驗證儲存或通知是否成功。若同樣設定改用 `preview=False`，程式會先儲存，再記錄通知嘗試並拋出例外；不會回傳 published 結果，也沒有回滾儲存。\n- 此份原始碼的儲存與通知使用記憶體清單；沒有實際檔案寫入或外部通知。上述空清單結論以本次新建的 publisher 為前提；預覽不會清除既有清單。\n\n## 5. 最小重現\n\n在專案根目錄執行：\n\n```python\nfrom bootstrap import build_publisher\n\npublisher = build_publisher(\"detailed\", fail_notification=True)\nresult = publisher.publish([\"A\", \"B\"], preview=True)\n\nassert result.mode == \"preview\"\nassert result.body == \"1: A\\n2: B\"\nassert publisher.store.saved == []\nassert publisher.notifier.fail is True\nassert publisher.notifier.attempts == []\nprint(result)\n# Result(mode='preview', body='1: A\\n2: B')\n```\n",
+        "reply.md": "已完成 [docs/preview-tour.md](docs/preview-tour.md)，包含呼叫路徑、原始碼位置與重現範例。\n\n已實際驗證：預覽完成格式化後回傳 `Result(mode=\"preview\", body=\"1: A\\n2: B\")`，不執行儲存或通知，因此 `fail_notification=True` 不會觸發例外。"
+      },
+      "grading": {
+        "sample": "sample-02",
+        "case_id": 3,
+        "expectations": [
+          {
+            "text": "Creates docs/preview-tour.md with a coherent diagram or clear text flow view and source-linked reading stops that match the implementation.",
+            "passed": true,
+            "evidence": "The saved document provides a clear numbered flow, an execution-state table, and source-linked stops for bootstrap, publisher, formatter, contracts, and adapters that match the source."
+          },
+          {
+            "text": "Explains formatting happens before the preview return, yielding Result(\"preview\", \"1: A\\n2: B\"); store.saved and notifier.attempts stay empty, so fail_notification=True does not raise here.",
+            "passed": true,
+            "evidence": "The document states the exact preview Result and empty saved/attempts lists; the completed execution action independently observed Result(mode='preview', body='1: A\\n2: B') with assertions for both empty lists."
+          },
+          {
+            "text": "Records the synthetic source identity and exact supplied snapshot hash, states that no Git revision is provided rather than inventing one, and uses links resolvable from the saved document outside the disposable workspace.",
+            "passed": false,
+            "evidence": "Missing deliverable detail: preview-tour.md contains neither source identity code-tour/report-demo, snapshot hash 9311831a90dad52e5a9759e558dbecbd296a0b161490d74d060e056e238210ed, nor any statement that Git revision is unavailable. Its ../ source links are otherwise resolvable from docs/."
+          },
+          {
+            "text": "Distinguishes inferred behavior from observed execution and does not invent transactions, automatic auditing or skipped formatting.",
+            "passed": true,
+            "evidence": "The reply identifies the preview result as actually verified, while the document presents non-preview and formatter-failure cases conditionally from the source; it correctly says preview formats, Auditable adds no behavior, and no rollback exists."
+          },
+          {
+            "text": "Preserves every supplied file and changes only docs/preview-tour.md.",
+            "passed": true,
+            "evidence": "The recorded filesystem delta is exactly one added file, docs/preview-tour.md, with no supplied-file modifications."
+          }
+        ],
+        "summary": {
+          "passed": 4,
+          "failed": 1,
+          "total": 5,
+          "pass_rate": 0.8
+        },
+        "extra_findings": [
+          "All functional preview claims are correct; the failure is confined to required saved-document provenance."
+        ],
+        "eval_feedback": {
+          "suggestions": [],
+          "overall": "The combined provenance assertion appropriately catches an otherwise strong tour that omitted source identity and revision status."
+        }
+      },
+      "tool_actions": [
+        {
+          "id": "item_1",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc \"rg --files --hidden -g '\"'!.git/**'\"'\"",
+          "aggregated_output": "adapters.py\npublisher.py\ncontracts.py\nsource-info.json\nformatters.py\nbootstrap.py\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_2",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc \"rg -n '\"'^'\"' bootstrap.py publisher.py adapters.py contracts.py formatters.py source-info.json\"",
+          "aggregated_output": "formatters.py:1:from contracts import Auditable, Formatter\nformatters.py:2:\nformatters.py:3:\nformatters.py:4:class CompactFormatter(Formatter):\nformatters.py:5:    def format(self, rows):\nformatters.py:6:        return \",\".join(rows)\nformatters.py:7:\nformatters.py:8:\nformatters.py:9:class DetailedFormatter(Formatter, Auditable):\nformatters.py:10:    def format(self, rows):\nformatters.py:11:        return \"\\n\".join(\"{}: {}\".format(i, row) for i, row in enumerate(rows, 1))\nsource-info.json:1:{\nsource-info.json:2:  \"source\": \"code-tour/report-demo\",\nsource-info.json:3:  \"kind\": \"independently authored synthetic fixture; not a production repository\",\nsource-info.json:4:  \"snapshot_sha256\": \"9311831a90dad52e5a9759e558dbecbd296a0b161490d74d060e056e238210ed\",\nsource-info.json:5:  \"git_revision\": null,\nsource-info.json:6:  \"files_sha256\": {\nsource-info.json:7:    \"adapters.py\": \"bb004e0e37a947cf8dfaeba93695a23292e2fda3565bcdc3b091e0a5e49bde08\",\nsource-info.json:8:    \"bootstrap.py\": \"ebae41c18ddc0f4c69b56015448edab8d046121970d5ea1cfb16d7bface75e43\",\nsource-info.json:9:    \"contracts.py\": \"b945d220780606907b8a8b1902c8afc59d729a8ec5b3ab6342b3391ff4fd3b45\",\nsource-info.json:10:    \"formatters.py\": \"6a39cc6612a6348cf012a783601a664acfefae526ac725c22a80298b40be2267\",\nsource-info.json:11:    \"publisher.py\": \"3570f0bbb24845b4a7e65bc0a814f2bb429d6950feeff510133b4bd26ea8cd84\"\nsource-info.json:12:  }\nsource-info.json:13:}\nbootstrap.py:1:from adapters import ArtifactStore, Notifier\nbootstrap.py:2:from formatters import CompactFormatter, DetailedFormatter\nbootstrap.py:3:from publisher import Publisher\nbootstrap.py:4:\nbootstrap.py:5:\nbootstrap.py:6:FORMATTERS = {\"compact\": CompactFormatter, \"detailed\": DetailedFormatter}\nbootstrap.py:7:\nbootstrap.py:8:\nbootstrap.py:9:def build_publisher(kind=\"compact\", fail_notification=False):\nbootstrap.py:10:    formatter = FORMATTERS[kind]()\nbootstrap.py:11:    return Publisher(formatter, ArtifactStore(), Notifier(fail_notification))\npublisher.py:1:from dataclasses import dataclass\npublisher.py:2:\npublisher.py:3:from adapters import ArtifactStore, Notifier\npublisher.py:4:from contracts import Formatter\npublisher.py:5:\npublisher.py:6:\npublisher.py:7:@dataclass(frozen=True)\npublisher.py:8:class Result:\npublisher.py:9:    mode: str\npublisher.py:10:    body: str\npublisher.py:11:\npublisher.py:12:\npublisher.py:13:class Publisher:\npublisher.py:14:    def __init__(self, formatter: Formatter, store: ArtifactStore, notifier: Notifier):\npublisher.py:15:        self.formatter = formatter\npublisher.py:16:        self.store = store\npublisher.py:17:        self.notifier = notifier\npublisher.py:18:\npublisher.py:19:    def publish(self, rows, preview=False):\npublisher.py:20:        body = self.formatter.format(rows)\npublisher.py:21:        if preview:\npublisher.py:22:            return Result(\"preview\", body)\npublisher.py:23:        self.store.save(body)\npublisher.py:24:        self.notifier.notify(body)\npublisher.py:25:        return Result(\"published\", body)\nadapters.py:1:class ArtifactStore:\nadapters.py:2:    def __init__(self):\nadapters.py:3:        self.saved = []\nadapters.py:4:\nadapters.py:5:    def save(self, body):\nadapters.py:6:        self.saved.append(body)\nadapters.py:7:\nadapters.py:8:\nadapters.py:9:class Notifier:\nadapters.py:10:    def __init__(self, fail=False):\nadapters.py:11:        self.fail = fail\nadapters.py:12:        self.attempts = []\nadapters.py:13:\nadapters.py:14:    def notify(self, body):\nadapters.py:15:        self.attempts.append(body)\nadapters.py:16:        if self.fail:\nadapters.py:17:            raise RuntimeError(\"notification failed\")\ncontracts.py:1:\"\"\"Contracts for an invented, entirely in-memory report publisher.\"\"\"\ncontracts.py:2:\ncontracts.py:3:from abc import ABC, abstractmethod\ncontracts.py:4:\ncontracts.py:5:\ncontracts.py:6:class Formatter(ABC):\ncontracts.py:7:    @abstractmethod\ncontracts.py:8:    def format(self, rows):\ncontracts.py:9:        raise NotImplementedError\ncontracts.py:10:\ncontracts.py:11:\ncontracts.py:12:class Auditable:\ncontracts.py:13:    \"\"\"A label with no implementation.\"\"\"\n",
+          "exit_code": 0,
+          "status": "completed"
+        },
+        {
+          "id": "item_4",
+          "type": "file_change",
+          "changes": [
+            {
+              "path": "[source]/docs/preview-tour.md",
+              "kind": "add"
+            }
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "item_5",
+          "type": "command_execution",
+          "command": "/bin/zsh -lc \"python3 -B -c 'from bootstrap import build_publisher; p = build_publisher(\\\"detailed\\\", fail_notification=True); r = p.publish([\\\"A\\\", \\\"B\\\"], preview=True); assert r.mode == \\\"preview\\\"; assert r.body == \\\"1: A\\\\n2: B\\\"; assert p.store.saved == []; assert p.notifier.fail is True; assert p.notifier.attempts == []; print(r)'\"",
+          "aggregated_output": "Result(mode='preview', body='1: A\\n2: B')\n",
+          "exit_code": 0,
+          "status": "completed"
+        }
+      ],
+      "output_sha256": {
+        "preview-tour.md": "f2ee8031143c1f9615d081d24b36e158bd21c5617f0afcfd7960985863737e28",
+        "reply.md": "69c11b0fcc03aef0a3fa68ad86464bb0c2500bf6c115a78f5c8fc1bb58e5e28c"
+      }
+    }
+  ]
+}
