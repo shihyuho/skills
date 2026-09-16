@@ -1,0 +1,6 @@
+interface:
+  display_name: "ask-owners"
+  short_description: "Coordinate questions and answers across decision owners"
+  default_prompt: "Use $ask-owners with my chosen discussion skill to ask each responsible person through the agreed channel, collect their answers, and help me confirm the overall design."
+policy:
+  allow_implicit_invocation: false

@@ -17,3 +17,6 @@ jobs:
 
       - name: Check frontmatter
         run: python3 scripts/check-frontmatter.py
+
+      - name: Test ask-owners preference storage
+        run: python3 -B -m unittest discover -s skills/ask-owners/evals -p 'test_*.py' -v
