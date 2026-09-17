@@ -7,4 +7,4 @@ disable-model-invocation: true
 
 # fire-in-the-hole
 
-Invoke /skills:scope-it with --publish, then invoke /engineering:go-for-it on the completed planning handoff.
+Invoke /skills:scope-it --publish, then /engineering:go-for-it with the completed planning handoff.
