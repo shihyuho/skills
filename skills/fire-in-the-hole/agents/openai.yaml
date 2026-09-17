@@ -1,0 +1,6 @@
+interface:
+  display_name: "fire-in-the-hole"
+  short_description: "Run scope-it --publish and go-for-it"
+  default_prompt: "Use $fire-in-the-hole for the current work."
+policy:
+  allow_implicit_invocation: false
