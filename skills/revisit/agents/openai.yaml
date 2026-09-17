@@ -1,0 +1,6 @@
+interface:
+  display_name: "revisit"
+  short_description: "Reassess a ticket and discuss minimal changes"
+  default_prompt: "Use $revisit to explain this ticket or PR, assess its concern against the current version, and discuss the smallest complete change if still needed."
+policy:
+  allow_implicit_invocation: false
