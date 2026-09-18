@@ -19,7 +19,7 @@ Shihyu's curated collection of agent skills.
 - **[create-branch](skills/create-branch/)** - Create or safely resume a descriptive local or issue-linked remote branch without duplicate branches.
 - **[create-worktree](skills/create-worktree/)** - Create or resume isolated work in a descriptive Git worktree, including an existing Planning Baseline branch.
 - **[fire-in-the-hole](skills/fire-in-the-hole/)** - Run `scope-it --publish` and `go-for-it` for the current work.
-- **[grill-minimal](skills/grill-minimal/)** - Run the external `grill-with-docs` skill to discuss the smallest changes and narrowest scope that fully solve the current problem.
+- **[grill-minimal](skills/grill-minimal/)** - Discuss a plan, decision, or idea with the external `grill-with-docs` skill, prioritizing the simplest approach and narrowest scope that meet your goals and constraints.
 - **[pr](skills/pr/)** - Publish committed feature-branch changes and return a verified new or existing pull request.
 - **[push](skills/push/)** - Push to the intended remote branch with verified default-branch authorization and publication results.
 - **[revisit](skills/revisit/)** - Revisit a ticket or PR, assess its concern against the current version, and discuss the smallest complete change if still needed.

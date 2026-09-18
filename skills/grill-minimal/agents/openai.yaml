@@ -1,6 +1,6 @@
 interface:
   display_name: "grill-minimal"
-  short_description: "Discuss complete solutions with minimal scope"
-  default_prompt: "Use $grill-minimal to discuss the smallest complete solution to the current problem."
+  short_description: "Discuss plans and ideas with minimal scope and complexity"
+  default_prompt: "Use $grill-minimal to discuss the current plan, decision, or idea, prioritizing the simplest approach and narrowest scope that fully meet my goals and constraints."
 policy:
   allow_implicit_invocation: false

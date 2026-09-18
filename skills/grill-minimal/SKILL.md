@@ -1,10 +1,11 @@
 ---
 name: grill-minimal
-description: Run grill-with-docs to discuss the smallest changes and narrowest scope that fully solve the current problem.
+description: Discuss a plan, decision, or idea with grill-with-docs, prioritizing the simplest approach and narrowest scope that meet your goals and constraints.
 license: MIT
 disable-model-invocation: true
 ---
 
 # grill-minimal
 
-Let’s “grill-with-docs”: invoke the skill on the current problem, prioritizing the smallest changes and narrowest scope that fully solve it.
+Invoke `grill-with-docs`, prioritizing the simplest approach and narrowest
+scope that fully meet the user's goals and constraints.
