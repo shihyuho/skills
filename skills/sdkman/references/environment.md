@@ -12,12 +12,12 @@ Use `sdk env` from the file's directory when its full contents apply unchanged, 
 
 `sdk list <candidate>` distinguishes available, installed, and current versions; availability in the catalog is not proof of installation. `sdk current` and `sdk home` provide focused local evidence. Match exact IDs, including vendor suffixes, against installed tools.
 
-SDKMAN can create a default when `sdk use` encounters a candidate without `current`. Before activation, check that candidate's `current` entry under `${SDKMAN_DIR:-$HOME/.sdkman}/candidates/`. With no default, use the installed home directly through the candidate's home variable and executable path for this shell. Resolve broken or unexpected links before proceeding.
+SDKMAN can create a default when `sdk use` encounters a candidate without `current`. Before activation, check that candidate's `current` entry under `${SDKMAN_DIR:-$HOME/.sdkman}/candidates/`. If native activation would create a default, obtain authorization for that additional change before proceeding with the command. Resolve broken or unexpected links before proceeding.
 
 For an authorized installation, check the CLI's default-selection behavior and preserve the prior default state, including having no default. Some versions automatically select the first installed version; if the CLI cannot keep the requested default state, resolve that additional change with the user before installation. Recheck installed state afterward.
 
 ## Offline work
 
-SDKMAN startup and catalog queries may contact its services; availability/offline settings do not prove strict network isolation. For a strict no-network request, inspect installed candidate directories and activate the verified home directly, without SDKMAN initialization or remote listings. This path also works without Python.
+SDKMAN startup and catalog queries may contact its services; availability/offline settings do not prove strict network isolation. For a strict no-network request, establish that the needed SDKMAN initialization and commands can run locally before using them. If that cannot be established, explain the constraint and leave the dependent workload unstarted.
 
 Wrappers, dependencies, plugins, and toolchains have their own download behavior. Use their offline controls and cached inputs as required by the workload; an installed SDK alone does not make a build offline. Authorized SDKMAN installation may download and execute installation hooks.

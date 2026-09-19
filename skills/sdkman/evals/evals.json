@@ -41,7 +41,7 @@
       "id": 4,
       "name": "compiler-release-is-not-runtime",
       "prompt": "這個 Maven 專案的 pom.xml 設定 maven.compiler.release=17，目前 java -version 是 21；跑 mvn test",
-      "expected_output": "Agent treats compiler release 17 as compatibility rather than an SDKMAN trigger. It runs `mvn test` with the current environment unless another declaration or actual launcher/toolchain failure proves a switch is required.",
+      "expected_output": "Consult the skill for the Maven operation, then run mvn test with the current environment when no applicable declaration or execution failure requires a change.",
       "files": [],
       "assertions": [
         "Does not trigger an SDKMAN switch solely because `maven.compiler.release` is 17.",
@@ -99,7 +99,7 @@
       "id": 9,
       "name": "prefer-project-wrapper",
       "prompt": "這個專案同時有 mvnw，機器也有 SDKMAN 管理的 Maven；幫我跑測試，沒有指定 Maven 版本",
-      "expected_output": "Agent runs `./mvnw test` and does not trigger SDKMAN merely because a managed Maven exists. SDKMAN becomes relevant only for an explicitly requested candidate or a diagnosed launcher runtime requirement.",
+      "expected_output": "Consult the skill for the Maven workload, apply any applicable environment declarations, and let ./mvnw select Maven. Without another requirement, run with the current environment.",
       "files": [],
       "assertions": [
         "Runs `./mvnw test` because the project wrapper owns Maven.",
@@ -203,14 +203,14 @@
     },
     {
       "id": 18,
-      "name": "missing-current-uses-direct-environment",
+      "name": "missing-current-requires-default-decision",
       "prompt": "用已安裝的 SDKMAN Kotlin 2.2.0 跑 kotlin -version；kotlin candidate 目前沒有 current link",
-      "expected_output": "Use the installed Kotlin home directly for this shell because sdk use could create a missing current link, then run kotlin -version.",
+      "expected_output": "Identify that native activation would create the absent default and resolve that additional persistent change before proceeding.",
       "files": [],
       "assertions": [
-        "Sets KOTLIN_HOME and the installed executable path without creating a default.",
-        "Runs the original command in the same shell.",
-        "Leaves SDKMAN links and installed candidates unchanged."
+        "Uses SDKMAN evidence to identify the absent default and activation side effect.",
+        "Leaves the workload unstarted until the default change is authorized.",
+        "Does not substitute direct KOTLIN_HOME/PATH changes or another version manager."
       ]
     },
     {
@@ -277,12 +277,12 @@
       "id": 24,
       "name": "strict-offline-without-python",
       "prompt": "完全禁止網路，這裡也沒有 Python；用 SDKMAN 已安裝的 Kotlin 2.2.0 跑 kotlin -version",
-      "expected_output": "Use local installed-state evidence and direct environment activation for the requested Kotlin command.",
+      "expected_output": "Establish whether native SDKMAN activation can satisfy the no-network constraint; if not, explain the obstacle and leave the dependent command unstarted.",
       "files": [],
       "assertions": [
         "Does not require Python or a custom resolver.",
-        "Avoids SDKMAN startup and catalog queries that could use the network.",
-        "Preserves exact Kotlin 2.2.0 and persistent state."
+        "Verifies a local-only SDKMAN path before activation; otherwise stops before the dependent command.",
+        "Does not bypass SDKMAN by directly setting the candidate home or executable path."
       ]
     },
     {
@@ -367,6 +367,53 @@
         "Checks initialization success before any SDKMAN activation.",
         "Does not start the workload when initialization fails.",
         "Preserves and reports the initialization exit status instead of a workload result."
+      ]
+    },
+    {
+      "id": 32,
+      "name": "declaration-before-compatible-runtime",
+      "prompt": "目前 JDK 可以執行這個專案，但 .sdkmanrc 指定另一個已安裝的 Java 與 Maven 版本；跑 mvn test",
+      "expected_output": "Apply all applicable project declarations through SDKMAN before execution, regardless of apparent compatibility.",
+      "files": [],
+      "assertions": [
+        "Resolves every applicable exact ID before activation.",
+        "Uses SDKMAN to apply the declared Java and Maven before mvn test.",
+        "Keeps the project file and defaults unchanged."
+      ]
+    },
+    {
+      "id": 33,
+      "name": "ordinary-ant-operation",
+      "prompt": "這個 Ant 專案沒有環境版本宣告；幫我跑 ant test",
+      "expected_output": "Use the current environment for the Ant workload, then inspect compatibility only if the command fails.",
+      "files": [],
+      "assertions": [
+        "Runs ant test with the current configuration.",
+        "Does not preemptively enumerate candidates or switch versions."
+      ]
+    },
+    {
+      "id": 34,
+      "name": "tomcat-runtime-mismatch",
+      "prompt": "本機 Tomcat 啟動失敗，應用需要更新的 Java runtime；已確認 SDKMAN 有唯一符合需求的已安裝 JDK，請修正環境再啟動",
+      "expected_output": "Resolve the launcher runtime requirement and activate the installed JDK through SDKMAN before retrying Tomcat.",
+      "files": [],
+      "assertions": [
+        "Uses SDKMAN for the host JDK change.",
+        "Preserves the requested Tomcat launcher and its directory.",
+        "Leaves defaults and project configuration unchanged."
+      ]
+    },
+    {
+      "id": 35,
+      "name": "sdkman-unavailable-no-bypass",
+      "prompt": "跑測試時已確認 launcher JDK 不相容，需要另一個已安裝版本，但 SDKMAN 初始化失敗；請處理",
+      "expected_output": "Resolve the SDKMAN setup failure before dependent execution.",
+      "files": [],
+      "assertions": [
+        "Leaves the dependent test unstarted while SDKMAN setup is failing.",
+        "Does not use another version manager or direct JAVA_HOME/PATH activation.",
+        "Reports the SDKMAN setup obstacle rather than a test result."
       ]
     }
   ]

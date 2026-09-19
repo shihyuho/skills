@@ -9,7 +9,7 @@ Choose the environment for the actual command. Preserve a user- or repository-se
 | Gradle daemon JVM | Daemon criteria when configured, otherwise Gradle's launcher rules |
 | Compile/test JVM | An available configured toolchain, otherwise the build's defaults |
 
-A wrapper-owned Maven or Gradle declaration needs no SDKMAN activation. A task toolchain does not itself supply a missing launcher JVM, and changing shell `JAVA_HOME` does not override daemon criteria or task toolchains. Resolve the requirement at the layer that needs it.
+A wrapper-owned Maven or Gradle declaration needs no SDKMAN activation; retain other applicable declarations, such as the launcher's Java version. A task toolchain does not itself supply a missing launcher JVM, and changing the launcher through SDKMAN does not override daemon criteria or task toolchains. Resolve the requirement at the layer that needs it.
 
 Compiler `release`, `source`, `target`, and Gradle compatibility settings describe source/output compatibility. They alone establish neither a shell-JDK requirement nor a vendor choice. Error strings quoted in documentation are not execution evidence.
 
