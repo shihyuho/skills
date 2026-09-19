@@ -1,10 +1,10 @@
 # sdkman
 
-Run a command under an explicitly requested or worktree-selected [SDKMAN](https://sdkman.io/) candidate while preserving wrappers, build toolchains, exact vendor identity, and persistent user settings.
+Run development tools in the environment the task requires, and manage host tool versions through [SDKMAN](https://sdkman.io/).
 
-The skill now uses a bundled read-only inspector to validate the complete applicable environment before one same-shell execution. It triggers only when SDKMAN can affect the next command; an unrelated `.sdkmanrc`, compiler target, or healthy wrapper/toolchain does not cause a switch.
+Applies project environment declarations before running Java, Maven, Gradle, Ant, Tomcat, Kotlin, and other supported tools. Otherwise, uses the current configuration and investigates compatibility when a command fails. Version changes use SDKMAN; wrappers and toolchains retain their project-owned settings.
 
-The inspector uses Python 3's standard library, performs no network or environment mutation, and returns a versioned verdict. Installation, default changes, auto-env, and project-file changes still require an explicit request.
+Also handles version queries, installation, removal, defaults, and project environments through the native CLI. Persistent changes follow the user's explicit request.
 
 ## Install
 

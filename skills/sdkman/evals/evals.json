@@ -5,43 +5,43 @@
       "id": 1,
       "name": "ephemeral-switch",
       "prompt": "切到 Java 17 跑一下 mvn test",
-      "expected_output": "Agent inspects Java 17 as a non-exact constraint. It uses an active/current/default or sole installed exact id, or asks once if multiple ids remain. A ready plan and `mvn test` execute in one shell without install or default changes.",
+      "expected_output": "Resolve an installed Java 17 version through SDKMAN evidence, then activate it and run the original command in one shell; ask only if the version remains ambiguous.",
       "files": [],
       "assertions": [
-        "Uses one inspector call with an evidence-backed Java 17 constraint or asks once on genuine ambiguity.",
-        "Keeps the complete ready plan and `mvn test` in one shell invocation.",
-        "Does not run `sdk default` or install a candidate."
+        "Uses an active/default or sole installed Java 17 ID, preserving any requested vendor.",
+        "Initialization and activation must succeed before mvn test starts in the same shell.",
+        "Leaves installed tools and defaults unchanged."
       ]
     },
     {
       "id": 2,
       "name": "sdkmanrc-auto-follow",
       "prompt": "進到 ~/work/some-project 跑 ./gradlew build",
-      "expected_output": "Agent evaluates ownership for the actual workload worktree, delegates Gradle to the wrapper, and inspects only remaining applicable declarations. It executes a complete ready plan or runs the wrapper directly on no_switch. A missing exact candidate stops before the workload and requires one installation approval.",
+      "expected_output": "Determine ownership for the actual workload, resolve every applicable declaration within its worktree, then run the unchanged Gradle wrapper under the complete environment.",
       "files": [],
       "assertions": [
-        "Uses only the workload's current worktree and nearest contained `.sdkmanrc`.",
-        "Delegates the Gradle version to `./gradlew` rather than switching SDKMAN Gradle.",
-        "Executes only after every remaining applicable declaration resolves."
+        "Uses the nearest .sdkmanrc within the current workload worktree.",
+        "Lets the wrapper select Gradle instead of activating an unrelated SDKMAN Gradle.",
+        "Resolves every applicable installed candidate before activation and execution."
       ]
     },
     {
       "id": 3,
       "name": "version-not-installed-stops",
       "prompt": "用 Amazon Corretto 17 跑這個專案的測試",
-      "expected_output": "Agent preserves the requested Amazon vendor and constrains inspection with an evidence-backed SDKMAN vendor suffix. If no installed exact candidate resolves, it asks for the exact id and then explicit installation approval; it neither substitutes another vendor nor starts the workload.",
+      "expected_output": "Preserve the requested vendor and resolve an exact installed ID using SDKMAN evidence; when none is available, obtain an exact ID and installation authorization before proceeding.",
       "files": [],
       "assertions": [
-        "Preserves the Amazon vendor instead of substituting another installed JDK.",
-        "Stops before the workload when no exact installed candidate resolves.",
-        "Requires an exact id and explicit approval before installation."
+        "Preserves the Amazon vendor rather than substituting another installed JDK.",
+        "Leaves the workload unstarted while its required version is unavailable.",
+        "Installs only an exact version covered by explicit authorization."
       ]
     },
     {
       "id": 4,
       "name": "compiler-release-is-not-runtime",
       "prompt": "這個 Maven 專案的 pom.xml 設定 maven.compiler.release=17，目前 java -version 是 21；跑 mvn test",
-      "expected_output": "Agent treats compiler release 17 as compatibility rather than an SDKMAN trigger. It runs `mvn test` with the current environment unless another declaration or actual launcher/toolchain failure proves a switch is required.",
+      "expected_output": "Consult the skill for the Maven operation, then run mvn test with the current environment when no applicable declaration or execution failure requires a change.",
       "files": [],
       "assertions": [
         "Does not trigger an SDKMAN switch solely because `maven.compiler.release` is 17.",
@@ -64,42 +64,42 @@
       "id": 6,
       "name": "quoted-error-is-not-a-failure",
       "prompt": "幫我更新 docs/troubleshooting.md，裡面有 UnsupportedClassVersionError 和 invalid target release 的範例文字",
-      "expected_output": "Agent treats the error strings as document content. It does not invoke the inspector, switch JDK, infer that a workload failed, or retry a build.",
+      "expected_output": "Agent treats the error strings as document content. It does not switch JDK, infer that a workload failed, or retry a build.",
       "files": [],
       "assertions": [
         "Treats the Java error strings as document content rather than runtime evidence.",
-        "Does not invoke SDKMAN inspection or run a build command."
+        "Does not perform SDKMAN inspection or run a build command."
       ]
     },
     {
       "id": 7,
       "name": "wrapped-build-real-mismatch",
       "prompt": "剛才 make test 失敗：UnsupportedClassVersionError，class file version 65，但目前 runtime 只支援到 61；請修正後重跑",
-      "expected_output": "Agent diagnoses a Java 21 runtime requirement at the failing launcher/runtime layer, inspects installed Java 21 candidates once, and asks once if vendor identity remains ambiguous. A ready plan and the unchanged `make test` retry run in one shell; a missing candidate requires approval before installation.",
+      "expected_output": "Diagnose the failing launcher/runtime requirement, select a compatible installed Java version, and perform the authorized retry of make test under that environment.",
       "files": [],
       "assertions": [
-        "Resolves class-file version 65 to a Java 21 runtime requirement at the correct layer.",
-        "Uses an evidence-backed installed Java 21 id or asks once when multiple ids remain.",
-        "Keeps the ready plan and unchanged `make test` retry in one shell invocation."
+        "Identifies Java 21 as the runtime requirement from class-file version 65.",
+        "Uses an evidence-backed installed ID or asks when vendor/version ambiguity remains.",
+        "Applies the complete environment and unchanged make test in one shell."
       ]
     },
     {
       "id": 8,
       "name": "non-java-candidate",
       "prompt": "用 SDKMAN 裡已安裝的 Gradle 8.10 跑 gradle test",
-      "expected_output": "Because the user explicitly requested the SDKMAN Gradle executable, Agent inspects only Gradle 8.10, applies the exact ready plan, and runs `gradle test` in the same shell. It does not inspect Java, change the default, or install another Gradle.",
+      "expected_output": "Resolve the requested installed Gradle version and run gradle test with that executable in the same shell.",
       "files": [],
       "assertions": [
-        "Inspects the installed Gradle 8.10 constraint without inspecting unrelated Java candidates.",
-        "Keeps activation and `gradle test` in one shell invocation.",
-        "Does not change the default or install another Gradle version."
+        "Inspects relevant Gradle versions without enumerating unrelated candidates.",
+        "Activates the requested Gradle before running the unchanged command.",
+        "Preserves installed tools and defaults."
       ]
     },
     {
       "id": 9,
       "name": "prefer-project-wrapper",
       "prompt": "這個專案同時有 mvnw，機器也有 SDKMAN 管理的 Maven；幫我跑測試，沒有指定 Maven 版本",
-      "expected_output": "Agent runs `./mvnw test` and does not trigger SDKMAN merely because a managed Maven exists. SDKMAN becomes relevant only for an explicitly requested candidate or a diagnosed launcher runtime requirement.",
+      "expected_output": "Consult the skill for the Maven workload, apply any applicable environment declarations, and let ./mvnw select Maven. Without another requirement, run with the current environment.",
       "files": [],
       "assertions": [
         "Runs `./mvnw test` because the project wrapper owns Maven.",
@@ -122,48 +122,48 @@
       "id": 11,
       "name": "isolated-worktree-without-sdkmanrc",
       "prompt": "在隔離 Git worktree 跑 ./mvnw test；原 checkout 以前可能有本機 .sdkmanrc，但這個 worktree 沒有，而且目前 shell 找不到 Java",
-      "expected_output": "Agent inspects only the isolated workload worktree, never reads the originating checkout's `.sdkmanrc`, and diagnoses Java as a Maven-wrapper launcher requirement. It selects an evidence-backed installed JDK or asks once if ambiguous.",
+      "expected_output": "Stay within the isolated worktree, diagnose the missing wrapper launcher JDK, and use an evidence-backed installed version or ask when ambiguous.",
       "files": [],
       "assertions": [
-        "Does not read or copy `.sdkmanrc` from another checkout.",
-        "Treats Java as a launcher requirement rather than claiming the unstarted Maven test failed.",
-        "Uses one evidence-backed inspection or asks once on ambiguity."
+        "Does not read or copy the originating checkout's .sdkmanrc.",
+        "Identifies the missing launcher runtime before treating anything as a test failure.",
+        "Resolves the requirement with local or CLI evidence without creating a project file."
       ]
     },
     {
       "id": 12,
       "name": "nested-workload-preserves-cwd",
       "prompt": "從 /repo/modules/api 跑測試；同一個 Git worktree 的 /repo/.sdkmanrc 指定已安裝版本",
-      "expected_output": "Agent inspects `/repo/modules/api`, finds only the nearest `.sdkmanrc` within `/repo`, validates the complete plan, and applies it before running the unchanged test from `/repo/modules/api` in one shell.",
+      "expected_output": "Resolve the nearest applicable .sdkmanrc within the worktree, apply the complete environment, and execute from the original nested workload directory.",
       "files": [],
       "assertions": [
-        "Uses only an `.sdkmanrc` inside the current workload worktree.",
-        "Preserves `/repo/modules/api` as the workload cwd.",
-        "Applies every ready plan item before the workload starts."
+        "Stops configuration lookup at the current worktree root.",
+        "Preserves /repo/modules/api as the workload cwd.",
+        "Resolves all applicable entries before activation; every activation succeeds before the command starts."
       ]
     },
     {
       "id": 13,
       "name": "major-version-vendor-ambiguity",
       "prompt": "pom.xml 只要求 Java 25，shell 沒有 Java；SDKMAN 已安裝 25-tem 與 25-graalce，也沒有相容的 current/default，幫我跑 ./mvnw test",
-      "expected_output": "Agent treats Java 25 as a launcher compatibility constraint, not a vendor choice. Inspection returns choice_required with both exact matches; Agent asks once which id to use and leaves the workload and persistent state untouched.",
+      "expected_output": "Ask which exact installed Java 25 vendor to use because neither active nor default state resolves the choice.",
       "files": [],
       "assertions": [
-        "Does not infer a vendor from Maven compiler or Java-version settings.",
-        "Asks one consolidated exact-id question for the ambiguous installed matches.",
-        "Does not start the workload or mutate SDKMAN state."
+        "Does not infer vendor identity from compiler or Java-version settings.",
+        "Asks one consolidated question containing the unresolved exact IDs.",
+        "Leaves the workload and persistent state unchanged."
       ]
     },
     {
       "id": 14,
       "name": "sdkmanrc-init-failure-is-not-test-failure",
       "prompt": "這個 worktree 的 .sdkmanrc 指定 25.0.2-tem，但本機沒有；跑 ./mvnw test 並告訴我結果",
-      "expected_output": "Inspection returns approval_required for exact `25.0.2-tem`. Agent reports that environment setup failed and the Maven command and tests did not start, asks once before installation, and does not substitute another Java 25 candidate.",
+      "expected_output": "Identify that exact 25.0.2-tem is absent, leave the workload unstarted, and request installation authorization without substituting another Java 25.",
       "files": [],
       "assertions": [
-        "Reports that the original command and tests did not start.",
-        "Preserves exact `25.0.2-tem` without substitution.",
-        "Does not install without explicit approval."
+        "Reports that the original command did not start.",
+        "Preserves exact 25.0.2-tem.",
+        "Does not install without authorization."
       ]
     },
     {
@@ -181,36 +181,239 @@
       "id": 16,
       "name": "wrapper-ownership-defeats-sdkman-declaration",
       "prompt": "這個 worktree 的 .sdkmanrc 有 gradle=8.10，但專案有 gradlew；跑 ./gradlew test",
-      "expected_output": "Agent delegates Gradle to the wrapper. With no other applicable SDKMAN declaration, inspection returns no_switch and Agent runs `./gradlew test` without another SDKMAN probe.",
+      "expected_output": "The requested wrapper selects Gradle; with no other applicable declaration, run it under the existing environment.",
       "files": [],
       "assertions": [
-        "Passes `gradle=wrapper` ownership delegation.",
-        "Runs the wrapper directly on no_switch.",
-        "Does not run `sdk use gradle` or inspect unrelated candidates."
+        "Treats gradle=8.10 as inapplicable to the requested wrapper executable.",
+        "Runs ./gradlew test unchanged.",
+        "Does not activate SDKMAN Gradle or inspect unrelated candidates."
       ]
     },
     {
       "id": 17,
       "name": "explicit-override-preserves-plan",
       "prompt": "這個 .sdkmanrc 指定 java=17.0.12-tem、maven=3.9.9；改用已安裝的 java=21.0.8-tem 跑 mvn verify，Maven 設定照專案",
-      "expected_output": "Agent passes exact Java 21 as an explicit override while retaining the applicable Maven 3.9.9 declaration. It validates both together and applies neither unless the complete plan is ready.",
+      "expected_output": "Resolve exact Java 21 while retaining Maven 3.9.9 from the project, verify both installed locations, then activate both and run mvn verify.",
       "files": [],
       "assertions": [
-        "Overrides only the Java declaration with exact `21.0.8-tem`.",
-        "Retains Maven 3.9.9 in the applicable plan.",
-        "Uses all-or-nothing validation before execution."
+        "Overrides only the Java declaration with 21.0.8-tem.",
+        "Retains Maven 3.9.9 in the applicable environment.",
+        "Checks every required version before activation and preserves the project file."
       ]
     },
     {
       "id": 18,
-      "name": "missing-current-uses-direct-environment",
+      "name": "missing-current-requires-default-decision",
       "prompt": "用已安裝的 SDKMAN Kotlin 2.2.0 跑 kotlin -version；kotlin candidate 目前沒有 current link",
-      "expected_output": "Inspection resolves exact Kotlin 2.2.0 with direct_environment activation. Agent exports `KOTLIN_HOME` and prepends the validated bin directory in the same shell as `kotlin -version`, without creating a current link.",
+      "expected_output": "Identify that native activation would create the absent default and resolve that additional persistent change before proceeding.",
       "files": [],
       "assertions": [
-        "Uses direct-environment activation when `sdk use` could create a current link.",
-        "Runs `kotlin -version` in the same shell as the task-local environment.",
-        "Does not create a link or change SDKMAN default state."
+        "Uses SDKMAN evidence to identify the absent default and activation side effect.",
+        "Leaves the workload unstarted until the default change is authorized.",
+        "Does not substitute direct KOTLIN_HOME/PATH changes or another version manager."
+      ]
+    },
+    {
+      "id": 19,
+      "name": "query-only",
+      "prompt": "用 SDKMAN 看一下目前使用與已安裝的 Java 版本，不要變更環境或跑 build",
+      "expected_output": "Answer the version query with SDKMAN evidence without treating it as a request to activate or execute anything.",
+      "files": [],
+      "assertions": [
+        "Uses current/list or relevant installed-state evidence.",
+        "Distinguishes catalog availability from installed versions.",
+        "Does not activate, install, change defaults, or start a workload."
+      ]
+    },
+    {
+      "id": 20,
+      "name": "authorized-install-preserves-default",
+      "prompt": "用 SDKMAN 安裝 Maven 3.9.9，保留目前預設的 3.9.8，不要跑專案",
+      "expected_output": "Install the explicitly requested Maven version and verify it while preserving the existing default.",
+      "files": [],
+      "assertions": [
+        "Carries out the authorized installation without a redundant approval question.",
+        "Preserves Maven 3.9.8 as the default.",
+        "Verifies the installed version without running a workload."
+      ]
+    },
+    {
+      "id": 21,
+      "name": "authorized-default-ignores-project-env",
+      "prompt": "把 SDKMAN 的 Maven 預設版本設成已安裝的 3.9.9，只改 Maven；目前目錄的 .sdkmanrc 另有尚未安裝的 Java",
+      "expected_output": "Change only Maven's default and verify it; the unrelated project environment does not block this standalone operation.",
+      "files": [],
+      "assertions": [
+        "Changes the Maven default to exact 3.9.9 without asking again.",
+        "Does not activate or install project Java.",
+        "Preserves the project file and other defaults."
+      ]
+    },
+    {
+      "id": 22,
+      "name": "authorized-uninstall",
+      "prompt": "用 SDKMAN 移除已安裝但未使用的 Gradle 8.10，保留目前 8.11.1",
+      "expected_output": "Uninstall only the explicitly named Gradle version and verify the remaining installation.",
+      "files": [],
+      "assertions": [
+        "Uses the authorized SDKMAN removal operation.",
+        "Preserves Gradle 8.11.1 and unrelated candidates.",
+        "Does not start a build or remove other versions."
+      ]
+    },
+    {
+      "id": 23,
+      "name": "activation-failure-stops-workload",
+      "prompt": "依這個 worktree 的 .sdkmanrc 跑 ./mvnw test；SDKMAN 查得到指定版本，但 sdk use 執行時回傳 42",
+      "expected_output": "Stop at the activation failure and leave the Maven command unstarted.",
+      "files": [],
+      "assertions": [
+        "Initialization, activation, and workload are connected by success checks.",
+        "The workload does not run after sdk use returns 42.",
+        "Preserves the failing status and does not bypass activation or switch versions to retry."
+      ]
+    },
+    {
+      "id": 24,
+      "name": "strict-offline-without-python",
+      "prompt": "完全禁止網路，這裡也沒有 Python；用 SDKMAN 已安裝的 Kotlin 2.2.0 跑 kotlin -version",
+      "expected_output": "Establish whether native SDKMAN activation can satisfy the no-network constraint; if not, explain the obstacle and leave the dependent command unstarted.",
+      "files": [],
+      "assertions": [
+        "Does not require Python or a custom resolver.",
+        "Verifies a local-only SDKMAN path before activation; otherwise stops before the dependent command.",
+        "Does not bypass SDKMAN by directly setting the candidate home or executable path."
+      ]
+    },
+    {
+      "id": 25,
+      "name": "authorized-project-env-init",
+      "prompt": "幫這個專案建立 .sdkmanrc，記錄目前使用的 Java；不要開啟全域 auto-env",
+      "expected_output": "Create the requested project environment file using current installed Java evidence.",
+      "files": [],
+      "assertions": [
+        "Creates only the authorized .sdkmanrc with the current exact Java ID.",
+        "Preserves global auto-env and defaults.",
+        "Does not run an unrelated workload."
+      ]
+    },
+    {
+      "id": 26,
+      "name": "repository-direct-maven-command",
+      "prompt": "這個 repo 有 mvnw，但 AGENTS.md 指定用 mvn verify；依 .sdkmanrc 的 java=21.0.8-tem、maven=3.9.9 執行",
+      "expected_output": "Preserve the repository-selected direct Maven command and apply both SDKMAN-owned declarations.",
+      "files": [],
+      "assertions": [
+        "Uses mvn verify rather than silently replacing it with ./mvnw.",
+        "Applies both exact project versions before execution.",
+        "Keeps initialization, activation, and command in one shell."
+      ]
+    },
+    {
+      "id": 27,
+      "name": "missing-second-candidate",
+      "prompt": ".sdkmanrc 指定 Java 與 Maven；Java 已安裝，Maven 指定版本沒有，請按專案環境跑 mvn verify",
+      "expected_output": "Resolve all applicable entries and identify missing Maven before any activation or workload.",
+      "files": [],
+      "assertions": [
+        "Checks both required versions before applying either.",
+        "Leaves the workload unstarted and requests exact installation authorization.",
+        "Preserves the project file and defaults."
+      ]
+    },
+    {
+      "id": 28,
+      "name": "started-test-failure",
+      "prompt": "在已符合 .sdkmanrc 的環境跑 ./mvnw test，測試會因 assertion failure 回傳 1",
+      "expected_output": "Execute the test and leave its failure to the original task without treating it as an environment mismatch.",
+      "files": [],
+      "assertions": [
+        "Preserves the test process exit status.",
+        "Distinguishes a started test failure from failed environment setup.",
+        "Does not change JDK or repeat the test without a diagnosed authorized correction."
+      ]
+    },
+    {
+      "id": 29,
+      "name": "ambiguous-project-declaration",
+      "prompt": ".sdkmanrc 同時宣告 java=17.0.12-tem 與 java=21.0.8-tem，請依專案設定跑 mvn test",
+      "expected_output": "Resolve the conflicting project requirement before changing the environment or executing the command.",
+      "files": [],
+      "assertions": [
+        "Recognizes that the duplicate candidate declarations select different versions.",
+        "Asks which exact version is intended rather than guessing from order.",
+        "Preserves the file and leaves the workload unstarted."
+      ]
+    },
+    {
+      "id": 30,
+      "name": "install-without-default",
+      "prompt": "用 SDKMAN 安裝 Maven 3.9.9，但保留目前沒有 Maven default 的狀態；本機這版 CLI 首次安裝會自動建立 current",
+      "expected_output": "Identify whether the authorized installation can preserve the absent default; if the CLI couples them, resolve the additional default change before installing.",
+      "files": [],
+      "assertions": [
+        "Checks default-selection behavior before installation.",
+        "Does not create a default when the user explicitly requires its absence.",
+        "Asks only about the additional default change if it cannot be separated from installation."
+      ]
+    },
+    {
+      "id": 31,
+      "name": "initialization-failure-stops-workload",
+      "prompt": "依專案環境執行 ./mvnw test；SDKMAN 初始化已定義部分函式，但以非零狀態結束",
+      "expected_output": "Stop on failed SDKMAN initialization before activation or the original command, preserving the initialization failure status.",
+      "files": [],
+      "assertions": [
+        "Checks initialization success before any SDKMAN activation.",
+        "Does not start the workload when initialization fails.",
+        "Preserves and reports the initialization exit status instead of a workload result."
+      ]
+    },
+    {
+      "id": 32,
+      "name": "declaration-before-compatible-runtime",
+      "prompt": "目前 JDK 可以執行這個專案，但 .sdkmanrc 指定另一個已安裝的 Java 與 Maven 版本；跑 mvn test",
+      "expected_output": "Apply all applicable project declarations through SDKMAN before execution, regardless of apparent compatibility.",
+      "files": [],
+      "assertions": [
+        "Resolves every applicable exact ID before activation.",
+        "Uses SDKMAN to apply the declared Java and Maven before mvn test.",
+        "Keeps the project file and defaults unchanged."
+      ]
+    },
+    {
+      "id": 33,
+      "name": "ordinary-ant-operation",
+      "prompt": "這個 Ant 專案沒有環境版本宣告；幫我跑 ant test",
+      "expected_output": "Use the current environment for the Ant workload, then inspect compatibility only if the command fails.",
+      "files": [],
+      "assertions": [
+        "Runs ant test with the current configuration.",
+        "Does not preemptively enumerate candidates or switch versions."
+      ]
+    },
+    {
+      "id": 34,
+      "name": "tomcat-runtime-mismatch",
+      "prompt": "本機 Tomcat 啟動失敗，應用需要更新的 Java runtime；已確認 SDKMAN 有唯一符合需求的已安裝 JDK，請修正環境再啟動",
+      "expected_output": "Resolve the launcher runtime requirement and activate the installed JDK through SDKMAN before retrying Tomcat.",
+      "files": [],
+      "assertions": [
+        "Uses SDKMAN for the host JDK change.",
+        "Preserves the requested Tomcat launcher and its directory.",
+        "Leaves defaults and project configuration unchanged."
+      ]
+    },
+    {
+      "id": 35,
+      "name": "sdkman-unavailable-no-bypass",
+      "prompt": "跑測試時已確認 launcher JDK 不相容，需要另一個已安裝版本，但 SDKMAN 初始化失敗；請處理",
+      "expected_output": "Resolve the SDKMAN setup failure before dependent execution.",
+      "files": [],
+      "assertions": [
+        "Leaves the dependent test unstarted while SDKMAN setup is failing.",
+        "Does not use another version manager or direct JAVA_HOME/PATH activation.",
+        "Reports the SDKMAN setup obstacle rather than a test result."
       ]
     }
   ]

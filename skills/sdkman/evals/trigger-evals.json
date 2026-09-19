@@ -1,0 +1,102 @@
+[
+  {
+    "name": "plain-maven",
+    "query": "幫我跑 mvn test；pom.xml 只設定 compiler release，與目前 JDK 不同。",
+    "should_trigger": true
+  },
+  {
+    "name": "project-environment",
+    "query": "這個專案有 .sdkmanrc，幫我跑 mvn test。",
+    "should_trigger": true
+  },
+  {
+    "name": "class-version-failure",
+    "query": "剛剛 mvn test 出現 UnsupportedClassVersionError，class file version 65，但 runtime 只支援 61，請修好後重跑。",
+    "should_trigger": true
+  },
+  {
+    "name": "ant-test",
+    "query": "幫我跑這個專案的 ant test。",
+    "should_trigger": true
+  },
+  {
+    "name": "tomcat-start",
+    "query": "啟動本機 Tomcat，確認應用能正常跑起來。",
+    "should_trigger": true
+  },
+  {
+    "name": "kotlin-execution",
+    "query": "用目前的環境執行 kotlin hello.kts。",
+    "should_trigger": true
+  },
+  {
+    "name": "gradle-wrapper",
+    "query": "幫我跑 ./gradlew test，toolchain 已經由專案設定。",
+    "should_trigger": true
+  },
+  {
+    "name": "installed-versions",
+    "query": "查一下 SDKMAN 裡有哪些已安裝的 Java，先不用變更。",
+    "should_trigger": true
+  },
+  {
+    "name": "install-maven",
+    "query": "透過 SDKMAN 安裝 Maven 3.9.9，保留目前預設版本。",
+    "should_trigger": true
+  },
+  {
+    "name": "set-default",
+    "query": "把 SDKMAN 的 Gradle 預設改成已安裝的 8.5。",
+    "should_trigger": true
+  },
+  {
+    "name": "quoted-java-error",
+    "query": "幫我改善 docs/troubleshooting.md 裡 UnsupportedClassVersionError 的說明文字；不用執行程式。",
+    "should_trigger": false
+  },
+  {
+    "name": "incidental-environment-file",
+    "query": "專案有 .sdkmanrc；只整理 README 的安裝說明，不要跑 build。",
+    "should_trigger": false
+  },
+  {
+    "name": "review-compiler-setting",
+    "query": "解釋這段 pom.xml 的 maven.compiler.release 對輸出 class 的意義，只需讀檔說明。",
+    "should_trigger": false
+  },
+  {
+    "name": "java-code-edit",
+    "query": "把這個 Java DTO 的註解翻成英文，保留程式碼，不用 build。",
+    "should_trigger": false
+  },
+  {
+    "name": "ci-jdk-doc",
+    "query": "更新 CI 文件中的 JDK 支援矩陣，資料已附在表格，先不執行 pipeline。",
+    "should_trigger": false
+  },
+  {
+    "name": "tomcat-doc",
+    "query": "潤飾 README 裡介紹 Tomcat 的段落，不需要啟動服務。",
+    "should_trigger": false
+  },
+  {
+    "name": "kotlin-doc",
+    "query": "校對 Kotlin 安裝指南的標點與格式，不要安裝或執行工具。",
+    "should_trigger": false
+  },
+  {
+    "name": "gradle-doc-link",
+    "query": "修復 Gradle 文件中的章節連結，連結目標都在 docs/ 裡。",
+    "should_trigger": false
+  },
+  {
+    "name": "ant-build-explanation",
+    "query": "讀 build.xml 說明 Ant 的 compile 與 test target 相依順序，不要執行。",
+    "should_trigger": false
+  },
+  {
+    "name": "sdkman-mention-copy",
+    "query": "把 README 裡提到 SDKMAN 的句子改得簡潔一點，只修改文字。",
+    "should_trigger": false
+  }
+]
