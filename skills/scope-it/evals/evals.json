@@ -9,7 +9,7 @@
       "assertions": [
         "Resolves roles by explicit choice > task lineage/invoked source > saved choice > repo guidance, subject to host invocation and consent rules. The new --scope-skill/--ticket-skill names and legacy input aliases select the same roles.",
         "Leaves analysis, templates, checks, confirmation and publication mechanics with the sources; gives each source the coordinator-agreed placement before invocation, without adding a coordinator template or second product review.",
-        "Preserves the home. No source, coordinator, Git or implementation write occurs without that phase's specific approval; in the explicit preview-only variant, a source that cannot provide bounded drafting without publication stops for clarification.",
+        "Preserves the home. No source, coordinator, delegated handoff, Git or implementation write occurs in the unapproved or preview-only variants; a source that cannot provide bounded drafting without publication stops for clarification.",
         "Reads references/preferences.md before preparing a remembered choice; keeps preference consent separate from artifact publication approval."
       ]
     },
@@ -43,7 +43,7 @@
       "assertions": [
         "Coordinates questions in dependency order and gives Tickets the complete actual Scope artifact after source readback, without restarting completed Scope work.",
         "A supplies full tickets with acceptance/prerequisites; B's coding checklist is supporting input, not a delivery artifact, so requests compatible ticket shaping.",
-        "Scope publication is ordinary compatible source behavior: the approved existing-home placement preserves its report, and a new home starts with approved Scope content. Ticket publication, Map creation, Git and preferences remain unchanged until their own approved phase."
+        "Scope publication is ordinary compatible source behavior: the approved existing-home placement preserves its report, and a new home starts with approved Scope content. Ticket publication, delegated handoff, Map creation, Git and preferences remain unchanged until their own approved phase."
       ]
     },
     {
@@ -52,7 +52,7 @@
       "expected_output": "Publish only the approved source ticket at its agreed placement and defer dependent ticket shaping or publication.",
       "files": [],
       "assertions": [
-        "Returns decisions that affect ticket shape, delivery or readiness to the responsible source before any affected ticket publication; it does not hard-code ready-for-agent metadata.",
+        "Returns decisions that affect ticket shape or delivery to the responsible source before affected publication. It arranges for sources to defer new ready-for-agent markers until handoff preparation is verified, while preserving pre-existing ready markers and coordinating any automatic pickup.",
         "Publishes and fully reads back only Foundation through the Ticket source's native flow, retaining its agreed real identity, full content, metadata and attachments: the existing home for one ticket, or a child issue for many.",
         "Leaves Import and Export as source-owned unpublished artifacts until approval covering their publication. A single Ticket stays a full independent comment on its home; without an approved placement fallback, it pauses rather than creating, moving or rewriting artifacts."
       ]
@@ -64,8 +64,8 @@
       "files": [],
       "assertions": [
         "Uses native child membership and linked Ticket titles as topology rather than repeating an artifact/Ticket list or replacing source content, reviews, metadata or attachments.",
-        "Initially appends the full Map exactly once as the parent's then-final standalone comment, preserves Scope/Ticket bytes, and binds its read-back ID/URL as canonical; later comments do not change that identity.",
-        "For one Ticket, uses the parent identity plus its content comment without a child or self-relation; for many, uses native children. Creates no Ticket backlink/full-Map copy, omits `Continue` when no task-specific override exists, and reads back one canonical Map."
+        "Supplies complete parent Map content, markers and placement to to-afk-agent; it appends the full Map exactly once as the parent's then-final standalone comment, preserves Scope/Ticket bytes and binds its verified ID/URL as canonical. Later ordinary comments do not change that identity.",
+        "For one Ticket, uses the parent identity plus its content comment without a child or self-relation; for many, uses native children. The parent holds the only full Map; an affected child may receive only the missing canonical Map link or execution pointer in an ordinary comment, without rewriting its Ticket. Omits `Continue` when no task-specific override exists and reads back one canonical Map."
       ]
     },
     {
@@ -85,9 +85,9 @@
       "expected_output": "Recover successful writes before continuing only missing approved operations.",
       "files": [],
       "assertions": [
-        "Looks up and reads back actual content and identity before recreating; binds the unique result and pauses ambiguous creation.",
+        "Recovers uncertain Ticket publication through its source and uncertain authoritative Map publication through to-afk-agent, reading actual content and identity before recreation; a unique result is bound and ambiguity pauses retry.",
         "Preserves siblings and unrelated content, reuses unchanged phase approval, and verifies remaining relations and Map binding only after their writes.",
-        "Binds a unique Map comment ID/URL; ambiguity pauses retry. A legacy marker block is recognized and amended in place without adding canonical markers or a second Map; interruption justifies neither duplication nor runtime status fields.",
+        "Supplies the approved full Map, parent destination, existing binding and legacy markers to to-afk-agent for authoritative publication recovery. It binds a unique verified comment ID/URL; ambiguity pauses retry. A legacy marker block is amended within its existing boundary without a second Map or runtime status fields.",
         "Reads references/recovery.md before retrying an uncertain creation or amending a legacy marker block."
       ]
     },
@@ -104,11 +104,11 @@
     },
     {
       "id": 10,
-      "prompt": "After approved publication, fresh readback finds missing Ticket metadata, changed Scope/Ticket bytes, a removed child edge, a Ticket backlink/full-Map copy, duplicate Map, changed canonical comment ID/content, or changed Tickets preference. A later ordinary parent comment exists; restoration is unapproved.",
+      "prompt": "After approved publication, fresh readback finds missing Ticket metadata, changed Scope/Ticket bytes, a removed child edge, a Ticket full-Map copy or unrelated backlink, duplicate Map, changed canonical comment ID/content, or changed Tickets preference. A later ordinary parent comment exists; restoration is unapproved.",
       "expected_output": "Report the exact publication mismatch and seek the needed repair approval.",
       "files": [],
       "assertions": [
-        "Freshly checks source content/metadata, canonical Map ID/content, unchanged Scope/Ticket bytes, absence of Ticket backlinks/copies, one Map, both relation axes and affected preferences; the later ordinary comment is not drift and does not move or recreate the Map.",
+        "Freshly checks source content/metadata, canonical Map ID/content, unchanged Scope/Ticket bytes, absence of full-Map copies, one Map, both relation axes and affected preferences; a child pointer limited to a needed canonical Map link is permitted. The later ordinary parent comment is not drift and does not move or recreate the Map.",
         "Distinguishes generated IDs from missing or changed approved content; preserves successful writes and later edits.",
         "Withholds affected completion and requests only needed repairs, without dropping fields, republishing siblings or recording runtime status in the Map."
       ]
@@ -143,7 +143,7 @@
       "files": [],
       "assertions": [
         "Separates execution preference, native children and blockers; schedule creates neither Import/Export blocking nor shared delivery.",
-        "Uses linked Ticket titles as Ticket nodes. Import → Audit is the only Ticket-to-Ticket edge; Export has none. Exact branch/PR edges land each Ticket on one shared `main` endpoint without inventing a shared lane. It omits Scope/Ticket-list/out-of-scope duplication and uses `Continue` only for the Export-first override. Planning Carry `None` creates no Git side effect.",
+        "Uses linked Ticket titles as Ticket nodes. Import → Audit is the only Ticket-to-Ticket edge; Export has none. Exact branch/PR edges land each Ticket on shared main without inventing a lane. It omits source duplication and uses Continue only for Export-first. Planning Carry None creates no baseline Git work, while missing readiness is completed only after verified handoff.",
         "Sends the readiness-affecting decision back to Scope and then Tickets before publishing or amending Audit; the unapproved Map creates no runtime status or implementation authority."
       ]
     },
@@ -153,11 +153,11 @@
       "expected_output": "Bind the baseline to B's final delivery branch and expose approved planning ownership, native linkage and executor access before completion.",
       "files": [],
       "assertions": [
-        "A records exact files or partial-patch bounds and one compact Planning Carry pointer with Carrier B, linked branch, repo/path, base SHA, baseline SHA, target and content obligation; verifies selected content and executor access before any approved cleanup.",
+        "Assembles exact files or partial-patch bounds and one complete Planning Carry contract for Carrier B: branch, repository/path, base and baseline full SHA positions, landing target, immutable-link positions and content obligation. Delegates remote preservation and readback to to-afk-agent before filling those positions.",
         "Similarity or clean entry does not prove ownership. Preserves P/U and the unselected hunk; resolves ownership before proposed inclusion. B needs approved accessible placement, not a hidden push. Missing content/access leaves publication incomplete.",
         "Uses B's final ticket- and fix-derived delivery branch as the immutable baseline start, not a docs-only branch inferred from Carry; the executor continues implementation, tests and required ADR there and opens one PR to target under separate authority.",
-        "Because native linking is available, establishes it from Carrier B's Issue and verifies that Issue's linkedBranches plus pointer consistency; a push or local worktree alone is insufficient. Unavailable capability uses the selected workflow's approved fallback and degraded evidence.",
-        "Reassignment or delivery-path changes need approval. Git setup, cleanup and execution follow repo/executor workflow; the coordinator adds no helper-skill dependency, baseline algorithm, file-hash scheme or unapproved Git changes.",
+        "The delegated handoff establishes and verifies B's native Issue-linked branch when supported, plus pointer consistency and executor access; a push or local worktree alone is insufficient. An unavailable capability uses a concrete approved discoverable fallback.",
+        "Reassignment or delivery-path changes need approval. The coordinator retains settled content and ownership; to-afk-agent owns Carry publication, source disposition and eligible transferred-worktree cleanup. Neither starts implementation or a PR.",
         "Reads references/delivery-options.md before shaping the Carrier Ticket or proposing planning-file preservation, publication or cleanup."
       ]
     },
@@ -167,7 +167,7 @@
       "expected_output": "Publish agreed delivery responsibilities once; obtain approval for ownership changes.",
       "files": [],
       "assertions": [
-        "Delivery Topology identifies actual repo/target, responsible Tickets and special delivery/closure duties once in the Map; blocker edges project native dependencies and Ticket artifacts do not copy or backlink the handoff.",
+        "Delivery Topology identifies actual repository/target, responsible Tickets and special delivery/closure duties once in the parent Map; blocker edges project native dependencies. Ticket artifacts do not copy the Map, though affected child Issues may receive a missing canonical link in an ordinary comment.",
         "Preserves conditional last-finisher ownership instead of assigning a fixed ticket. Git, CI and merge follow repo/executor workflow; adds no exact-head, historical-ref or squash audit.",
         "Cancellation needs approved reassignment; planning publication authorizes no implementation, merge, closure or automatic Map amendment.",
         "Reads references/delivery-options.md for shared delivery or conditional aggregate/closure duties even when Planning Carry is None."
@@ -180,10 +180,10 @@
       "files": [],
       "assertions": [
         "The canonical Map itself contains compact `Start the Next Ticket` instructions; following them requires only the parent, Map and fresh native children/blockers/linked branches, not this skill, the planning chat or all Ticket bodies.",
-        "The embedded protocol gives a user-named Ticket priority while surfacing eligibility; otherwise it applies only an eligible task-specific `Continue` override, then chooses the first open, unblocked and reliably unclaimed Ticket in tracker order after a fresh concurrency read.",
-        "For one Ticket, the protocol selects the parent identity and its Ticket comment; for many, one child. It zooms only into the selected Ticket and needed closed Tickets, then follows that Ticket's branch, target and relevant Carry without a backlink.",
+        "The embedded protocol gives a user-named Ticket priority while surfacing live readiness and blockers; otherwise it applies only an eligible task-specific `Continue` override, then chooses the first open Ticket with the repository's ready marker, completed blockers and, when claim state is reliable, no claim in tracker order after a fresh concurrency read. A named unready Ticket needs separate execution authority before work.",
+        "For one Ticket, the protocol selects the parent identity and its Ticket comment; for many, one child. It zooms only into the selected Ticket and needed closed Tickets, then follows that Ticket's branch, target and relevant Carry; a needed canonical Map link may be added to a child without rewriting its Ticket.",
         "The implementation session revalidates and performs the repository-defined claim before work; unreliable claim state makes selection provisional and no qualifying Ticket yields live reasons. The Map stores neither current/following frontier nor claim snapshots.",
-        "Scope B still needs source-native review/publication before affected Import changes; unchanged Tickets retain approval, and a Map amendment keeps the same comment identity."
+        "Scope B still needs source-native review/publication before affected Import changes; unchanged Tickets retain approval, and to-afk-agent amends the canonical Map at the same comment identity within its approved boundary."
       ]
     },
     {
@@ -195,7 +195,7 @@
         "Reuses the accepted complete source artifacts and reviews without rerunning sources or requesting already settled decisions.",
         "Reconciles the supplied planning history and fresh repository status before using Planning Carry None; preserves confirmed unrelated changes, keeps the parent as the Ticket identity, omits the diagram and includes the self-contained Start the Next Ticket protocol.",
         "Does not load preferences, recovery or delivery-options references when none of their branches applies; creates no configuration or baseline work.",
-        "Previews the Map without writing because Map publication approval is missing."
+        "Previews the complete Map and bounded handoff without any source, delegated, Git, Map, cleanup or readiness write because publication approval is missing."
       ]
     },
     {
@@ -205,8 +205,8 @@
       "files": [],
       "assertions": [
         "Checks fresh targets against the approved concrete payload and uses the existing approval instead of asking for the same confirmation.",
-        "Publishes one standalone Map comment, records its read-back ID/URL and compares complete sources, Map and both relationship axes with the approved state.",
-        "Preserves source content and lifecycle, reports the parent and canonical Map, and stops before implementation, merging or closure."
+        "Delegates the approved full Map content, parent destination and identity markers to to-afk-agent; verifies one standalone canonical comment, its read-back ID/URL, full content, unique identity and both relation axes.",
+        "Preserves source content and lifecycle, reports the parent and canonical Map under the existing publication approval, and does not infer separate readiness, dispatch, claim, implementation, merge or closure authority."
       ]
     },
     {
@@ -227,8 +227,8 @@
       "files": [],
       "assertions": [
         "Loads references/delivery-options.md even though the source artifacts are complete and no new ticket shaping is needed.",
-        "Checks exact Carry ownership, the Carrier final branch, full base/baseline SHAs, native linkage and access for the other-clone executor before claiming readiness.",
-        "Preserves the completed source artifacts and unrelated changes; no missing publication or cleanup permission is inferred from the baseline pointer.",
+        "Assembles exact Carry ownership, established Carrier branch, base/baseline full SHA positions, native linkage and executor-access requirements for to-afk-agent to verify before readiness.",
+        "Preserves completed source artifacts and unrelated changes; delegates no write while Map and remaining handoff publication lack approval.",
         "Keeps the Map unpublished until its concrete publication approval is available."
       ]
     },
@@ -240,21 +240,21 @@
       "assertions": [
         "Accounts for the exact CONTEXT.md patch from the invoked design work when resuming the coordinator, without waiting for a user reminder or rerunning the completed Scope and Ticket sources.",
         "Keeps the patch as a Carry obligation despite the verbatim Ticket acceptance, proposed future recreation, one-line size, single Ticket and preference against a planning-only branch; does not propose Planning Carry None.",
-        "Presents the exact patch, parent #42 as the Carrier identity, the final delivery branch/baseline, source cleanup and removal of any temporary worktree as one Carry proposal needing only the missing write approval; preserves local bytes and performs no unapproved Git or Map writes.",
+        "Presents the exact patch, parent #42 as Carrier identity, final delivery branch/baseline, default source cleanup and any eligible transferred worktree as one bounded handoff proposal; preserves local bytes and performs no unapproved Git, Map or readiness writes.",
         "Reports preservation and the Map as unresolved rather than claiming a baseline or Carry is complete. Does not claim an incorrect Map was published or content was lost."
       ]
     },
     {
       "id": 22,
       "prompt": "Continue scope-it with the confirmed one-line CONTEXT.md patch from the design pause. The user approved the Carry move: that exact patch, parent #42 as the single Carrier Ticket, final branch fix/42-channel-code with an immutable Planning Baseline, native Issue linkage, remote access for another-clone executor, and removal of the carried hunk from the source worktree on main after verification. Scope and Ticket are complete; Map publication is unapproved. The repository workflow supplies readbacks of the exact committed patch, full base and baseline SHAs, correct landing target, native linkedBranches and successful content retrieval from the executor location. Fresh source bytes and index state still match the recorded entry state. In a separate failure variant, remote content retrieval fails although commit and linkage succeeded. Prepare the resulting Map proposal and completion report.",
-      "expected_output": "Finish the approved Carry move through verified source cleanup without asking for the same approval again, while leaving Map publication separately bounded.",
+      "expected_output": "Verify the approved Carry publication and prepare the Map with actual pointers, while retaining source changes until required Map publication is authorized and read back.",
       "files": [],
       "assertions": [
-        "Reuses the approved exact patch and final Carrier branch instead of recreating the baseline or asking for a second cleanup confirmation.",
-        "Verifies the actual baseline content, full base/baseline SHAs, landing target, native linkage and executor access before changing the source.",
-        "On successful delivery verification, removes only the carried pending hunk from the source worktree/index and verifies the resulting source state and any required temporary worktree cleanup before declaring Carry complete; leaves main's commit history unchanged.",
-        "Records the compact verified Carry pointer in the Map proposal; performs no unapproved Map publication, implementation or commit/push to main.",
-        "The failed-access variant preserves the source and successful commit/linkage, reports the remaining access and cleanup work, and keeps Carry incomplete rather than substituting None or future Ticket recreation."
+        "Passes the approved exact patch, Carrier binding and cleanup disposition to to-afk-agent without recreating the baseline or asking for a second cleanup confirmation.",
+        "Requires to-afk-agent to verify actual baseline content, full base/baseline SHAs, landing target, native linkage and executor access before source disposition.",
+        "With required Map publication still unapproved, to-afk-agent preserves the source hunk and any needed worktree after verifying remote Carry; cleanup waits for publication/readback and fresh source-state checks.",
+        "Records only verified Carry values and immutable links in the complete Map proposal; with Map publication unapproved, neither the Map nor missing ready marker is written.",
+        "Failed executor access preserves source and successful commit/linkage, while successful access still leaves Map publication and dependent cleanup pending; neither variant substitutes Carry None or future Ticket recreation."
       ]
     },
     {
@@ -265,7 +265,7 @@
       "assertions": [
         "Selects the exact confirmed CONTEXT.md hunk as Carry despite the Ticket quotation; does not widen selection to the whole mixed file or all dirty/untracked files.",
         "Preserves the unrelated paragraph and ADR bytes. Similar content is not ownership evidence: the ADR remains an explicit unresolved ownership question, without silent classification as Carry or None.",
-        "Exposes only missing ownership or write decisions, performs no unapproved preservation/cleanup/publication and does not claim the delivery package complete while the relevant uncertainty remains."
+        "Exposes missing ownership or write decisions, performs no unapproved delegated preservation, cleanup, Map publication or readiness write, and does not claim the handoff complete while relevant uncertainty remains."
       ]
     },
     {
@@ -276,25 +276,26 @@
       "assertions": [
         "Uses the planning record and recorded commit/patch as well as current status; a clean worktree and quoted Ticket acceptance do not justify Planning Carry None.",
         "Identifies the confirmed content as requiring Carry and applies references/delivery-options.md to its Carrier branch, baseline, landing target and executor access.",
-        "Preserves the local commit and sources, proposes only missing approved delivery/access work and withholds Carry completion and Map publication until their respective evidence and authority exist."
+        "Preserves the local commit and sources, proposes only missing approved delivery/access work for to-afk-agent, and withholds handoff completion and Map publication until their evidence and authority exist."
       ]
     },
     {
       "id": 25,
-      "prompt": "Finish an approved scope-it Carry move from the source worktree on main to Carrier #42's final branch fix/42-channel-code. The approved move includes source cleanup. Exact baseline content, full SHAs, target, native Issue linkage and retrieval from the executor's clone have all been verified. The recorded entry state has an untracked docs/adr/channel-code.md wholly selected as Carry and a CONTEXT.md file containing the selected channel-code addition, an unrelated staged paragraph and another unrelated unstaged paragraph. An unrelated untracked scratch.md must remain. The selected addition is staged in variant A and unstaged in variant B; the exact selected patch and both index/worktree states are recoverable. Fresh source state is unchanged. Map publication and implementation are unapproved.",
-      "expected_output": "Remove the verified Carry from its source without losing unrelated bytes or changing their staging state, then verify completion.",
+      "prompt": "Finish an approved scope-it Carry move from the source worktree on main to Carrier #42's final branch fix/42-channel-code. The approved move includes source cleanup. Exact baseline content, full SHAs, target, native Issue linkage and retrieval from the executor's clone have all been verified. The recorded entry state has an untracked docs/adr/channel-code.md wholly selected as Carry and a CONTEXT.md file containing the selected channel-code addition, an unrelated staged paragraph and another unrelated unstaged paragraph. An unrelated untracked scratch.md must remain. The selected addition is staged in variant A and unstaged in variant B; the exact selected patch and both index/worktree states are recoverable. Fresh source state is unchanged. The canonical Map has already been published and read back; implementation is unapproved.",
+      "expected_output": "Delegate precise default source cleanup to to-afk-agent, preserving unrelated bytes and index/worktree layers, then verify the result.",
       "files": [],
       "assertions": [
         "Uses the approved move without another cleanup question and rechecks the source against the selected patch and recorded entry state.",
         "Removes only the unchanged wholly carried untracked ADR; removes the selected CONTEXT.md change from each layer where it occurs, preserving the unrelated staged and unstaged paragraphs in their original layers and scratch.md unchanged and untracked.",
         "Verifies the remaining worktree and index as the recorded entry state minus Carry before reporting completion; unrelated changes are allowed to remain dirty.",
-        "Keeps the source main ref and existing commits intact, avoids whole-worktree cleanup, and performs no Map publication or implementation."
+        "Keeps the source main ref and existing commits intact, avoids whole-worktree cleanup, preserves the verified Map identity and performs no implementation.",
+        "scope-it passes the settled binding and disposition to to-afk-agent and verifies its result before reporting preparation complete."
       ]
     },
     {
       "id": 26,
-      "prompt": "Resume an approved scope-it Carry move after the exact selected ADR and CONTEXT.md patch were committed and pushed to the Carrier's final branch, with content, access and native linkage verified. Before source cleanup, another task appended new notes to the selected untracked ADR and changed the index state of CONTEXT.md; neither change belongs to the approved Carry and the fresh source states differ from their recorded snapshots. In a separate variant the sources remain unchanged, but the repository cleanup operation fails before removing either selected change. No scope change is approved.",
-      "expected_output": "Preserve affected source content and successful publication, and report the remaining cleanup instead of declaring Carry complete.",
+      "prompt": "Resume an approved scope-it Carry move after the exact selected ADR and CONTEXT.md patch were committed and pushed to the Carrier's final branch, with content, access and native linkage verified. Before source cleanup, another task appended new notes to the selected untracked ADR and changed the index state of CONTEXT.md; neither change belongs to the approved Carry and the fresh source states differ from their recorded snapshots. In a separate variant the sources remain unchanged, but the repository cleanup operation fails before removing either selected change. No scope change is approved. The canonical Map was published and read back before the cleanup attempt.",
+      "expected_output": "Have to-afk-agent preserve changed sources and successful remote publication, then report unfinished cleanup without claiming handoff completion.",
       "files": [],
       "assertions": [
         "Re-reads both source content and index state before cleanup and detects the drift rather than treating a successful push as sufficient evidence to delete or restore files.",
@@ -306,43 +307,45 @@
     {
       "id": 27,
       "prompt": "Complete scope-it Carry for the exact approved ADR on Carrier #42's final branch. The user explicitly said to publish a retrievable copy and keep the original untracked ADR in the source worktree for further discussion. The branch, baseline content, target, native linkage and executor access are verified, and the retained original is unchanged. Map publication is unapproved. No later instruction authorizes removing the original. In a separate variant, executor access cannot be verified although the local copy is unchanged.",
-      "expected_output": "Honor explicit source retention as the agreed completion state rather than applying default cleanup or asking again.",
+      "expected_output": "Delegate publication with explicit Retain local source, verify the retained original and access, and leave unapproved Map publication pending.",
       "files": [],
       "assertions": [
         "Preserves the original untracked ADR and its state under the explicit retention instruction.",
         "Verifies the agreed retained source and delivery evidence, reports Carry complete with the retained copy identified, and does not describe requested retention as failed cleanup.",
         "Does not ask for cleanup approval, delete the original, or publish the unapproved Map.",
-        "Explicit source retention does not waive delivery verification: the failed-access variant preserves the original and reports Carry incomplete because executor access remains unresolved."
+        "Explicit source retention does not waive delivery verification: the failed-access variant preserves the original and reports Carry incomplete because executor access remains unresolved.",
+        "scope-it passes the settled binding and disposition to to-afk-agent and verifies its result before reporting preparation complete."
       ]
     },
     {
       "id": 28,
-      "prompt": "Resume scope-it after an interruption during an approved Carry move. The verified final Carrier branch contains an ADR and a selected CONTEXT.md patch. Source cleanup already removed the unchanged wholly carried untracked ADR, with a recoverable successful receipt. The CONTEXT.md patch was already committed on the source branch before this planning run, so it has no pending source diff. The source branch's original commit SHA is recorded and unchanged. Fresh checks confirm the ADR remains absent and all other worktree/index bytes and staging states match the agreed result. The published baseline, executor access and native linkage remain valid. Map publication is still unapproved.",
-      "expected_output": "Verify and reuse completed delivery and cleanup, preserve source history, and finish only the remaining reporting work.",
+      "prompt": "Resume scope-it after an interruption during an approved Carry move. The verified final Carrier branch contains an ADR and a selected CONTEXT.md patch. Source cleanup already removed the unchanged wholly carried untracked ADR, with a recoverable successful receipt. The CONTEXT.md patch was already committed on the source branch before this planning run, so it has no pending source diff. The source branch's original commit SHA is recorded and unchanged. Fresh checks confirm the ADR remains absent and all other worktree/index bytes and staging states match the agreed result. The published baseline, executor access and native linkage remain valid. The canonical Map is published and read back.",
+      "expected_output": "Reuse the verified delegated Carry and cleanup receipts, preserve source history, and finish only remaining reporting work.",
       "files": [],
       "assertions": [
         "Reuses the verified publication and successful cleanup receipt without recreating the ADR, repeating deletion or making another commit/push.",
         "Treats the already committed source content as requiring no pending-change cleanup; preserves its branch ref and commits rather than removing its tracked file or rewriting history.",
-        "Verifies the current source state and delivery evidence before reporting Carry complete; performs no unapproved Map publication or implementation.",
+        "Verifies current source state and delivery evidence before reporting Carry complete; preserves the published Map identity and performs no implementation.",
         "Reads references/recovery.md for the interrupted work and references/delivery-options.md for Carry completion."
       ]
     },
     {
       "id": 29,
-      "prompt": "Finish an approved scope-it Carry move. This planning run created a temporary worktree solely to commit and publish the exact approved Carry on Carrier #42's final branch fix/42-channel-code; trusted creation records identify its repository, path and ref, and approved write receipts identify its current HEAD. The approved proposal includes source cleanup and removal of this temporary worktree. The remote branch and baseline match that HEAD, content, native linkage and executor access are verified, and source cleanup has completed. Fresh inspection finds no staged, unstaged, untracked, ignored or unpreserved committed work, lock or ongoing use. The future executor will resume the same branch from another clone; the local worktree has not been reserved or handed over. The agent's current directory is inside the temporary worktree. Map publication is not approved.",
-      "expected_output": "Remove the owned temporary worktree after verification, retain the delivery branch and pointer, and finish Carry without another cleanup confirmation.",
+      "prompt": "Finish an approved scope-it Carry move. This planning run created a temporary worktree solely to commit and publish the exact approved Carry on Carrier #42's final branch fix/42-channel-code; trusted creation records identify its repository, path and ref, and approved write receipts identify its current HEAD. The approved proposal includes source cleanup and removal of this temporary worktree. The remote branch and baseline match that HEAD, content, native linkage and executor access are verified, and source cleanup has completed. Fresh inspection finds no staged, unstaged, untracked, ignored or unpreserved committed work, lock or ongoing use. The future executor will resume the same branch from another clone; the local worktree has not been reserved or handed over. The agent's current directory is inside the temporary worktree. The canonical Map is published and read back.",
+      "expected_output": "Delegate eligible transferred-worktree cleanup after verified publication; retain branch and pointer and verify removal without another confirmation.",
       "files": [],
       "assertions": [
         "Verifies creation ownership, registered path/ref/HEAD, current content and executor access against the approved cleanup state before removal.",
         "Moves to a surviving directory and uses normal non-force worktree removal; verifies both registration and directory are gone before claiming cleanup complete.",
         "Preserves the local and remote delivery branches, baseline SHA, native Issue linkage and Carry pointer; future use of the same branch is not treated as a requirement to keep this local worktree.",
-        "Reuses the approved cleanup scope and reports source and worktree cleanup accurately without publishing the unapproved Map or starting implementation."
+        "Reuses the approved cleanup scope and reports source and worktree cleanup accurately without republishing the Map or starting implementation.",
+        "scope-it passes the settled binding and disposition to to-afk-agent and verifies its result before reporting preparation complete."
       ]
     },
     {
       "id": 30,
-      "prompt": "A scope-it Carry baseline has been pushed and its content, linkage and access verified. Removal of the temporary worktree created by this run was approved. Before removal, fresh inspection reveals one of these independent variants: a staged or unstaged user edit; an untracked draft; a needed ignored local file although ordinary git status is clean; a new unaccounted local commit after the published HEAD; a different registered branch or HEAD than the approved cleanup state; a lock; or another task actively using the worktree. Source-file cleanup is already verified. No changed cleanup scope is approved.",
-      "expected_output": "Preserve the affected worktree and its contents, report the exact remaining cleanup gap, and keep required cleanup incomplete despite the successful push.",
+      "prompt": "A scope-it Carry baseline has been pushed and its content, linkage and access verified. Removal of the temporary worktree created by this run was approved. Before removal, fresh inspection reveals one of these independent variants: a staged or unstaged user edit; an untracked draft; a needed ignored local file although ordinary git status is clean; a new unaccounted local commit after the published HEAD; a different registered branch or HEAD than the approved cleanup state; a lock; or another task actively using the worktree. Source-file cleanup is already verified. No changed cleanup scope is approved. The canonical Map is published and read back.",
+      "expected_output": "Keep the affected worktree and its contents; report the exact delegated cleanup gap despite a successful push.",
       "files": [],
       "assertions": [
         "Checks more than ordinary clean status, including untracked and ignored content, current commits and registered identity, locks and ongoing use.",
@@ -354,19 +357,20 @@
     {
       "id": 31,
       "prompt": "Finish scope-it after Scope, Tickets and the canonical Map were approved, published and read back. Planning Carry is None: all required planning content is already accessible in the published artifacts, and no repository patch needs delivery. The selected Scope workflow created a temporary worktree for isolated planning checks under creation-and-removal approval; its trusted creation and write receipts are recoverable. It is now unused and has no unpreserved files or commits, and its identity matches. The starting worktree was pre-existing. A second worktree appeared concurrently, but no record attributes its creation to this planning run. No new Git publication is approved.",
-      "expected_output": "Reconcile and remove the planning workflow's owned temporary worktree even with Carry None, while preserving pre-existing and unattributed worktrees.",
+      "expected_output": "Delegate cleanup of the planning workflow's explicitly transferred temporary worktree even with Carry None, preserving pre-existing and unattributed worktrees.",
       "files": [],
       "assertions": [
         "Reads references/delivery-options.md because planning worktree cleanup applies independently of Carry, while retaining Planning Carry None and the completed source artifacts.",
         "Includes worktrees created by invoked workflows in the cleanup inventory using creation evidence, not merely a before/after worktree-list difference.",
         "Verifies and removes only the eligible owned temporary worktree with matching approval and non-force removal, then verifies its absence.",
-        "Preserves the starting and unattributed worktrees and all branch refs; creates no new baseline, push, Map publication or implementation work."
+        "Preserves the starting and unattributed worktrees and all branch refs; creates no new baseline, push, Map publication or implementation work.",
+        "scope-it passes the settled binding and disposition to to-afk-agent and verifies its result before reporting preparation complete."
       ]
     },
     {
       "id": 32,
       "prompt": "Account for worktrees at the end of an otherwise complete scope-it run. A is a clean pre-existing worktree reused for Carry publication. B was created by this run but the user explicitly asked to keep it. C was created by an invoked workflow and then explicitly handed over to an executor already continuing there. D was created by this run and contains an original ADR whose unchanged path and bytes the user explicitly asked to retain after publishing a copy. Required publication and executor access are verified. No other cleanup is pending, and no permission expands removal to these retained worktrees.",
-      "expected_output": "Preserve each worktree for its evidenced ownership or retention reason, and report those agreed outcomes without treating them as cleanup failures.",
+      "expected_output": "Pass explicit retention and handover evidence to to-afk-agent and verify all four worktrees remain for their documented reasons.",
       "files": [],
       "assertions": [
         "Preserves A because reuse does not establish invocation ownership, and preserves B under explicit retention.",
@@ -378,19 +382,20 @@
     {
       "id": 33,
       "prompt": "Resume scope-it after verified delivery and source cleanup, with approved removal of a temporary worktree created by this run. In variant A, fresh eligibility checks pass but normal worktree removal fails or its result is ambiguous; the directory or registration remains. In variant B, a recoverable successful removal receipt exists, fresh inspection confirms both directory and registration are absent, and the preserved delivery branch, baseline and executor access still match. No new publication or cleanup scope is approved.",
-      "expected_output": "Report incomplete removal accurately in the failure variant and reuse verified removal in the completed variant, without escalating destruction or duplicating work.",
+      "expected_output": "Verify the delegated worktree removal result, preserving successful publication and avoiding destructive retries.",
       "files": [],
       "assertions": [
         "For A, preserves successful publication and remaining local content, reports the unresolved removal or verification result, and keeps required cleanup incomplete.",
         "Uses no forced removal, recursive directory deletion or broad pruning to bypass the failed normal removal.",
         "For B, reuses the receipt and fresh readback without recreating the worktree, deleting the branch or repeating publication, and reports cleanup complete.",
-        "Reads references/recovery.md and references/delivery-options.md for the interrupted cleanup and retains the canonical Map identity."
+        "Reads references/recovery.md and references/delivery-options.md for the interrupted cleanup and retains the canonical Map identity.",
+        "scope-it passes the settled binding and disposition to to-afk-agent and verifies its result before reporting preparation complete."
       ]
     },
     {
       "id": 34,
-      "prompt": "Finish an approved scope-it Carry move from main. An unchanged untracked planning file is wholly included in the verified published baseline, and source cleanup was approved. The same file is also the canonical local Scope/Map artifact at the absolute path recorded in the handoff; this dual use is established by the published placement contract. Copying it to the delivery branch preserved its bytes but did not change that canonical path. No replacement location or binding update was approved. There is no temporary worktree to remove.",
-      "expected_output": "Retain the canonical source path and report the unresolved cleanup/placement conflict without treating the published copy as a replacement binding.",
+      "prompt": "Finish an approved scope-it Carry move from main. An unchanged untracked planning file is wholly included in the verified published baseline, and source cleanup was approved. The same file is also the canonical local Scope/Map artifact at the absolute path recorded in the handoff; this dual use is established by the published placement contract. Copying it to the delivery branch preserved its bytes but did not change that canonical path. No replacement location or binding update was approved. There is no temporary worktree to remove. The required Map publication and readback have completed.",
+      "expected_output": "Preserve the required canonical local source path and report its conflict with default cleanup until a replacement binding is approved.",
       "files": [],
       "assertions": [
         "Checks that the handoff's recorded artifact locations will remain retrievable after source cleanup, beyond verifying copied content and baseline access.",
@@ -401,7 +406,7 @@
     {
       "id": 35,
       "prompt": "Finish scope-it with Planning Carry None. A temporary worktree created by this run is approved for removal, has matching creation and write receipts, and is clean, unlocked and unused. All required commits are reachable from a retained branch. The approved local Markdown fallback, however, records this worktree's absolute Scope, Ticket and canonical Map paths as the continuation entry points. These tracked files have no approved replacement locations or binding updates. All other planning obligations are complete.",
-      "expected_output": "Keep the worktree because its recorded local artifact paths remain required, and identify the approved placement change needed before removal can complete.",
+      "expected_output": "Retain the worktree while its absolute local artifact paths remain required and resolve placement before removal.",
       "files": [],
       "assertions": [
         "Reads references/delivery-options.md for worktree cleanup despite Carry None and evaluates the actual local artifact bindings.",
@@ -411,8 +416,8 @@
     },
     {
       "id": 36,
-      "prompt": "A scope-it source workflow created a detached temporary worktree. Its clean current HEAD exactly matches the approved write receipt and contains a required planning commit. The approved handoff records the full SHA, and the local executor can read the commit now, but inspection shows no retained branch, tag or durable publication reaches it: its only live HEAD is the worktree scheduled for approved removal. There are no required absolute local artifact paths, unpreserved file changes, locks or ongoing use. Creating a preservation ref or publishing this commit has not been approved.",
-      "expected_output": "Preserve the worktree until the required commit has verified durable reachability and executor access after removal, and report the missing preservation action.",
+      "prompt": "A scope-it source workflow created a detached temporary worktree. Its clean current HEAD exactly matches the approved write receipt and contains a required planning commit. The approved handoff records the full SHA, and the local executor can read the commit now, but inspection shows no retained branch, tag or durable publication reaches it: its only live HEAD is the worktree scheduled for approved removal. There are no required absolute local artifact paths, unpreserved file changes, locks or ongoing use. Creating a preservation ref or publishing this commit has not been approved. Any required Map publication is complete and read back.",
+      "expected_output": "Retain the detached worktree until its required commit has durable reachability and executor access after removal.",
       "files": [],
       "assertions": [
         "Checks required commit reachability after removal instead of relying on a matching full SHA, current readability or clean status.",
@@ -422,37 +427,38 @@
     },
     {
       "id": 37,
-      "prompt": "Finish approved scope-it Carry source cleanup for CONTEXT.md on main. The verified baseline contains Carry version C2. Recorded pre-move evidence and cleanup approval separately identify the same scope-owned section as C1 in the index and C2 in the working file; C2 is an unstaged revision of C1. A disjoint unrelated paragraph P is staged, and a disjoint unrelated paragraph U is unstaged. Fresh bytes match these records and delivery/linkage/access checks pass. In an independent variant, C1's ownership was never established and cleanup of that layer was not approved. No branch history or unrelated content changes are authorized.",
-      "expected_output": "Remove the separately recorded owned Carry versions from their respective layers while preserving P and U, or retain uncertain content and report the gap in the ownership variant.",
+      "prompt": "Finish approved scope-it Carry source cleanup for CONTEXT.md on main. The verified baseline contains Carry version C2. Recorded pre-move evidence and cleanup approval separately identify the same scope-owned section as C1 in the index and C2 in the working file; C2 is an unstaged revision of C1. A disjoint unrelated paragraph P is staged, and a disjoint unrelated paragraph U is unstaged. Fresh bytes match these records and delivery/linkage/access checks pass. In an independent variant, C1's ownership was never established and cleanup of that layer was not approved. No branch history or unrelated content changes are authorized. The canonical Map is published and read back.",
+      "expected_output": "Delegate cleanup using separate index and worktree ownership evidence; preserve uncertain and unrelated content.",
       "files": [],
       "assertions": [
         "Uses separate index and worktree ownership/state evidence for C1 and C2, rather than assuming the published C2 patch describes both layers.",
         "In the fully approved variant, removes C1 from the index and C2 from the working file while retaining P as staged and U as unstaged, with all unrelated bytes unchanged.",
         "In the uncertain variant, preserves the affected source content and staging state until ownership and cleanup scope are resolved, without guessing that C1 is disposable.",
-        "Verifies the resulting index and worktree independently, preserves source branch history and successful publication, and reports cleanup status accurately."
+        "Verifies the resulting index and worktree independently, preserves source branch history and successful publication, and reports cleanup status accurately.",
+        "scope-it passes the settled binding and disposition to to-afk-agent and verifies its result before reporting preparation complete."
       ]
     },
     {
       "id": 38,
-      "prompt": "Use scope-it --publish. The discussion confirmed optional code, name and status filters for GET /exchange/namespace: code/name use case-insensitive contains matching after trim, blank strings are absent, status matches exactly, and combined filters use AND. Unfiltered behavior, paging, sorting, responses and permissions stay unchanged. The user accepted this scope and excluded further special-character/error-input design. Publish in the resolved backend repository. The selected Scope and Tickets workflows can complete their content checks and reviews from the available evidence; their routine draft/publication confirmations are the only remaining approval steps. Their ticket analysis finds one independently deliverable outcome. No exact Issue or Map draft has been individually approved. No Carry, temporary worktree, implementation activation or additional repository publication is requested.",
-      "expected_output": "Complete the single-Ticket planning publication and readback under --publish, then return the verified parent and Map links without routine approval questions.",
+      "prompt": "Use scope-it --publish. The discussion confirmed optional code, name and status filters for GET /exchange/namespace: code/name use case-insensitive contains matching after trim, blank strings are absent, status matches exactly, and combined filters use AND. Unfiltered behavior, paging, sorting, responses and permissions stay unchanged. The user accepted this scope and excluded further special-character/error-input design. Publish in the resolved backend repository. The selected Scope and Tickets workflows can complete their content checks and reviews from the available evidence; their routine draft/publication confirmations are the only remaining approval steps. Their ticket analysis finds one independently deliverable outcome. No exact Issue or Map draft has been individually approved. No Carry, temporary worktree, explicit dispatch, feature implementation or unrelated repository publication is requested.",
+      "expected_output": "Complete the single-Ticket planning publication and AFK preparation under --publish, then return the verified parent, Map and readiness without routine approval questions.",
       "files": [],
       "assertions": [
         "Passes --publish authority and the settled requirements to both sources, completes their content checks and reviews, and does not reopen the excluded design discussion or ask the user to approve routine drafts or publication phases.",
         "Preserves every confirmed filter rule and unchanged behavior in the full planning artifacts; uses the existing parent/single-Ticket-comment/Map contract rather than changing ticket layout or bypassing ticket shaping.",
-        "Publishes Scope, Ticket and one canonical Map, reads back their content, identities, metadata and relationships, and returns verified links only after completion.",
-        "Creates no UI notice, extra repository issue, planning baseline or implementation work by default; --publish does not save preferences or change invocation markers."
+        "Sources publish and read back complete Scope/Ticket content and relationships. scope-it supplies a complete canonical Map payload and parent destination to to-afk-agent, which publishes and reads back the unique Map, finishes applicable disposition and adds missing ready only afterward; return verified links.",
+        "Creates no UI notice, extra repository Issue, planning baseline or implementation work by default; --publish covers the intended handoff writes but does not save preferences or change invocation markers."
       ]
     },
     {
       "id": 39,
-      "prompt": "Use scope-it --publish for confirmed requirements in a resolved repository. Consider independent variants: A, a source discovers an unresolved product decision that changes acceptance; B, its default readiness metadata would immediately queue implementation, but the repository supports a non-triggering planning state and execution is unapproved; C, a required Carry candidate contains changes whose ownership cannot be established from the planning record or source state; D, a substantive independent content review is still required. Existing publication receipts are verified and the agreed scope covers the planning handoff.",
+      "prompt": "Use scope-it --publish for confirmed requirements in a resolved repository. Consider independent variants: A, a source discovers an unresolved product decision that changes acceptance; B, its default readiness metadata would immediately queue implementation, but the repository supports a non-triggering planning state and handoff preparation is unfinished; C, a required Carry candidate contains changes whose ownership cannot be established from the planning record or source state; D, a substantive independent content review is still required. Existing publication receipts are verified and the agreed scope covers the planning handoff.",
       "expected_output": "Use --publish for the covered planning writes while resolving only genuine decision, review or authorization gaps, preserving completed work.",
       "files": [],
       "assertions": [
         "For A, asks only about the acceptance-changing decision before affected publication; does not invent requirements or restart already settled planning.",
-        "For B, uses the repository's non-triggering planning state and verifies actual metadata effects; neither a source default nor --publish authorizes queuing implementation.",
-        "For C, preserves the uncertain source changes and successful publication, resolves only the ownership gap, and withholds affected completion; the use of Git or cleanup alone is not a reason to request another approval under --publish.",
+        "For B, sources defer new ready metadata while publishing planning artifacts; handoff adds missing ready only after preparation. Preserve existing ready and coordinate with receiving workflow before changing inputs if automatic pickup is possible; do not claim to pause the queue.",
+        "For C, to-afk-agent preserves uncertain source changes and successful publication, resolves only ownership or disposition gaps, and withholds affected completion; --publish authorizes bounded handoff without a routine extra Git or cleanup approval.",
         "For D, completes or obtains the required substantive review; distinguishes that review from routine draft/publication confirmations already covered by --publish."
       ]
     },
@@ -462,33 +468,33 @@
       "expected_output": "Finish only the remaining covered publication and verification, or honor the explicit preview-only limit, without duplicating completed artifacts.",
       "files": [],
       "assertions": [
-        "Uses recovery readbacks and --publish authority to publish and verify only the remaining Ticket and Map, without recreating Scope or requesting routine phase approvals.",
-        "Keeps the canonical identities, content, invocation choices and unrelated state intact, and reports complete links only after the remaining readbacks succeed.",
-        "In the preview-only variant, returns the drafts without external writes; --publish does not override the user's narrower current instruction."
+        "Uses recovery readbacks and --publish authority to publish and verify only the remaining Ticket; delegates recoverable complete Map publication and remaining handoff to to-afk-agent without recreating Scope or seeking routine phase approvals.",
+        "Keeps canonical identities, content, invocation choices and unrelated state intact, and reports complete links and newly added ready only after verified publication and applicable cleanup.",
+        "In the preview-only variant, returns drafts and handoff proposal without any external, Git, cleanup or readiness write; --publish does not override the narrower current instruction."
       ]
     },
     {
       "id": 41,
       "prompt": "Use scope-it --publish after an approved design discussion. That discussion produced two confirmed planning files, a design document and its audit evidence, still untracked on source main; recoverable creation and content records establish their exact scope ownership. Other source changes belong to another task. The resolved repository and selected workflows supply naming, base, linked-branch and publication mechanics; one backend Carrier and the landing target are determined by the settled delivery responsibilities. The sources can complete their required content checks and reviews. No separate approval has been given for a branch, baseline commit/push, source move, temporary worktree removal or Map draft. Complete the agreed planning handoff.",
-      "expected_output": "Carry the full planning workflow through verified remote preservation, source and owned-worktree cleanup, and canonical Map publication under --publish alone.",
+      "expected_output": "Complete source-native Scope/Ticket publication, then delegate bounded Carry, canonical Map publication, cleanup and ready completion under --publish.",
       "files": [],
       "assertions": [
-        "Passes the agreed scope and full workflow authority to the selected workflows, resolves concrete actions from repository evidence, and performs required checks without asking for routine draft, Git or cleanup approval.",
-        "Creates or safely reuses the Carrier's correctly based and natively linked non-default delivery branch, preserves exactly the two planning files in an immutable baseline, and verifies remote content, full SHAs and executor access.",
-        "After fresh preservation and source-state checks, removes only the delivered source changes and any eligible temporary worktree created for this planning run; preserves unrelated bytes and staging, pre-existing worktrees, retained refs and required handoff locations.",
-        "Publishes and reads back one canonical Map with the actual Carry evidence, returns verified artifact and baseline links, and claims completion only after all applicable cleanup is verified.",
+        "Passes agreed scope and publication authority to the selected source workflows and complete Map/Carry/disposition authority to to-afk-agent; resolves concrete actions from repository evidence without routine duplicate approval.",
+        "to-afk-agent creates or safely reuses the Carrier's correctly based, natively linked non-default delivery branch, preserves exactly two planning files in a verified immutable baseline, and reports remote content, full SHAs, immutable links and executor access.",
+        "After Map publication/readback and fresh source-state checks, to-afk-agent removes only delivered source changes and eligible explicitly transferred temporary worktrees; preserves unrelated bytes/staging, pre-existing worktrees, retained refs and required local paths.",
+        "It publishes and reads back one canonical parent Map with verified Carry substitutions in allowed fields only, checks uniqueness, then adds missing ready markers after applicable cleanup; scope-it claims completion only after these readbacks.",
         "Preserves source main history and starts no feature implementation, execution-triggering automation, implementation PR, merge, deployment or preference change."
       ]
     },
     {
       "id": 42,
       "prompt": "Resume the same scope-it --publish run after an interruption. Scope and Tickets were published; the Carrier's baseline commit was pushed and has recoverable content, linkage and access receipts. Source cleanup and temporary worktree removal have not run, and the Map remains a recoverable draft. Creation and pre-move records identify exact source ownership and the temporary worktree. Fresh repository and tracker reads can confirm whether those states still match. There is no later scope or retention change and no separate cleanup or Map approval.",
-      "expected_output": "Re-verify the completed preservation, finish the remaining safe cleanup and Map publication with the existing --publish authority, and report the verified handoff.",
+      "expected_output": "Re-verify preservation, publish and read back the Map, then finish remaining safe cleanup and readiness with the existing --publish authority and report the verified handoff.",
       "files": [],
       "assertions": [
-        "Uses recovery and delivery references, revalidates real receipts and current state, and resumes at unfinished work without duplicating the baseline, push, Issues or other successful publication.",
-        "When current state matches, completes exact source cleanup and eligible owned-worktree removal without another Agree, then publishes and reads back the canonical Map.",
-        "A failed readback or changed ownership/content leaves the affected work unresolved while preserving successful publication; --publish does not bypass preservation evidence or permit broader removal."
+        "Reuses recovery evidence and delegates unfinished work to to-afk-agent, which revalidates receipts and state without duplicating baseline, push, Issues or successful source publication.",
+        "When current state matches, to-afk-agent publishes/reads back the canonical Map, completes exact source cleanup and eligible transferred-worktree removal, then fills missing ready without another approval.",
+        "Failed readback or changed ownership/content leaves affected handoff unresolved while preserving successful publication; --publish neither bypasses evidence nor permits broader removal."
       ]
     },
     {
@@ -497,9 +503,77 @@
       "expected_output": "Apply the full workflow authority to eligible owned-worktree cleanup even without Carry, then verify the completed planning handoff.",
       "files": [],
       "assertions": [
-        "Reads delivery-options.md for worktree cleanup, verifies ownership and preservation, and removes only the eligible owned temporary worktree using ordinary non-force removal without a routine approval question.",
-        "Verifies both registration and directory removal, preserves the pre-existing source worktree and retained refs, and reports actual cleanup and publication results.",
-        "Retains Carry None and creates no unnecessary baseline, commit or push; source reviews, published artifact identities and implementation boundaries remain intact."
+        "Delegates the eligible explicitly transferred worktree to to-afk-agent, which checks ownership/preservation and removes it with ordinary non-force removal without a routine extra approval.",
+        "Verifies both registration and directory removal, preserves pre-existing source worktree and retained refs, then adds only missing ready markers and reports actual publication and cleanup.",
+        "Retains Carry None and creates no unnecessary baseline, commit or push; source reviews, published artifact identities and dispatch/implementation boundaries remain intact."
+      ]
+    },
+    {
+      "id": 44,
+      "prompt": "Use scope-it --publish on an approved two-Ticket plan. The Scope and Tickets sources completed their own reviews, publication and readback; new ready labels were deferred. Child A already has ready from before this run, child B lacks it. The parent has no Map. A confirmed ADR and exact mixed-file patch belong to Carry; an unrelated staged paragraph and uncertain draft do not. A's existing Carrier branch and target are established. The complete proposed parent Map includes authoritative markers, topology, Carry placeholders limited to branch, full base/baseline SHAs and immutable file links, plus a Start the Next Ticket protocol. The handoff must be accessible to a remote executor, and an eligible planning-created worktree was explicitly transferred for cleanup.",
+      "expected_output": "Delegate one bounded Carry and full Map publication, verify source disposition, and finish missing readiness in order.",
+      "files": [],
+      "assertions": [
+        "scope-it leaves Scope/Ticket content checks, metadata and native publication with their sources; it sends the complete approved Map, parent destination, markers, allowed fill positions, existing binding and precise Carry/source/worktree evidence to to-afk-agent without rebuilding source artifacts.",
+        "to-afk-agent reuses A's Carrier branch, verifies exact carried diff, remote ref, full SHAs, immutable links, native linkage and executor access. It fills only the allowed Map positions and publishes/reads back one unique authoritative parent comment; the full Map is not copied to children.",
+        "Only after verified remote preservation and Map readback does to-afk-agent clean the unchanged selected source layers and eligible transferred worktree, preserving unrelated and uncertain content. It retains existing ready on A and adds/reads back missing ready on B after its preparation is complete. Because A was already ready and may be picked up automatically, it coordinates with the receiving workflow before changing A's executor inputs and reports any unresolved race.",
+        "An affected child lacking discovery context may receive only a concise canonical Map link and required execution pointers in an ordinary comment, without changing its Ticket body or native relationships. No dispatch, claim, implementation or PR starts."
+      ]
+    },
+    {
+      "id": 45,
+      "prompt": "Resume scope-it --publish after to-afk-agent created the full canonical Map comment on the parent but lost the create response. Scope/Tickets and Carry are verified. The supplied Map has identity markers, complete content and permitted verified substitutions; no comment ID was recorded. Variant A finds one exact matching parent comment; variant B finds two candidates; variant C finds no complete match but lookup was incomplete. A later ordinary parent comment exists in all variants.",
+      "expected_output": "Recover the one authoritative Map identity when provable, without duplicate creation or readiness on ambiguity.",
+      "files": [],
+      "assertions": [
+        "Passes the supplied complete Map, markers, parent destination and permitted substitutions to to-afk-agent; a unique complete match is read back and bound by actual ID/URL, regardless of later ordinary comments.",
+        "Multiple candidates or incomplete lookup leaves publication identity unresolved and prevents retry, cleanup and new ready; recency, equivalent fragments and a lost response do not choose a canonical comment.",
+        "After unique recovery, resumes only unfinished source disposition and missing ready; preserves source artifacts, Map bytes and existing ready, and creates no duplicate comment or completion receipt."
+      ]
+    },
+    {
+      "id": 46,
+      "prompt": "A planned amendment changes the Carry link and one Map field on a parent whose child Tickets already have ready-for-agent. Automatic pickup may occur. An executor has not been proven idle, and an earlier comment claims pickup is paused. The new file version and exact Map edit are approved but not yet applied. Another child has no ready yet. The parent Map's existing comment ID and editable markers are known.",
+      "expected_output": "Coordinate live pickup before changing executor inputs and preserve the authoritative Map identity.",
+      "files": [],
+      "assertions": [
+        "Checks live claim/execution progress and coordinates with the receiving workflow before mutating inputs under existing ready; a comment does not suspend dispatch, and unresolved pickup race is reported without claiming the queue paused.",
+        "For a safe unclaimed case, to-afk-agent verifies replacement artifact access, edits only the approved Map boundary at the existing comment ID, reads back the full Map and preserved surrounding content, then completes source disposition before adding the other child's missing ready.",
+        "For an active claim or unresolved race, preserves existing ready and published inputs, does not silently change the executor's branch or Map, and seeks only the required coordination or changed-scope decision."
+      ]
+    },
+    {
+      "id": 47,
+      "prompt": "Use scope-it in preview-only mode with reviewed Scope/Tickets drafts, selected Carry and a proposed full Map. The chosen tracker cannot publish a parent comment, and to-afk-agent cannot be resolved through the host in this run. An existing local Markdown fallback draft is available under the placement contract; no external writes or cleanup are approved. A source requires publication before it can finish its native review in a separate variant.",
+      "expected_output": "Provide a truthful local draft and gap report without claiming an AFK handoff.",
+      "files": [],
+      "assertions": [
+        "Preview performs zero source, Git, Issue, Map, source-cleanup, worktree or ready writes; it may show complete proposed content, destinations and unresolved access/capability gaps.",
+        "The approved local fallback may retain a draft with accurate local bindings, but neither that draft nor an unavailable to-afk-agent counts as verified remote publication or completed AFK preparation.",
+        "The source-review variant pauses before treating its draft as complete; scope-it does not substitute its own review or silently invoke another source."
+      ]
+    },
+    {
+      "id": 48,
+      "prompt": "Scope/Tickets and complete Map content are settled under scope-it --publish. Compare source disposition variants for the same Carry files: A gives no source preference; B explicitly says Retain local source; C resumes a legacy recorded Move; D resumes a legacy unanswered retain-or-move question. Remote preservation and Map publication are verified. One selected Ticket already has ready and permits automatic pickup; another lacks ready. The already-ready Ticket still needs a canonical Map link for discovery. A fresh receiving-workflow coordination check can establish a safe update window. In A/C, one selected untracked file is unchanged, one mixed tracked file has an unrelated staged hunk, and another selected source changed after capture. A planning-created worktree was explicitly transferred, while a pre-existing worktree is untouched.",
+      "expected_output": "Apply the correct source disposition and safe cleanup boundary without widening ownership.",
+      "files": [],
+      "assertions": [
+        "to-afk-agent applies Clean up local source by default in A, explicit Retain in B, recorded Move in C, and requests resolution of the still-unanswered legacy choice in D; it does not retroactively apply the new default to D.",
+        "For A/C it removes only the wholly owned unchanged untracked file and selected unchanged layers of the mixed file, preserving unrelated staging and bytes. It retains the changed source and reports incomplete cleanup rather than inferring a replacement patch or declaring preparation complete.",
+        "For B it verifies unchanged retained sources and treats retention as complete when remote publication is verified. Eligible explicitly transferred worktree cleanup is assessed separately from source retention; the pre-existing worktree remains untouched.",
+        "Missing cleanup or disposition prevents newly adding ready; existing ready markers remain and any automatic pickup is coordinated without a claim that the queue is paused."
+      ]
+    },
+    {
+      "id": 49,
+      "prompt": "Prepare the Start the Next Ticket protocol for a complete parent Delivery Map that to-afk-agent will publish before source cleanup and new ready markers. Later a session has only that Map and the parent. Children are ordered A then B, both open, unblocked and reliably unclaimed, but only B currently has the repository's ready marker. The task's Continue override prefers A when eligible. In a second variant the user names A without authorizing execution before its handoff finishes; in a third, B loses ready just before work. Cover the same preparation window for one Ticket represented by the parent and its Ticket comment.",
+      "expected_output": "Embed a durable protocol that checks live readiness for automatic selection and again before work, while handling named and single Tickets truthfully.",
+      "files": [],
+      "assertions": [
+        "The published protocol itself requires the repository's live ready marker for autonomous pickup; neither the Map's existence nor an open, unblocked and unclaimed Ticket substitutes for readiness. It skips the ineligible Continue override A and selects B without loading every Ticket body.",
+        "For user-named A it surfaces missing readiness and requires separate execution authority before work; for a single Ticket it checks readiness on the parent identity and loads the Ticket comment only as selected context.",
+        "It re-reads readiness and native relations before work, so B losing ready prevents autonomous claim or implementation and produces a live no-eligible-Ticket report. It does not add ready or repair the unfinished handoff from the receiving session."
       ]
     }
   ]

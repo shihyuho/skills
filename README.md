@@ -25,7 +25,7 @@ Shihyu's curated collection of agent skills.
 - **[revisit](skills/revisit/)** - Revisit a ticket or PR, assess its concern against the current version, and discuss the smallest complete change if still needed.
 - **[skill-review](skills/skill-review/)** - Review a skill using writing-for-agents and skill-creator, with `--fix` applying only corrections judged warranted by the evidence and criteria.
 - **[splitoff](skills/splitoff/)** - Hand the current conversation to a Claude Code background agent or a native Codex subagent using a generated handoff summary.
-- **[scope-it](skills/scope-it/)** - Coordinate interchangeable planning skills into one verified Delivery Map, using `--publish` to complete the full planning workflow without routine confirmation.
+- **[scope-it](skills/scope-it/)** - Coordinate interchangeable planning skills into one Delivery Map and a verified AFK handoff through `to-afk-agent`, using `--publish` to complete the agreed workflow without routine confirmation.
 - **[tradeoffs](skills/tradeoffs/)** - Recommend a discussed option by weighing its added value against cost, risk, and complexity, with supporting evidence and conditions that would change the recommendation.
 
 ## Installation

@@ -1,46 +1,24 @@
 # Planning Carry and delivery options
 
-Read this for repository planning files, planning worktree creation or cleanup, a shared lane or special verification/closure duties, including when accepting existing Tickets. The Tickets source owns ticket content; repository and executor workflows own Git, CI and implementation mechanics.
+Read this for repository planning files, planning worktree creation or transfer, a shared lane or special verification/closure duties, including when accepting existing Tickets. This coordinator settles the delivery contract and prepares its inputs; `to-afk-agent` owns preservation, publication and source/worktree disposition under its current workflow.
 
-Source and worktree cleanup must leave required planning content retrievable through the handoff's recorded locations. Retain any required local parent, Scope, Ticket or Map path until an approved replacement and its updated binding are verified.
+## Prepare Planning Carry
 
-## Planning Carry
+Reconcile all planning artifacts against the settled scope and current repository state. Distinguish repository content with a landing obligation from content supplied only for Issue-comment publication. For ADRs, `CONTEXT.md` changes or other required repository content, establish exact scope-owned files/patches, their index/worktree versions, ownership evidence, repository and landing target. Preserve unrelated bytes and keep uncertain ownership unresolved.
 
-For ADRs, `CONTEXT.md` changes or other repository content the executor needs, identify exact scope-owned files/patches, retrievable version/location, landing target and one responsible Carrier Ticket. Preserve unrelated bytes and keep uncertain ownership unresolved; similarity or a clean worktree does not establish ownership.
+Carry confirmed planning patches still needed for delivery even when Ticket acceptance quotes them or assigns later recreation. An Issue comment can preserve a supplied document, but does not discharge a repository patch's landing obligation. A clean worktree or semantic similarity does not establish ownership or eliminate an existing delivery obligation.
 
-Record the pre-move source state and Carry ownership separately in the index and worktree, including differing staged and unstaged versions.
+Retain verified Carrier and delivery-path bindings. Resolve a missing Carrier under the handoff workflow using the established Ticket order and repository ownership; settle conflicts before publication. Carry ownership creates no blocker. For direct delivery, the Planning Baseline starts the Carrier's final delivery branch; repository naming, native Issue linkage, preservation and access checks belong to `to-afk-agent`.
 
-Carry each confirmed planning patch still needed for delivery, even when Ticket acceptance quotes its content or assigns later recreation. Acceptance defines the requirement; Carry preserves the existing patch for the executor. This includes one-line edits and single-Ticket plans; direct delivery uses the final branch below.
+Prepare the Map's compact Carry entry with the Carrier, repository/paths or exact patch bounds, landing target and approved-content obligation. Identify only the branch, base/baseline full SHA and immutable-link positions that the delegate may fill from verified results. A change to the Carrier, target or delivery obligation returns to this coordinator for an approved Map revision.
 
-Present the exact patch, Carrier, final branch/baseline plan, source cleanup and temporary worktree removal together. Apply the [publication contract](../SKILL.md#publication-contract) to this move and reuse matching authority without reconfirmation. Respect an explicit request to retain source copies or a worktree. When authority or preservation evidence is missing, expose only the gap and keep the delivery obligation unresolved.
+Pass existing remote artifacts and preservation evidence for reuse, together with explicit retention/cleanup choices or unresolved legacy source-choice questions. Let the handoff workflow resolve what still needs preservation; reuse verified publication rather than creating a second baseline. Keep required drafts and continuation paths available until their replacements and bindings are verified.
 
-Use repository workflows/tools for preservation, publication and cleanup. An unknown executor needs access beyond a local path.
+## Transfer planning worktrees
 
-For direct delivery, the immutable Planning Baseline starts the Carrier Ticket's final branch. Follow repository naming for its final delivery type and Carrier identity—for example, `fix/1049-terminal-payload-lifecycle` rather than a planning-only branch named from the Carry.
+Account for temporary worktrees created by this planning run and its invoked workflows, including when Carry is empty. Record creation or transfer evidence and current repository/path/ref/HEAD identities. Explicitly entrust the eligible worktrees to `to-afk-agent` within the handoff's cleanup scope, carrying forward retention choices and any continuing use or required local paths.
 
-When supported, create the native linked branch from the Carrier's Issue—the Scope Issue when one Ticket is a comment—before a local worktree tracks it. A push alone does not establish native linkage. Unavailable linking uses the repository workflow's approved fallback and degraded evidence.
-
-Record one compact Planning Carry pointer:
-
-- Carrier Ticket and linked branch;
-- repository/path, base and baseline full SHAs, plus patch bounds when needed;
-- landing target and approved-content obligation.
-
-Before cleanup or reporting Carry complete, verify pointer consistency, selected content, executor access and native linkage (on GitHub, the Carrier Issue's `linkedBranches`). Retain an existing delivery-path binding. The executor resumes that branch for implementation, tests, required ADR and the PR to target under separate authority.
-
-After those checks, finish the approved move in the source worktree, even on `main`. Re-read selected sources against the agreed patch and each layer's recorded pre-move state: delete unchanged untracked files wholly included in Carry; for tracked or mixed files, remove only that layer's recorded Carry changes, preserving other bytes and their staged/unstaged state. Preserve branch history. Changed or uncertain sources stay intact.
-
-Verify the resulting source state and applicable [worktree cleanup](#worktree-cleanup) before declaring Carry complete. Failed checks or cleanup leave that work unresolved while preserving successful publication. If the user requested retention, verify and report the agreed retained state instead.
-
-## Worktree cleanup
-
-Account for worktrees created by this planning run, including invoked workflows, whether or not Carry exists. Keep creation evidence and repository/path/ref/HEAD identities in the approval context to distinguish them from pre-existing worktrees. Include temporary worktree removal in the creation or Carry plan and apply the same publication contract.
-
-Once their planning or publication purpose is complete, remove those owned worktrees after required content and executor access are verified. Future execution on the same branch does not require retaining its current worktree. Keep worktrees explicitly retained or handed over for continued work, along with pre-existing or ownership-uncertain worktrees.
-
-Before removal, confirm the registered identity, required commits and output still match the approved cleanup state. Verify that required commits will remain reachable through retained refs or durable publication accessible to the executor after removal. Inspect staged, unstaged, untracked and ignored content. Preserve worktrees with unpreserved work, locks, ongoing use or unresolved identity changes. Leave the directory before ordinary non-force removal; preserve local/remote branches and Carry pointers. Verify both deregistration and directory removal.
-
-Report removed and retained worktrees with reasons. A failed or uncertain required removal leaves cleanup incomplete while preserving successful publication; agreed retention satisfies that worktree's planning obligation. Reuse verified removal receipts on resume without recreating the worktree.
+The delegate verifies preservation, source disposition, worktree eligibility and removal under its own cleanup rules. Existing, unrelated or ownership-uncertain worktrees stay outside the transfer. Retaining a source at an agreed worktree path can require retaining that worktree too. Keep successful publication and removal evidence on interruption; unresolved required disposition leaves the handoff incomplete.
 
 ## Shared lane and special responsibilities
 
@@ -48,4 +26,4 @@ For an agreed shared delivery lane, have the Tickets source supply a final integ
 
 Preserve agreed conditional duties, including when independent delivery assigns aggregate evidence or parent closure to whichever Ticket finishes last. Record each obligation once with its owner, trigger and required evidence; execution order alone creates no blocker or shared lane.
 
-Git setup, CI rules and implementation belong to the repository/executor workflow. A change to file ownership, delivery path or shared responsibility needs an approved Map amendment.
+Integration setup, CI rules and implementation remain with the repository/executor workflow. A change to file ownership, delivery path or shared responsibility needs an approved Map amendment; verified handoff values alone do not authorize such a change.

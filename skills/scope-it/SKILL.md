@@ -1,22 +1,22 @@
 ---
 name: scope-it
-description: "Coordinate interchangeable scope and ticket workflows into one Delivery Map with a self-contained continuation protocol."
+description: "Coordinate scope and ticket workflows into one Delivery Map and a verified AFK handoff."
 license: MIT
 disable-model-invocation: true
 ---
 
 # scope-it
 
-Coordinate scope and delivery planning. The selected skills own their complete outputs, reviews and publication; this coordinator connects the published artifacts in a Delivery Map. Finish with verified publication so another session can continue from the parent alone. Implementation belongs to the executor's workflow.
+Coordinate scope and delivery planning. The selected planning skills own their complete outputs, reviews and publication; this coordinator prepares the Delivery Map and delegates its publication, Planning Carry and readiness to `to-afk-agent`. Finish with verified AFK-ready Issues and one canonical Map whose continuation protocol lets another session start from the parent. Implementation and dispatch belong to the receiving workflow.
 
 ## Workflow
 
-1. **Orient.** Read repository guidance, artifacts and approvals. Resolve the roles and placement below; reuse confirmed work. Find repository facts, recommend answers and ask unresolved questions in dependency order.
+1. **Orient.** Read repository guidance, artifacts and approvals. Resolve the planning roles, GitHub placement and `to-afk-agent` before dependent writes; reuse confirmed work. Read the handoff skill's current contract and applicable references. Find repository facts, recommend answers and ask unresolved questions in dependency order.
 2. **Scope.** Give the Scope skill the settled context and agreed placement. Let it complete its native content checks and reviews, then publish under the authority below. Keep the complete output and read back its actual location before Tickets.
-3. **Tickets.** Pass the complete published Scope and real reference to the Tickets skill. Resolve choices affecting shape, responsibilities or readiness before publication. Let the source propose, review and publish complete tickets in the agreed placement; retain their verified identities.
-4. **Assemble.** Reconcile this planning session's repository artifacts, changes and created worktrees, including work from invoked skills, with current status/diffs, worktree ownership evidence and confirmed delivery obligations before deciding Planning Carry and cleanup. Build the Map from the published artifacts and verified relationships. Retain every agreed delivery obligation with its owner, trigger and required evidence. Requirements and acceptance stay complete in the source artifacts; return gaps or conflicts to the responsible source for approved revision.
-5. **Publish.** Show the Map, remaining planning-file and preference writes, and any remaining worktrees to remove. Use approval covering those concrete changes, then perform only them. Preserve the source artifacts and record the canonical Map identity.
-6. **Verify and finish.** Freshly compare the complete sources, Map and remaining writes with their approvals, including links, metadata, attachments and both relationship axes. Check unchanged Scope/Ticket bytes and one canonical Map. Report the parent, Map and applicable delivery evidence, then stop. Planning approval does not authorize implementation or its activation, merging, deployment, ticket closure or commits/pushes to the default branch.
+3. **Tickets.** Pass the complete published Scope and real reference to the Tickets skill. Resolve choices affecting shape or responsibilities and arrange deferred new ready markers before publication. Let the source propose, review and publish complete tickets in the agreed placement; retain their verified identities and relationships.
+4. **Assemble.** Reconcile this planning session's artifacts, changes and created worktrees, including work from invoked skills, against ownership evidence and delivery obligations. Prepare the complete Map from published artifacts and verified relationships, identifying positions for Carry results. Retain each agreed delivery obligation with its owner, trigger and required evidence. Requirements and acceptance stay in the source artifacts; return gaps or conflicts to their source for approved revision.
+5. **Hand off.** Under the publication contract, give `to-afk-agent` the bounded handoff below: complete Map, permitted substitutions, selected Issues, Carry inputs and source/worktree disposition. It owns preservation, Map publication and readback, necessary Ticket pointers, cleanup and final readiness. Retain its verified publication identity and results. Save only separately approved preference changes.
+6. **Verify and finish.** Compare the returned Map with the prepared content and permitted substitutions; verify links, metadata, attachments, unchanged Scope/Ticket content, both native relationship axes and completion of the required handoff. Reuse valid readback evidence and refresh missing or changed evidence. Report the parent, canonical Map, ready Issues, Carry and disposition results, plus unresolved work. Successful planning publication alone does not complete an unfinished AFK handoff.
 
 ## Conditional references
 
@@ -24,7 +24,7 @@ Read the applicable reference before the affected work, including when reusing c
 
 - **Preferences:** when a role needs saved defaults or the user requests a preference change or migration, read [preferences.md](references/preferences.md) before using or writing the configuration.
 - **Recovery:** for interrupted publication, uncertain creations, retrieval or amendment of an existing Map, legacy Map markers, or a delivery audit, read [recovery.md](references/recovery.md) before continuing or retrying.
-- **Delivery options:** for repository planning files, planning worktree creation or cleanup, a shared lane, or special verification/closure duties, read [delivery-options.md](references/delivery-options.md) before shaping or accepting the delivery contract, assembling its Map, or proposing related writes.
+- **Delivery options:** for repository planning files, planning worktree creation or transfer, a shared lane, or special verification/closure duties, read [delivery-options.md](references/delivery-options.md) before shaping or accepting the delivery contract or preparing its handoff.
 
 ## Planning skills
 
@@ -43,13 +43,30 @@ Reuse complete artifacts with recoverable evidence of the selected source's cont
 
 ## Publication contract
 
-`--publish` from the user or an authorized caller authorizes this skill's full workflow within the agreed scope. Complete and verify the planning handoff without routine confirmation between steps. Ask only about unresolved decisions or changes beyond that scope.
+`--publish` from the user or an authorized caller authorizes this skill's full workflow within the agreed scope, including the delegated AFK handoff and ready markers. Complete and verify it without routine confirmation between steps. Ask only about unresolved decisions or changes beyond that scope.
 
 Otherwise, each phase uses its native confirmations and approval for the concrete content, destinations, attachments, metadata and relationships. Reuse that approval while those writes still match; ask only about missing decisions or changed writes, preserving the source's required content checks and reviews.
 
-Explain that Scope and Tickets become visible before the Map, and resolve execution-triggering metadata before publication. Read fresh targets before writes and compare each result with its approved payload before dependent work. Look up uncertain creations before retrying. Preserve unrelated content and the starting item's lifecycle.
+Scope and Tickets become visible before the Map. Arrange for their sources to defer new ready markers to `to-afk-agent`; ready authorizes autonomous pickup after preparation. Preserve existing markers and coordinate any existing automatic-pickup race with the receiving workflow before changing executor inputs. Read fresh targets before writes and compare results with the approved payload before dependent work. Preserve unrelated content and the starting item's lifecycle.
 
 Verify native containment and blockers separately. An unavailable capability needs an approved concrete fallback with its limitation recorded; failed readback of a supported capability remains unresolved. Preview-only requests stop before writes; a source that cannot provide bounded drafting needs a compatible alternative or clarification.
+
+## AFK handoff
+
+The fixed handoff delegation is `to-afk-agent`, within this invocation's approved scope and host rules. Resolve its exact installed identity; a missing or incompatible handoff skill leaves delivery unresolved rather than moving its operations back into this coordinator. Planning-role preferences do not select or authorize additional handoff skills.
+
+Explicitly request publication of the complete Map as one authoritative comment. Supply:
+
+- the parent Issue, complete Map, identity markers, existing comment ID/URL when known, and authorized editing boundary;
+- the exact positions allowed to receive verified branch names, full SHAs and immutable links; all delivery decisions and other content remain settled upstream;
+- complete Scope/Ticket references, selected Issue identities and order, native relationships, Carrier bindings and landing obligations;
+- required files or patches with ownership evidence, earlier source-disposition decisions, and any planning worktrees explicitly entrusted for cleanup with their creation/transfer evidence and current path/ref/HEAD identities.
+
+Keep the Map draft and recovery evidence available through verified publication. Follow `to-afk-agent` for preservation, publication recovery and cleanup: **Clean up local source** is the default after remote preservation and required publication; explicit retention takes precedence. Transfer cleanup responsibility for eligible planning worktrees even when Carry is empty. The handoff checks changed or uncertain sources and worktree safety before cleanup.
+
+Readiness requires the Map, required remote artifacts and applicable source/worktree disposition to be verified first. Request a canonical Map link on a selected Ticket only where needed to make its execution context discoverable; keep the full Map on the parent. Preserve blockers, claims and existing Ticket content. An incomplete handoff retains successful outputs and resumes through the same delegate and publication identity.
+
+An approved local or unsupported-tracker fallback can retain planning drafts, but cannot be reported as a completed AFK handoff. Resolve GitHub placement before live handoff; keep preview and requested read-only retrieval/audit paths bounded. Dispatch, claims, implementation, merging, deployment, ticket closure and default-branch commits/pushes require their own workflow authority.
 
 ## Delivery Map
 
@@ -62,7 +79,7 @@ Agree placement before source publication:
 - With multiple Tickets, use native children with real blockers.
 - Preserve existing layouts unless migration is approved. Without a commentable parent, use the approved local/unsupported fallback: local Scope/Map may share a file and link separate Ticket files. An independent fallback Map needs only a compact Scope pointer.
 
-Ticket artifacts neither link back to nor copy the Map. After Scope and Tickets exist, publish the full Map once as a standalone, then-current final comment on a commentable parent. Its read-back comment ID/URL is canonical; later comments do not change that identity. Use `<!-- scope-it:delivery-map:start -->` and `<!-- scope-it:delivery-map:end -->` to delimit the editable block.
+After Scope and Tickets exist, have `to-afk-agent` publish the full Map once as a standalone parent comment. Its read-back comment ID/URL is canonical; later comments do not change that identity. Tickets may receive a link to that comment when context is missing, while the full Map stays on the parent. Use `<!-- scope-it:delivery-map:start -->` and `<!-- scope-it:delivery-map:end -->` to delimit the editable block.
 
 Use linked Ticket titles as diagram nodes. Ticket-to-Ticket edges project verified native blockers (`A → B` means B is blocked by A); Ticket-to-target edges show branch/PR landing and converge on each shared endpoint once. Independent landing is the default. Omit the diagram for one Ticket.
 
@@ -74,13 +91,13 @@ Use this outline. Insert `## Continue` between Planning Carry and Start the Next
 ## Planning Carry
 <Durable location/baseline, Carrier Ticket and landing path; or None.>
 ## Start the Next Ticket
-- If the user names a Ticket, select it and report any live blocker before work. Otherwise use an eligible `Continue` override, then the first open Ticket in tracker order whose blockers are complete and, when reliable claim state exists, is unclaimed.
-- Re-read live parent relations before work. For one Ticket, use the parent and its `## Ticket — <Title>` comment; for many, use the selected child. If none qualifies, report why; unreliable claim state makes the choice provisional.
-- Load only the selected Ticket and closed Tickets needed for context. Follow the repository's claim process, then the recorded branch, PR target and Planning Carry.
+- If the user names a Ticket, select it and report its live readiness and blockers before work. Otherwise use an eligible `Continue` override, then the first open Ticket in tracker order with the repository's ready marker, completed blockers and, when reliable claim state exists, no claim.
+- Re-read live readiness and parent relations before work. For one Ticket, use the parent and its `## Ticket — <Title>` comment; for many, use the selected child. If none qualifies, report why; unreliable claim state makes the choice provisional. Autonomous pickup requires readiness; starting a named unready Ticket needs separate execution authority.
+- Load only the selected Ticket and closed Tickets needed for context. Follow the receiving workflow's execution authority and the repository's claim process, then the recorded branch, PR target and Planning Carry.
 ```
 
 Publish **Start the Next Ticket** in every Map, adapting tracker terms while keeping the instructions in the Map. The parent, Scope, native relations and canonical Map let later sessions select one Ticket before loading its body. The selected Ticket carries complete prerequisites and acceptance; the Map carries cross-Ticket delivery facts. Keep planner write limits and operation receipts in the approval context.
 
-Preserve unrelated entry changes and resolve uncertain planning-file ownership before including content. Complete any Planning Carry and temporary worktree cleanup under [delivery-options.md](references/delivery-options.md); unresolved delivery or required cleanup leaves planning incomplete.
+Preserve unrelated entry changes and resolve uncertain planning-file ownership before including content. Prepare applicable Carry and worktree transfers under [delivery-options.md](references/delivery-options.md); their verified handoff results determine completion.
 
 $ARGUMENTS

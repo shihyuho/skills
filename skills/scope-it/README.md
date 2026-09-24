@@ -1,10 +1,10 @@
 # scope-it
 
-Coordinate interchangeable scope and ticket workflows into one Delivery Map with its own continuation protocol.
+Coordinate interchangeable scope and ticket workflows into one Delivery Map and a verified AFK handoff.
 
-This skill must be invoked explicitly.
+This skill must be invoked explicitly. Its handoff requires the `to-afk-agent` skill and GitHub access.
 
-Use `--publish` to complete this skill's full workflow within the agreed scope and return a verified planning handoff without routine confirmation between steps:
+Use `--publish` to complete the agreed planning and AFK preparation without routine confirmation between steps:
 
 ```text
 $scope-it --publish
@@ -23,8 +23,9 @@ flowchart TD
     SAVE[("Saved defaults<br/>Optional · with consent")]
     S["Run Scope skill<br/>Produce · review · publish Scope"]
     T["Run Ticket skill<br/>Shape · review · publish Tickets"]
-    M["Delivery Map<br/>scope-it verifies + composes<br/>Current authority · publish · read back on Parent"]
-    E["Later: executor<br/>Pick the next Ticket from Parent"]
+    M["scope-it<br/>Prepare complete Delivery Map<br/>and bounded handoff inputs"]
+    H["to-afk-agent<br/>Preserve files · publish Map · verify<br/>Clean up sources · finish ready markers"]
+    E["Receiving workflow<br/>Claim · implement · verify"]
 
     CS -.-> SAVE
     CT -.-> SAVE
@@ -32,16 +33,17 @@ flowchart TD
     CT --> T
     S -->|"published Scope"| T
     T -->|"published Tickets"| M
-    M -. "handoff" .-> E
+    M --> H
+    H -. "prepared Issues" .-> E
 ```
 
-Scope and Tickets roles are chosen independently; remembering either choice is optional and requires consent. Planning ends with the canonical Map on the Parent. Implementation belongs to the later executor.
+Scope and Tickets roles are chosen independently; remembering either choice is optional and requires consent. AFK preparation is the default endpoint. The receiving workflow owns dispatch, claims and implementation.
 
-The selected skills own their content, reviews and publication. Scope is published first, then passed to the ticket skill; the coordinator finally publishes the Map with any needed handoff links. Each step uses current workflow authority while preserving required content checks and reviews.
+The selected planning skills own their content, reviews and publication. Scope is published first, then passed to the Tickets skill, with new ready markers deferred until handoff completes. `scope-it` prepares the Map and gives `to-afk-agent` its full content, destination, permitted reference substitutions and any required file or worktree work. The handoff skill preserves artifacts, publishes and verifies the Map, completes cleanup, then adds missing ready markers.
 
-Publication keeps the agreed placement: an existing parent hosts Scope without replacing the report, one Ticket uses that parent as its identity, and multiple Tickets become children. The Map is one canonical parent comment; Ticket artifacts neither copy nor link back to it.
+Publication keeps the agreed placement: an existing parent hosts Scope without replacing the report, one Ticket uses that parent as its identity, and multiple Tickets become children. The Map is one canonical parent comment. A Ticket can receive a link to that comment when execution context is missing; the full Map stays on the parent.
 
-The Map is a low-resolution delivery index, not a Scope or progress tracker. It embeds the compact selection protocol, so a later session needs only the parent—not this skill or the planning chat—to choose one live Ticket before loading its details. The executor owns claim and implementation.
+The Map is a compact delivery index with its own selection protocol. A later session can start from the parent to choose one live Ticket before loading its details. Requirements and acceptance remain complete in Scope and Tickets.
 
 Choose scope and ticket skills independently, by name or with `--scope-skill <skill>` / `--ticket-skill <skill>`. Confirmed defaults can be remembered across repositories; older saved choices need consent before becoming reusable planning delegations. Publication and planning-file writes remain subject to the current approval.
 
@@ -53,11 +55,13 @@ Choose scope and ticket skills independently, by name or with `--scope-skill <sk
 | [Superpowers 6.2.0](https://github.com/obra/superpowers/tree/v6.2.0/skills) | `brainstorming` | `writing-plans` |
 | [Addy Osmani](https://github.com/addyosmani/agent-skills/tree/7cb7a20bb38b199728d456999c725a0488490ab6/skills) | `spec-driven-development` | `planning-and-task-breakdown` |
 
-These are examples, not required installations. An implementation plan still needs a compatible skill to shape delivery tickets. Each phase's writes require current approval; the coordinator publishes the Map through repository tools without requiring a Git helper skill.
+These are optional planning sources. An implementation plan still needs a compatible skill to shape delivery tickets. `to-afk-agent` is the fixed handoff dependency and follows the current workflow authority; it is independent of the two saved planning-role choices.
 
-Planning files such as ADRs or `CONTEXT.md` changes need a retrievable version, destination and responsible Ticket. Confirmed planning edits travel as exact patches in Planning Carry, even when Ticket acceptance repeats their content. Approved Carry includes source cleanup after verified delivery, preserving unrelated changes and their staging state; an explicit request to keep source copies is respected.
+Planning files such as ADRs or `CONTEXT.md` changes travel as exact patches in Planning Carry, with a responsible Ticket and landing path. `scope-it` establishes the content and delivery obligations; `to-afk-agent` performs remote preservation and fills the Map's agreed version references.
 
-Cleanup also removes temporary worktrees created by this planning run or its invoked workflows once their purpose is complete and required content is safely available. Branches, existing worktrees and worktrees explicitly retained or handed over for continued work remain. Shared delivery information appears once in the Map; repository and executor workflows own claim, Git, CI and implementation. Shared integration delivery is optional.
+After remote preservation and Map publication are verified, the default is **Clean up local source** for the selected content; explicitly request **Retain local source** to keep it. Unrelated, changed or uncertain content is preserved. Eligible temporary planning worktrees are explicitly handed over for cleanup, including those created by the selected planning skills. Existing worktrees and explicit retention choices are respected.
+
+Preview requests stay read-only. If GitHub placement or the handoff dependency is unavailable, planning drafts can be retained, but AFK handoff remains incomplete. Retrieving an existing Map does not restart preparation. Shared integration delivery remains optional and follows the repository's execution workflow.
 
 ## Installation
 

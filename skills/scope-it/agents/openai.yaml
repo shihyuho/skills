@@ -1,6 +1,6 @@
 interface:
   display_name: "scope-it"
-  short_description: "Plan delivery with interchangeable skills and one portable Map."
-  default_prompt: "Use $scope-it to coordinate my scope and ticket skills into one Delivery Map whose embedded continuation protocol lets a later implementation session start from the parent alone."
+  short_description: "Plan delivery and prepare a verified AFK handoff."
+  default_prompt: "Use $scope-it to coordinate my scope and ticket skills, prepare one Delivery Map, and delegate its publication and verified AFK handoff to to-afk-agent."
 policy:
   allow_implicit_invocation: false
