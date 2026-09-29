@@ -1,0 +1,130 @@
+{
+  "skill_name": "revisit",
+  "evals": [
+    {
+      "id": 1,
+      "name": "month-storage-and-evidence",
+      "prompt": "$skills:revisit https://github.com/softleader/fairybell/issues/729",
+      "expected_output": "Explains why month storage affects database delivery, distinguishes the original query allegation from verified DDL failures, and retains enough context in the first final response to understand the remaining scope decision.",
+      "files": [
+        "evals/files/729.md"
+      ],
+      "assertions": [
+        "The final response explains the month-storage concern with a concrete month or equivalent trace connecting storage, database-specific DDL, and the failed cross-database delivery before asking about a repair.",
+        "The final response distinguishes the original range-query allegation from passing H2 cases and the untested Oracle behavior.",
+        "The final response keeps integer storage, binary-type conversion, and the separate character-length concern identifiable as different proposals or scopes rather than settled requirements.",
+        "User-visible progress explains the month-storage concern before the assessment instead of merely announcing that explain will be used.",
+        "The final response carries the original concern, relevant history or its limits, and remaining decision without relying on progress messages.",
+        "The response uses the frozen version and observations honestly and proceeds to any genuine scope decision without requiring an understanding acknowledgment."
+      ]
+    },
+    {
+      "id": 2,
+      "name": "mapping-prevention",
+      "prompt": "$skills:revisit https://github.com/softleader/fairybell/issues/831",
+      "expected_output": "Explains how a property typo silently drops a copied value and why the old typo fix does not provide a general defense, while keeping the controlled experiment distinct from a live data-loss claim.",
+      "files": [
+        "evals/files/831.md"
+      ],
+      "assertions": [
+        "The final response explains name-based copying with a concrete mismatched-property example and connects the mismatch to an omitted value despite successful compilation.",
+        "The final response distinguishes the repaired #817 incident from #831's remaining prevention goal.",
+        "The final response treats four failed controlled probes as evidence of an inadequate defense, not proof that four live modules currently lose data.",
+        "The final response explains ERROR in terms of catching future omissions before asking for that acceptance decision; existing unmapped fields are not automatically approved ignore exceptions.",
+        "The response includes the original context in the final, identifies the frozen version, and leaves implementation and unresolved scope pending without a comprehension gate."
+      ]
+    },
+    {
+      "id": 3,
+      "name": "prior-fix-and-adjacent-findings",
+      "prompt": "$skills:revisit https://github.com/softleader/fairybell/issues/838",
+      "expected_output": "Connects a missing Flow setting to an exception and the scheduler impact, explains the prior isolation repair and remaining shared-method concern, and introduces adjacent null handling only after that original story.",
+      "files": [
+        "evals/files/838.md"
+      ],
+      "assertions": [
+        "The final response explains the purpose of the compatibility check and traces missing Flow settings to an exception and its observable execution impact.",
+        "The final response distinguishes the historical batch interruption, the existing scheduler-isolation repair, and the remaining shared-method exception; it does not claim later Flows still stop today.",
+        "The original sections concern and prior-fix boundary are explained before the final response introduces fieldDetails or the eight test fixtures.",
+        "The final response treats fieldDetails as an adjacent scope proposal and false as a proposed contract rather than an approved change.",
+        "The response identifies the frozen version and keeps enough narrative in the final to understand why the ticket remains open without progress messages or an understanding acknowledgment."
+      ]
+    },
+    {
+      "id": 4,
+      "name": "observed-behavior-and-business-choice",
+      "prompt": "$skills:revisit https://github.com/softleader/fairybell/issues/750",
+      "expected_output": "Uses a concrete download and formal-output sequence to explain the concern, distinguishes reproduced allocation from an undecided business contract, and makes the proposed boundary understandable without a follow-up explanation.",
+      "files": [
+        "evals/files/750.md"
+      ],
+      "assertions": [
+        "The final response uses a concrete example connecting manual download to consumption of the sequence shared with formal output, even though the downloaded file is not sent through formal output.",
+        "The final response distinguishes the verified sequence advance from the undecided business meaning of download; it does not invent a requirement that delivered numbers must be contiguous.",
+        "The final response explains preview allocation as reading a possible next number without reserving it before discussing that option.",
+        "The final response connects the separate backup-output choice to a copy reaching a configured destination, while preserving the fact that download semantics have not been chosen.",
+        "The final response remains understandable without progress messages, identifies the frozen version, and does not treat the observed behavior as automatic authorization to implement a fix."
+      ]
+    },
+    {
+      "id": 5,
+      "name": "resolved-pr-still-explained",
+      "prompt": "$revisit https://example.invalid/reports/pull/46",
+      "expected_output": "Explains the duplicate-header incident and empty-file review concern, then ties the later writer repair and checks to a no-further-change conclusion without a new repair question or tracker mutation.",
+      "files": [
+        "evals/files/resolved-pr.md"
+      ],
+      "assertions": [
+        "The final response explains why appending multiple report batches caused duplicate headers and why that mattered to spreadsheet imports.",
+        "The final response explains the empty-file review concern and connects the later writer repair plus both recorded checks to coverage of that concern.",
+        "The final response retains a concrete multi-batch or empty-file example even though the assessment concludes no further code change is needed.",
+        "The response identifies the supplied current version and does not manufacture a repair decision or claim to close or merge the PR."
+      ]
+    },
+    {
+      "id": 6,
+      "name": "missing-history-and-unverified",
+      "prompt": "$revisit https://example.invalid/invoicing/issues/19",
+      "expected_output": "Explains the reported timeout/retry concern as far as the available title supports, labels illustrative mechanisms and missing history, and keeps applicability unverified because the distinct-ID test does not reproduce the incident.",
+      "files": [
+        "evals/files/unverified.md"
+      ],
+      "assertions": [
+        "The final response explains the reported timeout/retry duplicate concern while distinguishing any illustrative sequence from an established incident mechanism.",
+        "The final response identifies the missing incident log and absent request/timeout details without inventing prior decisions or a historical fix.",
+        "The final response explains why two different request IDs producing two invoices does not verify or disprove the reported retry duplicate.",
+        "The response identifies the supplied current version, keeps the result unverified, and provides a bounded next evidence need rather than claiming resolution or prescribing a verified repair."
+      ]
+    },
+    {
+      "id": 7,
+      "name": "follow-up-uses-established-context",
+      "prompt": "勾選「同時觸發備份輸出」時，為什麼你建議保留正式配號？",
+      "expected_output": "Answers the backup-output question using the established download context, preserves the agreed normal-download choice, and leaves the backup choice pending without replaying the whole initial report.",
+      "files": [
+        "evals/files/follow-up.md"
+      ],
+      "assertions": [
+        "The response answers the backup-output question by connecting an actual destination copy to the lack of number reservation under preview allocation.",
+        "The response preserves the agreed general-download choice and does not reopen it as an unanswered question.",
+        "The response uses only the background needed for this question rather than repeating the entire initial issue history, version report, and 005/006/007 walkthrough.",
+        "The response leaves backup-output semantics for the user to decide and does not treat the explanation as approval to implement."
+      ]
+    },
+    {
+      "id": 8,
+      "name": "enhancement-without-invented-defect",
+      "prompt": "$revisit https://example.invalid/audit/issues/28",
+      "expected_output": "Explains the operator workflow and missing date-range capability, distinguishes the working monthly feature from the proposed enhancement, and keeps unmeasured async requirements outside the established scope.",
+      "files": [
+        "evals/files/enhancement.md"
+      ],
+      "assertions": [
+        "The final response explains the operator's quarterly-report task through the existing month-by-month exports and manual combination before technical solution choices.",
+        "The final response distinguishes the working monthly behavior from the still-missing date-range capability rather than asserting an existing monthly-export defect.",
+        "The final response treats timeout risk, range limits, and background processing according to the evidence; it does not invent measurements or an approved async requirement.",
+        "The response identifies the supplied current version and makes the remaining enhancement decision understandable without relying on progress messages."
+      ]
+    }
+  ]
+}
