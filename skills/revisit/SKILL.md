@@ -15,7 +15,7 @@ Resolve the ticket or PR from the supplied number, link, or conversation, then i
 2. `mattpocock-skills:diagnosing-bugs` to reassess that concern against the current version, identifying the version checked. Choose verification appropriate to the ticket's nature (such as a defect, performance, security, or enhancement), explicitly justifying any inapplicable diagnosis phases. Scope this invocation to investigation, including necessary verification tests and cleanup; implementation follows the discussion, with separate user authorization.
 3. If the concern remains applicable and requires a change, `skills:grill-minimal` to discuss the smallest complete change, including its call to `grill-with-docs` for that discussion. Otherwise, report why action is no longer needed or what remains unverified; lack of confirming evidence alone does not establish resolution.
 
-Use each skill's own instructions within these phase boundaries. If a required skill cannot be resolved, report the missing dependency and stop the affected phase.
+Use each skill's own instructions within these phase boundaries. Use `productivity:resolving-user-invoke-skills` when needed and available to load these skills. If a required skill cannot be resolved, report the missing dependency and stop the affected phase.
 
 ## First assessment response
 

@@ -8,4 +8,6 @@ disable-model-invocation: true
 # grill-minimal
 
 Invoke `grill-with-docs`, prioritizing the simplest approach and narrowest
-scope that fully meet the user's goals and constraints.
+scope that fully meet the user's goals and constraints. Use
+`productivity:resolving-user-invoke-skills` when needed and available to load
+it.
