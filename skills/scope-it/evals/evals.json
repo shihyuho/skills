@@ -65,7 +65,7 @@
       "assertions": [
         "Uses native child membership and linked Ticket titles as topology rather than repeating an artifact/Ticket list or replacing source content, reviews, metadata or attachments.",
         "Supplies complete parent Map content, markers and placement to to-afk-agent; it appends the full Map exactly once as the parent's then-final standalone comment, preserves Scope/Ticket bytes and binds its verified ID/URL as canonical. Later ordinary comments do not change that identity.",
-        "For one Ticket, uses the parent identity plus its content comment without a child or self-relation; for many, uses native children. The parent holds the only full Map; an affected child may receive only the missing canonical Map link or execution pointer in an ordinary comment, without rewriting its Ticket. Omits `Continue` when no task-specific override exists and reads back one canonical Map."
+        "For one Ticket, uses the parent identity plus its content comment without a child or self-relation; for many, uses native children. The parent holds the only full Map; an affected child may receive only the missing canonical Map link or execution pointer in an ordinary comment, without rewriting its Ticket. Includes no next-Ticket selection section and reads back one canonical Map."
       ]
     },
     {
@@ -143,7 +143,7 @@
       "files": [],
       "assertions": [
         "Separates execution preference, native children and blockers; schedule creates neither Import/Export blocking nor shared delivery.",
-        "Uses linked Ticket titles as Ticket nodes. Import → Audit is the only Ticket-to-Ticket edge; Export has none. Exact branch/PR edges land each Ticket on shared main without inventing a lane. It omits source duplication and uses Continue only for Export-first. Planning Carry None creates no baseline Git work, while missing readiness is completed only after verified handoff.",
+        "Uses linked Ticket titles as Ticket nodes. Import → Audit is the only Ticket-to-Ticket edge; Export has none. The diagram draws no landing target, branch/PR endpoint or lane, and omits source duplication; the Export-first preference stays out of the Map. Planning Carry None creates no baseline Git work, while missing readiness is completed only after verified handoff.",
         "Sends the readiness-affecting decision back to Scope and then Tickets before publishing or amending Audit; the unapproved Map creates no runtime status or implementation authority."
       ]
     },
@@ -175,14 +175,13 @@
     },
     {
       "id": 16,
-      "prompt": "Plan and publish a Delivery Map whose future implementation session will have only the parent Issue, not scope-it or the planning chat. The multi-Ticket variant has ordered children Import, Export and Audit; Audit is blocked by Import, Export may have an active repository claim, and this task prefers Audit when eligible. Concurrent edits may change a blocker just before selection. Also cover a user-named Ticket and a single Ticket stored as a parent comment. Later an approved Map amendment and reviewed Scope B affect Import only.",
-      "expected_output": "Publish a low-resolution Map that lets a later implementation session select and start one live Ticket.",
+      "prompt": "Plan and publish a Delivery Map for ordered children Import, Export and Audit; Audit is blocked by Import. Whether they ship in one shared PR or in separate PRs is undecided, and a later implementation session will rely on the native blockers. Also cover a single Ticket stored as a parent comment, and a case where the team agrees on a shared delivery lane. Later an approved Map amendment and reviewed Scope B affect Import only.",
+      "expected_output": "Publish a low-resolution Map whose Topology is a human overview of Ticket dependencies that does not lock the delivery shape or select the next Ticket.",
       "files": [],
       "assertions": [
-        "The canonical Map itself contains compact `Start the Next Ticket` instructions; following them requires only the parent, Map and fresh native children/blockers/linked branches, not this skill, the planning chat or all Ticket bodies.",
-        "The embedded protocol gives a user-named Ticket priority while surfacing live readiness and blockers; otherwise it applies only an eligible task-specific `Continue` override, then chooses the first open Ticket with the repository's ready marker, completed blockers and, when claim state is reliable, no claim in tracker order after a fresh concurrency read. A named unready Ticket needs separate execution authority before work.",
-        "For one Ticket, the protocol selects the parent identity and its Ticket comment; for many, one child. It zooms only into the selected Ticket and needed closed Tickets, then follows that Ticket's branch, target and relevant Carry; a needed canonical Map link may be added to a child without rewriting its Ticket.",
-        "The implementation session revalidates and performs the repository-defined claim before work; unreliable claim state makes selection provisional and no qualifying Ticket yields live reasons. The Map stores neither current/following frontier nor claim snapshots.",
+        "Topology uses linked Ticket titles as nodes with Import → Audit as the only edge, and draws no landing target, branch/PR endpoint or integration lane, so it fits both shared and independent delivery; it states that agents read the native blockers.",
+        "The Map contains no Start the Next Ticket or `Continue` section and no selection, readiness, claim or frontier instructions; selection and execution order are left to the receiving workflow.",
+        "For one Ticket, the parent identity plus its Ticket comment is used and the diagram is omitted. For an agreed shared lane, the lane, target and closure responsibility are recorded as text linking the repository workflow, and no final integration Ticket is added unless that workflow requires one.",
         "Scope B still needs source-native review/publication before affected Import changes; unchanged Tickets retain approval, and to-afk-agent amends the canonical Map at the same comment identity within its approved boundary."
       ]
     },
@@ -193,7 +192,7 @@
       "files": [],
       "assertions": [
         "Reuses the accepted complete source artifacts and reviews without rerunning sources or requesting already settled decisions.",
-        "Reconciles the supplied planning history and fresh repository status before using Planning Carry None; preserves confirmed unrelated changes, keeps the parent as the Ticket identity, omits the diagram and includes the self-contained Start the Next Ticket protocol.",
+        "Reconciles the supplied planning history and fresh repository status before using Planning Carry None; preserves confirmed unrelated changes, keeps the parent as the Ticket identity, omits the diagram and adds no Ticket-selection protocol.",
         "Does not load preferences, recovery or delivery-options references when none of their branches applies; creates no configuration or baseline work.",
         "Previews the complete Map and bounded handoff without any source, delegated, Git, Map, cleanup or readiness write because publication approval is missing."
       ]
@@ -510,7 +509,7 @@
     },
     {
       "id": 44,
-      "prompt": "Use scope-it --publish on an approved two-Ticket plan. The Scope and Tickets sources completed their own reviews, publication and readback; new ready labels were deferred. Child A already has ready from before this run, child B lacks it. The parent has no Map. A confirmed ADR and exact mixed-file patch belong to Carry; an unrelated staged paragraph and uncertain draft do not. A's existing Carrier branch and target are established. The complete proposed parent Map includes authoritative markers, topology, Carry placeholders limited to branch, full base/baseline SHAs and immutable file links, plus a Start the Next Ticket protocol. The handoff must be accessible to a remote executor, and an eligible planning-created worktree was explicitly transferred for cleanup.",
+      "prompt": "Use scope-it --publish on an approved two-Ticket plan. The Scope and Tickets sources completed their own reviews, publication and readback; new ready labels were deferred. Child A already has ready from before this run, child B lacks it. The parent has no Map. A confirmed ADR and exact mixed-file patch belong to Carry; an unrelated staged paragraph and uncertain draft do not. A's existing Carrier branch and target are established. The complete proposed parent Map includes authoritative markers, topology, Carry placeholders limited to branch, full base/baseline SHAs and immutable file links. The handoff must be accessible to a remote executor, and an eligible planning-created worktree was explicitly transferred for cleanup.",
       "expected_output": "Delegate one bounded Carry and full Map publication, verify source disposition, and finish missing readiness in order.",
       "files": [],
       "assertions": [
@@ -563,17 +562,6 @@
         "For A/C it removes only the wholly owned unchanged untracked file and selected unchanged layers of the mixed file, preserving unrelated staging and bytes. It retains the changed source and reports incomplete cleanup rather than inferring a replacement patch or declaring preparation complete.",
         "For B it verifies unchanged retained sources and treats retention as complete when remote publication is verified. Eligible explicitly transferred worktree cleanup is assessed separately from source retention; the pre-existing worktree remains untouched.",
         "Missing cleanup or disposition prevents newly adding ready; existing ready markers remain and any automatic pickup is coordinated without a claim that the queue is paused."
-      ]
-    },
-    {
-      "id": 49,
-      "prompt": "Prepare the Start the Next Ticket protocol for a complete parent Delivery Map that to-afk-agent will publish before source cleanup and new ready markers. Later a session has only that Map and the parent. Children are ordered A then B, both open, unblocked and reliably unclaimed, but only B currently has the repository's ready marker. The task's Continue override prefers A when eligible. In a second variant the user names A without authorizing execution before its handoff finishes; in a third, B loses ready just before work. Cover the same preparation window for one Ticket represented by the parent and its Ticket comment.",
-      "expected_output": "Embed a durable protocol that checks live readiness for automatic selection and again before work, while handling named and single Tickets truthfully.",
-      "files": [],
-      "assertions": [
-        "The published protocol itself requires the repository's live ready marker for autonomous pickup; neither the Map's existence nor an open, unblocked and unclaimed Ticket substitutes for readiness. It skips the ineligible Continue override A and selects B without loading every Ticket body.",
-        "For user-named A it surfaces missing readiness and requires separate execution authority before work; for a single Ticket it checks readiness on the parent identity and loads the Ticket comment only as selected context.",
-        "It re-reads readiness and native relations before work, so B losing ready prevents autonomous claim or implementation and produces a live no-eligible-Ticket report. It does not add ready or repair the unfinished handoff from the receiving session."
       ]
     }
   ]

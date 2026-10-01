@@ -12,7 +12,7 @@ Preserve successful writes, siblings and unrelated content. Relay existing Carry
 
 ## Retrieve or amend the Map
 
-For a later read-only retrieval, return the parent and published canonical Map without starting a new handoff or readiness writes. Its embedded **Start the Next Ticket** protocol lets another session continue without this skill or the planning chat.
+For a later read-only retrieval, return the parent and published canonical Map without starting a new handoff or readiness writes. Its Delivery Topology and the parent's native relations let another session continue without this skill or the planning chat.
 
 Prepare approved amendments for the same canonical comment and delegate their publication to `to-afk-agent`. Supply the marker-bound editing boundary and preserve surrounding content and existing Scope/Ticket bytes. Later ordinary comments do not change the Map identity. Preserve legacy `scope-it-remake` markers and their comment binding. The handoff workflow coordinates active execution or automatic pickup before changing executor inputs.
 

@@ -22,7 +22,7 @@ The delegate verifies preservation, source disposition, worktree eligibility and
 
 ## Shared lane and special responsibilities
 
-For an agreed shared delivery lane, have the Tickets source supply a final integration/verification Ticket with dependencies on all terminal Tickets. Record the lane, target, aggregate verification and closure responsibility in the Map, linking the applicable repository workflow.
+For an agreed shared delivery lane, record the lane, target, aggregate verification and closure responsibility in the Map, linking the applicable repository workflow. Add a final integration/verification Ticket only when that workflow requires one; the executor's own integration and review otherwise cover it.
 
 Preserve agreed conditional duties, including when independent delivery assigns aggregate evidence or parent closure to whichever Ticket finishes last. Record each obligation once with its owner, trigger and required evidence; execution order alone creates no blocker or shared lane.
 

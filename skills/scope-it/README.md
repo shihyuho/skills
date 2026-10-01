@@ -43,7 +43,7 @@ The selected planning skills own their content, reviews and publication. Scope i
 
 Publication keeps the agreed placement: an existing parent hosts Scope without replacing the report, one Ticket uses that parent as its identity, and multiple Tickets become children. The Map is one canonical parent comment. A Ticket can receive a link to that comment when execution context is missing; the full Map stays on the parent.
 
-The Map is a compact delivery index with its own selection protocol. A later session can start from the parent to choose one live Ticket before loading its details. Requirements and acceptance remain complete in Scope and Tickets.
+The Map is a compact delivery index whose Delivery Topology gives humans an at-a-glance view of Ticket dependencies; agents read the native blockers, and the receiving workflow chooses what to start. Requirements and acceptance remain complete in Scope and Tickets.
 
 Choose scope and ticket skills independently, by name or with `--scope-skill <skill>` / `--ticket-skill <skill>`. Confirmed defaults can be remembered across repositories; older saved choices need consent before becoming reusable planning delegations. Publication and planning-file writes remain subject to the current approval.
 

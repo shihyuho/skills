@@ -7,7 +7,7 @@ disable-model-invocation: true
 
 # scope-it
 
-Coordinate scope and delivery planning. The selected planning skills own their complete outputs, reviews and publication; this coordinator prepares the Delivery Map and delegates its publication, Planning Carry and readiness to `to-afk-agent`. Finish with verified AFK-ready Issues and one canonical Map whose continuation protocol lets another session start from the parent. Implementation and dispatch belong to the receiving workflow.
+Coordinate scope and delivery planning. The selected planning skills own their complete outputs, reviews and publication; this coordinator prepares the Delivery Map and delegates its publication, Planning Carry and readiness to `to-afk-agent`. Finish with verified AFK-ready Issues and one canonical Map that gives humans an at-a-glance view of the task graph, so another session can start from the parent. Implementation and dispatch belong to the receiving workflow.
 
 ## Workflow
 
@@ -81,22 +81,18 @@ Agree placement before source publication:
 
 After Scope and Tickets exist, have `to-afk-agent` publish the full Map once as a standalone parent comment. Its read-back comment ID/URL is canonical; later comments do not change that identity. Tickets may receive a link to that comment when context is missing, while the full Map stays on the parent. Use `<!-- scope-it:delivery-map:start -->` and `<!-- scope-it:delivery-map:end -->` to delimit the editable block.
 
-Use linked Ticket titles as diagram nodes. Ticket-to-Ticket edges project verified native blockers (`A → B` means B is blocked by A); Ticket-to-target edges show branch/PR landing and converge on each shared endpoint once. Independent landing is the default. Omit the diagram for one Ticket.
+Use linked Ticket titles as diagram nodes. Ticket-to-Ticket edges project verified native blockers (`A → B` means B is blocked by A); the diagram is a human overview that draws no landing target, so it fits shared and independent delivery alike. Omit it for one Ticket.
 
-Use this outline. Insert `## Continue` between Planning Carry and Start the Next Ticket only when a task-specific selection override exists. Use Planning Carry `None` only when that reconciliation confirms no planning content needs carrying; it creates no baseline work.
+Use this outline. Use Planning Carry `None` only when that reconciliation confirms no planning content needs carrying; it creates no baseline work.
 
 ```markdown
 ## Delivery Topology
-<Linked Ticket topology: verified native blocker edges plus branch/PR landing endpoints.>
+<Linked Ticket topology: verified native blocker edges only, noting that the native blockers are authoritative.>
 ## Planning Carry
 <Durable location/baseline, Carrier Ticket and landing path; or None.>
-## Start the Next Ticket
-- If the user names a Ticket, select it and report its live readiness and blockers before work. Otherwise use an eligible `Continue` override, then the first open Ticket in tracker order with the repository's ready marker, completed blockers and, when reliable claim state exists, no claim.
-- Re-read live readiness and parent relations before work. For one Ticket, use the parent and its `## Ticket — <Title>` comment; for many, use the selected child. If none qualifies, report why; unreliable claim state makes the choice provisional. Autonomous pickup requires readiness; starting a named unready Ticket needs separate execution authority.
-- Load only the selected Ticket and closed Tickets needed for context. Follow the receiving workflow's execution authority and the repository's claim process, then the recorded branch, PR target and Planning Carry.
 ```
 
-Publish **Start the Next Ticket** in every Map, adapting tracker terms while keeping the instructions in the Map. The parent, Scope, native relations and canonical Map let later sessions select one Ticket before loading its body. The selected Ticket carries complete prerequisites and acceptance; the Map carries cross-Ticket delivery facts. Keep planner write limits and operation receipts in the approval context.
+Selection and execution order belong to the receiving workflow. Keep planner write limits and operation receipts in the approval context.
 
 Preserve unrelated entry changes and resolve uncertain planning-file ownership before including content. Prepare applicable Carry and worktree transfers under [delivery-options.md](references/delivery-options.md); their verified handoff results determine completion.
 
