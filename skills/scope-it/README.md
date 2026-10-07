@@ -1,6 +1,6 @@
 # scope-it
 
-Coordinate interchangeable scope and ticket workflows into one Delivery Map and a verified AFK handoff.
+Coordinate interchangeable scope and ticket workflows into a Ticket Map and a verified AFK handoff.
 
 This skill must be invoked explicitly. Its handoff requires the `to-afk-agent` skill and GitHub access.
 
@@ -23,8 +23,8 @@ flowchart TD
     SAVE[("Saved defaults<br/>Optional · with consent")]
     S["Run Scope skill<br/>Produce · review · publish Scope"]
     T["Run Ticket skill<br/>Shape · review · publish Tickets"]
-    M["scope-it<br/>Prepare complete Delivery Map<br/>and bounded handoff inputs"]
-    H["to-afk-agent<br/>Preserve files · publish Map · verify<br/>Clean up sources · finish ready markers"]
+    M["scope-it<br/>Publish Ticket Map<br/>Prepare landing obligations"]
+    H["to-afk-agent<br/>Settle how it lands · preserve files<br/>Clean up sources · ready markers · dispatch"]
     E["Receiving workflow<br/>Claim · implement · verify"]
 
     CS -.-> SAVE
@@ -37,13 +37,13 @@ flowchart TD
     H -. "prepared Issues" .-> E
 ```
 
-Scope and Tickets roles are chosen independently; remembering either choice is optional and requires consent. AFK preparation is the default endpoint. The receiving workflow owns dispatch, claims and implementation.
+Scope and Tickets roles are chosen independently; remembering either choice is optional and requires consent. AFK preparation, ending with any agreed dispatch by `to-afk-agent`, is the default endpoint. The receiving workflow owns claims and implementation.
 
-The selected planning skills own their content, reviews and publication. Scope is published first, then passed to the Tickets skill, with new ready markers deferred until handoff completes. `scope-it` prepares the Map and gives `to-afk-agent` its full content, destination, permitted reference substitutions and any required file or worktree work. The handoff skill preserves artifacts, publishes and verifies the Map, completes cleanup, then adds missing ready markers.
+The selected planning skills own their content, reviews and publication. Scope is published first, then passed to the Tickets skill, with new ready markers deferred until handoff completes. `scope-it` publishes the Ticket Map, then gives `to-afk-agent` the Issues, landing obligations and any required file or worktree work. The handoff skill decides how the work lands, preserves artifacts, completes cleanup, then adds missing ready markers.
 
-Publication keeps the agreed placement: an existing parent hosts Scope without replacing the report, one Ticket uses that parent as its identity, and multiple Tickets become children. The Map is one canonical parent comment. A Ticket can receive a link to that comment when execution context is missing; the full Map stays on the parent.
+Publication keeps the agreed placement: an existing parent hosts Scope without replacing the report, one Ticket uses that parent as its identity, and multiple Tickets become children.
 
-The Map is a compact delivery index whose Delivery Topology gives humans an at-a-glance view of Ticket dependencies; agents read the native blockers, and the receiving workflow chooses what to start. Requirements and acceptance remain complete in Scope and Tickets.
+With two or more Tickets, the Ticket Map is one parent comment that shows people, at a glance, how the Tickets depend on each other, in the smallest view that makes the shape clear. Agents read the native blockers, and the receiving workflow chooses what to start. Requirements and acceptance remain complete in Scope and Tickets.
 
 Choose scope and ticket skills independently, by name or with `--scope-skill <skill>` / `--ticket-skill <skill>`. Confirmed defaults can be remembered across repositories; older saved choices need consent before becoming reusable planning delegations. Publication and planning-file writes remain subject to the current approval.
 
@@ -57,11 +57,11 @@ Choose scope and ticket skills independently, by name or with `--scope-skill <sk
 
 These are optional planning sources. An implementation plan still needs a compatible skill to shape delivery tickets. `to-afk-agent` is the fixed handoff dependency and follows the current workflow authority; it is independent of the two saved planning-role choices.
 
-Planning files such as ADRs or `CONTEXT.md` changes travel as exact patches in Planning Carry, with a responsible Ticket and landing path. `scope-it` establishes the content and delivery obligations; `to-afk-agent` performs remote preservation and fills the Map's agreed version references.
+Planning files such as ADRs or `CONTEXT.md` changes travel as exact patches in Planning Carry. `scope-it` establishes the content and its landing target; `to-afk-agent` decides how it lands, including the delivery mode and Carrier, performs remote preservation and records the Carry.
 
-After remote preservation and Map publication are verified, the default is **Clean up local source** for the selected content; explicitly request **Retain local source** to keep it. Unrelated, changed or uncertain content is preserved. Eligible temporary planning worktrees are explicitly handed over for cleanup, including those created by the selected planning skills. Existing worktrees and explicit retention choices are respected.
+After remote preservation is verified, the default is **Clean up local source** for the selected content; explicitly request **Retain local source** to keep it. Unrelated, changed or uncertain content is preserved. Eligible temporary planning worktrees are explicitly handed over for cleanup, including those created by the selected planning skills. Existing worktrees and explicit retention choices are respected.
 
-Preview requests stay read-only. If GitHub placement or the handoff dependency is unavailable, planning drafts can be retained, but AFK handoff remains incomplete. Retrieving an existing Map does not restart preparation. Shared integration delivery remains optional and follows the repository's execution workflow.
+Preview requests stay read-only. If GitHub placement or the handoff dependency is unavailable, planning drafts can be retained, but AFK handoff remains incomplete. Retrieving an existing Map does not restart preparation.
 
 ## Installation
 

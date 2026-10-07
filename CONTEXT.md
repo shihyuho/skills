@@ -4,24 +4,20 @@ This context names the durable artifacts that connect scoping with implementatio
 
 ## Language
 
-**Delivery Map**:
-The canonical parent artifact that connects published Scope and Tickets to native relations, landing paths, optional Planning Carry, and the protocol for selecting the next live Ticket.
-_Avoid_: Duplicate spec, progress tracker
-
-**Planning Baseline**:
-An immutable commit containing approved scope-related repository content at the start of its Carrier Ticket's delivery path.
-_Avoid_: Handoff commit, orphan-file commit
+**Ticket Map**:
+The parent comment that shows people, at a glance, how a plan's Tickets depend on each other, drawn from native relations, which stay authoritative.
+_Avoid_: Delivery Map, duplicate spec, progress tracker
 
 **Planning Carry**:
-The compact Delivery Map pointer that records approved scope-related content, its Carrier Ticket, linked branch, base and baseline SHAs, landing target, access, and delivery obligation.
+The landing obligation `scope-it` hands to `to-afk-agent`: approved scope-related repository content, its ownership evidence and landing target. How it lands, including its Carrier and branch, is the handoff's decision.
 _Avoid_: Shared handoff contract, copied ticket pointers
 
-**Carrier Ticket**:
-The delivery ticket whose recorded final path transports Planning Carry; this ownership creates no blocker relationship.
-_Avoid_: Planning-only ticket, arbitrary owner
+**Planning Baseline**:
+An immutable commit containing approved scope-related repository content at the start of a delivery branch; `to-afk-agent` calls it the Carry baseline.
+_Avoid_: Handoff commit, orphan-file commit
 
 **Baseline Pointer**:
-The legacy or narrow worktree input comprising the branch and full baseline SHA extracted from Planning Carry.
+The legacy or narrow worktree input comprising a delivery branch and the full Planning Baseline SHA.
 _Avoid_: Conversation handoff, branch-only reference
 
 **Scope-related Change**:

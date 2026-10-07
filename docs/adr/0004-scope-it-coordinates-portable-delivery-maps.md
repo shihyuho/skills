@@ -1,5 +1,7 @@
 # Scope-it coordinates portable Delivery Maps
 
+> Superseded by [ADR 0005](0005-scope-it-publishes-ticket-maps-and-leaves-landing-to-the-handoff.md).
+
 This decision supersedes ADR 0002 and ADR 0003 as the current `scope-it` runtime contract. The interactive `scope-it-remake` design graduates under the canonical `scope-it` name; the prior fixed-source, single-approval workflow is retired.
 
 ## Decision

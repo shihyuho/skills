@@ -1,6 +1,6 @@
 interface:
   display_name: "scope-it"
-  short_description: "Plan delivery and prepare a verified AFK handoff."
-  default_prompt: "Use $scope-it to coordinate my scope and ticket skills, prepare one Delivery Map, and delegate its publication and verified AFK handoff to to-afk-agent."
+  short_description: "Plan scope and Tickets and prepare a verified AFK handoff."
+  default_prompt: "Use $scope-it to coordinate my scope and ticket skills, publish a Ticket Map, and hand the work to to-afk-agent for a verified AFK handoff."
 policy:
   allow_implicit_invocation: false
