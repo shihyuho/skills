@@ -7,7 +7,7 @@ disable-model-invocation: true
 
 # scope-it
 
-Coordinate scope and ticket planning. The selected planning skills own their complete outputs, reviews and publication. This coordinator settles what must land, publishes a Ticket Map for people, and hands the work to `to-afk-agent`, which owns how it lands: delivery mode, Carrier, branches, preservation, Carry records, cleanup, readiness and dispatch. Finish with verified AFK-ready Issues, so another session can start from the parent. Implementation belongs to the receiving workflow.
+Coordinate scope and ticket planning. The selected planning skills own their complete outputs, reviews and publication. This coordinator settles what must land, publishes a Ticket Map for people, and hands the work to `to-afk-agent`, which owns how it lands, including the Carrier, branches, preservation, Carry records, cleanup, readiness and dispatch. Finish with verified AFK-ready Issues, so another session can start from the parent. Implementation belongs to the receiving workflow.
 
 ## Workflow
 
@@ -16,7 +16,7 @@ Coordinate scope and ticket planning. The selected planning skills own their com
 3. **Tickets.** Pass the complete published Scope and real reference to the Tickets skill. Resolve choices affecting shape or responsibilities and arrange deferred new ready markers before publication. Let the source propose, review and publish complete tickets in the agreed placement; retain their verified identities and relationships.
 4. **Assemble.** Reconcile this planning session's artifacts, changes and created worktrees, including work from invoked skills, against ownership evidence and landing obligations. Requirements and acceptance stay in the source artifacts. Agreed delivery duties, such as aggregate verification or parent closure, belong in Ticket acceptance with their owner, trigger and required evidence; keep a conditional owner, such as whichever Ticket finishes last, conditional rather than fixing one Ticket. Return gaps or conflicts to their source for approved revision. With two or more Tickets, publish the [Ticket Map](#ticket-map) and read it back; no executor reads it, so a failed publication or readback is reported as unresolved without holding back the handoff.
 5. **Hand off.** Under the publication contract, give `to-afk-agent` the bounded handoff below. Retain its verified results. Save only separately approved preference changes.
-6. **Verify and finish.** Verify links, metadata, attachments, the Ticket Map, unchanged Scope/Ticket content, both native relationship axes and completion of the required handoff. Reuse valid readback evidence and refresh missing or changed evidence. Report the parent, Ticket Map, ready Issues, the handoff's delivery mode, Carry, disposition and dispatch results, plus unresolved work. Successful planning publication alone does not complete an unfinished AFK handoff.
+6. **Verify and finish.** Verify links, metadata, attachments, the Ticket Map, unchanged Scope/Ticket content, both native relationship axes and completion of the required handoff. Reuse valid readback evidence and refresh missing or changed evidence. Report the parent, Ticket Map, ready Issues, the handoff's results for how the work lands, Carry, disposition and dispatch, plus unresolved work. Successful planning publication alone does not complete an unfinished AFK handoff.
 
 ## Conditional references
 

@@ -143,7 +143,7 @@
       "files": [],
       "assertions": [
         "Separates execution preference, native children and blockers; the schedule creates no Import/Export blocker, and the stated independent landing passes to to-afk-agent as a settled decision rather than being settled or recorded by scope-it.",
-        "The Map shows Audit waiting for Import and Export in parallel, using `[#n short label](url)` references, with no landing target, branch/PR endpoint, delivery mode or Carry; the Export-first preference stays out of the Map. Nothing needs carrying, so no baseline Git work starts, and missing readiness is left to the verified handoff.",
+        "The Map shows Audit waiting for Import and Export in parallel, using `[#n short label](url)` references, with no landing target, branch/PR endpoint, landing choice or Carry; the Export-first preference stays out of the Map. Nothing needs carrying, so no baseline Git work starts, and missing readiness is left to the verified handoff.",
         "Sends the readiness-affecting decision back to Scope and then Tickets before publishing or amending Audit; the unapproved Map creates no runtime status or implementation authority."
       ]
     },
@@ -179,7 +179,7 @@
       "expected_output": "Publish a Ticket Map that shows people the Tickets' dependencies without locking the delivery shape or selecting the next Ticket.",
       "files": [],
       "assertions": [
-        "The Map shows Audit waiting for Import and Export in parallel in a compact list with `[#n short label](url)` references, and draws no landing target, branch/PR endpoint, delivery mode or Carry; scope-it neither asks nor decides the undecided delivery shape, which stays with to-afk-agent.",
+        "The Map shows Audit waiting for Import and Export in parallel in a compact list with `[#n short label](url)` references, and draws no landing target, branch/PR endpoint, landing choice or Carry; scope-it neither asks nor decides the undecided delivery shape, which stays with to-afk-agent.",
         "The Map contains no Start the Next Ticket or `Continue` section and no selection, readiness, claim or frontier instructions; selection and execution order are left to the receiving workflow.",
         "For one Ticket, the parent identity plus its Ticket comment is used and no Ticket Map is published. When no Ticket has blockers, the Map says in one line that they can run in parallel.",
         "Scope B still needs source-native review/publication before affected Import changes; unchanged Tickets retain approval, and scope-it redraws the Map at the same comment identity, showing the change as a diff of the drawn view."
@@ -474,12 +474,12 @@
     },
     {
       "id": 41,
-      "prompt": "Use scope-it --publish after an approved design discussion. That discussion produced two confirmed planning files, a design document and its audit evidence, still untracked on source main; recoverable creation and content records establish their exact scope ownership. Other source changes belong to another task. The resolved repository and selected workflows supply naming, base, linked-branch and publication mechanics; the landing target is settled, while the delivery mode and Carrier are not. The sources can complete their required content checks and reviews. No separate approval has been given for a branch, baseline commit/push, source move, temporary worktree removal or Ticket Map draft. Complete the agreed planning handoff.",
+      "prompt": "Use scope-it --publish after an approved design discussion. That discussion produced two confirmed planning files, a design document and its audit evidence, still untracked on source main; recoverable creation and content records establish their exact scope ownership. Other source changes belong to another task. The resolved repository and selected workflows supply naming, base, linked-branch and publication mechanics; the landing target is settled, while how the work lands and its Carrier are not. The sources can complete their required content checks and reviews. No separate approval has been given for a branch, baseline commit/push, source move, temporary worktree removal or Ticket Map draft. Complete the agreed planning handoff.",
       "expected_output": "Complete source-native Scope/Ticket publication, then publish the Ticket Map and delegate bounded Carry, cleanup and ready completion under --publish.",
       "files": [],
       "assertions": [
         "Passes agreed scope and publication authority to the selected source workflows, and the landing obligation and disposition authority to to-afk-agent; resolves concrete actions from repository evidence without routine duplicate approval.",
-        "to-afk-agent settles the delivery mode and Carrier under its own contract, then creates or safely reuses the Carrier's correctly based, natively linked non-default delivery branch, preserves exactly two planning files in a verified immutable baseline, and reports remote content, full SHAs, immutable links and executor access. scope-it asks no delivery-mode question.",
+        "to-afk-agent settles how the work lands and the Carrier under its own contract, then creates or safely reuses the Carrier's correctly based, natively linked non-default delivery branch, preserves exactly two planning files in a verified immutable baseline, and reports remote content, full SHAs, immutable links and executor access. scope-it asks no question about how the work lands.",
         "After remote verification and fresh source-state checks, to-afk-agent removes only delivered source changes and eligible explicitly transferred temporary worktrees; preserves unrelated bytes/staging, pre-existing worktrees, retained refs and required local paths.",
         "With two or more Tickets, scope-it publishes the Ticket Map before the handoff, without Carry fields; to-afk-agent records the Carry itself and adds missing ready markers after applicable cleanup; scope-it claims completion only after these readbacks.",
         "Preserves source main history and starts no feature implementation, execution-triggering automation, implementation PR, merge, deployment or preference change."
@@ -567,12 +567,12 @@
     {
       "id": 49,
       "prompt": "Use scope-it --publish on a three-Ticket plan whose ADR and CONTEXT.md patch need carrying. In variant A, the user said during the Scope discussion that the whole specification should ship as one pull request. In variant B, nobody has discussed how the work lands. The repository has dispatch labels, and the selected sources completed their reviews, publication and readback.",
-      "expected_output": "Leave the delivery mode and Carrier to to-afk-agent, passing any decision already settled in the conversation as given.",
+      "expected_output": "Leave how the work lands and the Carrier to to-afk-agent, passing any decision already settled in the conversation as given.",
       "files": [],
       "assertions": [
-        "scope-it defines or chooses no delivery mode and selects no Carrier in its questions, proposals or handoff payload; its handoff carries the landing obligation for the two files and the conversation's settled decisions as given.",
+        "scope-it defines or chooses no way for the work to land and selects no Carrier in its questions, proposals or handoff payload; its handoff carries the landing obligation for the two files and the conversation's settled decisions as given.",
         "In variant A, to-afk-agent reuses the one-pull-request decision without asking again; in variant B, only to-afk-agent asks, once, during the handoff.",
-        "The Ticket Map, published before the handoff, shows only the Tickets' dependencies; the delivery mode, Carrier, branch and Carry appear in to-afk-agent's own records."
+        "The Ticket Map, published before the handoff, shows only the Tickets' dependencies; how the work lands, the Carrier, branch and Carry appear in to-afk-agent's own records."
       ]
     },
     {
@@ -583,7 +583,7 @@
       "assertions": [
         "A uses a numbered list; B uses a nested list with a short note that #24 waits for #22 and #23, or Mermaid only if a list would hide that shape; C states in one line that all four can run in parallel.",
         "Every Ticket reference is `[#n short label](url)` with a two-to-four-word label; no bare `#n` or full title appears, and no legend restates the native-blocker rule.",
-        "Each Map leads with one short sentence, is headed `## Ticket Map` within `scope-it:ticket-map` markers, and contains no Carry, SHA, delivery mode or branch."
+        "Each Map leads with one short sentence, is headed `## Ticket Map` within `scope-it:ticket-map` markers, and contains no Carry, SHA, landing choice or branch."
       ]
     }
   ]

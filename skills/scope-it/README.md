@@ -57,7 +57,7 @@ Choose scope and ticket skills independently, by name or with `--scope-skill <sk
 
 These are optional planning sources. An implementation plan still needs a compatible skill to shape delivery tickets. `to-afk-agent` is the fixed handoff dependency and follows the current workflow authority; it is independent of the two saved planning-role choices.
 
-Planning files such as ADRs or `CONTEXT.md` changes travel as exact patches in Planning Carry. `scope-it` establishes the content and its landing target; `to-afk-agent` decides how it lands, including the delivery mode and Carrier, performs remote preservation and records the Carry.
+Planning files such as ADRs or `CONTEXT.md` changes travel as exact patches in Planning Carry. `scope-it` establishes the content and its landing target; `to-afk-agent` decides how it lands, including the Carrier, performs remote preservation and records the Carry.
 
 After remote preservation is verified, the default is **Clean up local source** for the selected content; explicitly request **Retain local source** to keep it. Unrelated, changed or uncertain content is preserved. Eligible temporary planning worktrees are explicitly handed over for cleanup, including those created by the selected planning skills. Existing worktrees and explicit retention choices are respected.
 
