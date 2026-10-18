@@ -28,7 +28,6 @@
     ],
     "defaultPrompt": [
       "Create and push a commit, then open a pull request.",
-      "Turn the approaches in this conversation into a decision brief.",
       "Coordinate scope and tickets into a Ticket Map."
     ]
   }
