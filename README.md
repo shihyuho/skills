@@ -23,9 +23,9 @@ Shihyu's curated collection of agent skills.
 - **[pr](skills/pr/)** - Publish committed feature-branch changes and return a verified new or existing pull request.
 - **[push](skills/push/)** - Push to the intended remote branch with verified default-branch authorization and publication results.
 - **[revisit](skills/revisit/)** - Recover the context of a ticket or PR, assess what still applies to the current version, and discuss the smallest complete change if needed.
+- **[scope-it](skills/scope-it/)** - Coordinate interchangeable planning skills into a Ticket Map and a verified AFK handoff through `to-afk-agent`, using `--publish` to complete the agreed workflow without routine confirmation.
 - **[skill-review](skills/skill-review/)** - Review a skill using writing-for-agents and skill-creator, with `--fix` applying only corrections judged warranted by the evidence and criteria.
 - **[splitoff](skills/splitoff/)** - Hand the current conversation to a Claude Code background agent or a native Codex subagent using a generated handoff summary.
-- **[scope-it](skills/scope-it/)** - Coordinate interchangeable planning skills into a Ticket Map and a verified AFK handoff through `to-afk-agent`, using `--publish` to complete the agreed workflow without routine confirmation.
 
 ## Installation
 
