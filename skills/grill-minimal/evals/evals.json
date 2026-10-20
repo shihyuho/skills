@@ -54,6 +54,20 @@
         "Proposes cutting the import-history dashboard and scheduled imports as serving no stated goal or constraint.",
         "Introduces no new capability that neither the plan nor a stated goal or constraint asks for; questions about the correctness, edge cases, security, or tests of the kept scope count as in scope."
       ]
+    },
+    {
+      "id": 5,
+      "name": "simplifies-an-overbuilt-approach",
+      "prompt": "Our marketing site needs a contact form whose submissions reach the sales team's inbox. Goal: sales sees every inquiry within a few minutes. Constraint: about 20 submissions a day, and I'm the only engineer. Plan: the form posts to an API that publishes each submission to a Kafka topic; a consumer microservice stores it in Postgres; a second microservice reads a job queue and sends the email with retries; a Redis-backed rate limiter protects the endpoint.",
+      "expected_output": "The first round keeps the form and the email to sales, and recommends a much simpler approach than the Kafka and microservice pipeline that still delivers every inquiry reliably.",
+      "files": [],
+      "assertions": [
+        "Recommends replacing the Kafka topic and the two microservices with a single handler, or an existing form or email service, citing the volume or the one-engineer constraint.",
+        "Keeps the contact form and the delivery to the sales inbox; it does not question the goal itself.",
+        "Keeps some protection against spam or abuse of the public form, without requiring the Redis-backed rate limiter.",
+        "Addresses how an inquiry is not lost when sending the email fails, rather than dropping the reliability the goal needs along with the queue.",
+        "Introduces no new capability that neither the plan nor a stated goal or constraint asks for; questions about the correctness, edge cases, security, or tests of the kept scope count as in scope."
+      ]
     }
   ]
 }
