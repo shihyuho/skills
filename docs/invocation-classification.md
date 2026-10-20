@@ -21,7 +21,7 @@
 - `allow_implicit_invocation: true` 代表允許隱式調用，不是 explicit-only marker。
 - 不允許只加入其中一個 explicit-only marker，也不使用 `disable-model-invocation: false` 作為佔位值。
 - 根 `README.md` 必須將每個 skill 恰好列在一個對應分組：ADD 在 `User-invoke`，DO NOT ADD 在 `Model-invoke`；`Model-invoke` 分組在前。
-- 分類只影響 invocation marker 與根 `README.md` 分組，不改變 `description` 的撰寫標準。
+- 分類也決定 `description` 的讀者：model-invoke 的 description 進 model context，是 model 的觸發條件；user-invoke 的 description 不進 model context，只有在 `/` 選單瀏覽的人會讀到。各自怎麼寫，見 `AGENTS.md`。
 
 ## 判定規則
 
