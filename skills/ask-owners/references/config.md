@@ -1,30 +1,25 @@
-# Content skill preference
+# Content skill default
 
-Read this for `--save`, or when Python cannot run. The helper's `--help` owns its arguments.
+Read this for `--save` or `--clear`. When a request both saves and clears, settle which one the user means before running either.
 
-## Save after loading
+`scripts/config.py --help` owns the command interface. The default file is `~/.config/shihyuho/skills/ask-owners/config.json`; pass `--config-root` only when the user's own instructions select another root, and report an unusable root as an error. `clear` removes and `save` replaces only the `contentSkill` member; the rest of the file stays as it is.
 
-Derive a persistable selector from the source already loaded: prefer its runtime-qualified name, otherwise a unique canonical name, otherwise the exact user-supplied path that selected it. Resolve uncertainty before saving; a different installed skill is not an equivalent selector.
+## Clear
 
-Explain that remembering the choice permits this content skill to conduct future discussions and its necessary content checks when the user explicitly invokes `ask-owners`. It does not authorize unrelated writes or additional explicit-only workflows. The user's `--save` or explicit request to remember this selected skill supplies that consent; reuse it without another confirmation. Record it only after the source and required references load successfully.
+Run `clear` and report the result, including a no-op. Then choose the content skill for this run as `SKILL.md` describes.
 
-Run `scripts/config.py` with the same root and `save --selector <exact-selector>`, passing the selector as one literal argument. Report the returned `previous` and `current`. A successful save takes effect immediately, even if the subsequent discussion is blocked. A failed save leaves the previous file intact and the requested operation unresolved.
+## Save
 
-## Storage and native fallback
+`--save` needs a choice made in this invocation: an explicit selector, or the user's answer to your recommendation, even when a default already exists. Save only after the chosen skill and its required references have loaded.
 
-Use `<config-root>/ask-owners/config.json`, defaulting to the current user's `~/.config/softleader/agent-skills` root. Only effective user-level instructions can select another root; an unusable explicit root is an error, not a reason to fall back.
+Saving records consent, so tell the user what it permits: this content skill may run future discussions, with its necessary content checks, whenever they explicitly invoke `ask-owners`. It grants no publication, Git operations, implementation or other explicit-only workflows. The user's `--save`, or their explicit request to remember the skill, is that consent; record it without asking again.
 
-The owned member is:
+Save the most exact selector for the loaded source: its runtime-qualified name, else a unique canonical name, else the exact path the user gave. Run `save --selector <selector>`, passing the selector as one argument, and report `previous` and `current`. A successful save holds even if the discussion is later blocked; a failed save leaves the previous file intact and the request unresolved.
+
+## Stored format
 
 ```json
 {"contentSkill":{"selector":"skills:grill-minimal","consent":"discussion-v1"}}
 ```
 
-`discussion-v1` records the explicit choice and the bounded future discussion delegation described above. A bare selector or another consent version needs clarification, not an automatic upgrade. Owner assignments are separate discussion data.
-
-When Python is unavailable, preserve the helper's contract with host-native file operations:
-
-- Read UTF-8 JSON as an object. A missing file or member means no default; when present, `contentSkill` must be an object with a non-blank string `selector` and exactly the supported `consent`. Reject malformed data, duplicate keys, non-JSON numbers and unsupported preference data before a write.
-- `read` creates nothing. `clear` removes only `contentSkill`; an absent file/member is an idempotent no-op. `save` updates its selector and consent only after exact loading and user-authorized persistence. Preserve unrelated members and numeric values.
-- Re-read and validate before an update. Write a complete sibling temporary file, then atomically replace the destination; preserve existing permissions and symlink relationships. On failure, retain the old file and remove only the temporary file created by this operation. If the host cannot perform a safe update, report that limitation.
-- Return `operation`, `path`, `previous`, `current` and `changed`; the two choice fields contain selectors or null. Report no unrelated configuration values. Use the same notices and ordering as the Python path.
+`discussion-v1` marks the consent above. The helper rejects a bare selector or another consent version; clarify with the user rather than upgrading it.
