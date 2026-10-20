@@ -70,10 +70,10 @@
     {
       "id": 7,
       "prompt": "This repo already has a shared root `AGENTS.md`. Add Claude Code support without maintaining a duplicate copy. We may need two Claude-specific lines later, and Windows contributors cannot reliably create symlinks.",
-      "expected_output": "Creates or recommends a `CLAUDE.md` that imports `AGENTS.md` and leaves room for Claude-specific additions, avoiding duplication and the unsuitable symlink default.",
+      "expected_output": "Keeps `AGENTS.md` as the single source and keeps it loading in Claude Code, through native reading while no `CLAUDE.md` exists or a `CLAUDE.md` that imports `@AGENTS.md` for the later Claude-specific lines, avoiding duplication and the unsuitable symlink default.",
       "files": [],
       "assertions": [
-        "Uses `@AGENTS.md` as the shared-source bridge",
+        "Keeps `AGENTS.md` loading in Claude Code through native reading while no `CLAUDE.md` exists or through `@AGENTS.md` imported from `CLAUDE.md`, and any `CLAUDE.md` it creates or plans carries that import",
         "Avoids copying the full `AGENTS.md` content",
         "Does not choose a symlink despite the stated Windows and extension constraints"
       ]
@@ -98,6 +98,17 @@
         "Returns only `AGENTS.md` content with no explanatory preamble",
         "Preserves `mise` and the unresolved DBA approval policy while removing the cheap React path summary",
         "Replaces the inline release workflow with a trigger pointer and keeps the `make generate` safe path concise"
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "Add this to CLAUDE.md so future sessions get it right: integration tests under `packages/api/` need `TEST_DATABASE_URL` pointing at the docker-compose Postgres, or they silently run against the shared dev database. For context, the root `CLAUDE.md` holds repo-wide rules about `pnpm` and commit style, and no other package touches a database.",
+      "expected_output": "Treats the request as a one-rule update, scopes the rule to `packages/api/` instead of the root file, and leaves the existing root rules untouched.",
+      "files": [],
+      "assertions": [
+        "Scopes the rule to `packages/api/` through a nested `CLAUDE.md` or a path-scoped rule rather than adding it to the root file",
+        "Leaves the existing root rules about `pnpm` and commit style unchanged",
+        "Keeps the safe path and its consequence: `TEST_DATABASE_URL` pointing at the docker-compose Postgres, and the risk of hitting the shared dev database"
       ]
     }
   ]
