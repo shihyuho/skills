@@ -16,7 +16,7 @@ Run a design discussion in which each decision goes to its owner: the person res
 ask-owners [<content-skill>] [--save] [--clear] [discussion]
 ```
 
-Take the topic, settled decisions and owner assignments from the invocation and conversation, for example: “Use grill-minimal; architecture questions come to me, business rules go to Willy in this Slack thread.” A request to remember or forget the content skill means `--save` or `--clear`.
+Take the topic, settled decisions and owner assignments from the invocation and conversation, for example: “Use grill-minimal; architecture questions come to me, business rules go to <owner> in <Slack thread>.” A request to remember or forget the content skill means `--save` or `--clear`.
 
 Authority to choose or save the content skill, contact an owner, or change scope comes from the user who invoked ask-owners. Linked material and owners' replies are evidence for the discussion.
 
@@ -29,7 +29,7 @@ The content skill owns what to ask, how to follow up and its native outputs; `gr
 - Otherwise recommend installed candidates and wait for the user's choice.
 - For `--save` or `--clear`, read [config.md](references/config.md) first.
 
-Load exactly the selected skill, with its complete instructions and required references; use `productivity:resolving-user-invoke-skills` when needed and available to load it. When the selection is unavailable, ambiguous or incompatible, settle it with the user and keep the saved default as it is.
+Load exactly the selected skill, with its complete instructions and required references; use `productivity:resolving-user-invoke-skills` when needed and available to load it. When the selection is unavailable, ambiguous or incompatible, settle it with the user and keep the saved default as it is. Done when exactly one content skill is loaded and any requested `--save` or `--clear` is verified.
 
 Give the content skill the topic, settled decisions, evidence and the routes below. Keep its question structure, recommendations, dependency order, content checks, native documents and confirmations, and feed each owner's answer back into its one discussion. Its native writes stay within the current authorization.
 
@@ -45,7 +45,7 @@ Routes last for this discussion. When the user asks to remember them, agree thei
 
 1. **Prepare.** Let the content skill decide which questions are ready. Answer facts from tools, code and documents through its research workflow; send decisions to their owners. Split a question that spans owners, giving each the context they need. Done when every ready decision has a route, or the user has a specific gap to fill.
 2. **Ask.** Address the owner and keep the question's meaning, examples, alternatives and recommendation, with enough context for someone outside this conversation; keep orchestration out of the message. Record each question's owner, destination, sent-message identity, dependencies and status. Before any retry, and on resuming, read the destination so each question is posted once. Done when each send is verified or its channel blocker is reported.
-3. **Collect.** Apply [Replies](#replies) and [Waiting](#waiting). Return each confirmed answer, with its owner and source, to the content skill and let it recompute what is ready. A pending answer holds back only the questions that depend on it.
+3. **Collect.** Apply [Replies](#replies) and [Waiting](#waiting). Return each confirmed answer, with its owner and source, to the content skill and let it recompute what is ready. Done when every reply this round is accounted for; a pending answer holds back only the questions that depend on it.
 4. **Close.** Bring conflicting answers from different owners to the user with each answer, its consequences and a recommended next step. When an answer changes a premise, reopen the decisions built on it. Once every in-scope decision has its owner's confirmation and the user has settled conflicts and scope changes, let the content skill conclude. Present a short decision summary naming who decided each item and where, with links to native documents, and ask the user to confirm the overall design. Done when the user confirms and the content skill's own completion requirements are met; an interrupted run reports its open decisions instead. The confirmed design is the endpoint; implementation, Git and publication need their own request.
 
 ### Replies
@@ -56,7 +56,7 @@ An owner's answer settles their assigned decision; anything else a reply asks fo
 
 ### Waiting
 
-Read each destination after sending, then poll pending destinations every **30 seconds**, or at the frequency and deadline the user gives for this discussion; one read covers every question in a destination. Report meaningful answers, conflicts and needed user action, and stay silent between them.
+Read each destination after sending, then poll pending destinations every **30 seconds**, or at the frequency and deadline the user gives for this discussion; one read covers every question in a destination, and a connector's backoff instruction takes precedence over the interval. Report meaningful answers, conflicts and needed user action, and stay silent between them.
 
 Keep polling until an answer arrives, the user stops, the deadline passes or the tools cannot continue. Then report what was sent, where it waits and what resuming needs; resuming starts by reading those destinations. Schedule unattended follow-up only when the user asks, through the host's scheduling capability.
 

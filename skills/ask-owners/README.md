@@ -26,12 +26,12 @@ This skill must be invoked explicitly. When every decision is yours, run the con
 
 - A discussion skill to supply the questions, such as `grill-me`, `grill-with-docs` or `grill-minimal`.
 - Access to the channels your owners answer in, such as a Slack connector for a Slack thread.
-- Python 3.8+ if you want to save a default content skill. The default is stored at `~/.config/softleader/agent-skills/ask-owners/config.json`.
+- Python 3.8+ if you want to save a default content skill. The default is stored at `~/.config/shihyuho/skills/ask-owners/config.json`.
 
 ## Getting started
 
 ```text
-$ask-owners grill-minimal — architecture questions come to me; ask Willy about business rules in <Slack thread>.
+$ask-owners grill-minimal — architecture questions come to me; ask <owner> about business rules in <Slack thread>.
 ```
 
 ### Options
@@ -61,6 +61,12 @@ An **owner** is the person responsible for a decision. A **route** is that owner
 - New questions keep reaching you while an owner's answer is still pending.
 - A partial reply such as "Q1 yes, still checking Q2" leaves Q2 pending, and a bystander's "yes" does not settle it.
 - The final summary names who decided each item and where, and waits for your confirmation.
+
+## Common questions
+
+**Where did my saved default go?**
+
+It moved from `~/.config/softleader/agent-skills/ask-owners/config.json` to `~/.config/shihyuho/skills/ask-owners/config.json`, the config root this repository's skills share. ask-owners reads only the new location, so run `$ask-owners <content-skill> --save` once to save your choice again; you can then delete the old file.
 
 ## Limitations
 

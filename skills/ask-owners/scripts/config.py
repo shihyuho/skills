@@ -110,7 +110,7 @@ def operate(root, operation, selector=None):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config-root", type=Path,
-                        default=Path.home() / ".config" / "softleader" / "agent-skills",
+                        default=Path.home() / ".config" / "shihyuho" / "skills",
                         help="config root explicitly selected by user-level instructions")
     commands = parser.add_subparsers(dest="operation", required=True)
     commands.add_parser("read", help="validate and read without creating files")
