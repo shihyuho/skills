@@ -8,7 +8,7 @@ Shihyu's curated collection of agent skills.
 
 - **[e04](skills/e04/)** - Decode 注音文 (Zhuyin/Bopomofo text typed with English keyboard keys) into Chinese characters.
 - **[sdkman](skills/sdkman/)** - Run Java, Maven, Gradle, and other SDKMAN-managed tools in the environment the project declares, and manage host tool versions through [SDKMAN](https://sdkman.io/).
-- **[writing-agents-md](skills/writing-agents-md/)** - Create, update, prune, or review `AGENTS.md` and `CLAUDE.md` by routing standing guidance to the smallest correct scope and mechanism.
+- **[writing-agents-md](skills/writing-agents-md/)** - Create, update, prune, or review `AGENTS.md` and `CLAUDE.md` by routing each standing rule to the smallest scope and mechanism where it still applies.
 
 ### User-invoke
 
