@@ -55,4 +55,4 @@ Everything outside the selection stays out of the commit and stays as it was, in
 
 - It commits on the current branch, the default branch included.
 - A hunk-level selection whose ownership is unclear stops for a question rather than widening to whole files.
-- When a commit hook fails, it reports the failure and leaves the work uncommitted.
+- When a commit hook fails, it reports the failure and leaves the work uncommitted, staged or unstaged as it was before the run.

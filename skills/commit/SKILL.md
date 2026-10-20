@@ -31,6 +31,6 @@ Assess cohesion within the selection only. Prefer one commit for one cohesive co
 
 ## Verify
 
-Verify the resulting commit SHA and diff against the selection, and the changes outside the selection against their entry state. Read each write result before continuing; if a commit or verification fails, stop dependent writes and report the completed work and remaining problem.
+Verify the resulting commit SHA and diff against the selection, and the changes outside the selection against their entry state. Read each write result before continuing; if a commit or verification fails, stop dependent writes and report the completed work and remaining problem. When a commit fails after staging, return the selection's index entries to their entry state, so the user's staging is as they left it and a retry starts from the same place.
 
 Report the commit SHA(s) and the selection once verified.
