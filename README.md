@@ -22,7 +22,7 @@ Shihyu's curated collection of agent skills.
 - **[push](skills/push/)** - Push the current work to one verified destination, committing it first only if it is still uncommitted.
 - **[revisit](skills/revisit/)** - Recover why a ticket or PR exists and what changed, reassess it against the current version, and discuss the smallest complete change if one is still needed.
 - **[scope-it](skills/scope-it/)** - Coordinate interchangeable planning skills into a Ticket Map and a verified AFK handoff through `to-afk-agent`, using `--publish` to complete the agreed workflow without routine confirmation.
-- **[skill-review](skills/skill-review/)** - Review a skill using writing-for-agents and skill-creator, with `--fix` applying only corrections judged warranted by the evidence and criteria.
+- **[skill-review](skills/skill-review/)** - Review a skill against writing-for-agents, skill-creator and its repository's guidance, applying the warranted corrections with `--fix`.
 - **[splitoff](skills/splitoff/)** - Hand the current conversation to a Claude Code background agent or a native Codex subagent using a generated handoff summary.
 
 ## Installation
