@@ -1,6 +1,6 @@
 # grill-minimal
 
-Grill a plan, decision, or idea toward the smallest complete solution: the simplest approach and narrowest scope that still meet its goals and constraints. Unlike plain grilling, which follows every question the plan raises, it first asks whether the scope behind each question is needed, puts what no goal needs up as a cut, and recommends the smallest answer that still meets every goal and constraint.
+Grill a plan, decision, or idea toward the smallest complete solution: the simplest approach and narrowest scope that still meet its goals and constraints. Unlike plain grilling, which follows every question the plan raises, it first asks whether the scope behind each question is needed, puts what no goal needs up as a cut, and recommends the smallest answer that still meets every goal and constraint and works.
 
 ## When to use
 
@@ -27,13 +27,14 @@ In Codex, use `$grill-minimal <plan, decision, or idea>`. With no argument, it g
 
 ## Smallest complete
 
-The two words hold each other in check. _Smallest_: every piece of scope traces back to a goal or constraint you stated, and what traces to none comes back to you as a proposed cut. _Complete_: what a goal or constraint requires stays, even when it is the expensive part. Without goals there is nothing to measure smallest against, which is why vague goals get settled before anything else. The goals themselves stay yours; the cutting happens in how they are met.
+The two words hold each other in check. _Smallest_ cuts capabilities: every piece of scope traces back to a goal or constraint you stated, and what traces to none comes back to you as a proposed cut. _Complete_ keeps what a goal or constraint requires, and what the kept scope needs to work: correct behavior, edge cases, security, tests, and the quality bar your codebase already holds. That second half is the quality of what stays, so it never brings a new capability back in. Without goals there is nothing to measure smallest against, which is why vague goals get settled before anything else. The goals themselves stay yours; the cutting happens in how they are met.
 
 ## It's working if
 
 - It asks what the plan must achieve and what it can't violate before anything that depends on them, unless you already said.
 - Its recommendations include cuts, each traced to no goal or constraint needing that scope.
 - What a stated constraint requires survives, even when you suggest dropping it to go faster.
+- Validation, error handling, and tests for what stays survive too, even when you offer to drop them to keep things minimal.
 
 ## Limitations
 

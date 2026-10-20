@@ -11,7 +11,7 @@
         "Proposes cutting at least two of: the plugin system, XLSX/PDF formats, per-user templates, the S3 archive, tying each cut to no stated goal or constraint needing it.",
         "Recommends an approach no bigger than a single CSV export support can get on their own, such as a button, a saved query, or one scheduled email.",
         "Asks no design-detail question about scope it has not first established is needed, such as PDF layout, template schema, or archive retention.",
-        "Introduces no new area of scope that neither the plan nor a stated goal or constraint raises; every question settles a goal or constraint, or decides on scope the plan proposed or the goal needs."
+        "Introduces no new capability that neither the plan nor a stated goal or constraint asks for; questions about the correctness, edge cases, security, or tests of the kept scope count as in scope."
       ]
     },
     {
@@ -24,7 +24,7 @@
         "Recommends keeping the audit log for v1, citing the SOC 2 constraint, rather than endorsing skipping it.",
         "Proposes no relaxation of single-use reset tokens or their 15-minute expiry, treating both as fixed by the SOC 2 constraint.",
         "Proposes cutting SMS reset and security questions as serving no stated goal or constraint, leaving the emailed link as the only v1 reset path.",
-        "Introduces no new area of scope that neither the plan nor a stated goal or constraint raises; every question settles a goal or constraint, or decides on scope the plan proposed or the goal needs."
+        "Introduces no new capability that neither the plan nor a stated goal or constraint asks for; questions about the correctness, edge cases, security, or tests of the kept scope count as in scope."
       ]
     },
     {
@@ -38,7 +38,21 @@
         "Asks in the first round what constraints apply, such as time, people, or what must keep working.",
         "Defers framework choice and migration-detail questions until the goals are settled, rather than asking them in the first round.",
         "Raises a smaller change than a full rewrite, such as fixing the specific pain points in place or migrating incrementally, as a candidate answer.",
-        "Introduces no new area of scope that neither the plan nor a stated goal or constraint raises; every question settles a goal or constraint, or decides on scope the plan proposed or the goal needs."
+        "Introduces no new capability that neither the plan nor a stated goal or constraint asks for; questions about the correctness, edge cases, security, or tests of the kept scope count as in scope."
+      ]
+    },
+    {
+      "id": 4,
+      "name": "keeps-what-the-kept-scope-needs-to-work",
+      "prompt": "I want to add a bulk user import endpoint to our admin API: an admin uploads a CSV of users and the accounts get created. Goal: onboarding a new customer takes minutes instead of a day of manual entry. To keep it minimal I'll skip input validation and tests, and just return 200 whatever happens. I'm also thinking about an import-history dashboard and scheduled recurring imports.",
+      "expected_output": "The first round keeps validation, per-row error reporting and tests for the import, since the kept scope needs them to work, and proposes cutting the dashboard and scheduled imports no goal needs.",
+      "files": [],
+      "assertions": [
+        "Recommends keeping validation of the uploaded rows, such as malformed, missing, or duplicate users, rather than endorsing skipping it.",
+        "Recommends keeping tests for the import rather than endorsing skipping them.",
+        "Recommends reporting which rows failed and why, rather than a blanket 200.",
+        "Proposes cutting the import-history dashboard and scheduled imports as serving no stated goal or constraint.",
+        "Introduces no new capability that neither the plan nor a stated goal or constraint asks for; questions about the correctness, edge cases, security, or tests of the kept scope count as in scope."
       ]
     }
   ]
