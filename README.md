@@ -6,7 +6,6 @@ Shihyu's curated collection of agent skills.
 
 ### Model-invoke
 
-- **[e04](skills/e04/)** - Decode 注音文, Chinese typed as Zhuyin keystrokes on an English keyboard, into the Chinese you meant.
 - **[sdkman](skills/sdkman/)** - Run Java, Maven, Gradle, and other SDKMAN-managed tools in the environment the project declares, and manage host tool versions through [SDKMAN](https://sdkman.io/).
 - **[writing-agents-md](skills/writing-agents-md/)** - Create, update, prune, or review `AGENTS.md` and `CLAUDE.md` by routing each standing rule to the smallest scope and mechanism where it still applies.
 

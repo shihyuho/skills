@@ -9,7 +9,7 @@ Unlike reading letters and digits as English, typos or identifiers, it reads a s
 - You typed Chinese with the Zhuyin IME switched off, so `cp3` landed where 很 should be.
 - Someone sent you 注音文 and you want it read.
 
-The agent uses it on its own when a message mixes Chinese with short letter-and-digit fragments that read as neither English words nor identifiers, or when you mention 注音文; you can also invoke it directly.
+This skill must be invoked explicitly.
 
 ## Getting started
 
@@ -40,6 +40,9 @@ You can leave out the first-tone space bar, as most people do: `2jiu2u03` still 
 - A misread shows up in the reading line before the agent acts on it.
 
 ## Common questions
+
+**Why is it in `deprecated/`?**
+On Opus, the agent decoded every evaluated 注音文 sentence as well without the skill as with it, so its always-loaded description no longer paid for itself. It no longer ships with the plugin.
 
 **Does it read Zhuyin symbols such as ㄕㄨㄛ?**
 No. The agent reads Zhuyin symbols, abbreviated ones included, without this skill; it handles only keystrokes typed on an English keyboard.

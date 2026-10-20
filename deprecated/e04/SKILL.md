@@ -1,7 +1,8 @@
 ---
 name: e04
-description: Decode 注音文, Chinese typed as Zhuyin keystrokes on an English keyboard, such as "cp3" (很) or "su3cl3" (你好). Use whenever a message mixes Chinese with short letter-and-digit fragments that read as neither English words nor identifiers, or the user mentions 注音文.
+description: Decode 注音文, Chinese typed as Zhuyin keystrokes on an English keyboard, into the Chinese the user meant.
 license: MIT
+disable-model-invocation: true
 ---
 
 # e04
