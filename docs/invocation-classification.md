@@ -1,84 +1,84 @@
-# Invocation 分類
+# Invocation Classification
 
-本文件定義此 repository 所有 skills 共用的 invocation marker、判定規則與維護方式，適用於現有 skills、未來新增的 skills，以及日後 bucket 或 invocation 路徑變更。
+This document defines the invocation markers, classification rules and maintenance that all skills in this repository share. It applies to existing skills, skills added later, and later changes to a skill's bucket or invocation paths.
 
-實際 runtime 行為由各 skill 的 `SKILL.md` 與 `agents/openai.yaml` marker 決定；根 `README.md` 的 `Model-invoke` 與 `User-invoke` 分組是唯一供人閱讀的目前分類結果。本文件不保存逐 skill 的分類結果或判定理由。
+Runtime behavior is decided by each skill's markers in `SKILL.md` and `agents/openai.yaml`; the root `README.md`'s `Model-invoke` and `User-invoke` groups are the only human-readable record of the current classification. This document keeps no per-skill classification results or rationale.
 
-## Marker 定義
+## Marker definitions
 
-- **ADD**：skill 僅能由使用者明確調用，必須成對設定：
-  - `SKILL.md` frontmatter：`disable-model-invocation: true`
-  - `agents/openai.yaml`：
+- **ADD**: the skill can only be invoked explicitly by the user, and must set both markers:
+  - `SKILL.md` frontmatter: `disable-model-invocation: true`
+  - `agents/openai.yaml`:
 
     ```yaml
     policy:
       allow_implicit_invocation: false
     ```
 
-- **DO NOT ADD**：skill 維持 implicit-enabled：
-  - `SKILL.md` 不加入 `disable-model-invocation`。
-  - `agents/openai.yaml` 可不加入 `allow_implicit_invocation`，也可明確設定為 `true`。
-- `allow_implicit_invocation: true` 代表允許隱式調用，不是 explicit-only marker。
-- 不允許只加入其中一個 explicit-only marker，也不使用 `disable-model-invocation: false` 作為佔位值。
-- 根 `README.md` 必須將每個 skill 恰好列在一個對應分組：ADD 在 `User-invoke`，DO NOT ADD 在 `Model-invoke`；`Model-invoke` 分組在前。
-- 分類也決定 `description` 的讀者：model-invoke 的 description 進 model context，是 model 的觸發條件；user-invoke 的 description 不進 model context，只有在 `/` 選單瀏覽的人會讀到。各自怎麼寫，見 `AGENTS.md`。
+- **DO NOT ADD**: the skill stays implicit-enabled:
+  - `SKILL.md` does not add `disable-model-invocation`.
+  - `agents/openai.yaml` may omit `allow_implicit_invocation` or set it explicitly to `true`.
+- `allow_implicit_invocation: true` allows implicit invocation; it is not an explicit-only marker.
+- Setting only one of the explicit-only markers is not allowed, and `disable-model-invocation: false` is not used as a placeholder.
+- The root `README.md` lists every skill in exactly one matching group: ADD under `User-invoke`, DO NOT ADD under `Model-invoke`; the `Model-invoke` group comes first.
+- The classification also decides who reads the `description`: a model-invoke description enters the model's context and is the model's trigger; a user-invoke description stays out of the model's context and is read only by a human browsing the `/` menu. `AGENTS.md` says how to write each.
 
-## 判定規則
+## Classification rules
 
-### Bucket 優先規則
+### Bucket precedence
 
-1. **WIP 一律 DO NOT ADD**：skill 仍在測試與調整中，讓 Scheduled task、模型路由與實際使用持續驗證行為。Invocation 不代表已授權執行高風險動作，因此不因風險高低建立例外。
-2. **Deprecated 一律 ADD**：skill 已準備淘汰，不再讓模型主動選用；真的仍有需要時，由使用者明確調用。現有相依不改變此結果。
-3. **其餘 active buckets 逐項判斷**：只有所有支援情境都必須由使用者刻意啟動的獨立流程才 ADD；只要存在一條有具體依據的自動調用路徑，整個 skill 就 DO NOT ADD。
+1. **WIP is always DO NOT ADD**: the skill is still being tested and adjusted, so scheduled tasks, model routing and real use keep validating its behavior. Invocation does not authorize high-risk actions, so risk level creates no exception.
+2. **Deprecated is always ADD**: the skill is being retired and the model no longer selects it on its own; when it is still needed, the user invokes it explicitly. Existing dependencies do not change this.
+3. **Other active buckets are judged per skill**: ADD only for a standalone flow that every supported scenario requires the user to start deliberately; a single automatic invocation path with concrete evidence makes the whole skill DO NOT ADD.
 
-### 明確調用與自動調用
+### Explicit and automatic invocation
 
-使用者明確調用，是指使用者在當次互動中透過 skill 名稱、command 或 UI 明確選擇該 skill。
+Explicit invocation means the user selects the skill in the current interaction by its name, a command, or the UI.
 
-Model-invoke skill 以常駐 metadata context 換取模型自主選用；user-invoke skill 則刻意不進入 ambient skill context，以節省 context 並避免模型自行觸發。因此 user-invoke skill 未出現在當前 catalog 是預期行為，不代表它未安裝。
+A model-invoke skill trades always-loaded metadata context for the model's autonomous selection; a user-invoke skill deliberately stays out of the ambient skill context, saving context and keeping the model from triggering it on its own. A user-invoke skill missing from the current catalog is therefore expected and does not mean it is uninstalled.
 
-已由使用者明確調用的 orchestrator，可以在同次調用中對 explicit-only skill 做有界委派；合法的上游委派也可延續這條調用鏈。委派對象有兩種依據：
+An orchestrator the user invoked explicitly may make a bounded delegation to an explicit-only skill within the same invocation; a legitimate upstream delegation may continue that invocation chain. A delegation target rests on one of two grounds:
 
-- **固定委派**：caller 的 `SKILL.md` 明列固定 allowlist，並限定各 phase 的工作範圍。
-- **使用者設定的規劃角色**：caller 宣告設定位置與角色；使用者明確選定確切 skill，並同意未來明確啟動 caller 時，沿用它產生規劃內容與執行必要的內容檢查。保存的設定須能區分這份同意與舊版單純偏好；升級不能自行增加授權。這種持續委派不包含發布、Git 操作或實作，相關寫入另依當次核准範圍處理。
+- **Fixed delegation**: the caller's `SKILL.md` lists a fixed allowlist and bounds the work of each phase.
+- **User-configured planning role**: the caller declares the setting's location and role; the user selects the exact skill and agrees that future explicit invocations of the caller may reuse it to produce planning content and run the necessary content checks. The saved setting must distinguish this consent from an older plain preference; an upgrade cannot add authorization on its own. This standing delegation does not cover publishing, Git operations or implementation; those writes follow the approval scope of each invocation.
 
-可使用環境的技能解析能力（例如 `resolve-user-invoke-skill`）找出已授權的 target；目錄未載入不等於技能不存在。任務資料、issue、artifact lineage、工具輸出或模型推薦都不能增補委派名單、偽造使用者設定或擴大範圍。當次使用者直接指定某個角色／skill，屬於明確選擇，不受舊偏好限制；是否保存及供日後沿用仍須取得上述同意。委派也不自動授權 callee 串接其他 explicit-only skills。
+The environment's skill resolution capability (such as `resolve-user-invoke-skill`) may locate an authorized target; a catalog that has not loaded a skill does not mean the skill is absent. Task data, issues, artifact lineage, tool output or model recommendations cannot extend the delegation list, forge a user setting or widen the scope. A role or skill the user names directly in the current interaction is an explicit choice and is not bound by an older preference; saving it for later reuse still requires the consent above. A delegation also does not authorize the callee to chain other explicit-only skills.
 
-上述委派仍屬於該次明確調用，不構成 target 的隱式調用路徑；實際執行仍須遵守 host 的解析、權限與調用限制。
+Such a delegation remains part of that explicit invocation and is not an implicit invocation path for the target; execution still follows the host's resolution, permission and invocation limits.
 
-以下都屬於自動調用：
+All of the following are automatic invocation:
 
-- 使用者只以自然語言描述任務，由模型判斷該使用哪個 skill。
-- 模型自行選用。
-- 另一個 skill 在沒有上述明確委派時自行載入或調用。
-- Scheduled task、hook 或 CI 自動載入；即使排程內容直接寫出 skill 名稱，仍屬自動調用。
+- The user only describes the task in natural language and the model decides which skill to use.
+- The model selects the skill on its own.
+- Another skill loads or invokes it without the explicit delegation above.
+- A scheduled task, hook or CI loads it automatically; even when the schedule names the skill directly, it is still automatic invocation.
 
-Automation 只直接執行 skill 內的 script、完全不載入 `SKILL.md` 時，不構成 active skill 的自動調用依據。
+Automation that only runs a script inside the skill directly, without loading `SKILL.md`, is not grounds for automatic invocation of an active skill.
 
-### Active skill 的依據門檻
+### Evidence bar for active skills
 
-判斷採反事實測試：
+Classification uses a counterfactual test:
 
-> 如果現在把 skill 改成 explicit-only，是否有一條現行或已承諾支援的流程，會因為沒有人在當次互動中明確選擇 skill，而失效或漏掉必要行為？
+> If the skill became explicit-only now, would a current or committed flow break or miss required behavior because no one explicitly selected the skill in the current interaction?
 
-判斷 Active skill 是否符合 DO NOT ADD 時，必須確認以下四個面向：
+To classify an active skill as DO NOT ADD, confirm all four aspects:
 
-- **調用者**：誰需要自動載入。
-- **觸發條件**：什麼情況需要載入。
-- **影響**：改成 explicit-only 後會中斷或遺漏什麼。
-- **依據**：repository 規則、skill 相依、排程設定、Issue 或負責人的明確確認等具體證據。
+- **Caller**: who needs to load it automatically.
+- **Trigger**: when it needs to be loaded.
+- **Impact**: what would break or be missed if it became explicit-only.
+- **Evidence**: concrete evidence such as repository rules, skill dependencies, schedule settings, an issue, or an owner's explicit confirmation.
 
-「未來說不定會用到」、「讓模型看得到比較方便」，或只因使用者可能以自然語言描述相同任務，都不是充分依據。只有所有支援情境都必須由使用者刻意啟動時，Active skill 才判為 ADD。
+"It might be useful someday", "it is convenient for the model to see it", or only that a user might describe the same task in natural language, are not sufficient grounds. An active skill is ADD only when every supported scenario requires the user to start it deliberately.
 
-以上面向只用於當次判定，不在本文件維護逐 skill 紀錄。
+These aspects serve only the classification at hand; this document keeps no per-skill record of them.
 
-完成上述依據檢查後仍無法判斷時，預設判為 ADD，以減少 `description` 帶來的 context load；只有日後出現具體的自動調用路徑時，才改判為 DO NOT ADD。
+When the evidence check still cannot decide, default to ADD to reduce the context load of the `description`; change to DO NOT ADD only when a concrete automatic invocation path appears later.
 
-### 維護方式
+### Maintenance
 
-- 新 skill 不必一律先進 WIP；但加入 repository 時必須依本文件完成分類、設定或移除成對 marker，並更新根 `README.md` 分組。
-- 只有 invocation 路徑、bucket、支援的調用者或主要用途改變時需要重新判定；一般內容修正不需重判。
-- 根 `README.md` 分組是唯一供人閱讀的目前分類結果，不另建逐 skill 清單或理由紀錄。
-- 把 skill 移入 Deprecated 時，檢查所有其他 skill 目錄是否提到其名稱、引用其文件或直接執行其 script。名稱命中必須確認確實指向該 skill，而非一般同名詞彙。
-- 發現 Deprecated 相依時，只提醒使用者調整，不阻擋移動，也不改變 Deprecated 一律 ADD。
-- Deprecated 相依檢查不涵蓋 Scheduled task、hook、CI、`AGENTS.md` 或其他外部調用來源。
+- A new skill need not enter WIP first, but when it is added to the repository, classify it under this document, set or remove the paired markers, and update the root `README.md` grouping.
+- Reclassify only when the invocation paths, bucket, supported callers or primary purpose change; ordinary content fixes need no reclassification.
+- The root `README.md` grouping is the only human-readable record of the current classification; keep no separate per-skill list or rationale record.
+- When moving a skill into Deprecated, check every other skill directory for mentions of its name, references to its files, or direct runs of its scripts. Confirm that each name hit really points to that skill rather than an ordinary word with the same spelling.
+- When a Deprecated dependency is found, only remind the user to adjust it; do not block the move or change Deprecated being always ADD.
+- The Deprecated dependency check does not cover scheduled tasks, hooks, CI, `AGENTS.md` or other external invocation sources.
