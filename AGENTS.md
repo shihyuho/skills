@@ -3,6 +3,7 @@
 ## Global Constraints
 - The whole repo is a single `skills` plugin for Claude Code and Codex: `.claude-plugin/{plugin,marketplace}.json` configures Claude Code; `.codex-plugin/plugin.json` plus `.agents/plugins/marketplace.json` configure Codex.
 - Each skill lives at `skills/<skill>/{SKILL.md, README.md}` and is auto-discovered from the root `skills/` directory; hooks live in root `hooks/hooks.json`.
+- Read [`docs/writing-readme.md`](docs/writing-readme.md) before writing a skill's `README.md`, or when a change alters what a skill does, how it starts, or what it needs.
 - If you add, remove, or rename anything under `skills/`, `commands/`, or `hooks/`, update `README.md` in the same change.
 - In the root `README.md`, describe each skill in one sentence: the job sentence that opens its own `README.md`.
 - Every `SKILL.md` frontmatter must include `name`, `description`, and `license`. Don't add a `version` field to `.claude-plugin/{plugin,marketplace}.json` — the plugin uses commit-SHA versioning (every commit is a new version); a pinned version freezes installed users on a stale snapshot. Codex's `.codex-plugin/plugin.json` instead uses a semantic `version`.

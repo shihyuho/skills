@@ -18,5 +18,5 @@ A skill with no defining constraint, or one that composes from existing skills, 
 The agreed model has no document of its own in the repo. It opens the files the skill already has:
 
 - `SKILL.md` opens, right under the H1, with the job and the defining constraint as prose in the leading word's terms.
-- `README.md` opens, between the H1 and the first H2, with the job sentence, then the defining constraint naming the default it departs from: "Unlike <default>, it …". The rest of the page uses the leading word as `SKILL.md` does.
+- `README.md` opens with the job sentence and the defining constraint, as [writing-readme.md](writing-readme.md) lays out.
 - When an issue tracks the work, it carries the four answers labeled, under a title that opens with `<skill>: `, so a search by skill name finds it.
