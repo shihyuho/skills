@@ -5,37 +5,94 @@
       "id": 1,
       "prompt": "Use create-branch for issue #42, create it remotely, and base it on the latest remote main branch.",
       "expected_output": "The agent fetches remote state, validates collisions, and creates and checks out one issue-linked branch with main passed explicitly as the remote base.",
-      "files": []
+      "files": [],
+      "assertions": [
+        "Lists issue #42's linked branches before deriving a name.",
+        "Fetches origin and confirms the remote main branch exists before creating anything.",
+        "Creates the branch with gh issue develop 42 --name <name> --checkout --base main.",
+        "Reads back the branch, its base and the native issue link before reporting.",
+        "Reports created, the branch name, checked-out state, remote state, issue link and base main."
+      ]
     },
     {
       "id": 2,
-      "prompt": "Resume create-branch for issue #42 after its title changed. Exactly one issue-linked remote branch already exists, no explicit name is supplied, and its pinned base SHA is valid.",
-      "expected_output": "The agent reuses the one linked branch name rather than deriving a new name from the changed title, verifies its pinned base before any commit, and checks it out only when safe.",
-      "files": []
+      "prompt": "Resume create-branch for issue #42 after its title changed. Exactly one issue-linked remote branch already exists, no local copy exists, and no explicit name is supplied.",
+      "expected_output": "The agent resumes the one linked branch by its existing name rather than deriving a new name from the changed title, checks it out as a local tracking branch only when safe, and reports it as reused.",
+      "files": [],
+      "assertions": [
+        "Uses the one linked branch's existing name, not a name derived from the changed title.",
+        "Checks it out with git switch --track -c <name> origin/<name>.",
+        "Runs no command that creates another branch, such as gh issue develop or git switch -c with a new name.",
+        "Reports the branch as reused."
+      ]
     },
     {
       "id": 3,
       "prompt": "Use create-branch for issue #42, but the intended branch name already exists and is linked to a different issue.",
       "expected_output": "The agent stops on the conflicting collision and does not reuse, rename, recreate, or push the branch.",
-      "files": []
+      "files": [],
+      "assertions": [
+        "Detects that the intended name exists and belongs to another issue.",
+        "Stops and reports the conflicting ref.",
+        "Runs no branch creation, rename, checkout of the conflicting branch, or push."
+      ]
     },
     {
       "id": 4,
       "prompt": "Earlier we explicitly approved creating and natively linking a remote branch for issue #42 from origin/main. Invoke create-branch with only #42; no ref collision exists.",
       "expected_output": "The agent carries the approved repository, branch operation, and base from the conversation, creates and verifies the issue-linked branch without repeating the remote-publication question.",
-      "files": []
+      "files": [],
+      "assertions": [
+        "Asks no question about remote publication or the base.",
+        "Creates the branch with gh issue develop 42 --name <name> --checkout --base main.",
+        "Reads back the remote branch and native issue link before reporting created."
+      ]
     },
     {
       "id": 5,
       "prompt": "We previously discussed a remote branch for issue #42, but now invoke create-branch for #42 with an explicit local-only instruction.",
       "expected_output": "The agent follows the current local-only choice, creates only the local branch when safe, and leaves remote refs and native linked branches unchanged.",
-      "files": []
+      "files": [],
+      "assertions": [
+        "Follows the local-only instruction without asking about remote publication.",
+        "Creates the branch locally with git switch -c and runs neither a creating gh issue develop (with --name or --checkout) nor git push.",
+        "Reports the branch as local only, with no remote publication or native issue link."
+      ]
     },
     {
       "id": 6,
-      "prompt": "A bounded caller has explicitly authorized creating a second branch for this task with a chosen name and remote publication. The current feature branch is fresh and collision checks pass.",
-      "expected_output": "The agent carries the exact authorized name and publication scope, does not repeat the second-branch or remote questions solely because the current branch is fresh, and verifies the new result.",
-      "files": []
+      "prompt": "Invoke create-branch for issue #42 again. The current branch is already feat/42-add-handoff-commands, which is the issue's only linked branch and matches its remote ref.",
+      "expected_output": "The agent recognizes the earlier run from the linked-branch evidence, reports the branch as reused, and creates no second branch or variant name without asking.",
+      "files": [],
+      "assertions": [
+        "Recognizes the current branch as the issue's linked branch from an earlier run.",
+        "Creates no second branch or variant name and asks no question about a second branch.",
+        "Reports feat/42-add-handoff-commands as reused."
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Use create-branch for the current uncommitted changes, which add a null check in the parser. There is no issue. Keep it local and start from the latest origin/main.",
+      "expected_output": "The agent derives a short descriptive name from the change, creates it locally from origin/main without making origin/main its upstream, and does not push.",
+      "files": [],
+      "assertions": [
+        "Derives a short, descriptive ASCII name for the parser null-check change.",
+        "Fetches origin and starts the branch from origin/main.",
+        "Creates the branch without making origin/main its upstream, for example with --no-track.",
+        "Does not push and asks no publication question."
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Invoke create-branch with `a feature branch for the uncommitted work, local only`. The uncommitted work on main adds pagination to the orders listing endpoint; there is no issue and no base.",
+      "expected_output": "The agent takes the local-only choice from the trigger, derives a descriptive name, creates the branch from the current HEAD with the uncommitted work carried over, and neither pushes nor asks about publishing.",
+      "files": [],
+      "assertions": [
+        "Asks no question about publishing and follows the trigger's local-only choice.",
+        "Creates the branch locally with git switch -c <name> from the current HEAD.",
+        "Reports the uncommitted work as carried onto the new branch.",
+        "Runs no git push and no creating gh issue develop."
+      ]
     }
   ]
 }

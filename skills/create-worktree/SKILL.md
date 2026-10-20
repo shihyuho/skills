@@ -1,46 +1,40 @@
 ---
 name: create-worktree
-description: "Create or resume isolated work in a descriptive Git worktree, including an existing Planning Baseline branch."
+description: "Start the work in its own Git worktree under ~/code/worktrees and continue there."
 license: MIT
 disable-model-invocation: true
 ---
 
 # create-worktree
 
+Start the work in its own Git worktree under `~/code/worktrees` and continue there.
+
+Treat every run as a possible **resume**. The work may already have its worktree, or its branch may already exist; resume those rather than adding a second. A new worktree always lives at the fixed path `~/code/worktrees/<repo>/<name>` outside the repository and, by default, branches from a freshly fetched `origin/<default-branch>` rather than whatever local `HEAD` happens to be.
+
 ## Invocation input
 
-`$ARGUMENTS` below means the arguments supplied with the user's explicit invocation. In inherited `Context` blocks, run each `!` command to collect the named value; those expressions are not expanded automatically in a skill.
+`$ARGUMENTS` is the trigger. It may carry a description of the work or an existing branch name, and a base. Treat it as a description, not a literal name, unless it already reads like a branch slug.
 
+Work from the current branch, status and `git worktree list` already in context, reading only what is missing.
 
-## Context
+## Name
 
-- Current branch: !`git branch --show-current`
-- Current git status: !`git status --short`
-- Existing worktrees: !`git worktree list`
-- Recent commits: !`git log --oneline -10`
+Derive `<name>` from `$ARGUMENTS`; without it, from the task this session is about to start: what the user just asked for, the plan under discussion, or the uncommitted changes. Keep it short, ASCII and valid for `git check-ref-format --branch`, e.g. `feat/create-worktree-command`, `fix/null-deref`. If neither says what the work is, ask one short question.
 
-## Your task
+`<repo>` is the directory name of the repository's main working tree, not of the worktree you may be in. A `/` in `<name>` nests another level.
 
-Create or resume a worktree for the work at hand and continue in it. `$ARGUMENTS` may include a Baseline Pointer: an exact branch and full commit SHA that the caller already verified against its ticket.
+## Resume or create
 
-**Name.** A Planning Baseline branch is the exact `<name>`; never derive a replacement. Otherwise derive `<name>` from what `$ARGUMENTS` describes — treat it as a description of the work, not as a literal name, unless it already reads like a slug. Without one, derive it from the task this session is about to start: what the user just asked for, the plan under discussion, or the uncommitted changes in Context. Keep `<name>` short, ASCII, and valid as a branch name (`git check-ref-format --branch <name>`), e.g. `feat/create-worktree-command`, `fix/null-deref`. If neither the arguments nor the session says what the work is, ask the user one short question.
+Fetch `origin`, then take the first path that matches:
 
-**Where.** Always `~/code/worktrees/<repo>/<name>`, where `<repo>` is the repository name — the directory name of its main working tree, not of the worktree you may currently be in. A `/` in `<name>` just nests another level. Never place a worktree inside the repository's own working tree.
+1. **Registered worktree** — a worktree already checks out `<name>`: resume it at its path, keeping any uncommitted work there. A branch lives in one worktree at a time; when that is the main working tree, report it there rather than forcing a second checkout.
+2. **Existing branch** — `<name>` exists with no worktree. It is this work's branch when `$ARGUMENTS` named it or its commits match the work; otherwise report it as a collision and stop. Attach a local branch with `git worktree add <path> <name>`, fast-forwarding it first with `git branch -f <name> origin/<name>` only when it is strictly behind; when only `origin/<name>` exists, use `git worktree add --track -b <name> <path> origin/<name>`. Diverged local and remote refs stop the operation.
+3. **New branch** — `git worktree add --no-track -b <name> <path> <base>`, in one step so branch and worktree cannot drift apart; `--no-track` keeps the base from becoming the branch's upstream.
 
-**Select the source.** Fetch `origin`, then choose exactly one path:
+**Base** for a new branch is the one the trigger names, otherwise `origin/<default-branch>`. Use current `HEAD` when the task depends on commits that exist only there, or another existing branch when the task's requirements give a concrete reason; verify it resolves after the fetch and report the reason. When requirements point equally at several bases, ask which one. Uncommitted changes stay where they are; report any the task depends on before creating anything.
 
-1. **Matching registered worktree** — when one registered worktree already checks out `<name>`, verify its branch and, when supplied, that the Planning Baseline SHA is an ancestor of its HEAD. Reuse that path. A different registered branch at the target path is a collision.
-2. **Planning Baseline branch** — require the full SHA to exist and be an ancestor of the selected branch HEAD. If the local branch exists and is free, attach it with `git worktree add <path> <name>`. If only `origin/<name>` exists, create it with `git worktree add --track -b <name> <path> origin/<name>`. When both refs exist, fast-forward a free local branch with `git branch -f <name> origin/<name>` only when it is strictly behind the remote; keep unpushed local commits when the remote is its ancestor; divergent refs stop the operation.
-3. **New branch** — default to `origin/<default-branch>`. Use current `HEAD` when the task depends on commits that exist only there. Use another existing base when the task requirements provide a concrete reason; verify that base resolves to a commit after the fetch, then report the selected base and reason. Uncommitted changes do not cross this boundary; report the dependency before creating anything.
+**Path collision** — a non-empty target directory that is not the registered worktree for `<name>` stops the operation; report it rather than choosing a variant path.
 
-**Before creating.** Read Context first:
-- **Path collision** — if a non-empty target directory is not the matching registered worktree, stop. Do not choose a variant path.
-- **Branch already checked out** — a branch can live in only one worktree at a time. If `<name>` is checked out elsewhere, say where; don't force it.
-- **Baseline conflict** — a missing SHA, failed ancestry check, or divergent local/remote branch stops the operation. Do not choose another base or branch.
-- **Base conflict** — conflicting requirements or several equally plausible bases stop the operation. Do not pick one arbitrarily.
+## Continue there
 
-Create a new branch and worktree in one step with `git worktree add -b <name> <path> <base>` so they cannot drift apart. Attach or track existing branches with the exact commands in the source-selection rules above.
-
-Once it exists, switch into it if the session can, and report the path, branch, source (`<base>` and reason, `Planning Baseline <full SHA>`, or matching registered worktree), and whether the worktree was created or reused. Then pick up the task that prompted it.
-
-$ARGUMENTS
+Switch the session into the worktree when the host can; in Claude Code, call `EnterWorktree` with its `path`. Report the path, branch, base and reason for a new branch, and whether the worktree was `created` or `reused`. Then pick up the task that prompted it.

@@ -14,8 +14,8 @@ Shihyu's curated collection of agent skills.
 
 - **[ask-owners](skills/ask-owners/)** - Run a design discussion with each decision's owner through their agreed channel, gathering the answers into one design.
 - **[commit](skills/commit/)** - Commit the selected changes, leaving everything outside the selection as found.
-- **[create-branch](skills/create-branch/)** - Create or safely resume a descriptive local or issue-linked remote branch without duplicate branches.
-- **[create-worktree](skills/create-worktree/)** - Create or resume isolated work in a descriptive Git worktree, including an existing Planning Baseline branch.
+- **[create-branch](skills/create-branch/)** - Put the current work on its own descriptive branch, linked to its issue when there is one.
+- **[create-worktree](skills/create-worktree/)** - Start the work in its own Git worktree under `~/code/worktrees` and continue there.
 - **[fire-in-the-hole](skills/fire-in-the-hole/)** - Run `scope-it --publish` and `go-for-it` for the current work.
 - **[grill-minimal](skills/grill-minimal/)** - Grill a plan, decision, or idea toward the smallest complete solution: the simplest approach and narrowest scope that still meet its goals and constraints.
 - **[open-pr](skills/open-pr/)** - Get the current work into a verified pull request, doing only the steps still missing.
