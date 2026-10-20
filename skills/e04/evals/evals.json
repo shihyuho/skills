@@ -2,22 +2,53 @@
   "skill_name": "e04",
   "evals": [
     {
-      "id": 0,
-      "prompt": "e04 是什麼意思？",
-      "expected_output": "解碼為 ㄍㄢˋ → 幹",
-      "files": []
-    },
-    {
       "id": 1,
-      "prompt": "su3cl3 怎麼唸？",
-      "expected_output": "解碼為 ㄋㄧˇ ㄏㄠˇ → 你好（多音節拆解）",
-      "files": []
+      "name": "explain-untoned-sentence",
+      "prompt": "同事在 Slack 回我「jo4gp6ak71j4ul4g02ul4」，什麼意思？",
+      "expected_output": "Decodes the whole run as ㄨㄟˋ ㄕㄣˊ ㄇㄜ˙ ㄅㄨˋ ㄧㄠˋ ㄕㄢ ㄉㄧㄠˋ, 為什麼不要刪掉, splitting the toneless ㄕㄢ where the next initial starts.",
+      "files": [],
+      "assertions": [
+        "Restores the sentence as 為什麼不要刪掉.",
+        "Shows the Zhuyin reading alongside the characters.",
+        "Splits the toneless syllable ㄕㄢ from the following ㄉㄧㄠˋ."
+      ]
     },
     {
       "id": 2,
-      "prompt": "我今天 cp3 開心，因為 5. 末了",
-      "expected_output": "cp3 解碼為 ㄏㄣˇ → 很，5. 解碼為 ㄓㄡ → 週，還原整句：我今天很開心，因為週末了",
-      "files": []
+      "name": "medial-after-toneless-final",
+      "prompt": "幫我把這句回覆客戶的話改得客氣一點：「價格可以再便宜 2jiu2u03 嗎，我們預算 cp3 緊」",
+      "expected_output": "Reads 2jiu2u03 as 多一點 (ㄉㄨㄛ | ㄧ | ㄉㄧㄢˇ) and cp3 as 很, states the reading in one line, then delivers the politer rewrite.",
+      "files": [],
+      "assertions": [
+        "Reads 2jiu2u03 as 多一點, splitting ㄧ from the toneless ㄉㄨㄛ.",
+        "Reads cp3 as 很.",
+        "States the reading in one line rather than a per-key breakdown.",
+        "Delivers a politer rewrite that keeps both restored meanings."
+      ]
+    },
+    {
+      "id": 3,
+      "name": "keystrokes-inside-coding-request",
+      "prompt": "幫我寫一個 Python 函式 ru03t86 email 格式對不對",
+      "expected_output": "Reads ru03t86 as 檢查, states it in one line, and writes the email-validation function without asking what the fragment means.",
+      "files": [],
+      "assertions": [
+        "Reads ru03t86 as 檢查.",
+        "States the reading in one line before the work.",
+        "Writes a Python function that validates an email format.",
+        "Proceeds without asking the user what the fragment means."
+      ]
+    },
+    {
+      "id": 4,
+      "name": "identifiers-stay-as-written",
+      "prompt": "ec2 用 t3.micro 跑 k8s 夠嗎？還是要升到 m5.large？",
+      "expected_output": "Answers the instance-sizing question, reading ec2, t3.micro, k8s and m5.large as identifiers.",
+      "files": [],
+      "assertions": [
+        "Gives no Zhuyin reading for any fragment in the message.",
+        "Answers the question about running Kubernetes on the named EC2 instance types."
+      ]
     }
   ]
 }

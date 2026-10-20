@@ -1,101 +1,36 @@
 ---
 name: e04
-description: Decode Zhuyin (Bopomofo) text typed with English keyboard keys into Chinese characters. ALWAYS try this skill when encountering unrecognized short letter/number sequences mixed with Chinese text that don't look like real English words or acronyms - e.g. "e04", "cl3", "su3", "cp3". Also use when user explicitly mentions 注音文, or asks what a cryptic alphanumeric fragment means in a Chinese context.
+description: Decode 注音文, Chinese typed as Zhuyin keystrokes on an English keyboard, such as "cp3" (很) or "su3cl3" (你好). Use whenever a message mixes Chinese with short letter-and-digit fragments that read as neither English words nor identifiers, or the user mentions 注音文.
 license: MIT
 ---
 
 # e04
 
-Decode "注音文" — Chinese text typed as English keyboard keys using the standard Zhuyin (Bopomofo) input method layout.
+Decode 注音文, Chinese typed as Zhuyin keystrokes on an English keyboard, into the Chinese the user meant. Unlike reading letters and digits as English, typos or identifiers, read a suspect fragment as keystrokes on the standard Zhuyin (大千) layout, and keep a reading only when every keystroke group spells a real Mandarin syllable.
 
-## When to Use
-
-- Encountering **unrecognized English letter/number sequences** that don't look like real English words
-- User sends messages mixing Chinese and random-looking English fragments
-- User explicitly mentions 注音文 or asks to decode keyboard input
-
-## Keyboard-to-Zhuyin Mapping Table
-
-### Consonants (聲母)
-
-| Key | Zhuyin | Key | Zhuyin | Key | Zhuyin |
-|-----|--------|-----|--------|-----|--------|
-| 1   | ㄅ     | r   | ㄐ     | 5   | ㄓ     |
-| q   | ㄆ     | f   | ㄑ     | t   | ㄔ     |
-| a   | ㄇ     | v   | ㄒ     | g   | ㄕ     |
-| z   | ㄈ     | 2   | ㄉ     | b   | ㄖ     |
-| w   | ㄊ     | e   | ㄍ     | y   | ㄗ     |
-| s   | ㄋ     | d   | ㄎ     | h   | ㄘ     |
-| x   | ㄌ     | c   | ㄏ     | n   | ㄙ     |
-
-### Vowels (韻母)
-
-| Key | Zhuyin | Key | Zhuyin | Key | Zhuyin |
-|-----|--------|-----|--------|-----|--------|
-| 8   | ㄚ     | 9   | ㄞ     | 0   | ㄢ     |
-| i   | ㄛ     | o   | ㄟ     | p   | ㄣ     |
-| k   | ㄜ     | l   | ㄠ     | ;   | ㄤ     |
-| ,   | ㄝ     | .   | ㄡ     | /   | ㄥ     |
-| u   | ㄧ     | j   | ㄨ     | m   | ㄩ     |
-| -   | ㄦ     |     |        |     |        |
-
-### Tones (聲調)
-
-| Key   | Tone         |
-|-------|--------------|
-| space | ˉ (一聲，陰平) |
-| 6     | ˊ (二聲，陽平) |
-| 3     | ˇ (三聲，上聲) |
-| 4     | ˋ (四聲，去聲) |
-| 7     | ˙ (輕聲)      |
-
-## Decoding Process
-
-1. **Map** each character to its Zhuyin symbol using the tables above
-2. **Group** into syllables: tone keys (`3`, `4`, `6`, `7`) mark the END of a syllable. Structure: [consonant] + vowel(s) + tone
-3. **Identify** the Chinese character for each syllable
-4. **Present** with the Zhuyin breakdown
-
-### Syllable Boundary Rules
-
-- Consonant keys and vowel keys do NOT overlap — each key belongs to exactly one category
-- A **tone key** (`3`, `4`, `6`, `7`) always terminates a syllable
-- First tone (space/ˉ) is typically **omitted** in 注音文 — detect the boundary when a new consonant appears after a vowel
-
-## Examples
-
-Input: `e04`
-
-1. `e` → ㄍ, `0` → ㄢ, `4` → ˋ
-2. Combined: ㄍㄢˋ
-3. Result: **幹** — 台灣網路經典注音文
-
-Input: `cl3`
-
-1. `c` → ㄏ, `l` → ㄠ, `3` → ˇ
-2. Combined: ㄏㄠˇ
-3. Result: **好** (hǎo)
-
-Input: `su3cl3` (multi-syllable)
-
-1. `s` → ㄋ, `u` → ㄧ, `3` → ˇ (syllable break) | `c` → ㄏ, `l` → ㄠ, `3` → ˇ
-2. Combined: ㄋㄧˇ ㄏㄠˇ
-3. Result: **你好**
-
-## Output Format
-
-When decoding, show:
+## Layout
 
 ```
-「{input}」→ {zhuyin} → {chinese_character}
+1 ㄅ  2 ㄉ  3 ˇ  4 ˋ  5 ㄓ  6 ˊ  7 ˙  8 ㄚ  9 ㄞ  0 ㄢ  - ㄦ
+q ㄆ  w ㄊ  e ㄍ  r ㄐ  t ㄔ  y ㄗ  u ㄧ  i ㄛ  o ㄟ  p ㄣ
+a ㄇ  s ㄋ  d ㄎ  f ㄑ  g ㄕ  h ㄘ  j ㄨ  k ㄜ  l ㄠ  ; ㄤ
+z ㄈ  x ㄌ  c ㄏ  v ㄒ  b ㄖ  n ㄙ  m ㄩ  , ㄝ  . ㄡ  / ㄥ
 ```
 
-If a syllable maps to multiple possible characters, list the most common ones and ask the user which they meant (if context is insufficient).
+- **Initials**: ㄅㄆㄇㄈ ㄉㄊㄋㄌ ㄍㄎㄏ ㄐㄑㄒ ㄓㄔㄕㄖ ㄗㄘㄙ
+- **Medials**: ㄧㄨㄩ
+- **Finals**: ㄚㄛㄜㄝ ㄞㄟㄠㄡ ㄢㄣㄤㄥ ㄦ
+- **Tones**: `6` ˊ, `3` ˇ, `4` ˋ, `7` ˙. The first tone is the space bar and is usually left out.
 
-## Notes
+## Read the keystrokes
 
-- Tone key is always the last character in a syllable group
-- Some syllables have no consonant (e.g., `84` = ㄚˋ = 啊)
-- Space as tone (一聲) is usually omitted in 注音文, so a syllable may end without a tone key
-- Context matters: use surrounding Chinese text to disambiguate which character is intended
-- If the sequence clearly IS a valid English word, don't force-decode it as Zhuyin
+1. **Map** each key through the layout.
+2. **Split** into syllables. A syllable runs initial, medial, final, tone, each optional, in that order. A tone key closes it; otherwise the next syllable starts at the first key that cannot continue it: an initial after anything, a medial after a medial or final, a final after a final. `2jiu2u03` splits as ㄉㄨㄛ | ㄧ | ㄉㄧㄢˇ, 多一點. Where a toneless syllable leaves the split open, let the sentence decide.
+3. **Confirm** it is 注音文: every syllable is a real Mandarin syllable and the reading fits the sentence. Otherwise the fragment means what it says and stays as written: `k8s` (ㄜ ㄚ ㄋ) and `s3` (ㄋˇ) spell no syllable, and `t3.micro`, an error code or an English word reads as itself in context.
+4. **Choose** the characters the surrounding sentence calls for among the homophones.
+
+## Reply
+
+- When the user asks what a fragment means, show each one as `「cl3」→ ㄏㄠˇ → 好`, then the restored sentence when there is one.
+- When 注音文 sits inside a request, state the reading in one line, such as `「ru03t86」→ 檢查`, and carry out the restored request.
+- When candidate readings would lead to different actions, list them and ask before acting.
