@@ -1,41 +1,29 @@
 ---
 name: sdkman
-description: Use when the requested action runs Java/JDK, Maven/mvn, Gradle, Ant, Tomcat, Kotlin, or another SDKMAN-supported tool; applies .sdkmanrc; investigates an actual execution failure involving those tools; or queries or changes SDKMAN versions, installations, defaults, or configuration. For documentation-only edits, leave this skill unloaded.
+description: Use when the task runs a Java/JDK, Maven/mvn, Gradle, Ant, Tomcat, Kotlin, or other SDKMAN-supported workload; applies .sdkmanrc; investigates an actual execution failure of such a workload; or queries or changes SDKMAN versions, installations, defaults, or configuration. For documentation-only edits, leave this skill unloaded.
 license: MIT
 ---
 
 # sdkman
 
-Use the development-tool environment required by the task, and manage host tool versions through SDKMAN.
+Run Java, Maven, Gradle, and other SDKMAN-managed tools in the environment the project declares, and manage host tool versions through SDKMAN. An agent's shell carries no reliable SDKMAN state: auto-env may not fire, and an activation does not survive into the next tool call. So treat each run as a workload, with SDKMAN initialization, every activation, and the original command in one shell invocation, and apply an applicable declaration there even when the current environment looks compatible.
 
-## Run or troubleshoot a tool
+Before any activation, installation, `.sdkmanrc` change, or SDKMAN command under a no-network constraint, read [Environment details](references/environment.md). It locates the applicable `.sdkmanrc`, checks installed IDs, catches native operations that change defaults, and covers offline limits.
 
-Before a workload, read [Environment details](references/environment.md) to find applicable declarations, including `.sdkmanrc`, within its worktree. Apply them through SDKMAN before execution, even if the current environment appears compatible. An explicit candidate request overrides that candidate's project declaration while retaining the other applicable declarations.
+## Choose versions
 
-Otherwise, run the requested command with the current configuration. If it fails, consider tool-version or runtime compatibility alongside other causes; use the failing process and its requirements to decide whether a version change is needed.
+Preserve exact candidate IDs and vendors. For a broader version request, use the matching active/default or sole installed version, and ask when a meaningful choice remains. A missing version needs installation authorization rather than a substitute.
 
-For Maven or Gradle, read [JVM build ownership](references/jvm-build-ownership.md) to distinguish the launcher, wrapper, daemon, and task toolchains. Compiler compatibility settings alone do not require a shell switch.
+## Run a workload
 
-## Manage versions with SDKMAN
+1. **Resolve the environment.** Start from the applicable `.sdkmanrc` within the workload's worktree. An explicit candidate request overrides that candidate's declaration and keeps the rest. For Maven or Gradle, read [JVM build ownership](references/jvm-build-ownership.md): a wrapper, daemon criteria, or toolchain selects its own version, so SDKMAN supplies only the layers the shell selects.
+2. **Confirm every required ID before applying any.** When SDKMAN cannot apply the environment, report that obstacle and leave the command unstarted. SDKMAN is this host's version manager: apply environments with `sdk use` or `sdk env`, since a hand-set home or `PATH` skips the checks above. `sdk home` locates an installation; it does not activate one.
+3. **Run it as one shell.** Load `${SDKMAN_DIR:-$HOME/.sdkman}/bin/sdkman-init.sh` only when `sdk` is unavailable and initialization fits the network constraints, guarded as `source "${SDKMAN_DIR:-$HOME/.sdkman}/bin/sdkman-init.sh" || exit "$?"`. Chain each activation and the original command with `&&` or explicit status checks. Keep the command's cwd and exit status; a setup failure leaves it unstarted.
 
-SDKMAN is this host's version manager for its supported tools. Apply a required command environment with `sdk use` or `sdk env`; `sdk home` only locates an installation. Use the native CLI for installed versions and defaults as well. If SDKMAN cannot apply the required environment, resolve that obstacle before starting the dependent command.
+With no applicable declaration or request, the workload runs under the current configuration. When it fails, weigh tool-version and runtime compatibility alongside other causes, and resolve a version requirement at the layer that needs it. A failure after the workload starts belongs to the original task unless it identifies an SDKMAN-owned requirement.
 
-Use `sdk help <command>` and the [official usage guide](https://sdkman.io/usage/) for command details. For activation, installation, project-environment work, or offline operations, read [Environment details](references/environment.md). Load `${SDKMAN_DIR:-$HOME/.sdkman}/bin/sdkman-init.sh` only when `sdk` is unavailable and initialization fits the network constraints.
+## Change host state
 
-| Need | Commands |
-| --- | --- |
-| Inspect versions and installed locations | `sdk current [candidate]`, `sdk list <candidate>`, `sdk home <candidate> <id>` |
-| Select an environment for a command | `sdk use <candidate> <id>`, `sdk env` |
-| Change installed tools or defaults | `sdk install`, `sdk uninstall`, `sdk default` |
-| Maintain project environments | `sdk env init`, `sdk env install` |
-| Change global SDKMAN configuration | `sdk config` |
+A version query answers from SDKMAN evidence, with no activation or workload. Persistent changes, including installation, removal, defaults, global configuration such as auto-env, and project files, follow an explicit request for that action. Carry out that request without asking again, and keep unrelated settings intact.
 
-Match the operation to the request: a version query needs no switch or workload. Persistent changes, including installation, removal, defaults, global configuration such as auto-env, and project-file edits, require an explicit request for that action. Apply existing authorization without asking again, keeping unrelated settings intact.
-
-Preserve exact candidate IDs and vendor choices. For a broader version request, use a matching active/default or sole installed version; ask when a meaningful choice remains. A missing requested version needs installation authorization rather than an unrequested substitute.
-
-## Apply the requested change
-
-For a workload, keep initialization, every activation, and the original command in one shell. Gate each step on the previous step's success, including initialization: guard a needed `source` with `source "${SDKMAN_DIR:-$HOME/.sdkman}/bin/sdkman-init.sh" || exit "$?"`, then chain activations and the original command with `&&` or explicit status checks. Preserve the command's cwd and exit status; a setup failure leaves it unstarted.
-
-For a persistent change, verify the requested installation, default, or configuration with current CLI or file evidence. Recheck the environment before any dependent workload. Leave build/test diagnosis to the original task unless the failure identifies an SDKMAN-owned requirement.
+Verify each persistent change with current CLI or file evidence, and recheck the environment before a dependent workload. For command details, use `sdk help <command>` or the [official usage guide](https://sdkman.io/usage/).

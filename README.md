@@ -7,21 +7,19 @@ Shihyu's curated collection of agent skills.
 ### Model-invoke
 
 - **[e04](skills/e04/)** - Decode 注音文 (Zhuyin/Bopomofo text typed with English keyboard keys) into Chinese characters.
-- **[sdkman](skills/sdkman/)** - Run development tools in the environment the task requires, and manage host tool versions through [SDKMAN](https://sdkman.io/).
+- **[sdkman](skills/sdkman/)** - Run Java, Maven, Gradle, and other SDKMAN-managed tools in the environment the project declares, and manage host tool versions through [SDKMAN](https://sdkman.io/).
 - **[writing-agents-md](skills/writing-agents-md/)** - Create, update, prune, or review `AGENTS.md` and `CLAUDE.md` by routing standing guidance to the smallest correct scope and mechanism.
 
 ### User-invoke
 
-- **[ask-owners](skills/ask-owners/)** - Run a chosen discussion skill with questions routed to the responsible people and channels, collecting their answers into one shared design.
-- **[commit](skills/commit/)** - Commit the changes selected by the request or conversation while preserving unrelated staged and unstaged work.
-- **[commit-push](skills/commit-push/)** - Commit selected changes and push to the intended branch, reusing authorization for the same destination.
-- **[commit-push-pr](skills/commit-push-pr/)** - Commit selected changes, push the intended branch, and create or resume its pull request.
+- **[ask-owners](skills/ask-owners/)** - Run a design discussion with each decision's owner through their agreed channel, gathering the answers into one design.
+- **[commit](skills/commit/)** - Commit the selected changes, leaving everything outside the selection as found.
 - **[create-branch](skills/create-branch/)** - Create or safely resume a descriptive local or issue-linked remote branch without duplicate branches.
 - **[create-worktree](skills/create-worktree/)** - Create or resume isolated work in a descriptive Git worktree, including an existing Planning Baseline branch.
 - **[fire-in-the-hole](skills/fire-in-the-hole/)** - Run `scope-it --publish` and `go-for-it` for the current work.
 - **[grill-minimal](skills/grill-minimal/)** - Grill a plan, decision, or idea toward the smallest complete solution: the simplest approach and narrowest scope that still meet its goals and constraints.
-- **[pr](skills/pr/)** - Publish committed feature-branch changes and return a verified new or existing pull request.
-- **[push](skills/push/)** - Push to the intended remote branch with verified default-branch authorization and publication results.
+- **[open-pr](skills/open-pr/)** - Get the current work into a verified pull request, doing only the steps still missing.
+- **[push](skills/push/)** - Push the current work to one verified destination, committing it first only if it is still uncommitted.
 - **[revisit](skills/revisit/)** - Recover why a ticket or PR exists and what changed, reassess it against the current version, and discuss the smallest complete change if one is still needed.
 - **[scope-it](skills/scope-it/)** - Coordinate interchangeable planning skills into a Ticket Map and a verified AFK handoff through `to-afk-agent`, using `--publish` to complete the agreed workflow without routine confirmation.
 - **[skill-review](skills/skill-review/)** - Review a skill using writing-for-agents and skill-creator, with `--fix` applying only corrections judged warranted by the evidence and criteria.
