@@ -1,6 +1,6 @@
 interface:
   display_name: "revisit"
   short_description: "Restore issue context and reassess next steps"
-  default_prompt: "Use $revisit to recover the context of this ticket or PR, assess what still applies to the current version, and discuss the smallest complete change if needed."
+  default_prompt: "Use $revisit to recover why this ticket or PR exists and what changed, reassess it against the current version, and discuss the smallest complete change if one is still needed."
 policy:
   allow_implicit_invocation: false
