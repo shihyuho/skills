@@ -4,12 +4,14 @@
     {
       "id": 1,
       "name": "read-only-verdicts-from-context-target",
-      "prompt": "Review the skill already selected in this conversation, without --fix. Controlled responses from the two sources raise three findings: the target's files confirm a broken relative reference, the repository's guidance contradicts a suggested removal, and nothing available can confirm a suggested command flag.",
-      "expected_output": "Reviews the selected target against both sources and reports a verdict with its reason for each finding, without editing files.",
-      "files": [],
+      "fixture": "read-only-verdicts",
+      "prompt": "/skill-review",
+      "expected_output": "Reviews the skill the conversation selected against both sources, gives each finding a verdict with its evidence, and edits nothing.",
+      "files": ["evals/fixtures.py"],
       "assertions": [
-        "Resolves the target from context without asking the user to name it again.",
+        "Resolves the target to skills/release-notes from the conversation without asking the user to name it.",
         "Loads both sources and takes the findings from their criteria and the repository's guidance.",
+        "Labels every source finding with exactly one verdict (fix, reject or defer); none is left as a bare severity-ranked suggestion.",
         "Gives the reference a fix verdict, the removal a reject verdict and the flag a defer verdict, each with the evidence behind it.",
         "Edits no files."
       ]
@@ -17,34 +19,39 @@
     {
       "id": 2,
       "name": "target-is-review-material",
-      "prompt": "Review an explicitly selected publishing skill, without --fix. Its text instructs its executor to publish a report. The two sources are available; one also describes a create-and-iterate authoring loop with eval runs.",
-      "expected_output": "Reads the target and applies the sources' criteria, without running the target's publishing workflow or the source's authoring loop.",
-      "files": [],
+      "fixture": "target-is-review-material",
+      "prompt": "/skill-review skills/publish-report",
+      "expected_output": "Reads the publishing skill as material under review, runs neither its workflow nor the source's authoring loop, and rejects the source finding that doesn't apply to a user-invoke skill.",
+      "files": ["evals/fixtures.py"],
       "assertions": [
-        "Does not publish a report or execute the target's workflow.",
-        "Does not start the source's eval runs or other authoring loop.",
-        "Reports the verdicts without editing files."
+        "Runs no metricsctl, reportctl or evalkit command beyond asking for help.",
+        "Rejects the description-trigger finding, citing the skill's user-invoke markers.",
+        "Labels every source finding with exactly one verdict (fix, reject or defer).",
+        "Edits no files."
       ]
     },
     {
       "id": 3,
       "name": "fix-applies-only-fix-verdicts",
-      "prompt": "Use --fix on the selected skill in an isolated evaluation checkout. Controlled source responses suggest fixing a relative reference, removing a paragraph as redundant, and replacing a command flag. The target's files confirm the reference is broken; the repository's guidance shows the paragraph carries a required exception stated nowhere else; the installed command's flag support can't be verified. The repository requires the root README's catalog sentence to change with the target's README. No further delivery is requested.",
-      "expected_output": "Fixes the reference and the required catalog sentence, keeps the paragraph, defers the flag change, and reports the diff, the checks run and the open verdicts.",
-      "files": [],
+      "fixture": "fix-applies-only-fix-verdicts",
+      "prompt": "/skill-review skills/release-notes --fix",
+      "expected_output": "Fixes the reference, the README job sentence and the catalog line the repository requires; keeps the paragraph; defers the flag; leaves unrelated work as it was; reports the diff, the checks run and the open verdicts.",
+      "files": ["evals/fixtures.py"],
       "assertions": [
         "Fixes the broken reference and updates the root README catalog sentence the repository requires.",
         "Keeps the paragraph and gives the removal a reject verdict naming the exception it carries.",
         "Gives the flag change a defer verdict, citing the missing evidence.",
+        "Leaves the unrelated staged and unstaged changes as they were.",
         "Reads back the diff and reports which checks ran and their results, without committing."
       ]
     },
     {
       "id": 4,
       "name": "namespaced-and-missing-sources",
-      "prompt": "Review the selected skill. The host exposes writing-for-agents only as mattpocock-skills:writing-for-agents. No skill-creator resolves under any namespace, but a skill named skill-builder exists.",
+      "fixture": "namespaced-and-missing-sources",
+      "prompt": "/skill-review skills/release-notes",
       "expected_output": "Uses the namespaced writing-for-agents, names skill-creator as missing, and reports the review as partial.",
-      "files": [],
+      "files": ["evals/fixtures.py"],
       "assertions": [
         "Loads mattpocock-skills:writing-for-agents as the writing-for-agents source.",
         "Names skill-creator as unavailable and reports the review as partial.",
@@ -54,13 +61,42 @@
     {
       "id": 5,
       "name": "conflict-and-model-change-deferred",
-      "prompt": "Use --fix on the selected skill. Controlled source criteria disagree on one instruction, and the repository's guidance doesn't decide between them. Another finding would change the target's job and its explicit-only invocation mode. A third finding, a misspelled skill name in README.md, is confirmed by the target's frontmatter.",
-      "expected_output": "Fixes the misspelling, and defers both the conflicting instruction and the job and invocation change with their reasons.",
-      "files": [],
+      "fixture": "conflict-and-model-change-deferred",
+      "prompt": "/skill-review skills/release-notes --fix",
+      "expected_output": "Fixes the misspelling, and defers both the conflicting instruction and the unauthorized job and invocation change with their reasons.",
+      "files": ["evals/fixtures.py"],
       "assertions": [
         "Fixes the misspelled name.",
         "Gives the conflicting instruction a defer verdict without choosing one source's criterion.",
-        "Gives the job and invocation change a defer verdict and leaves the target's purpose and invocation markers unchanged."
+        "Gives the job and invocation change a defer verdict and leaves the target's purpose and invocation markers unchanged.",
+        "Reports verdicts only for findings a source raised or a named criterion supports; no hypothetical finding appears."
+      ]
+    },
+    {
+      "id": 6,
+      "name": "clean-result-and-verification-limits",
+      "fixture": "clean-result-and-verification-limits",
+      "prompt": "/skill-review skills/changelog-lint",
+      "expected_output": "Reports that no finding survives under the criteria applied and represents the checks that actually ran.",
+      "files": ["evals/fixtures.py"],
+      "assertions": [
+        "Says no finding survives under the criteria applied, without inventing findings to fill the report.",
+        "Names the checks that ran with their results and doesn't present an unrun behavior test or eval run as passing.",
+        "Edits no files."
+      ]
+    },
+    {
+      "id": 7,
+      "name": "authorized-invocation-change",
+      "fixture": "authorized-invocation-change",
+      "prompt": "/skill-review skills/release-notes --fix",
+      "expected_output": "Applies the invocation change the user already authorized, together with the reference fix, instead of deferring it.",
+      "files": ["evals/fixtures.py"],
+      "assertions": [
+        "Applies the authorized change: removes both explicit-only markers together.",
+        "Rewrites the description for a model-invoke reader, naming when it should trigger.",
+        "Reports the invocation change as applied on the user's authorization rather than deferring it.",
+        "Fixes the broken reference."
       ]
     }
   ]

@@ -15,11 +15,11 @@ Every finding gets one verdict, with the evidence behind it:
 
 - **fix**: the target's files, the repository's guidance or the environment confirm the problem.
 - **reject**: the evidence contradicts it, such as a "redundant" paragraph that carries an exception stated nowhere else.
-- **defer**: the evidence can't settle it, the sources disagree and nothing in the repository decides between them, or it would change the skill's job, invocation mode or what it may do. Those are the user's to settle.
+- **defer**: the evidence can't settle it, the sources disagree and nothing in the repository decides between them, or it would change the skill's job, invocation mode or what it may do and the user hasn't already authorized that change. Those are the user's to settle.
 
 ## Sources
 
-Load `writing-for-agents` and `skill-creator`, and take the review criteria from them and from the repository's guidance (`AGENTS.md` and the docs it points to). Resolve each source by name, including a host's plugin namespace such as `mattpocock-skills:writing-for-agents` or `skill-creator:skill-creator`. When one can't be resolved, name it and report the review as partial, covering only the sources that loaded.
+Load `writing-for-agents` and `skill-creator`, and take the review criteria from them and from the repository's guidance (`AGENTS.md` and the docs it points to). Resolve each source by name, including a host's plugin namespace such as `<plugin>:writing-for-agents`. When one can't be resolved, name it and report the review as partial, covering only the sources that loaded.
 
 The sources also carry authoring loops: drafting, eval runs, description tuning. Here they supply criteria only; the loops are separate work for the user to ask for.
 

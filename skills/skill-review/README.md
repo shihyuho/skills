@@ -41,13 +41,13 @@ An authoring guide is written to shape a skill, so its findings read as orders: 
 | --- | --- | --- |
 | fix | The evidence confirms the problem. | Applied. |
 | reject | The evidence contradicts it. | Left as is, with the reason. |
-| defer | The evidence can't settle it, the sources disagree with nothing in the repository to decide, or it would change the skill's job, invocation mode or what it may do. | Left for you to decide. |
+| defer | The evidence can't settle it, the sources disagree with nothing in the repository to decide, or it would change the skill's job, invocation mode or what it may do and you haven't authorized that change. | Left for you to decide. |
 
 ## It's working if
 
 - Every finding in the report carries a verdict and the evidence behind it, rejected and deferred ones included.
 - A review without `--fix` leaves `git status` unchanged.
-- A finding that would change what the skill does appears as a defer, not as an edit in the diff.
+- Unless you authorized it, a finding that would change what the skill does appears as a defer, not as an edit in the diff.
 - A report missing a source names it and says the review is partial.
 
 ## Common questions
