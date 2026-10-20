@@ -17,10 +17,10 @@ Config root 與 cache root 分開解析，不共用一個 root。兩者各自依
 
 1. **已生效的使用者層級 instructions**：若當前 agent 已生效的使用者層級 instructions 明確指定 skill config root 或 cache root，對相應類別使用該路徑。Agent 不需要額外搜尋未載入的設定檔。
 2. **預設位置**：
-   - Config root：`~/.config/softleader/agent-skills`
-   - Cache root：`~/.cache/softleader/agent-skills`
+   - Config root：`~/.config/shihyuho/skills`
+   - Cache root：`~/.cache/shihyuho/skills`
 
-這兩個預設位置與 softleader/agent-skills 共用，各 skill 以 canonical name 分目錄。其中 `~` 代表當前使用者的 home 目錄。所有作業系統都使用相同的預設位置，不另外切換到 XDG、`APPDATA`、`LOCALAPPDATA` 或其他平台目錄。若 instructions 只指定其中一種 root，另一種仍依自己的解析順序決定位置。
+其中 `~` 代表當前使用者的 home 目錄。所有作業系統都使用相同的預設位置，不另外切換到 XDG、`APPDATA`、`LOCALAPPDATA` 或其他平台目錄。若 instructions 只指定其中一種 root，另一種仍依自己的解析順序決定位置。
 
 若高順位的 root 已明確設定卻無法使用，應回報該路徑與原因，不可靜默降級到下一順位。
 
@@ -36,8 +36,8 @@ Config root 與 cache root 分開解析，不共用一個 root。兩者各自依
 例如，使用預設 root 時，`scope-it` 的 config 目錄與 cache 目錄分別為：
 
 ```text
-~/.config/softleader/agent-skills/scope-it/
-~/.cache/softleader/agent-skills/scope-it/
+~/.config/shihyuho/skills/scope-it/
+~/.cache/shihyuho/skills/scope-it/
 ```
 
 Skill 只建立實際需要的類別，不必同時建立兩個目錄。Skill 可在自己的 config 或 cache 目錄內自由規劃檔名與子目錄；新的文件、範例與程式不得把這些資料寫入 skill source、安裝目錄或 marketplace installation cache。
