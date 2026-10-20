@@ -8,7 +8,7 @@ Push the current work to one verified destination, committing it first only if i
 - A previous push failed and you want to retry without creating another commit.
 - You intend to push to the default branch and want that push to wait for your explicit go-ahead.
 
-This skill must be invoked explicitly. Use `open-pr` instead when the goal is a pull request, because it runs this skill and then opens or reuses the PR; use `commit` when the work should stay local.
+This skill must be invoked explicitly. Use `open-pr` instead when the goal is a pull request, because it also opens or reuses the PR; use `commit` when the work should stay local.
 
 ## Before you start
 
@@ -29,9 +29,9 @@ $push
 | Invocation | Effect |
 |---|---|
 | `$push` | Commits uncommitted work in the agreed scope (otherwise all current changes), then pushes the current branch to `origin` |
-| `$push src/login.js` | Commits only that path if it is uncommitted, then pushes |
-| `$push upstream feature/login` | Pushes to that remote and branch |
-| `$push origin main` | Naming the default branch counts as approval for that exact push |
+| `$push <path>...` | Commits only those paths if they are uncommitted, then pushes |
+| `$push <remote> <branch>` | Pushes to that remote and branch |
+| `$push <remote> <default-branch>` | Naming the default branch counts as approval for that exact push |
 
 ## The destination
 
@@ -61,4 +61,3 @@ It was retired in #47. `push` now does the same job, committing whatever is miss
 
 - It pushes normally: a rejected non-fast-forward push is reported, and force-pushing needs its own approval.
 - It stops when the destination's default branch cannot be determined.
-- It does not create branches or pull requests; `open-pr` does.

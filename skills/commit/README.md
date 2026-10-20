@@ -7,15 +7,17 @@ Commit the selected changes, leaving everything outside the selection as found. 
 - You want part of a dirty working tree committed (a few paths, the fix just discussed, or what is already staged) without disturbing the rest.
 - You want the whole working tree committed as one cohesive commit, with a question first when it mixes clearly unrelated concerns.
 
-This skill must be invoked explicitly. When the work should also reach a remote branch or a pull request, use `push` or `open-pr` instead, because each one commits missing work through this skill before going further.
+This skill must be invoked explicitly. When the work should also reach a remote branch or a pull request, use `push` or `open-pr` instead, because they commit whatever is still uncommitted and then publish it.
 
 ## Before you start
 
-It invokes the external `git-commit-co-author` skill from [softleader/agent-skills](https://github.com/softleader/agent-skills) before committing. To install this skill on its own:
+To install this skill on its own:
 
 ```bash
 npx skills add shihyuho/skills --skill commit -g
 ```
+
+Where the `git-commit-co-author` skill from [softleader/agent-skills](https://github.com/softleader/agent-skills) is installed, commits also carry its AI attribution trailer.
 
 ## Getting started
 
@@ -28,7 +30,7 @@ $commit
 | Invocation | What gets committed |
 |---|---|
 | `$commit` | The scope already agreed in the conversation, otherwise all current changes |
-| `$commit src/login.js docs/login.md` | Exactly those paths |
+| `$commit <path>...` | Exactly those paths |
 | `$commit staged only` | The current index, without restaging working-tree edits |
 | `$commit split by concern` | One commit per concern in the selection, without asking first |
 
@@ -51,6 +53,6 @@ Everything outside the selection stays out of the commit and stays as it was, in
 
 ## Limitations
 
-- It commits on the current branch, the default branch included; it never creates a branch, pushes, or amends existing commits.
+- It commits on the current branch, the default branch included.
 - A hunk-level selection whose ownership is unclear stops for a question rather than widening to whole files.
 - When a commit hook fails, it reports the failure and leaves the work uncommitted.

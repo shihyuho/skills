@@ -36,8 +36,8 @@ $open-pr
 | Invocation | Effect |
 |---|---|
 | `$open-pr` | Opens the PR against the target repository's default branch |
-| `$open-pr into 3.x` | Uses `3.x` as the base |
-| `$open-pr src/login.js` | Commits only that path if it is still uncommitted |
+| `$open-pr into <base>` | Uses `<base>` as the base |
+| `$open-pr <path>...` | Commits only those paths if they are still uncommitted |
 
 ## Prerequisites of the target
 
@@ -56,7 +56,7 @@ On the default branch with commits not yet on the remote, it stops: moving those
 
 - The report lists each step as completed or reused, and running it again right after a success reuses all of them.
 - The PR's head commit on GitHub is the SHA the report names.
-- Starting on `main` with uncommitted work leaves `main` untouched and puts the PR on a new feature branch.
+- Starting on the default branch with uncommitted work leaves the default branch untouched and puts the PR on a new feature branch.
 - No second PR appears for the same branch and base.
 
 ## Common questions
@@ -70,5 +70,4 @@ Both changed in #47. `pr` was renamed `open-pr` because its name collided with o
 ## Limitations
 
 - It stops on the default branch when that branch already holds commits not on the remote.
-- An existing matching PR is reused as it is; its title and body are not rewritten.
 - It does not merge, request reviewers, or wait for CI.
