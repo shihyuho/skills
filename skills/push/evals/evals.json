@@ -54,6 +54,30 @@
       "prompt": "Invoke push for the intended single repository, but the selected remote has multiple effective push URLs.",
       "expected_output": "The agent reports and resolves the multiple-destination configuration before publication rather than allowing an apparently single-remote command to fan out to unapproved repositories.",
       "files": []
+    },
+    {
+      "id": 10,
+      "prompt": "Invoke push for only src/login.js on feature/login. src/login.js is uncommitted, docs/notes.md is already staged, and README.md has unrelated unstaged changes.",
+      "expected_output": "The agent fills the missing commit through commit with exactly src/login.js, preserves both unrelated changes, then pushes the verified commit and reports both the commit SHA and the verified destination.",
+      "files": []
+    },
+    {
+      "id": 11,
+      "prompt": "Invoke push for this cohesive uncommitted change on main. Pushing to the default branch has not been authorized.",
+      "expected_output": "The agent commits the change through commit first, then asks about that exact default-branch push before publishing. It keeps the completed commit and does not treat the commit as push approval.",
+      "files": []
+    },
+    {
+      "id": 12,
+      "prompt": "Invoke push for the uncommitted feature-branch change. The commit hook fails before creating a commit.",
+      "expected_output": "The agent stops before pushing and reports that the commit did not complete. No branch URL is presented as a successful push.",
+      "files": []
+    },
+    {
+      "id": 13,
+      "prompt": "Run push again after an earlier run committed the selected change but the push failed. That commit is still HEAD and the selected paths are now unchanged.",
+      "expected_output": "The agent finds no missing commit, creates no new or empty commit, and retries only the push of the existing HEAD, verifying the destination.",
+      "files": []
     }
   ]
 }

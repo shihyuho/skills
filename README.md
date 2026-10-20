@@ -13,15 +13,13 @@ Shihyu's curated collection of agent skills.
 ### User-invoke
 
 - **[ask-owners](skills/ask-owners/)** - Run a chosen discussion skill with questions routed to the responsible people and channels, collecting their answers into one shared design.
-- **[commit](skills/commit/)** - Commit the changes selected by the request or conversation while preserving unrelated staged and unstaged work.
-- **[commit-push](skills/commit-push/)** - Commit selected changes and push to the intended branch, reusing authorization for the same destination.
-- **[commit-push-pr](skills/commit-push-pr/)** - Commit selected changes, push the intended branch, and create or resume its pull request.
+- **[commit](skills/commit/)** - Commit the selected changes, leaving everything outside the selection as found.
 - **[create-branch](skills/create-branch/)** - Create or safely resume a descriptive local or issue-linked remote branch without duplicate branches.
 - **[create-worktree](skills/create-worktree/)** - Create or resume isolated work in a descriptive Git worktree, including an existing Planning Baseline branch.
 - **[fire-in-the-hole](skills/fire-in-the-hole/)** - Run `scope-it --publish` and `go-for-it` for the current work.
 - **[grill-minimal](skills/grill-minimal/)** - Discuss a plan, decision, or idea with the external `grill-with-docs` skill, prioritizing the simplest approach and narrowest scope that meet your goals and constraints.
-- **[pr](skills/pr/)** - Publish committed feature-branch changes and return a verified new or existing pull request.
-- **[push](skills/push/)** - Push to the intended remote branch with verified default-branch authorization and publication results.
+- **[open-pr](skills/open-pr/)** - Get the current work into a verified pull request, doing only the steps still missing.
+- **[push](skills/push/)** - Push the current work to one verified destination, committing it first only if it is still uncommitted.
 - **[revisit](skills/revisit/)** - Recover the context of a ticket or PR, assess what still applies to the current version, and discuss the smallest complete change if needed.
 - **[skill-review](skills/skill-review/)** - Review a skill using writing-for-agents and skill-creator, with `--fix` applying only corrections judged warranted by the evidence and criteria.
 - **[splitoff](skills/splitoff/)** - Hand the current conversation to a Claude Code background agent or a native Codex subagent using a generated handoff summary.
