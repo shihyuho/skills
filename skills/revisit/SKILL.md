@@ -13,13 +13,13 @@ Write for a **returning reader**: someone who has forgotten the ticket's backgro
 
 ## Phases
 
-Resolve the ticket or PR from the supplied number, link, or conversation, then run these phases in order. Each phase follows its skill's own instructions within the boundary given here.
+Resolve the ticket or PR from the supplied number, link, or conversation; when it cannot be read, report that and stop. Then run these phases in order. Each phase follows its skill's own instructions within the boundary given here.
 
 1. **Restore** with `productivity:explain`. Show the returning reader why the ticket or PR exists through one concrete situation: what someone was trying to do, the reported behavior or missing capability, why it mattered, and the intended outcome. Prefer a source-backed example; label an illustrative one as such. Include prior decisions or fixes that explain why it remains open. The phase is complete once the explanation is delivered; move on without waiting for the reader to confirm understanding.
 2. **Reassess** against the current version, naming the version checked. For a defect, performance, or security concern, use `mattpocock-skills:diagnosing-bugs`, scoped to investigation: necessary verification tests and their cleanup. For an enhancement or other non-defect concern, check whether the current version already delivers what it asks for. Implementation follows the discussion, with separate user authorization.
 3. **Decide**. When the concern still applies and needs a change, discuss the smallest complete change with `skills:grill-minimal`. Otherwise report why action is no longer needed, or what remains unverified; a missing confirmation leaves the concern unverified rather than resolved.
 
-Use `productivity:resolving-user-invoke-skills` when needed and available to load these skills. If a required skill cannot be resolved, report the missing dependency and stop the affected phase.
+Use `productivity:resolving-user-invoke-skills` when needed and available to load these skills. When a phase's skill is unavailable, run that phase directly within the same boundary.
 
 ## First assessment response
 

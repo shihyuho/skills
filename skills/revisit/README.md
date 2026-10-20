@@ -12,8 +12,7 @@ This skill must be invoked explicitly. For a fresh failure you are already in th
 
 ## Before you start
 
-- `productivity:explain`, `mattpocock-skills:diagnosing-bugs`, and `skills:grill-minimal` with its `grill-with-docs` dependency are installed.
-- The agent can read the ticket or PR, such as through a logged-in `gh` for GitHub.
+The agent needs to read the ticket or PR, such as through a logged-in `gh` for GitHub.
 
 ## Getting started
 
@@ -23,7 +22,7 @@ $skills:revisit <ticket or PR number or link>
 
 ## Restore, reassess, decide
 
-Each run takes the ticket through three phases, each handled by an existing skill:
+Each run takes the ticket through three phases. A phase uses its skill when that skill is installed and runs on its own otherwise:
 
 | Phase | Skill | What you get |
 |---|---|---|
@@ -39,7 +38,7 @@ The first assessment response is written for a returning reader who may read not
 - You could retell the ticket's story from the final response alone, without scrolling back through progress messages.
 - Findings name the version they were checked against.
 - An example the ticket's history does not back is marked as illustrative.
-- An enhancement gets a capability check rather than a bug hunt.
+- An enhancement ticket is answered by whether the current version delivers what it asks for.
 
 ## Limitations
 
