@@ -4,7 +4,7 @@ Every skill at `skills/<skill>/` carries a human-facing `README.md` beside its `
 
 The agent never fires a user-invoke skill on its own, so the engineer is the index that has to remember it exists and when to reach for it. That memory is cognitive load, and the README exists to carry it: one page that lets one reader hold one skill in their head, what it does, when to reach for it, and what a good run looks like. The page is not the skill and not a copy of `SKILL.md`: agent execution instructions stay in `SKILL.md` and its references, development history stays in issues and pull requests, and the page explains the why rather than the process, because a human choosing a tool does not need the runbook.
 
-Write the page in English. When the `explain` skill is available, it sets how each section is written.
+When the `explain` skill is available, it sets how each section is written; `AGENTS.md` sets the language; principles 6 and 9 in [skill-design.md](skill-design.md) (no tombstones, no consumer pointers) apply to the README as they apply to the skill.
 
 ## When to act
 
@@ -30,7 +30,7 @@ Three beats. The situations, as a list when there are several. How it starts, in
 
 ## Before you start
 
-Only when the reader needs something in place, or needs to know where the skill will write: tools and access (a logged-in `gh`, write access to the branch), prior setup (a tracker configured, another plugin installed), or a workspace the skill keeps across runs (config or cache), named so the reader knows where it lands. A stateless skill that runs anywhere has no prerequisites, so the section is left out.
+Only when the reader needs something in place, or needs to know where the skill will write: tools and access (a logged-in `gh`, write access to the branch), prior setup (a tracker configured, another plugin installed), or a workspace the skill keeps across runs (config or cache, see `docs/skill-user-data.md`), named so the reader knows where it lands. A stateless skill that runs anywhere has no prerequisites, so the section is left out.
 
 ## Getting started
 
@@ -70,4 +70,4 @@ What it does not do and where it stops.
 - Every `It's working if` bullet is checkable without opening `SKILL.md`.
 - The hunt for questions ran, and `Common questions` is sized to what it found.
 - The page is in English, and every in-page link still resolves after a heading change.
-- No `SKILL.md` step is reproduced. Retired behavior is answered in `Common questions` with where it went, not denied in passing; a sentence that blocks a behavior the reader would otherwise default to stays where it blocks it.
+- No `SKILL.md` step is reproduced. Retired behavior is answered in `Common questions` with where it went, not denied in passing; a sentence that blocks a live default stays where it blocks it, as principle 6 in [skill-design.md](skill-design.md) draws the line.
