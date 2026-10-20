@@ -46,7 +46,7 @@
     {
       "id": 8,
       "prompt": "Use commit for the selected fix. A commit hook exits nonzero before any commit is created.",
-      "expected_output": "The agent reports that the commit failed and does not claim a new SHA or completion. It inspects the resulting state and preserves the outstanding work.",
+      "expected_output": "The agent reports that the commit failed and does not claim a new SHA or completion. It returns the selected fix's index entries to their entry state, so a fix that started unstaged ends unstaged, and preserves the outstanding work.",
       "files": []
     }
   ]

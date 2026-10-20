@@ -1,0 +1,73 @@
+{
+  "skill_name": "grill-minimal",
+  "evals": [
+    {
+      "id": 1,
+      "name": "cuts-scope-no-goal-needs",
+      "prompt": "Our 3-person support team wants the weekly list of closed tickets as a CSV so they can paste it into a spreadsheet they already maintain. Right now they ask engineering every Friday. My plan: build a reporting service with a plugin system for export formats (CSV, XLSX, PDF), a scheduler for recurring exports, per-user export templates, and an S3 archive of every export ever generated. Goal: support gets the weekly CSV without asking engineering. Constraint: it has to ship this sprint, and I'm the only engineer on it.",
+      "expected_output": "The first round proposes cutting the scope no goal needs and recommends the smallest export that gets support their weekly CSV on their own.",
+      "files": [],
+      "assertions": [
+        "Proposes cutting at least two of: the plugin system, XLSX/PDF formats, per-user templates, the S3 archive, tying each cut to no stated goal or constraint needing it.",
+        "Recommends an approach no bigger than a single CSV export support can get on their own, such as a button, a saved query, or one scheduled email.",
+        "Asks no design-detail question about scope it has not first established is needed, such as PDF layout, template schema, or archive retention.",
+        "Introduces no new capability that neither the plan nor a stated goal or constraint asks for; questions about the correctness, edge cases, security, or tests of the kept scope count as in scope."
+      ]
+    },
+    {
+      "id": 2,
+      "name": "keeps-what-a-constraint-requires",
+      "prompt": "Adding password reset to our B2B app. Goal: users can reset a forgotten password without contacting support. Constraint: our SOC 2 audit next quarter requires reset tokens to be single-use, expire within 15 minutes, and every reset to be audit-logged. Plan: an emailed reset link, plus SMS reset and security questions as backup options. To ship faster I'm thinking of skipping the audit log for v1.",
+      "expected_output": "The first round keeps the audit log and token rules the SOC 2 constraint requires, and proposes cutting the backup reset paths no goal needs.",
+      "files": [],
+      "assertions": [
+        "Recommends keeping the audit log for v1, citing the SOC 2 constraint, rather than endorsing skipping it.",
+        "Proposes no relaxation of single-use reset tokens or their 15-minute expiry, treating both as fixed by the SOC 2 constraint.",
+        "Proposes cutting SMS reset and security questions as serving no stated goal or constraint, leaving the emailed link as the only v1 reset path.",
+        "Introduces no new capability that neither the plan nor a stated goal or constraint asks for; questions about the correctness, edge cases, security, or tests of the kept scope count as in scope."
+      ]
+    },
+    {
+      "id": 3,
+      "name": "settles-goals-first",
+      "prompt": "I think we should rewrite our internal admin dashboard in a newer frontend framework.",
+      "expected_output": "The first round settles what the rewrite must achieve and what constrains it, and keeps a smaller change than a full rewrite on the table until those are known.",
+      "files": [],
+      "assertions": [
+        "Asks in the first round what the rewrite must achieve, the problem or goal behind it.",
+        "Asks in the first round what constraints apply, such as time, people, or what must keep working.",
+        "Defers framework choice and migration-detail questions until the goals are settled, rather than asking them in the first round.",
+        "Raises a smaller change than a full rewrite, such as fixing the specific pain points in place or migrating incrementally, as a candidate answer.",
+        "Introduces no new capability that neither the plan nor a stated goal or constraint asks for; questions about the correctness, edge cases, security, or tests of the kept scope count as in scope."
+      ]
+    },
+    {
+      "id": 4,
+      "name": "keeps-what-the-kept-scope-needs-to-work",
+      "prompt": "I want to add a bulk user import endpoint to our admin API: an admin uploads a CSV of users and the accounts get created. Goal: onboarding a new customer takes minutes instead of a day of manual entry. To keep it minimal I'll skip input validation and tests, and just return 200 whatever happens. I'm also thinking about an import-history dashboard and scheduled recurring imports.",
+      "expected_output": "The first round keeps validation, per-row error reporting and tests for the import, since the kept scope needs them to work, and proposes cutting the dashboard and scheduled imports no goal needs.",
+      "files": [],
+      "assertions": [
+        "Recommends keeping validation of the uploaded rows, such as malformed, missing, or duplicate users, rather than endorsing skipping it.",
+        "Recommends keeping tests for the import rather than endorsing skipping them.",
+        "Recommends reporting which rows failed and why, rather than a blanket 200.",
+        "Proposes cutting the import-history dashboard and scheduled imports as serving no stated goal or constraint.",
+        "Introduces no new capability that neither the plan nor a stated goal or constraint asks for; questions about the correctness, edge cases, security, or tests of the kept scope count as in scope."
+      ]
+    },
+    {
+      "id": 5,
+      "name": "simplifies-an-overbuilt-approach",
+      "prompt": "Our marketing site needs a contact form whose submissions reach the sales team's inbox. Goal: sales sees every inquiry within a few minutes. Constraint: about 20 submissions a day, and I'm the only engineer. Plan: the form posts to an API that publishes each submission to a Kafka topic; a consumer microservice stores it in Postgres; a second microservice reads a job queue and sends the email with retries; a Redis-backed rate limiter protects the endpoint.",
+      "expected_output": "The first round keeps the form and the email to sales, and recommends a much simpler approach than the Kafka and microservice pipeline that still delivers every inquiry reliably.",
+      "files": [],
+      "assertions": [
+        "Recommends replacing the Kafka topic and the two microservices with a single handler, or an existing form or email service, citing the volume or the one-engineer constraint.",
+        "Keeps the contact form and the delivery to the sales inbox; it does not question the goal itself.",
+        "Keeps some protection against spam or abuse of the public form, without requiring the Redis-backed rate limiter.",
+        "Addresses how an inquiry is not lost when sending the email fails, rather than dropping the reliability the goal needs along with the queue.",
+        "Introduces no new capability that neither the plan nor a stated goal or constraint asks for; questions about the correctness, edge cases, security, or tests of the kept scope count as in scope."
+      ]
+    }
+  ]
+}

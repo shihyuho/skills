@@ -10,7 +10,7 @@ Use `sdk env` from the file's directory when its full contents apply unchanged, 
 
 ## Installed candidates and defaults
 
-`sdk list <candidate>` distinguishes available, installed, and current versions; availability in the catalog is not proof of installation. `sdk current` and `sdk home` provide focused local evidence. Match exact IDs, including vendor suffixes, against installed tools.
+`sdk list <candidate>` distinguishes available, installed, and current versions; availability in the catalog is not proof of installation. `sdk current` and `sdk home` provide focused local evidence.
 
 SDKMAN can create a default when `sdk use` encounters a candidate without `current`. Before activation, check that candidate's `current` entry under `${SDKMAN_DIR:-$HOME/.sdkman}/candidates/`. If native activation would create a default, obtain authorization for that additional change before proceeding with the command. Resolve broken or unexpected links before proceeding.
 
