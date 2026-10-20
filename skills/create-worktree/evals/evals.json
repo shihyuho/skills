@@ -4,50 +4,103 @@
     {
       "id": 1,
       "prompt": "Use create-worktree for a new task with no existing branch or worktree.",
-      "expected_output": "The agent uses the default behavior and creates one descriptively named branch and worktree from the latest remote default branch.",
-      "files": []
+      "expected_output": "The agent creates one descriptively named branch and worktree at ~/code/worktrees/<repo>/<name> from the freshly fetched remote default branch, without making that base the branch's upstream, then continues there.",
+      "files": [],
+      "assertions": [
+        "Fetches origin before choosing the base.",
+        "Places the worktree at ~/code/worktrees/<repo>/<name> with a descriptive name, where <repo> is the main working tree's directory name.",
+        "Creates branch and worktree in one git worktree add -b <name> <path> origin/main command.",
+        "Keeps origin/main from becoming the new branch's upstream, for example with --no-track.",
+        "Switches the session into the new worktree and continues the task."
+      ]
     },
     {
       "id": 2,
-      "prompt": "Use create-worktree for issue #42 with a Baseline Pointer naming feat/42-handoff. Supply the full SHA obtained with git rev-parse for the existing baseline commit in the test repository. The free local branch contains that commit; no worktree currently checks it out.",
-      "expected_output": "The agent checks the supplied full SHA and baseline ancestry, then attaches the existing local branch to the conventional worktree path without creating another branch.",
-      "files": []
+      "prompt": "Use create-worktree for feat/42-handoff. A free local branch feat/42-handoff exists and matches origin; no worktree currently checks it out.",
+      "expected_output": "The agent resumes the existing branch by attaching it to the conventional worktree path without creating another branch, and reports the worktree as created on a reused branch.",
+      "files": [],
+      "assertions": [
+        "Attaches the existing branch with git worktree add <path> feat/42-handoff, without -b.",
+        "Uses the path ~/code/worktrees/api/feat/42-handoff.",
+        "Reports that the existing branch was reused rather than newly created."
+      ]
     },
     {
       "id": 3,
-      "prompt": "Use create-worktree for issue #42 with a valid Baseline Pointer, but only origin/feat/42-handoff exists.",
-      "expected_output": "The agent fetches, verifies the remote branch contains the baseline, and creates a local tracking branch directly in the new worktree.",
-      "files": []
+      "prompt": "Use create-worktree for feat/42-handoff, but only origin/feat/42-handoff exists.",
+      "expected_output": "The agent fetches and creates a local tracking branch directly in the new worktree at the conventional path.",
+      "files": [],
+      "assertions": [
+        "Fetches origin before checking refs.",
+        "Creates the worktree with git worktree add --track -b feat/42-handoff <path> origin/feat/42-handoff.",
+        "Uses the path ~/code/worktrees/api/feat/42-handoff."
+      ]
     },
     {
       "id": 4,
-      "prompt": "Use create-worktree with a Baseline Pointer containing an existing commit's full SHA, but that commit is not an ancestor of the selected branch HEAD. No registered worktree matches the branch.",
-      "expected_output": "The agent reports the failed ancestry check before creating a worktree and does not force checkout, create a variant branch, or choose another base.",
-      "files": []
+      "prompt": "Use create-worktree for feat/42-handoff. Both a free local branch and origin/feat/42-handoff exist, and each has commits the other lacks.",
+      "expected_output": "The agent reports the diverged refs and stops before creating a worktree; it does not reset, force, or create a variant branch.",
+      "files": [],
+      "assertions": [
+        "Detects that the local and remote feat/42-handoff have diverged.",
+        "Stops before creating a worktree and reports the divergence.",
+        "Runs no reset, branch -f, force, or variant branch."
+      ]
     },
     {
       "id": 5,
-      "prompt": "Use create-worktree for a delivery ticket whose requirements explicitly target the maintained 3.x branch. There is no Planning Baseline or existing delivery branch, and origin/3.x exists after fetch.",
+      "prompt": "Use create-worktree for a delivery ticket whose requirements explicitly target the maintained 3.x branch. There is no existing delivery branch, and origin/3.x exists after fetch.",
       "expected_output": "The agent creates the new descriptively named branch and worktree from origin/3.x, then reports that exact base and the ticket requirement as its concrete reason.",
-      "files": []
+      "files": [],
+      "assertions": [
+        "Creates the new branch and worktree from origin/3.x.",
+        "Reports origin/3.x as the base with the ticket requirement as the reason.",
+        "Uses a descriptive name at the conventional ~/code/worktrees path."
+      ]
     },
     {
       "id": 6,
       "prompt": "Use create-worktree for a new task whose requirements point equally to two maintained remote branches and do not establish which one owns the delivery.",
       "expected_output": "The agent stops and asks which base to use instead of selecting either branch arbitrarily or falling back to the default branch.",
-      "files": []
+      "files": [],
+      "assertions": [
+        "Asks which of the two maintained branches to use as the base.",
+        "Creates no branch or worktree before the answer and does not fall back to main."
+      ]
     },
     {
       "id": 7,
-      "prompt": "Use create-worktree for feat/42-handoff with the full SHA of its baseline. A matching registered worktree already checks out that branch and contains the baseline; it has existing uncommitted work.",
-      "expected_output": "The agent verifies branch identity and baseline ancestry, reuses the registered path, preserves existing changes, and reports reused. Occupancy by the matching worktree does not cause a duplicate or blanket refusal.",
-      "files": []
+      "prompt": "Use create-worktree for feat/42-handoff. A registered worktree already checks out that branch and has existing uncommitted work.",
+      "expected_output": "The agent resumes the registered worktree at its path, preserves existing changes, and reports reused. Occupancy by the matching worktree does not cause a duplicate or blanket refusal.",
+      "files": [],
+      "assertions": [
+        "Identifies the registered worktree for feat/42-handoff and reuses its path.",
+        "Preserves the uncommitted work, with no reset, stash, clean, or force.",
+        "Reports reused and switches the session into that worktree."
+      ]
     },
     {
       "id": 8,
       "prompt": "Use create-worktree for feat/42-handoff, but the intended target path is a registered worktree for fix/99-other.",
       "expected_output": "The agent reports the path/branch collision and preserves that worktree. It does not treat a different registered branch as a reusable match, choose a variant path, or force checkout.",
-      "files": []
+      "files": [],
+      "assertions": [
+        "Detects that the target path is a registered worktree for a different branch.",
+        "Stops and reports the collision without choosing a variant path or forcing.",
+        "Leaves the fix/99-other worktree untouched."
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "Invoke create-worktree with `fix the CSV export timeout, base origin/3.x`. No branch or worktree exists for this work, and origin/3.x exists after fetch.",
+      "expected_output": "The agent takes origin/3.x from the trigger as the base, creates one descriptively named branch and worktree from it at the conventional path, and reports that base.",
+      "files": [],
+      "assertions": [
+        "Creates the new branch and worktree from origin/3.x, the base the trigger names, not origin/main.",
+        "Asks no question about which base to use.",
+        "Keeps origin/3.x from becoming the new branch's upstream, for example with --no-track.",
+        "Reports origin/3.x as the base."
+      ]
     }
   ]
 }
