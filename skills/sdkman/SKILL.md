@@ -8,7 +8,7 @@ license: MIT
 
 Run Java, Maven, Gradle, and other SDKMAN-managed tools in the environment the project declares, and manage host tool versions through SDKMAN. An agent's shell carries no reliable SDKMAN state: auto-env may not fire, and an activation does not survive into the next tool call. So treat each run as a workload, with SDKMAN initialization, every activation, and the original command in one shell invocation, and apply an applicable declaration there even when the current environment looks compatible.
 
-Before any activation or installation, read [Environment details](references/environment.md). It locates the applicable `.sdkmanrc`, checks installed IDs, catches native operations that change defaults, and covers offline limits.
+Before any activation, installation, `.sdkmanrc` change, or SDKMAN command under a no-network constraint, read [Environment details](references/environment.md). It locates the applicable `.sdkmanrc`, checks installed IDs, catches native operations that change defaults, and covers offline limits.
 
 ## Choose versions
 
