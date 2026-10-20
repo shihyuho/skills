@@ -10,7 +10,7 @@
   "plugins": [
     {
       "name": "skills",
-      "description": "Shihyu's curated collection of agent skills for Git delivery, scope planning, SDKMAN, skill review, agent instructions, and Zhuyin decoding",
+      "description": "Shihyu's curated collection of agent skills for Git delivery, scope planning, SDKMAN, skill review, and agent instructions",
       "source": "./",
       "keywords": [
         "skills",
@@ -19,8 +19,7 @@
         "scope-it",
         "sdkman",
         "skill-review",
-        "writing-agents-md",
-        "e04"
+        "writing-agents-md"
       ]
     }
   ]
