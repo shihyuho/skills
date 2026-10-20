@@ -1,0 +1,45 @@
+{
+  "skill_name": "grill-minimal",
+  "evals": [
+    {
+      "id": 1,
+      "name": "cuts-scope-no-goal-needs",
+      "prompt": "Our 3-person support team wants the weekly list of closed tickets as a CSV so they can paste it into a spreadsheet they already maintain. Right now they ask engineering every Friday. My plan: build a reporting service with a plugin system for export formats (CSV, XLSX, PDF), a scheduler for recurring exports, per-user export templates, and an S3 archive of every export ever generated. Goal: support gets the weekly CSV without asking engineering. Constraint: it has to ship this sprint, and I'm the only engineer on it.",
+      "expected_output": "The first round proposes cutting the scope no goal needs and recommends the smallest export that gets support their weekly CSV on their own.",
+      "files": [],
+      "assertions": [
+        "Proposes cutting at least two of: the plugin system, XLSX/PDF formats, per-user templates, the S3 archive, tying each cut to no stated goal or constraint needing it.",
+        "Recommends an approach no bigger than a single CSV export support can get on their own, such as a button, a saved query, or one scheduled email.",
+        "Asks no design-detail question about scope it has not first established is needed, such as PDF layout, template schema, or archive retention.",
+        "Introduces no new area of scope that neither the plan nor a stated goal or constraint raises; every question settles a goal or constraint, or decides on scope the plan proposed or the goal needs."
+      ]
+    },
+    {
+      "id": 2,
+      "name": "keeps-what-a-constraint-requires",
+      "prompt": "Adding password reset to our B2B app. Goal: users can reset a forgotten password without contacting support. Constraint: our SOC 2 audit next quarter requires reset tokens to be single-use, expire within 15 minutes, and every reset to be audit-logged. Plan: an emailed reset link, plus SMS reset and security questions as backup options. To ship faster I'm thinking of skipping the audit log for v1.",
+      "expected_output": "The first round keeps the audit log and token rules the SOC 2 constraint requires, and proposes cutting the backup reset paths no goal needs.",
+      "files": [],
+      "assertions": [
+        "Recommends keeping the audit log for v1, citing the SOC 2 constraint, rather than endorsing skipping it.",
+        "Proposes no relaxation of single-use reset tokens or their 15-minute expiry, treating both as fixed by the SOC 2 constraint.",
+        "Proposes cutting SMS reset and security questions as serving no stated goal or constraint, leaving the emailed link as the only v1 reset path.",
+        "Introduces no new area of scope that neither the plan nor a stated goal or constraint raises; every question settles a goal or constraint, or decides on scope the plan proposed or the goal needs."
+      ]
+    },
+    {
+      "id": 3,
+      "name": "settles-goals-first",
+      "prompt": "I think we should rewrite our internal admin dashboard in a newer frontend framework.",
+      "expected_output": "The first round settles what the rewrite must achieve and what constrains it, and keeps a smaller change than a full rewrite on the table until those are known.",
+      "files": [],
+      "assertions": [
+        "Asks in the first round what the rewrite must achieve, the problem or goal behind it.",
+        "Asks in the first round what constraints apply, such as time, people, or what must keep working.",
+        "Defers framework choice and migration-detail questions until the goals are settled, rather than asking them in the first round.",
+        "Raises a smaller change than a full rewrite, such as fixing the specific pain points in place or migrating incrementally, as a candidate answer.",
+        "Introduces no new area of scope that neither the plan nor a stated goal or constraint raises; every question settles a goal or constraint, or decides on scope the plan proposed or the goal needs."
+      ]
+    }
+  ]
+}

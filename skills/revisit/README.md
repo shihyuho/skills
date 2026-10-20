@@ -8,7 +8,7 @@ Recover why a ticket or PR exists, what changed, and what remains to address or 
 $skills:revisit <ticket or PR number or link>
 ```
 
-Requires `productivity:explain`, `mattpocock-skills:diagnosing-bugs`, and `skills:grill-minimal`, including its `grill-with-docs` dependency.
+Requires `productivity:explain`, `mattpocock-skills:diagnosing-bugs`, and `skills:grill-minimal`.
 
 Applies across ticket types, including defects, performance, security, and enhancements.
 
