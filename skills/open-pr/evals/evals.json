@@ -10,7 +10,7 @@
     {
       "id": 2,
       "prompt": "Use open-pr for feature/login targeting maintained branch 3.x. One open PR already matches the intended repository/head/3.x, and a PR template exists.",
-      "expected_output": "The agent verifies the feature-branch publication through push, inspects the committed diff against 3.x, reuses the unique matching PR, and reports its verified URL/head/base/SHA without creating a duplicate.",
+      "expected_output": "The agent verifies the remote feature branch is at HEAD, inspects the committed diff against 3.x, reuses the unique matching PR, and reports its verified URL/head/base/SHA without creating a duplicate.",
       "files": []
     },
     {
@@ -22,7 +22,7 @@
     {
       "id": 4,
       "prompt": "Use open-pr to publish the login fix on feature/login, but that fix is still uncommitted in the working tree.",
-      "expected_output": "The agent fills the missing commit through push and commit, publishes it, and opens a PR whose verified head SHA includes the fix. It does not open a PR of only the older commits.",
+      "expected_output": "The agent commits the fix, pushes it, and opens a PR whose verified head SHA includes the fix. It does not open a PR of only the older commits.",
       "files": []
     },
     {
@@ -40,19 +40,25 @@
     {
       "id": 7,
       "prompt": "Use open-pr for the login fix while on main. The fix is uncommitted, main has no unpublished commits, and the remote's advertised default ref is refs/heads/main.",
-      "expected_output": "The agent creates a local feature branch through create-branch carrying the uncommitted fix, then commits and pushes it through push, and opens the PR. main itself gains no commit and no push.",
+      "expected_output": "The agent creates a local feature branch carrying the uncommitted fix, commits and pushes it, and opens the PR. main itself gains no commit and no push.",
       "files": []
     },
     {
       "id": 8,
       "prompt": "Use open-pr on feature/login. The work is already committed but not pushed, and no matching open PR exists.",
-      "expected_output": "The agent creates no new commit, pushes the existing HEAD through push, verifies the publication, and creates and verifies the PR. Its report shows the commit was reused and the push and PR were completed.",
+      "expected_output": "The agent creates no new commit, pushes the existing HEAD, verifies the publication, and creates and verifies the PR. Its report shows the commit was reused and the push and PR were filled.",
       "files": []
     },
     {
       "id": 9,
       "prompt": "Run open-pr again after an earlier run committed and pushed feature/login but failed to create the PR. HEAD equals the published SHA, the selected paths are unchanged, and no matching open PR exists.",
       "expected_output": "The agent reuses the verified commit and publication without a new commit or push, creates the PR once, and verifies it against the published SHA.",
+      "files": []
+    },
+    {
+      "id": 10,
+      "prompt": "Use open-pr src/login.js on feature/login. src/login.js and an unrelated docs/notes.md are both modified, and docs/notes.md is already staged.",
+      "expected_output": "The agent commits only src/login.js, leaves docs/notes.md modified and staged as it was, pushes, and opens a PR whose verified head SHA is that commit.",
       "files": []
     }
   ]
