@@ -1,6 +1,6 @@
 interface:
   display_name: "open-pr"
   short_description: "Get the current work into a verified pull request"
-  default_prompt: "Use $open-pr to get the current work into a pull request, doing only the steps still missing."
+  default_prompt: "Use $open-pr to get the current work into a pull request, changing only what does not yet match the work."
 policy:
   allow_implicit_invocation: false
