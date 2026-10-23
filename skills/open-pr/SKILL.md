@@ -19,7 +19,7 @@ Read the current branch and status. Resolve the target repository and base from 
 
 A feature branch is any branch other than the target repository's default branch. Identify that default branch from the repository's advertised default ref, such as `git ls-remote --symref <remote> HEAD`, not from a local branch name. Reuse the current branch when it is a feature branch.
 
-On the default branch, stop when it holds commits not on the remote: moving commits off it is outside this skill. Otherwise create a descriptive local branch, such as `fix/login-timeout`, that no local or remote ref already uses, starting from the base's remote ref and carrying the uncommitted work. When the work cannot move onto that base cleanly, report the conflicting paths and leave the work where it is.
+On the default branch, stop when it holds commits not on the remote: moving commits off it is outside this skill. Otherwise create a descriptive local branch, such as `fix/login-timeout`, that no local or remote ref already uses, with `git switch --no-track -c <name> <remote>/<base>`: it starts from the base's remote ref, carries the uncommitted work, and leaves the base out of its upstream. When the work cannot move onto that base cleanly, report the conflicting paths and leave the work where it is.
 
 ## Commit
 
