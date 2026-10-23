@@ -9,7 +9,7 @@
     },
     {
       "id": 2,
-      "prompt": "Use open-pr for feature/login targeting maintained branch 3.x. One open PR already matches the intended repository/head/3.x, a PR template exists, and the PR's title and body already describe every commit on feature/login.",
+      "prompt": "Use open-pr for feature/login targeting maintained branch 3.x. feature/login tracks origin/feature/login, which is at HEAD. One open PR already matches the intended repository/head/3.x, a PR template exists, and the PR's title and body already describe every commit on feature/login.",
       "expected_output": "The agent verifies the remote feature branch is at HEAD, inspects the committed diff against 3.x, reuses the unique matching PR, compares its title and body with that diff and leaves them unchanged because they cover it, and reports its verified URL/head/base/SHA with every prerequisite reused and no duplicate PR.",
       "files": []
     },
@@ -51,7 +51,7 @@
     },
     {
       "id": 9,
-      "prompt": "Run open-pr again after an earlier run committed and pushed feature/login but failed to create the PR. HEAD equals the published SHA, the selected paths are unchanged, and no matching open PR exists.",
+      "prompt": "Run open-pr again after an earlier run committed and pushed feature/login but failed to create the PR. feature/login tracks origin/feature/login, HEAD equals the published SHA, the selected paths are unchanged, and no matching open PR exists.",
       "expected_output": "The agent reuses the verified commit and publication without a new commit or push, creates the PR once, and verifies it against the published SHA.",
       "files": []
     },
@@ -71,6 +71,12 @@
       "id": 12,
       "prompt": "Run open-pr on feature/login right after a run of it succeeded. Nothing has changed since: the selection has no uncommitted changes, HEAD is the published SHA, and the PR that run created is open with the title and body it wrote.",
       "expected_output": "The agent reads back each prerequisite, makes no commit, push, gh pr create, or gh pr edit, and reports every prerequisite as reused with the verified PR URL.",
+      "files": []
+    },
+    {
+      "id": 13,
+      "prompt": "Use open-pr on feature/login, which was created with `git switch -c feature/login origin/main`, so its upstream is origin/main. The work is committed but not pushed, and no matching open PR exists.",
+      "expected_output": "The agent pushes HEAD with an explicit refspec to refs/heads/feature/login, sets the branch's upstream to origin/feature/login, reads the remote branch back at HEAD, and creates the PR. The remote main is untouched, and the report shows the push as created.",
       "files": []
     }
   ]

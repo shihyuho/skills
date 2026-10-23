@@ -6,7 +6,7 @@ Get the current work into a verified pull request, doing only the steps still mi
 $open-pr
 ├─ on the default branch with uncommitted work     → create a feature branch
 ├─ the selection has uncommitted changes           → commit
-├─ the remote branch is not at HEAD                → push
+├─ the remote branch is not at HEAD or not tracked → push
 ├─ no open PR matches repository/head/base         → gh pr create
 └─ the PR's title or body misses part of the diff  → gh pr edit
 ```
@@ -50,12 +50,12 @@ The target is one exact repository/head/base triple. Each prerequisite is read b
 |---|---|---|
 | Feature branch | You are on a feature branch | On the default branch with uncommitted work: a new local branch named for the work, started from the base, carrying the work |
 | Commit | Nothing in the selection is uncommitted | A commit of only the selection; every other change stays as it was |
-| Push | The remote branch holds HEAD | A push of HEAD, read back from the remote |
-| Pull request | Exactly one open PR matches the target, with the pushed SHA as its head and a title and body that cover the diff against the base | No match: `gh pr create`, following the repository's PR template. A match whose title or body misses part of the diff: `gh pr edit`, changing only what the new commits made untrue or left out |
+| Push | The remote branch holds HEAD, and your branch tracks it | A push of HEAD, read back from the remote, with your branch set to track it |
+| Pull request | Exactly one open PR matches the target, with the pushed SHA as its head and a title and body that cover the diff against the base | No match: `gh pr create`, following the repository's PR template. A match whose title or body misses part of the diff: `gh pr edit`, changing only what the diff contradicts or leaves out |
 
 A description covers the diff when its title summarizes the change as a whole and its body accounts for each change, in the PR template's sections. Text that is still true stays through a revision, whoever wrote it: your notes, checked boxes and linked issues included.
 
-On the default branch with commits not yet on the remote, it stops: moving those commits to a feature branch is left to you. Several matching PRs also stop it for a question. The URL comes back only after the PR reads back with the target's repository, head and base, the pushed SHA as its head, and the title and body this run left.
+The URL comes back only after the PR reads back with the target's repository, head and base, the pushed SHA as its head, and the title and body this run left.
 
 ## It's working if
 
@@ -83,6 +83,7 @@ Both changed in #47. `pr` was renamed `open-pr` because its name collided with o
 
 ## Limitations
 
-- It stops on the default branch when that branch already holds commits not on the remote.
+- It stops on the default branch when that branch already holds commits not on the remote: moving those commits to a feature branch is left to you.
+- It stops for a question when several open PRs match the target.
 - It checks that the title and body cover the diff, not how well they read; when a PR-writing skill is installed, it writes them with that skill.
 - It does not merge, request reviewers, or wait for CI.

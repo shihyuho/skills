@@ -29,7 +29,7 @@ Otherwise commit exactly the work, in the repository's recent commit style. For 
 
 ## Push
 
-The remote is the current branch's upstream remote, otherwise `origin`; the remote branch matches when it reads back at HEAD. Otherwise push with an explicit refspec, `git push <remote> HEAD:refs/heads/<branch>`, adding `--set-upstream` for a branch without one, then read the remote ref back and compare it with HEAD. Either way, the SHA the remote branch reads back is the pushed SHA. A failed push leaves local commits as they are; history rewriting needs its own authorization.
+The remote is the current branch's upstream remote, otherwise `origin`; the remote branch matches when it reads back at HEAD and the current branch's upstream is that remote branch. Otherwise push with an explicit refspec, `git push <remote> HEAD:refs/heads/<branch>`, adding `--set-upstream` when the upstream is missing or names another branch, such as the base, then read the remote ref back and compare it with HEAD. Either way, the SHA the remote branch reads back is the pushed SHA. A failed push leaves local commits as they are; history rewriting needs its own authorization.
 
 ## Pull request
 
