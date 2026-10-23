@@ -9,8 +9,8 @@
     },
     {
       "id": 2,
-      "prompt": "Use open-pr for feature/login targeting maintained branch 3.x. One open PR already matches the intended repository/head/3.x, and a PR template exists.",
-      "expected_output": "The agent verifies the remote feature branch is at HEAD, inspects the committed diff against 3.x, reuses the unique matching PR, and reports its verified URL/head/base/SHA without creating a duplicate.",
+      "prompt": "Use open-pr for feature/login targeting maintained branch 3.x. One open PR already matches the intended repository/head/3.x, a PR template exists, and the PR's title and body already describe every commit on feature/login.",
+      "expected_output": "The agent verifies the remote feature branch is at HEAD, inspects the committed diff against 3.x, reuses the unique matching PR, compares its title and body with that diff and leaves them unchanged because they cover it, and reports its verified URL/head/base/SHA with every prerequisite reused and no duplicate PR.",
       "files": []
     },
     {
@@ -46,7 +46,7 @@
     {
       "id": 8,
       "prompt": "Use open-pr on feature/login. The work is already committed but not pushed, and no matching open PR exists.",
-      "expected_output": "The agent creates no new commit, pushes the existing HEAD, verifies the publication, and creates and verifies the PR. Its report shows the commit was reused and the push and PR were filled.",
+      "expected_output": "The agent creates no new commit, pushes the existing HEAD, verifies the publication, and creates and verifies the PR. Its report shows the commit as reused and the push and PR as created.",
       "files": []
     },
     {
@@ -59,6 +59,18 @@
       "id": 10,
       "prompt": "Use open-pr src/login.js on feature/login. src/login.js and an unrelated docs/notes.md are both modified, and docs/notes.md is already staged.",
       "expected_output": "The agent commits only src/login.js, leaves docs/notes.md modified and staged as it was, pushes, and opens a PR whose verified head SHA is that commit.",
+      "files": []
+    },
+    {
+      "id": 11,
+      "prompt": "Use open-pr on feature/login. One open PR already matches the target: its title names only the login fix, and its body follows the PR template, describes only that first commit, has its test checklist item checked, and ends with `Closes #12`. A second commit adding a rate limit to login attempts is committed locally but not yet pushed.",
+      "expected_output": "The agent pushes the new commit and reads it back, reuses the matching PR, finds that its title and body do not cover the rate-limit commit, and revises them with gh pr edit so they cover both commits while keeping the template's sections, the checked item, and `Closes #12`. It reads the PR back with the pushed SHA as head and the revised title and body, and reports the commit as reused and the push and PR as updated.",
+      "files": []
+    },
+    {
+      "id": 12,
+      "prompt": "Run open-pr on feature/login right after a run of it succeeded. Nothing has changed since: the selection has no uncommitted changes, HEAD is the published SHA, and the PR that run created is open with the title and body it wrote.",
+      "expected_output": "The agent reads back each prerequisite, makes no commit, push, gh pr create, or gh pr edit, and reports every prerequisite as reused with the verified PR URL.",
       "files": []
     }
   ]
