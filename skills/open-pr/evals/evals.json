@@ -78,6 +78,12 @@
       "prompt": "Use open-pr on feature/login, which was created with `git switch -c feature/login origin/main`, so its upstream is origin/main. The work is committed but not pushed, and no matching open PR exists.",
       "expected_output": "The agent pushes HEAD with an explicit refspec to refs/heads/feature/login, sets the branch's upstream to origin/feature/login, reads the remote branch back at HEAD, and creates the PR. The remote main is untouched, and the report shows the push as created.",
       "files": []
+    },
+    {
+      "id": 14,
+      "prompt": "Use open-pr on feature/login, already pushed and tracking origin/feature/login, with no matching open PR. The repository's PR template has the sections Description and Issue, and an installed PR-writing skill uses its own template with Summary, Evidence and Merge Danger.",
+      "expected_output": "The agent creates the PR with a body organized under the repository template's Description and Issue sections, using the PR-writing skill for the writing inside them, so the body covers the diff without replacing the repository's sections with the skill's.",
+      "files": []
     }
   ]
 }

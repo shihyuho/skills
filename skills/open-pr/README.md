@@ -85,5 +85,5 @@ Both changed in #47. `pr` was renamed `open-pr` because its name collided with o
 
 - It stops on the default branch when that branch already holds commits not on the remote: moving those commits to a feature branch is left to you.
 - It stops for a question when several open PRs match the target.
-- It checks that the title and body cover the diff, not how well they read; when a PR-writing skill is installed, it writes a new PR's title and body with that skill.
+- It checks that the title and body cover the diff, not how well they read; when a PR-writing skill is installed, it writes a new PR's title and body with that skill, inside the repository's PR template when there is one.
 - It does not merge, request reviewers, or wait for CI.
