@@ -1,13 +1,13 @@
 ---
 name: open-pr
-description: "Get the current work into a verified pull request, doing only the steps still missing."
+description: "Get the current work into a verified pull request, changing only what does not yet match the work."
 license: MIT
 disable-model-invocation: true
 ---
 
 # open-pr
 
-Get the current work into a verified pull request, doing only the steps still missing. The target is one repository/head/base triple; a feature branch, a commit, a push and an open PR are its prerequisites, and each one is in place only when it reads back matching the work, never merely because it exists. Reconcile each prerequisite in order: read back what is there, compare it with what the work requires, change only what differs, and read it back again. Return the PR URL only once the PR reads back matching the work.
+Get the current work into a verified pull request, changing only what does not yet match the work. The target is one repository/head/base triple; a feature branch, a commit, a push and an open PR are its prerequisites, and each one is in place only when it reads back matching the work, never merely because it exists. Reconcile each prerequisite in order: read back what is there, compare it with what the work requires, change only what differs, and read it back again. Return the PR URL only once the PR reads back matching the work.
 
 ## Trigger
 

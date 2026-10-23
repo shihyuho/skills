@@ -1,6 +1,6 @@
 # open-pr
 
-Get the current work into a verified pull request, doing only the steps still missing. Unlike `gh pr create`, it reconciles a feature branch, a commit, a push and the pull request against your work: each one that is missing or no longer matches is brought in line, and each one that already matches is reused, an open PR and its description included.
+Get the current work into a verified pull request, changing only what does not yet match the work. Unlike `gh pr create`, it reconciles a feature branch, a commit, a push and the pull request against your work: each one that is missing or no longer matches is brought in line, and each one that already matches is reused, an open PR and its description included.
 
 ```text
 $open-pr
