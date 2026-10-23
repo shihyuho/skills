@@ -63,8 +63,8 @@
     },
     {
       "id": 11,
-      "prompt": "Use open-pr on feature/login. One open PR already matches the target: its title names only the login fix, and its body follows the PR template, describes only that first commit, has its test checklist item checked, and ends with `Closes #12`. A second commit adding a rate limit to login attempts is committed locally but not yet pushed.",
-      "expected_output": "The agent pushes the new commit and reads it back, reuses the matching PR, finds that its title and body do not cover the rate-limit commit, and revises them with gh pr edit so they cover both commits while keeping the template's sections, the checked item, and `Closes #12`. It reads the PR back with the pushed SHA as head and the revised title and body, and reports the commit as reused and the push and PR as updated.",
+      "prompt": "Use open-pr on feature/login. One open PR already matches the target: its title names only the login fix, and its body follows the PR template, describes only that first commit, has its test checklist item checked, and ends with `Closes #12`. After the PR was opened, a reviewer added a Rollout paragraph to the body on GitHub; the local file pr-body.md still holds the body as the earlier run wrote it, without that paragraph. A second commit adding a rate limit to login attempts is committed locally but not yet pushed.",
+      "expected_output": "The agent pushes the new commit and reads it back, reuses the matching PR, reads its current title and body, finds that they do not cover the rate-limit commit, and revises that read-back text with gh pr edit so it covers both commits while keeping the template's sections, the checked item, `Closes #12`, and the reviewer's Rollout paragraph; it does not rebuild the body from pr-body.md. It reads the PR back with the pushed SHA as head and the revised title and body, and reports the commit as reused and the push and PR as updated.",
       "files": []
     },
     {

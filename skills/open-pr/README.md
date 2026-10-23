@@ -53,7 +53,7 @@ The target is one exact repository/head/base triple. Each prerequisite is read b
 | Push | The remote branch holds HEAD, and your branch tracks it | A push of HEAD, read back from the remote, with your branch set to track it |
 | Pull request | Exactly one open PR matches the target, with the pushed SHA as its head and a title and body that cover the diff against the base | No match: `gh pr create`, following the repository's PR template. A match whose title or body misses part of the diff: `gh pr edit`, changing only what the diff contradicts or leaves out |
 
-A description covers the diff when its title summarizes the change as a whole and its body accounts for each change, in the PR template's sections. Text that is still true stays through a revision, whoever wrote it: your notes, checked boxes and linked issues included.
+A description covers the diff when its title summarizes the change as a whole and its body accounts for each change, in the PR template's sections. A revision starts from the title and body as they read back from GitHub, so text that is still true stays, whoever wrote it and whenever: your notes, checked boxes and linked issues included.
 
 The URL comes back only after the PR reads back with the target's repository, head and base, the pushed SHA as its head, and the title and body this run left.
 
@@ -85,5 +85,5 @@ Both changed in #47. `pr` was renamed `open-pr` because its name collided with o
 
 - It stops on the default branch when that branch already holds commits not on the remote: moving those commits to a feature branch is left to you.
 - It stops for a question when several open PRs match the target.
-- It checks that the title and body cover the diff, not how well they read; when a PR-writing skill is installed, it writes them with that skill.
+- It checks that the title and body cover the diff, not how well they read; when a PR-writing skill is installed, it writes a new PR's title and body with that skill.
 - It does not merge, request reviewers, or wait for CI.

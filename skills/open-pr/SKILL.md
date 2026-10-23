@@ -33,12 +33,12 @@ The remote is the current branch's upstream remote, otherwise `origin`; the remo
 
 ## Pull request
 
-The PR matches when it is the one open PR on the target, its head is the pushed SHA, and its title and body cover the committed diff against the actual base: the title summarizes the diff as a whole, and the body accounts for each change in it, in the sections of the target repository's PR template when it has one. When a PR-writing skill is available, write the title and body with it.
+The PR matches when it is the one open PR on the target, its head is the pushed SHA, and its title and body cover the committed diff against the actual base: the title summarizes the diff as a whole, and the body accounts for each change in it, in the sections of the target repository's PR template when it has one.
 
 Inspect the committed diff against the actual base and the PR template. Use a head that names the published remote branch, and query for an existing open PR matching the target.
 
-- **No match**: create it with `gh pr create` using explicit repository, head, and base, and a title and body that cover the diff. After a creation timeout, look up the result before retrying.
-- **One match**: compare its title and body with the diff. When they cover it, leave them as they are. Otherwise revise them with `gh pr edit`, changing only what the diff contradicts or what it leaves out: text that is still true stays, whoever wrote it, including the template's sections, checked boxes and issue references.
+- **No match**: create it with `gh pr create` using explicit repository, head, and base, and a title and body that cover the diff, written with a PR-writing skill when one is available. After a creation timeout, look up the result before retrying.
+- **One match**: read its title and body as they are now on GitHub, since people edit a PR between runs and a copy a run kept goes stale, and compare them with the diff. When they cover it, leave them as they are. Otherwise revise that read-back text with `gh pr edit`, changing only what the diff contradicts or what it leaves out: text that is still true stays, whoever wrote it, including the template's sections, checked boxes and issue references.
 - **Several matches**: clarify which one is the target.
 
 Read back the PR. When it matches the target, its head SHA equals the pushed SHA, and its title and body are the ones this run left, report its URL; otherwise report the mismatch and the verified commit and push, without claiming the PR. Report, for each prerequisite, whether this run created it, updated an existing one to match the work, or reused it as it already matched.
